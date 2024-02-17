@@ -24,10 +24,12 @@ mongoose.connect(URL, {
     .catch((err) => { console.error(err); });
 
 //Routers require kranna   
+const vehicleRouter = require("./Routes/Vehicle_Route.js");
 
+app.use("/vehicle", vehicleRouter);
 /*
 const studentRouter = require("./routes/student.js");
-// http://localhost:8071/student
+// http://localhost:8076/student
 
 app.use("/student", studentRouter);
 */
