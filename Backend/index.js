@@ -1,12 +1,18 @@
-import express from 'express';
-import { PORT, mongoDBURL } from './config.js';
-import mongoose from 'mongoose';
-//import bookRoutes from './routes/bookRoutes.js';
-import Inventory_Route from './Routes/Inventory_Route.js';
+// Importing necessary modules
+import express from "express";
+import mongoose from "mongoose";
 import cors from 'cors';
+
+// Importing custom configurations
+import { PORT, mongoDBURL } from './config.js';
+
+// Importing model and routes
+import Inventory_Route from './Routes/Inventory_Route.js';
+
 
 // Creating an instance of the Express application
 const app = express();
+
 
 // Middleware for parsing request body
 app.use(express.json());
@@ -28,9 +34,10 @@ app.use(cors());
 //   return response.status(234).send('Welcome To MERN Stack Tutorial');
 // });
 
-//app.use('/books', bookRoutes);
+// Using  routes for endpoint
 app.use('/inventory', Inventory_Route);
 
+// Connecting to the MongoDB database
 mongoose
   .connect(mongoDBURL)
   .then(() => {
