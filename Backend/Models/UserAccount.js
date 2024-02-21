@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+//fields of the collection
 const customerSchema = mongoose.Schema(
     {
         firstName:{

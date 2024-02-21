@@ -70,6 +70,7 @@ app.use('/payments',Payment_Route);
 
 
 // Connecting to the MongoDB database
+
 mongoose
   .connect(mongoDBURL)
   .then(() => {
