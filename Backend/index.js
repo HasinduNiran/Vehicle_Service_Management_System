@@ -2,6 +2,7 @@ import express from 'express';
 import { PORT, mongoDBURL } from './config.js';
 import mongoose from 'mongoose';
 //import bookRoutes from './routes/bookRoutes.js';
+import Employee_Route from './Routes/Employee_Route.js';
 import Inventory_Route from './Routes/Inventory_Route.js';
 import cors from 'cors';
 
@@ -29,6 +30,7 @@ app.use(cors());
 // });
 
 //app.use('/books', bookRoutes);
+app.use('/employees',Employee_Route);
 app.use('/inventory', Inventory_Route);
 
 mongoose
