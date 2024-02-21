@@ -8,9 +8,9 @@ import { PORT, mongoDBURL } from './config.js';
 
 
 // Importing model and routes
-import Inventory_Route from './Routes/Inventory_Route.js';
 
-import mongoose from 'mongoose';
+
+
 import {Customer} from './Models/UserAccount.js'
 //import bookRoutes from './routes/bookRoutes.js';
 
@@ -21,7 +21,7 @@ import Employee_Route from './Routes/Employee_Route.js';
 import Inventory_Route from './Routes/Inventory_Route.js';
 import Payment_Route from './Routes/Payment_Route.js';
 
-import cors from 'cors';
+
 
 
 // Creating an instance of the Express application
