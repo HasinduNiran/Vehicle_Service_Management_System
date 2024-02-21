@@ -1,7 +1,9 @@
 import express from 'express';
 import { PORT, mongoDBURL } from './config.js';
 import mongoose from 'mongoose';
+import {Customer} from './Models/UserAccount.js'
 //import bookRoutes from './routes/bookRoutes.js';
+import UserAccount_Route from './Routes/UserAccount_Route.js';
 import cors from 'cors';
 
 const app = express();
@@ -27,6 +29,14 @@ app.use(cors());
 // });
 
 //app.use('/books', bookRoutes);
+app.use('/customer', UserAccount_Route);
+
+app.get('/',(request,response)=>{
+   console.log(request);
+   return response.status(234).send('Welcome')
+});
+
+
 
 mongoose
   .connect(mongoDBURL)
