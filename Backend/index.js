@@ -3,6 +3,7 @@ import { PORT, mongoDBURL } from './config.js';
 import mongoose from 'mongoose';
 //import bookRoutes from './routes/bookRoutes.js';
 import Inventory_Route from './Routes/Inventory_Route.js';
+import Payment_Route from './Routes/Payment_Route.js';
 import cors from 'cors';
 
 // Creating an instance of the Express application
@@ -30,6 +31,7 @@ app.use(cors());
 
 //app.use('/books', bookRoutes);
 app.use('/inventory', Inventory_Route);
+app.use('/payments',Payment_Route);
 
 mongoose
   .connect(mongoDBURL)
