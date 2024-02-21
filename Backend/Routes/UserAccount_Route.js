@@ -3,7 +3,7 @@ import { Customer } from '../Models/UserAccount.js';
 
 const router = express.Router();
 
-//add Student
+//add customer
 router.post('/', async (request, response) => {
     try {
         if (
@@ -63,7 +63,7 @@ router.get('/', async (request, response) => {
     }
 });
 
-//read a student
+//read a customer
 router.get('/:id', async (request, response) => {
     try {
 
@@ -84,7 +84,7 @@ router.get('/:id', async (request, response) => {
 });
 
 
-//update a book
+//update a customer
 router.put('/:id', async (request, response) => {
     try {
         if (
@@ -125,7 +125,7 @@ router.put('/:id', async (request, response) => {
 });
 
 
-//delete a book
+//delete a customer
 router.delete('/:id', async (request, response) => {
     try {
 

@@ -37,7 +37,7 @@ app.get('/',(request,response)=>{
 });
 
 
-
+//database connection
 mongoose
   .connect(mongoDBURL)
   .then(() => {
