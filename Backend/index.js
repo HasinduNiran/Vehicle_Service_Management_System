@@ -12,7 +12,7 @@ import { PORT, mongoDBURL } from './config.js';
 
 
 import {Customer} from './Models/UserAccount.js'
-//import bookRoutes from './routes/bookRoutes.js';
+//import bookRoutes from './Routes/Booking_Routes.js';
 
 
 
