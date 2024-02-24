@@ -1,7 +1,7 @@
 //Route for save a new reservation
 
 import  express from 'express';
-import {createVehicle} from './Models/Booking.js';
+import {createVehicle} from '../Models/Booking.js';
 
 const router = express.Router();
 

@@ -11,8 +11,9 @@ import { PORT, mongoDBURL } from './config.js';
 
 
 
-import {Customer} from './Models/UserAccount.js'
-//import bookRoutes from './Routes/Booking_Routes.js';
+import {Customer} from './Models/UserAccount.js';
+
+import bookRoutes from './Routes/Booking_Route.js';
 
 
 
@@ -52,7 +53,7 @@ app.use(cors());
 
 // Using  routes for endpoint
 
-//app.use('/books', bookRoutes);
+
 
 
 
@@ -62,7 +63,7 @@ app.get('/',(request,response)=>{
 });
 
 
-
+app.use('/bookings', bookRoutes);
 app.use('/customer', UserAccount_Route);
 app.use('/employees',Employee_Route);
 app.use('/vehicles', Vehicle_Route);
