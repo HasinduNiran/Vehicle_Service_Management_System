@@ -1,6 +1,5 @@
 const mongoose= require ('mongoose');
-const schema = mongoose.Schema;
-const packageSchema = new Schema({
+const schema = mongoose.Schema({
     pakgname : {
         type : String,
         requird: true,
@@ -15,12 +14,9 @@ const packageSchema = new Schema({
     },
     includes : {
         type :string
-    },
-    extraFetures :{
-        type : string
     }
-})
+})//changed
 
-const package = mongoose.model("package", packageSchema);
-module.exports = package;
+export const Package = mongoose.model('package',packageSchema);
+
 
