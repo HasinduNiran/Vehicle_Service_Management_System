@@ -25,9 +25,9 @@ router.post('/',async (request, response) => {
     Contact_Number: request.body.Contact_Number,
     Email: request.body.Email
 
-    }
+    };
     
-    const vehicle = await createVehicle(newVehicle);
+    const vehicle = await createVehicle.create(newVehicle);
     return response.status(201).send(vehicle);
     
       
@@ -40,7 +40,80 @@ router.post('/',async (request, response) => {
     
     });
 
+    //get all booking details
+    router.get('/',async (request, response) => {
+      try {
+        const bookings = await createVehicle.find({});
 
+        return response.status(200).json(bookings);
+      }catch(error){
+
+     console.log(error.message);
+     response.status(500).send({message: error.message});
+
+      }
+
+    });
+
+    router.get('/:id',async (request, response) => {
+      try {
+
+        const {id} = request.params;
+        const vehicle = await createVehicle.findById(id);
+
+        return response.status(200).json(vehicle);
+      }catch(error){
+
+     console.log(error.message);
+     response.status(500).send({message: error.message});
+
+      }
+
+    });
+
+    //Route for update booking
+    router.put('/:id',async (request, response) => {
+      try{
+      if(
+     !request.body.Customer_Name ||
+     !request.body.Vehicle_Type || 
+     !request.body.Vehicle_Number||
+     !request.body.Contact_Number ||
+     !request.body.Email
+      ){
+    return response.status(400).send({
+      message: 'Send all required field'
+    });
+      }
+    
+      const {id} = request.params;
+
+      const result = await createVehicle.findByIdAndUpdate(id, request.body); 
+     if (!result){
+      return response.status(404).json({ message: 'book not found'});
+     }
+     return response.status(200).send({ message: 'book updated successfully' });
+      }catch(error){
+        console.log(error.message);
+        response.status(500).send({ message: error.message });
+      }
+    });
+    
+    //Route for delete booking
+
+    router.delete('/:id',async (request, response) => {
+      try{
+      const {id} = request.params;
+      const result = await createVehicle.findByIdAndDelete(id);
+      if (!result){
+      return response.status(404).json({ message: 'book not found'});
+      }
+     return response.status(200).send({ message: 'book deleted successfully' });
+    }catch(error){
+      console.log(error.message);
+      response.status(500).send({ message: error.message });
+    }
+  });
     export default router;
 
 
