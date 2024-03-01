@@ -68,6 +68,7 @@ app.use('/employees',Employee_Route);
 app.use('/vehicles', Vehicle_Route);
 app.use('/inventory', Inventory_Route);
 app.use('/payments',Payment_Route);
+app.use('/feedback', Feedback_Route);
 
 
 // Connecting to the MongoDB database
