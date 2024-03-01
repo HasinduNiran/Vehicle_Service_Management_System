@@ -1,133 +1,121 @@
 // Importing the Express library
 import express from 'express';
 
-// Importing the Inventory model 
-import { Inventory } from '../Models/Inventory.js';
+// Importing the Vehicle model 
+import { Vehicle } from '../Models/Vehicle.js';
 
 // Creating an Express router
 const router = express.Router();
 
-// Route for creating a new Inventory item
+// Route for creating a new vehicle
 router.post('/', async (request, response) => {
     try {
         // Checking if all required fields are present in the request body
-        if (
-            !request.body.Name ||
-            !request.body.Location ||
-            !request.body.Quantity ||
-            !request.body.SellPrice ||
-            !request.body.SupplierName 
-        ) {
+        if (!request.body.Register_Number ||
+             !request.body.Model || 
+             !request.body.Owner) {
             return response.status(400).send({
-                message: 'Send all required fields',
+                message: 'Please provide all required fields',
             });
         }
 
-        // Creating a new inventory item with the provided data
-        const newInventory = {
-            Name: request.body.Name,
-            Location: request.body.Location,
-            Quantity: request.body.Quantity,
-            SellPrice: request.body.SellPrice,
-            SupplierName: request.body.SupplierName,
+        // Creating a new Vehicle item with the provided data
+        const newVehicle = {
+          Register_Number: request.body.Register_Number,
+          Model: request.body.Model,
+          Owner: request.body.Owner
         };
 
-        // Adding the new inventory item to the database
-        const inventory = await Inventory.create(newInventory);
+        // Adding the new Vehicle item to the database
+        const createdVehicle = await Vehicle.create(newVehicle);
 
-        // Sending the created inventory item as a JSON response
-        return response.status(201).send(inventory);
+        // Sending the created Vehicle item as a JSON response
+        return response.status(201).send(createdVehicle);
     } catch (error) {
         // Handling errors and sending an error response
         console.error(error.message);
-        response.status(500).send({ message: error.message });
+        response.status(500).send({ message: 'Error creating new vehicle' });
     }
 });
 
-// Route for retrieving all inventory items from the database
+// Route for retrieving all Vehicle items from the database
 router.get('/', async (request, response) => {
     try {
-        // Fetching all inventory items from the database
-        const inventory = await Inventory.find({});
+        // Fetching all Vehicle items from the database
+        const vehicles = await Vehicle.find({});
         
-        // Sending the fetched inventory items as a JSON response
+        // Sending the fetched Vehicle items as a JSON response
         response.status(200).json({
-            count: inventory.length,
-            data: inventory
+            count: vehicles.length,
+            data: vehicles
         });
     } catch (error) {
         // Handling errors and sending an error response
         console.error(error.message);
-        response.status(500).send({ message: error.message });
+        response.status(500).send({ message: 'Error fetching vehicles' });
     }
 });
 
-// Route for retrieving a specific inventory item by ID
+// Route for retrieving a specific Vehicle by ID
 router.get('/:id', async (request, response) => {
     try {
-        // Extracting the inventory item ID from the request parameters
+        // Extracting the Vehicle item ID from the request parameters
         const { id } = request.params;
 
-        // Fetching a menu item from the database based on the ID
-        const inventory = await Inventory.findById(id);
+        // Fetching a vehicle from the database based on the ID
+        const vehicle = await Vehicle.findById(id);
         
-        // Sending the fetched menu item as a JSON response
-        response.status(200).json(inventory);
+        // Sending the fetched vehicle as a JSON response
+        response.status(200).json(vehicle);
     } catch (error) {
         // Handling errors and sending an error response
         console.error(error.message);
-        response.status(500).send({ message: error.message });
+        response.status(500).send({ message: 'Error fetching vehicle' });
     }
 });
 
-// Route for updating a inventory item by ID
+// Route for updating a Vehicle item by ID
 router.put('/:id', async (request, response) => {
     try {
         // Validating that all required fields are provided in the request body
-        if (
-            !request.body.Name ||
-            !request.body.Location ||
-            !request.body.Quantity ||
-            !request.body.SellPrice ||
-            !request.body.SupplierName 
-        ) {
+        if (!request.body.Register_Number || !request.body.Model || !request.body.Owner) {
             return response.status(400).send({
-                message: 'Send all required fields'
+                message: 'Please provide all required fields'
             });
         }
 
-        // Extracting the inventory item ID from the request parameters
+        // Extracting the Vehicle item ID from the request parameters
         const { id } = request.params;
         
-        // Updating the inventory item in the database using findByIdAndUpdate
-        await Inventory.findByIdAndUpdate(id, request.body);
+        // Updating the Vehicle item in the database using findByIdAndUpdate
+        await Vehicle.findByIdAndUpdate(id, request.body);
 
         // Sending a success response
-        return response.status(200).send({ message: 'inventory updated successfully' });
+        return response.status(200).send({ message: 'Vehicle updated successfully' });
 
     } catch (error) {
         // Handling errors and sending an error response
         console.error(error.message);
-        response.status(500).send({ message: error.message });
+        response.status(500).send({ message: 'Error updating vehicle' });
     }
 });
 
-// Route for deleting a inventory item by ID
+// Route for deleting a Vehicle item by ID
 router.delete('/:id', async(request, response) => {
     try {
-        // Extracting the menu item ID from the request parameters
+        // Extracting the vehicle ID from the request parameters
         const { id } = request.params;
 
-        // Attempting to delete the menu item from the database
-        await Inventory.findByIdAndDelete(id);
+        // Attempting to delete the vehicle from the database
+        await Vehicle.findByIdAndDelete(id);
 
         // Sending a success response
-        return response.status(200).send({ message: 'Menu deleted successfully' });
+        return response.status(200).send({ message: 'Vehicle deleted successfully' });
 
     } catch (error) {
         // Handling errors and sending an error response
         console.log(error.message);
-        response.status(500).send({ message: error.message });
+        response.status(500).send({ message: 'Error deleting vehicle' });
     }
 });
 

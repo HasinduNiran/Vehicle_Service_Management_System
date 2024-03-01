@@ -1,10 +1,9 @@
+import mongoose from 'mongoose';
 
-const mongoose = require('mongoose');
+//const Schema = mongoose.Schema;
 
-const Schema = mongoose.Schema;
-
-const vehicleSchema = new Schema({
-
+// Define the schema for the vehicle
+const vehicleSchema = mongoose.Schema({
     Register_Number: {
         type: String,
         required: true
@@ -17,9 +16,10 @@ const vehicleSchema = new Schema({
         type: String,
         required: true
     }
+});
 
-})
+// Create a Mongoose model based on the schema
+//const Vehicle = mongoose.model('Vehicle', vehicleSchema);
 
-const vehicle = mongoose.model("vehicle", vehicleSchema);
-
-module.exports = vehicle;
+//module.exports = Vehicle;
+export const Vehicle = mongoose.model('Vehicle',vehicleSchema);
