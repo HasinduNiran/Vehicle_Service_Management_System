@@ -2,7 +2,7 @@
 import express from "express";
 
 // Importing the Feedback model
-import { Feedback } from "../Models/Feedback";
+import { Feedback } from "../Models/Feedback.js";
 
 // Creating an Express router
 const router = express.Router();
