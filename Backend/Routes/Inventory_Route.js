@@ -6,7 +6,6 @@ import { Inventory } from '../Models/Inventory.js';
 
 // Creating an Express router
 const router = express.Router();
-
 // Route for creating a new Inventory item
 router.post('/', async (request, response) => {
     try {
@@ -15,8 +14,10 @@ router.post('/', async (request, response) => {
             !request.body.Name ||
             !request.body.Location ||
             !request.body.Quantity ||
+            !request.body.PurchasedPrice ||
             !request.body.SellPrice ||
-            !request.body.SupplierName 
+            !request.body.SupplierName ||
+            !request.body.SupplierPhone
         ) {
             return response.status(400).send({
                 message: 'Send all required fields',
@@ -27,8 +28,10 @@ const newInventory = {
     Name: request.body.Name,
     Location: request.body.Location,
     Quantity: request.body.Quantity,
+    PurchasedPrice: request.body.PurchasedPrice,
     SellPrice: request.body.SellPrice,
     SupplierName: request.body.SupplierName,
+    SupplierPhone: request.body.SupplierPhone,
 };
 
 // Adding the new inventory item to the database
@@ -87,8 +90,10 @@ router.put('/:id', async (request, response) => {
             !request.body.Name ||
             !request.body.Location ||
             !request.body.Quantity ||
+            !request.body.PurchasedPrice ||
             !request.body.SellPrice ||
-            !request.body.SupplierName 
+            !request.body.SupplierName ||
+            !request.body.SupplierPhone
         ) {
             return response.status(400).send({
                 message: 'Send all required fields'
