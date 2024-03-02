@@ -1,5 +1,5 @@
 import express from 'express';
-import { Package, Package, Package } from '../Models/Package.js';
+import { Package } from '../Models/Package.js';
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.post('/', async (request, response) => {
         if (
             !request.body.pakgname ||
             !request.body.pkgdiscription ||
-            !request.body.pkgimage ||
+            //!request.body.pkgimage ||
             !request.body.includes 
 
         ) {
@@ -20,15 +20,15 @@ router.post('/', async (request, response) => {
         const newPackage = {
             pakgname: request.body.pakgname,
             pkgdiscription: request.body.pkgdiscription,
-            pkgimage: request.body.pkgimage,
+            //pkgimage: request.body.pkgimage,
             includes: request.body.includes
         };
 
-        const Package = await Customer.create(newPackage);
+        const Package = await Package.create(newPackage);
 
         return response.status(201).send(Package);
     } catch (error) {
-        console.log(err.message);
+        console.log(error.message);
         response.status(500).send({ message: error.message });
 
     }
@@ -82,7 +82,7 @@ router.put('/:id', async (request, response) => {
         if (
             !request.body.pakgname ||
             !request.body.pkgdiscription ||
-            !request.body.pkgimage ||
+            //!request.body.pkgimage ||
             !request.body.includes 
         ) {
             return response.status(400).send({

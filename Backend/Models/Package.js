@@ -1,5 +1,5 @@
-const mongoose= require ('mongoose');
-const schema = mongoose.Schema({
+import mongoose from "mongoose";
+const packageSchema = mongoose.Schema({
     pakgname : {
         type : String,
         requird: true,
@@ -8,12 +8,12 @@ const schema = mongoose.Schema({
         type : String,
         required : true
     },
-    pkgimage : {
-        type :Image,
-        required : true
-    },
+    // pkgimage : {
+    //     type :Image,
+    //     required : true
+    // },
     includes : {
-        type :string
+        type :String
     }
 })//changed
 
