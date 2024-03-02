@@ -6,7 +6,7 @@ import { Inventory } from '../Models/Inventory.js';
 
 // Creating an Express router
 const router = express.Router();
-
+//hgh
 // Route for creating a new Inventory item
 router.post('/', async (request, response) => {
     try {
