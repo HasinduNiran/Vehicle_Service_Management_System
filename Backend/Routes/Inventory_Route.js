@@ -15,6 +15,7 @@ router.post('/', async (request, response) => {
             !request.body.Name ||
             !request.body.Location ||
             !request.body.Quantity ||
+            !request.body.PurchasedPrice ||
             !request.body.SellPrice ||
             !request.body.SupplierName 
         ) {
@@ -27,6 +28,7 @@ const newInventory = {
     Name: request.body.Name,
     Location: request.body.Location,
     Quantity: request.body.Quantity,
+    PurchasedPrice: request.body.PurchasedPrice,
     SellPrice: request.body.SellPrice,
     SupplierName: request.body.SupplierName,
 };
@@ -87,6 +89,7 @@ router.put('/:id', async (request, response) => {
             !request.body.Name ||
             !request.body.Location ||
             !request.body.Quantity ||
+            !request.body.PurchasedPrice ||
             !request.body.SellPrice ||
             !request.body.SupplierName 
         ) {

@@ -14,6 +14,10 @@ const inventorySchema = mongoose.Schema({
         type: Number,
         required: true,
     },
+    PurchasedPrice: {
+        type: Number,
+        required: true,
+    },
     SellPrice: {
         type: Number,
         required: true,
