@@ -17,7 +17,8 @@ router.post('/', async (request, response) => {
             !request.body.Quantity ||
             !request.body.PurchasedPrice ||
             !request.body.SellPrice ||
-            !request.body.SupplierName 
+            !request.body.SupplierName ||
+            !request.body.SupplierPhone
         ) {
             return response.status(400).send({
                 message: 'Send all required fields',
@@ -31,6 +32,7 @@ const newInventory = {
     PurchasedPrice: request.body.PurchasedPrice,
     SellPrice: request.body.SellPrice,
     SupplierName: request.body.SupplierName,
+    SupplierPhone: request.body.SupplierPhone,
 };
 
 // Adding the new inventory item to the database
@@ -91,7 +93,8 @@ router.put('/:id', async (request, response) => {
             !request.body.Quantity ||
             !request.body.PurchasedPrice ||
             !request.body.SellPrice ||
-            !request.body.SupplierName 
+            !request.body.SupplierName ||
+            !request.body.SupplierPhone
         ) {
             return response.status(400).send({
                 message: 'Send all required fields'

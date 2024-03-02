@@ -10,12 +10,12 @@ import "../assets/CreateMenu.css";
 // Functional component for creating inventory
 const CreateInventory = () => {
   // State variables for managing form data and loading state
-  const [appetizers, setAppetizers] = useState('');
-  const [soups, setSoups] = useState('');
-  const [entrees, setEntrees] = useState('');
-  const [grilledOrBBQ, setGrilledOrBBQ] = useState('');
-  const [sideDishes, setSideDishes] = useState('');
-  const [desserts, setDesserts] = useState('');
+  const [Name, setName] = useState('');
+  const [Location, setLocation] = useState('');
+  const [Quantity, setQuantity] = useState('');
+  const [PurchasedPrice, setPurchasedPrice] = useState('');
+  const [SellPrice, setSellPrice] = useState('');
+  const [SupplierName, setSupplierName] = useState('');
   const [beverages, setBeverages] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
