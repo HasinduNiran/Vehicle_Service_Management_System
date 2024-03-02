@@ -14,11 +14,19 @@ const inventorySchema = mongoose.Schema({
         type: Number,
         required: true,
     },
+    PurchasedPrice: {
+        type: Number,
+        required: true,
+    },
     SellPrice: {
         type: Number,
         required: true,
     },
     SupplierName: {
+        type: String,
+        required: true,
+    },
+    SupplierPhone: {
         type: String,
         required: true,
     },
@@ -29,3 +37,7 @@ inventorySchema.set('timestamps', true);
 
 // Exporting the Inventory Model
 export const Inventory = mongoose.model('Inventory', inventorySchema);
+
+
+
+
