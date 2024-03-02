@@ -10,13 +10,6 @@ import { PORT, mongoDBURL } from './config.js';
 // Importing model and routes
 
 
-
-import {Customer} from './Models/UserAccount.js';
-
-import bookRoutes from './Routes/Booking_Route.js';
-
-
-
 import UserAccount_Route from './Routes/UserAccount_Route.js';
 import Employee_Route from './Routes/Employee_Route.js';
 import Inventory_Route from './Routes/Inventory_Route.js';
@@ -24,7 +17,7 @@ import Payment_Route from './Routes/Payment_Route.js';
 import Vehicle_Route from './Routes/Vehicle_Route.js';
 import Feedback_Route from './Routes/Feedback_Route.js';
 import Booking_Route from './Routes/Booking_Route.js';
-
+import Package_Route from './Routes/Package_Route.js';
 
 
 
@@ -65,7 +58,7 @@ app.get('/',(request,response)=>{
 });
 
 
-app.use('/bookings', bookRoutes);
+
 app.use('/customer', UserAccount_Route);
 app.use('/employees',Employee_Route);
 app.use('/vehicles', Vehicle_Route);
@@ -73,6 +66,9 @@ app.use('/inventory', Inventory_Route);
 app.use('/payments',Payment_Route);
 app.use('/feedback', Feedback_Route);
 app.use('/bookings',Booking_Route);
+app.use('/Package',Package_Route);
+
+
 
 
 // Connecting to the MongoDB database
