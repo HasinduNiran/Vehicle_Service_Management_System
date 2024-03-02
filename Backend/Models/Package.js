@@ -10,7 +10,8 @@ const packageSchema = mongoose.Schema({
         required: true,
     },
     includes: {
-        type: String, // Assuming it's a string, update the type accordingly if needed
+        type: Array,
+         // Assuming it's a string, update the type accordingly if needed
     },
 });
 
