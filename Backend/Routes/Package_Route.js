@@ -1,137 +1,101 @@
 import express from 'express';
-import { Package } from '../Models/Package.js';
+import { PackageModel } from '../Models/Package.js';
 
 const router = express.Router();
 
-//add customer
+// Add a package
 router.post('/', async (request, response) => {
     try {
         if (
             !request.body.pakgname ||
-            !request.body.pkgdiscription ||
-            //!request.body.pkgimage ||
+            !request.body.pkgdescription || // Corrected field name
             !request.body.includes 
-
         ) {
             return response.status(400).send({
-                message: 'send all required fields: pakgname,pkgdiscription,includes',
+                message: 'Send all required fields: pakgname, pkgdescription, includes',
             });
         }
+
         const newPackage = {
             pakgname: request.body.pakgname,
-            pkgdiscription: request.body.pkgdiscription,
-            //pkgimage: request.body.pkgimage,
-            includes: request.body.includes
+            pkgdescription: request.body.pkgdescription, // Corrected field name
+            includes: request.body.includes,
         };
 
-        const Package = await Package.create(newPackage);
+        const createdPackage = await PackageModel.create(newPackage);
 
-        return response.status(201).send(Package);
+        return response.status(201).json(createdPackage);
     } catch (error) {
         console.log(error.message);
-        response.status(500).send({ message: error.message });
-
+        return response.status(500).send({ message: error.message });
     }
-})
+});
 
-
-//read all
+// Read all packages
 router.get('/', async (request, response) => {
     try {
-        // Fetching Student data from the database
-        const Package = await Package.find({});
-
-        // Sending the fetched Student as a JSON response with a status code of 200 (OK)
+        const packages = await PackageModel.find({});
         response.status(200).json({
-            count: Package.length,
-            data: Package
+            count: packages.length,
+            data: packages,
         });
     } catch (error) {
-        // Logging the error to the console
         console.error(error.message);
-
-        // Sending an error response with a status code of 500 (Internal Server Error)
         response.status(500).send({ message: error.message });
     }
 });
 
-//read a customer
+// Read a package by ID
 router.get('/:id', async (request, response) => {
     try {
-
         const { id } = request.params;
+        const Package = await PackageModel.findById(id);
 
-        // Fetching student data from the database
-        const Package = await Package.findById(id);
+        if (!Package) {
+            return response.status(404).json({ message: 'Package not found' });
+        }
 
-        // Sending the fetched student as a JSON response with a status code of 200 (OK)
-        response.status(200).json(customer)
+        response.status(200).json(Package);
     } catch (error) {
-        // Logging the error to the console
         console.error(error.message);
-
-        // Sending an error response with a status code of 500 (Internal Server Error)
         response.status(500).send({ message: error.message });
     }
 });
 
-
-//update a customer
+// Update a package by ID
 router.put('/:id', async (request, response) => {
     try {
-        if (
-            !request.body.pakgname ||
-            !request.body.pkgdiscription ||
-            //!request.body.pkgimage ||
-            !request.body.includes 
-        ) {
-            return response.status(400).send({
-                message: 'Send all required fields'
-            });
-        }
-
-        // Extract the Student item ID from the request parameters
         const { id } = request.params;
+        const updatedPackage = await PackageModel.findByIdAndUpdate(id, request.body, {
+            new: true, // Return the modified document rather than the original
+            runValidators: true, // Run model validation before updating
+        });
 
-        // Update the Student item in the database using findByIdAndUpdate
-        const result = await Package.findByIdAndUpdate(id, request.body);
-
-        // Check if the Student item was not found in the database
-        if (!result) {
+        if (!updatedPackage) {
             return response.status(404).json({ message: 'Package not found' });
         }
 
-        // Send a success response with a status code of 200 (OK)
-        return response.status(200).send({ message: 'Package updated successfully' });
-
+        response.status(200).json({ message: 'Package updated successfully', data: updatedPackage });
     } catch (error) {
-        // Log any errors to the console
         console.error(error.message);
-
-        // Send an error response with a status code of 500 (Internal Server Error)
         response.status(500).send({ message: error.message });
     }
 });
 
-
-//delete a customer
+// Delete a package by ID
 router.delete('/:id', async (request, response) => {
     try {
-
         const { id } = request.params;
-        const result = await Package.findByIdAndDelete(id);
+        const deletedPackage = await PackageModel.findByIdAndDelete(id);
 
-        if (!result) {
+        if (!deletedPackage) {
             return response.status(404).json({ message: 'Package not found' });
         }
-        return response.status(200).send({ message: 'Package deleted successfully' });
 
-
-
+        response.status(200).json({ message: 'Package deleted successfully' });
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         response.status(500).send({ message: error.message });
-
     }
 });
 

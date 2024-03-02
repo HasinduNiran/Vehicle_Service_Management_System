@@ -1,22 +1,17 @@
 import mongoose from "mongoose";
+
 const packageSchema = mongoose.Schema({
-    pakgname : {
-        type : String,
-        requird: true,
+    pakgname: {
+        type: String,
+        required: true,
     },
-    pkgdiscription : {
-        type : String,
-        required : true
+    pkgdescription: {
+        type: String,
+        required: true,
     },
-    // pkgimage : {
-    //     type :Image,
-    //     required : true
-    // },
-    includes : {
-        type :String
-    }
-})//changed
+    includes: {
+        type: String, // Assuming it's a string, update the type accordingly if needed
+    },
+});
 
-export const Package = mongoose.model('package',packageSchema);
-
-
+export const PackageModel = mongoose.model('Package', packageSchema);
