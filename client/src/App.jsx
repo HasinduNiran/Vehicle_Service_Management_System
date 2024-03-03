@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 
 import {Route, Routes} from 'react-router-dom';
 
+import Home from './assets/pages/Home';
+
 import ShowEmployee from './assets/pages/Employee/ShowEmployee';
 import CreateEmployee from './assets/pages/Employee/CreateEmployee';
 import DeleteEmployee from './assets/pages/Employee/DeleteEmployee';
@@ -15,7 +17,10 @@ import React from 'react'
 function App() {
   return (
   <Routes>
-    <Route path='/' element={<ShowEmployee/>}></Route>
+  
+    <Route path='/' element={<Home/>}></Route>
+
+    <Route path='/employees/allEmployee' element={<ShowEmployee/>}></Route>
     <Route path='/employees/create' element={<CreateEmployee/>}></Route>
     <Route path='/employees/delete/:id' element={<DeleteEmployee/>}></Route>
     <Route path='/employees/edit/:id' element={<EditEmployee/>}></Route>
