@@ -85,7 +85,7 @@ export default function ShowAllBooking() {
                     <Link to={`/booking/details/${booking._id}`}>
                       <BsInfoCircle className='text-sky-800 text-2xl' />
                     </Link>
-                    <Link to={`/booking/edit/${booking._id}`}>
+                    <Link to={`/edit/${booking._id}`}>
                       <AiOutlineEdit className='text-sky-800 text-2xl' />
                     </Link>
                     <Link to={`/booking/delete/${booking._id}`}>
