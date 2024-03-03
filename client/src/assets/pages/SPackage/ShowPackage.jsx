@@ -57,6 +57,8 @@ function ShowPackage() {
               ))}
             </tbody>
           </table>
+          <Link to={`/package/create/`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Create</Link>
+
         </div>
       )}
     </div>
