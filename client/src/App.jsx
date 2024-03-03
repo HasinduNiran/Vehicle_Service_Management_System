@@ -20,6 +20,14 @@ import CreateVehicle from './assets/pages/Vehicle/CreateVehicle'
 import EditVehicle from './assets/pages/Vehicle/EditVehicle'
 import ReadOneVehicle from './assets/pages/Vehicle/ReadOneVehicle'
 import DeleteVehicle from './assets/pages/Vehicle/DeleteVehicle'
+
+
+import ShowPackage from './assets/pages/SPackage/ShowPackage'
+import CreatePackage from './assets/pages/SPackage/CreatePackage'
+import EditPackage from './assets/pages/SPackage/EditPackage'
+import ReadOnePackage from './assets/pages/SPackage/ReadOnePackage'
+import DeletePackage from './assets/pages/SPackage/DeletePAckage'
+
 const App = () => {
   return (
 
@@ -43,6 +51,12 @@ const App = () => {
     <Route path='/employees/edit/:id' element={<EditEmployee/>}></Route>
     <Route path='/employees/details/:id' element={<ReadOneEmployee/>}></Route>
     
+
+    <Route path='/package' element={<ShowPackage/>}></Route>
+    <Route path='/package/create' element={<CreatePackage/>}></Route>
+    <Route path='/package/edit/:id' element={<EditPackage/>}></Route>
+    <Route path='/package/get/:id' element={<ReadOnePackage/>}></Route>
+    <Route path='/package/delete/:id' element={<DeletePackage/>}></Route>
 
 
     </Routes>  
