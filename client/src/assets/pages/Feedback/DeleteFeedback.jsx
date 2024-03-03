@@ -1,6 +1,6 @@
 import React from 'react'
 
-function DeleteFeedback() {
+const DeleteFeedback = () => {
   return (
     <div>DeleteFeedback</div>
   )
