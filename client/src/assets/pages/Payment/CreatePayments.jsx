@@ -1,35 +1,21 @@
-import React, { useEffect } from 'react';
- import { useState } from 'react';
+import React, { useState } from 'react';
+//import BackButton from '../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+//import { useSnackbar } from 'notistack';
 
-const EditPayment = () => {
-
+const CreatePayments = () => {
   const [PaymentId, setPaymentId] = useState('');
   const [PaymentDate, setPaymentDate] = useState('');
   const [totalAmount, settotalAmount] = useState('');
   const [PaymentMethod, setPaymentMethod] = useState('');
-  const [loading,setLoading] = useState(false);
-  const navigate = useNavigate();
-  const {id} = useParams();
 
-  useEffect(()=>{
-    setLoading(true);
-    axios.get(`http://localhost:8076/payments/${id}`)
-    .then((response)=>{
-      setPaymentId(response.data.PaymentId);
-      setPaymentDate(response.data.PaymentDate);
-      settotalAmount(response.data.totalAmount);
-      setPaymentMethod(response.data.PaymentMethod);
-      setLoading(false);
-    }).catch((error)=>{
-      setLoading(false);
-      alert('An error occurred');
-      console.log(error);
-  });
-  },[])
-  const handleEditPayment = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  //const { enqueueSnackbar } = useSnackbar();
+
+  const handleSavePayment = () => {
     const data = {
       PaymentId,
       PaymentDate,
@@ -38,15 +24,17 @@ const EditPayment = () => {
     };
     setLoading(true);
     axios
-      .put(`http://localhost:8076/payments/${id}`, data)
+      .post(`http://localhost:8076/payments`, data)
       .then(() => {
         setLoading(false);
+        //enqueueSnackbar('Employee Created successfully', { variant: 'success' });
         navigate('/payments/show');
       })
-      .catch((err)=> {
+      .catch((error) => {
         setLoading(false);
-        alert('An error happened');
-        console.log(err);
+        // alert('An error happened. Please Chack console');
+        //enqueueSnackbar('Error', { variant: 'error' });
+        console.log(error);
       });
   };
 
@@ -106,15 +94,13 @@ const EditPayment = () => {
             <label className='form-label'>Card</label>
           </div>
         </div>
-        <button className='p-2 bg-sky-300 m-8' onClick={handleEditPayment}>
+       
+        <button className='p-2 bg-sky-300 m-8' onClick={handleSavePayment}>
           Save
         </button>
-
-    
-    
       </div>
     </div>
   );
 }
 
-export default EditPayment;
+export default CreatePayments
