@@ -7,6 +7,16 @@ import {Route, Routes} from 'react-router-dom';
 
 import Home from './assets/pages/Home';
 
+import ShowPayment from './assets/pages/Payment/ShowPayment';
+import CreatePayments from './assets/pages/Payment/CreatePayments';
+import ReadOnePayment from './assets/pages/Payment/ReadOnePayment';
+//import UpdatePayment from './assets/pages/Payment/EditPayment';
+import DeletePayment from './assets/pages/Payment/DeletePayment';
+import EditPayment from './assets/pages/Payment/EditPayment';
+
+
+
+
 import ShowEmployee from './assets/pages/Employee/ShowEmployee';
 import CreateEmployee from './assets/pages/Employee/CreateEmployee';
 import DeleteEmployee from './assets/pages/Employee/DeleteEmployee';
@@ -43,11 +53,15 @@ const App = () => {
     <Route path='/employees/edit/:id' element={<EditEmployee/>}></Route>
     <Route path='/employees/details/:id' element={<ReadOneEmployee/>}></Route>
     
-
+    <Route path = '/payments/show' element={<ShowPayment/>}></Route>
+    <Route path = '/payments/detail/:id' element={<ReadOnePayment/>}></Route>
+    <Route path = '/payments/create' element={<CreatePayments/>}></Route>
+    <Route path = '/payments/edit/:id' element={<EditPayment/>}></Route>
+    <Route path = '/payments/delete/:id' element={<DeletePayment/>}></Route>
 
     </Routes>  
      
-      
+
   )
 }
 
