@@ -18,7 +18,7 @@ const Home = () => {
               <Link to="/page3" className="text-blue-500 hover:underline">Booking</Link>
             </li>
             <li>
-              <Link to="/page4" className="text-blue-500 hover:underline">Vehicle</Link>
+              <Link to="/vehicle" className="text-blue-500 hover:underline">Vehicle</Link>
             </li>
             <li>
               <Link to="/page5" className="text-blue-500 hover:underline">Inventory</Link>

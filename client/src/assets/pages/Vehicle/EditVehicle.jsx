@@ -38,7 +38,7 @@ const EditVehicle = () => {
     try {
       await axios.put(`http://localhost:8076/vehicles/${id}`, data); // Fix the URL with backticks
       setLoading(false);
-      navigate('/');
+      navigate('/vehicle');
     } catch (error) {
       setLoading(false);
       console.error('Error updating vehicle:', error);
