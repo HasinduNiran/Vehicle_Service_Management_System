@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 
 import React from 'react'
-import {Route, Routes} from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import Home from './assets/pages/Home';
 
@@ -38,42 +38,60 @@ import EditVehicle from './assets/pages/Vehicle/EditVehicle'
 import ReadOneVehicle from './assets/pages/Vehicle/ReadOneVehicle'
 import DeleteVehicle from './assets/pages/Vehicle/DeleteVehicle'
 
+
+// Import custom components for different pages
+import ShowInventory from './assets/pages/Inventory/ShowInventory'
+import CreateInventory from './assets/pages/Inventory/CreateInventory'
+import EditInventory from './assets/pages/Inventory/EditInventory'
+import ReadOneInventory from './assets/pages/Inventory/ReadOneInventory'
+import DeleteInventory from './assets/pages/Inventory/DeleteInventory'
+
 import ShowAllFeedback from './assets/pages/Feedback/ShowAllFeedback';
 import CreateFeedback from './assets/pages/Feedback//CreateFeedback';
 import EditFeedbck from './assets/pages/Feedback/EditFeedbck';
 import DeleteFeedback from './assets/pages/Feedback/DeleteFeedback';
 import ReadOneFeedback from './assets/pages/Feedback/ReadOneFeedback';
 
+
 const App = () => {
   return (
 
     <Routes>
 
-    <Route path='/' element={<Home/>}></Route>
+      <Route path='/' element={<Home />}></Route>
 
+      <Route path='/vehicle' element={<ShowVehicle />} />
+      <Route path='/vehicle/create' element={<CreateVehicle />} />
+      <Route path='/vehicle/edit/:id' element={<EditVehicle />} />
+      <Route path='/vehicle/get/:id' element={<ReadOneVehicle />} />
+      <Route path='/vehicle/delete/:id' element={<DeleteVehicle />} />
 
-    <Route path='/vehicle' element={<ShowVehicle/>}/>
-    <Route path='/vehicle/create' element={<CreateVehicle/>}/>
-    <Route path='/vehicle/edit/:id' element={<EditVehicle/>}/>
-    <Route path='/vehicle/get/:id' element={<ReadOneVehicle/>}/>
-    <Route path='/vehicle/delete/:id' element={<DeleteVehicle/>}/>
+      <Route path='/employees/allEmployee' element={<ShowEmployee />}></Route>
+      <Route path='/employees/create' element={<CreateEmployee />}></Route>
+      <Route path='/employees/delete/:id' element={<DeleteEmployee />}></Route>
+      <Route path='/employees/edit/:id' element={<EditEmployee />}></Route>
+      <Route path='/employees/details/:id' element={<ReadOneEmployee />}></Route>
+
+      <Route path='/payments/show' element={<ShowPayment />}></Route>
+      <Route path='/payments/detail/:id' element={<ReadOnePayment />}></Route>
+      <Route path='/payments/create' element={<CreatePayments />}></Route>
+      <Route path='/payments/edit/:id' element={<EditPayment />}></Route>
+      <Route path='/payments/delete/:id' element={<DeletePayment />}></Route>
+
+      <Route path='/inventory/allInventory' element={<ShowInventory />}></Route>
+      <Route path='/inventory/create' element={<CreateInventory />}></Route>
+      <Route path='/inventory/edit/:id' element={<EditInventory />}></Route>
+      <Route path='/inventory/delete/:id' element={<DeleteInventory />}></Route>
+      <Route path='/inventory/get/:id' element={<ReadOneInventory />}></Route>
+
+   
+
 
     <Route path ='/show-all'  element={<ShowAllBooking/>}/>
     <Route path='/create' element={<CreateBooking/>}/>
     <Route path='/edit/:id' element={<EditBooking/>}/>
-    
 
-    <Route path='/employees/allEmployee' element={<ShowEmployee/>}></Route>
-    <Route path='/employees/create' element={<CreateEmployee/>}></Route>
-    <Route path='/employees/delete/:id' element={<DeleteEmployee/>}></Route>
-    <Route path='/employees/edit/:id' element={<EditEmployee/>}></Route>
-    <Route path='/employees/details/:id' element={<ReadOneEmployee/>}></Route>
-    
-    <Route path = '/payments/show' element={<ShowPayment/>}></Route>
-    <Route path = '/payments/detail/:id' element={<ReadOnePayment/>}></Route>
-    <Route path = '/payments/create' element={<CreatePayments/>}></Route>
-    <Route path = '/payments/edit/:id' element={<EditPayment/>}></Route>
-    <Route path = '/payments/delete/:id' element={<DeletePayment/>}></Route>
+
 
     <Route path='/feedback' element={<ShowAllFeedback/>}></Route>
     <Route path='/feedback/create' element={<CreateFeedback/>}></Route>
@@ -82,7 +100,7 @@ const App = () => {
     <Route path='/feedback/get/:id' element={<ReadOneFeedback/>}></Route>
 
     </Routes>  
-     
+
 
   )
 }
