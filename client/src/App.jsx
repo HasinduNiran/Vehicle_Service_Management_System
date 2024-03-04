@@ -7,6 +7,12 @@ import { Route, Routes } from 'react-router-dom';
 
 import Home from './assets/pages/Home';
 
+import ShowAllBooking from './assets/pages/Booking/ShowAllBooking';
+import CreateBooking from './assets/pages/Booking/CreateBooking';
+import EditBooking from './assets/pages/Booking/EditBooking';
+
+
+
 import ShowPayment from './assets/pages/Payment/ShowPayment';
 import CreatePayments from './assets/pages/Payment/CreatePayments';
 import ReadOnePayment from './assets/pages/Payment/ReadOnePayment';
@@ -22,6 +28,7 @@ import CreateEmployee from './assets/pages/Employee/CreateEmployee';
 import DeleteEmployee from './assets/pages/Employee/DeleteEmployee';
 import EditEmployee from './assets/pages/Employee/EditEmployee';
 import ReadOneEmployee from './assets/pages/Employee/ReadOneEmployee';
+
 
 
 
@@ -77,7 +84,12 @@ const App = () => {
       <Route path='/inventory/delete/:id' element={<DeleteInventory />}></Route>
       <Route path='/inventory/get/:id' element={<ReadOneInventory />}></Route>
 
-    </Routes>
+   
+
+
+    <Route path ='/show-all'  element={<ShowAllBooking/>}/>
+    <Route path='/create' element={<CreateBooking/>}/>
+    <Route path='/edit/:id' element={<EditBooking/>}/>
 
 
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function DeleteBooking() {
+const DeleteBooking = () => {
   return (
     <div>DeleteBooking</div>
   )
