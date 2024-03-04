@@ -39,7 +39,13 @@ import ReadOneVehicle from './assets/pages/Vehicle/ReadOneVehicle'
 import DeleteVehicle from './assets/pages/Vehicle/DeleteVehicle'
 
 
-// Import custom components for different pages
+
+import ShowPackage from './assets/pages/SPackage/ShowPackage'
+import CreatePackage from './assets/pages/SPackage/CreatePackage'
+import EditPackage from './assets/pages/SPackage/EditPackage'
+import ReadOnePackage from './assets/pages/SPackage/ReadOnePackage'
+import DeletePackage from './assets/pages/SPackage/DeletePAckage'
+
 import ShowInventory from './assets/pages/Inventory/ShowInventory'
 import CreateInventory from './assets/pages/Inventory/CreateInventory'
 import EditInventory from './assets/pages/Inventory/EditInventory'
@@ -51,6 +57,7 @@ import CreateFeedback from './assets/pages/Feedback//CreateFeedback';
 import EditFeedbck from './assets/pages/Feedback/EditFeedbck';
 import DeleteFeedback from './assets/pages/Feedback/DeleteFeedback';
 import ReadOneFeedback from './assets/pages/Feedback/ReadOneFeedback';
+
 
 
 const App = () => {
@@ -86,6 +93,13 @@ const App = () => {
 
    
 
+
+
+    <Route path='/package' element={<ShowPackage/>}></Route>
+    <Route path='/package/create' element={<CreatePackage/>}></Route>
+    <Route path='/package/edit/:id' element={<EditPackage/>}></Route>
+    <Route path='/package/get/:id' element={<ReadOnePackage/>}></Route>
+    <Route path='/package/delete/:id' element={<DeletePackage/>}></Route>
 
     <Route path ='/show-all'  element={<ShowAllBooking/>}/>
     <Route path='/create' element={<CreateBooking/>}/>
