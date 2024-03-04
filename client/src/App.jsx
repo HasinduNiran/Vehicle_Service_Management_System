@@ -33,7 +33,7 @@ import DeleteVehicle from './assets/pages/Vehicle/DeleteVehicle'
 
 import ShowAllFeedback from './assets/pages/Feedback/ShowAllFeedback';
 import CreateFeedback from './assets/pages/Feedback//CreateFeedback';
-import EditFeedbck from './assets/pages/Feedback/EditFeedbck';
+import EditFeedback from './assets/pages/Feedback/EditFeedback';
 import DeleteFeedback from './assets/pages/Feedback/DeleteFeedback';
 import ReadOneFeedback from './assets/pages/Feedback/ReadOneFeedback';
 
@@ -68,7 +68,7 @@ const App = () => {
 
     <Route path='/feedback' element={<ShowAllFeedback/>}></Route>
     <Route path='/feedback/create' element={<CreateFeedback/>}></Route>
-    <Route path='/feedback/edit/:id' element={<EditFeedbck/>}></Route>
+    <Route path='/feedback/edit/:id' element={<EditFeedback/>}></Route>
     <Route path='/feedback/delete/:id' element={<DeleteFeedback/>}></Route>
     <Route path='/feedback/get/:id' element={<ReadOneFeedback/>}></Route>
 
