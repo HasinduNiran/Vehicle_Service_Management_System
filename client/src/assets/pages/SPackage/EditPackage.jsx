@@ -36,7 +36,7 @@ const EditPackage = () => {
     .put(`http://localhost:8076/Package/${id}`, data)
     .then(()=>{
       setLoading(false);
-      navigate('/');
+      navigate('/package');
     })
     .catch((error)=>{
        setLoading(false);
