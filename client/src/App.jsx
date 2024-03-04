@@ -52,6 +52,12 @@ import EditFeedbck from './assets/pages/Feedback/EditFeedbck';
 import DeleteFeedback from './assets/pages/Feedback/DeleteFeedback';
 import ReadOneFeedback from './assets/pages/Feedback/ReadOneFeedback';
 
+import CreateCustomer from './assets/pages/Customer/CreateCustomer';
+import ShowCustomer from './assets/pages/Customer/ShowCustomer';
+import UpdateCustomer from './assets/pages/Customer/UpdateCustomer';
+import DeleteCustomer from './assets/pages/Customer/DeleteCustomer';
+import ReadOneCustomer from './assets/pages/Customer/ReadOneCustomer';
+
 
 const App = () => {
   return (
@@ -98,6 +104,13 @@ const App = () => {
     <Route path='/feedback/edit/:id' element={<EditFeedbck/>}></Route>
     <Route path='/feedback/delete/:id' element={<DeleteFeedback/>}></Route>
     <Route path='/feedback/get/:id' element={<ReadOneFeedback/>}></Route>
+
+    <Route path='/customer/allCustomer' element={<ShowCustomer/>}></Route>
+    <Route path='/customer/create' element={<CreateCustomer/>}></Route>
+    <Route path='/customer/edit/:id' element={<UpdateCustomer/>}></Route>
+    <Route path='/customer/delete/:id' element={<DeleteCustomer/>}></Route>
+    <Route path='/customer/get/:id' element={<ReadOneCustomer/>}></Route>
+  
 
     </Routes>  
 
