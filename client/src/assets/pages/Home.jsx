@@ -21,7 +21,7 @@ const Home = () => {
               <Link to="/vehicle" className="text-blue-500 hover:underline">Vehicle</Link>
             </li>
             <li>
-              <Link to="/page5" className="text-blue-500 hover:underline">Inventory</Link>
+              <Link to="/inventory/allInventory" className="text-blue-500 hover:underline">Inventory</Link>
             </li>
             <li>
               <Link to="/payments/show" className="text-blue-500 hover:underline">Payment</Link>
