@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ReadOneFeedback() {
+const ReadOneFeedback = () => {
   return (
     <div>ReadOneFeedback</div>
   )

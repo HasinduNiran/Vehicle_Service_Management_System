@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CreateFeedback() {
+const CreateFeedback = () => {
   return (
     <div>CreateFeedback</div>
   )
