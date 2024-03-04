@@ -21,16 +21,16 @@ const Home = () => {
               <Link to="/vehicle" className="text-blue-500 hover:underline">Vehicle</Link>
             </li>
             <li>
-              <Link to="/page5" className="text-blue-500 hover:underline">Inventory</Link>
+              <Link to="/inventory/allInventory" className="text-blue-500 hover:underline">Inventory</Link>
             </li>
             <li>
-              <Link to="/page6" className="text-blue-500 hover:underline">Payment</Link>
+              <Link to="/payments/show" className="text-blue-500 hover:underline">Payment</Link>
             </li>
             <li>
               <Link to="/employees/allEmployee" className="text-blue-500 hover:underline">Employee</Link>
             </li>
             <li>
-              <Link to="/page8" className="text-blue-500 hover:underline">Feedback</Link>
+              <Link to="/feedback" className="text-blue-500 hover:underline">Feedback</Link>
             </li>
           </ul>
         </nav>

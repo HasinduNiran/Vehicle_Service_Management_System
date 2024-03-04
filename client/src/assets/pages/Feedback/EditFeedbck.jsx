@@ -1,6 +1,6 @@
 import React from 'react'
 
-function EditFeedbck() {
+const EditFeedbck = () => {
   return (
     <div>EditFeedbck</div>
   )
