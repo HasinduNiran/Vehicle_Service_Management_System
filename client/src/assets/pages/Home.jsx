@@ -30,7 +30,7 @@ const Home = () => {
               <Link to="/employees/allEmployee" className="text-blue-500 hover:underline">Employee</Link>
             </li>
             <li>
-              <Link to="/page8" className="text-blue-500 hover:underline">Feedback</Link>
+              <Link to="/feedback" className="text-blue-500 hover:underline">Feedback</Link>
             </li>
           </ul>
         </nav>
