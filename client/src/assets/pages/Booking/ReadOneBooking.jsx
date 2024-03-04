@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ReadOneBooking() {
+const ReadOneBooking = () => {
   return (
     <div>ReadOneBooking</div>
   )
