@@ -37,6 +37,7 @@ const ReadOneVehicle = () => {
                   <p><span className='font-bold'>Vehicle Number:</span> {vehicle.Register_Number}</p>
                   <p><span className='font-bold'>Vehicle Model:</span> {vehicle.Model}</p>
                   <p><span className='font-bold'>Vehicle Owner:</span> {vehicle.Owner}</p>
+                  
                 </div>
               </div>
             </div>
