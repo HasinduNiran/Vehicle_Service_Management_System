@@ -9,7 +9,7 @@ const Home = () => {
         <nav>
           <ul className="space-y-4">
             <li>
-              <Link to="/page1" className="text-blue-500 hover:underline">Customer</Link>
+              <Link to="/customer/allCustomer" className="text-blue-500 hover:underline">Customer</Link>
             </li>
             <li>
               <Link to="/package" className="text-blue-500 hover:underline">Package</Link>
