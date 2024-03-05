@@ -11,6 +11,7 @@ import ShowAllBooking from './assets/pages/Booking/ShowAllBooking';
 import CreateBooking from './assets/pages/Booking/CreateBooking';
 import EditBooking from './assets/pages/Booking/EditBooking';
 import DeleteBooking from './assets/pages/Booking/DeleteBooking';
+import ReadOneBooking from './assets/pages/Booking/ReadOneBooking'; 
 
 function App() {
   return (
@@ -20,16 +21,12 @@ function App() {
     <Route path='/' element={<Home/>}></Route>
 
 
-    <Route path='/vehicle' element={<ShowVehicle/>}/>
-    <Route path='/vehicle/create' element={<CreateVehicle/>}/>
-    <Route path='/vehicle/edit/:id' element={<EditVehicle/>}/>
-    <Route path='/vehicle/get/:id' element={<ReadOneVehicle/>}/>
-    <Route path='/vehicle/delete/:id' element={<DeleteVehicle/>}/>
-
+    
     <Route path ='/show-all'  element={<ShowAllBooking/>}/>
     <Route path='/create' element={<CreateBooking/>}/>
     <Route path='/edit/:id' element={<EditBooking/>}/>
     <Route path='booking/delete/:id' element={<DeleteBooking/>}/>
+    <Route path='booking/read/:id' element={<ReadOneBooking/>}/>
 
     </Routes>  
      
