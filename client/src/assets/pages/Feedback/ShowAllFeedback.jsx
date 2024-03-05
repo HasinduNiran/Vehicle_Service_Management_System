@@ -53,7 +53,7 @@ const ShowAllFeedback = () => {
             </tr>
           </thead>
           <tbody>
-            {feedbacks.map((feedback) => (
+            {feedback.map((feedback) => (
               <tr key={feedback._id} className='h-8'>
                 <td className='border border-gray-600 rounded-md'>{feedback.name}</td>
                 <td className='border border-gray-600 rounded-md'>{feedback.email}</td>
