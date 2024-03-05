@@ -124,7 +124,7 @@ const App = () => {
 
     <Route path='/feedback' element={<ShowAllFeedback/>}></Route>
     <Route path='/feedback/create' element={<CreateFeedback/>}></Route>
-    <Route path='/feedback/edit/:id' element={<EditFeedbck/>}></Route>
+    <Route path='/feedback/edit/:id' element={<EditFeedback/>}></Route>
     <Route path='/feedback/delete/:id' element={<DeleteFeedback/>}></Route>
     <Route path='/feedback/get/:id' element={<ReadOneFeedback/>}></Route>
 
