@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +13,11 @@ const CreateFeedback = () => {
   const navigate = useNavigate();
 
   const handleSaveFeedback = () => {
+    if (!name || !email || !phone_number || !employee || !date_of_service || !message) {
+      alert('Please fill in all fields before submitting.');
+      return;
+    }
+
     const data = { name, email, phone_number, employee, date_of_service, message };
     setLoading(true);
 
@@ -24,13 +28,13 @@ const CreateFeedback = () => {
       })
       .catch((error) => {
         setLoading(false);
-        alert('An error occurred. Please check the console and try again');
-        console.log(error);
+        console.error('Error creating feedback:', error);
+        alert('An error occurred while creating feedback. Please try again later.');
       });
   };
 
   return (
-    <div className='p-4'>
+<div className='p-4'>
       <h1 className='text-3xl my-4'>Create Feedback</h1>
       
       {loading && <p>Loading...</p>}

@@ -8,6 +8,12 @@ const DeleteFeedback = () => {
   const navigate = useNavigate();
 
   const handleDelete = () => {
+    // Display confirmation dialog before deletion
+    const confirmDelete = window.confirm('Are you sure you want to delete this feedback?');
+    if (!confirmDelete) {
+      return;
+    }
+
     setLoading(true);
     axios.delete(`http://localhost:8076/feedback/${id}`)
       .then(() => {
@@ -16,7 +22,8 @@ const DeleteFeedback = () => {
       })
       .catch((error) => {
         setLoading(false);
-        console.error('Error deleting Feedback:', error);
+        console.error('Error deleting feedback:', error);
+        alert('An error occurred while deleting the feedback. Please try again later.');
       });
   };
 
@@ -28,7 +35,7 @@ const DeleteFeedback = () => {
         <button onClick={handleDelete} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>
           {loading ? 'Deleting...' : 'Delete'}
         </button>
-        <Link to={'/vehicle'} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+        <Link to={'/feedback'} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
           Cancel
         </Link>
       </div>
@@ -36,7 +43,4 @@ const DeleteFeedback = () => {
   );
 };
 
-
-
-
-export default DeleteFeedback
+export default DeleteFeedback;

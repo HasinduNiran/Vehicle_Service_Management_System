@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -16,7 +15,8 @@ const ReadOneFeedback = () => {
         setFeedback(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.error('Error fetching feedback:', error);
+        // Handle error state or display error message to the user
       })
       .finally(() => {
         setLoading(false);
@@ -29,15 +29,15 @@ const ReadOneFeedback = () => {
 
   return (
     <div className='p-4'>
-      <h1 className='text-3xl my-4'>ReadOneFeedback</h1>
+      <h1 className='text-3xl my-4'>Read One Feedback</h1>
       {loading ? (
         <Spinner />
       ) : (
-        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
+        <div className='flex flex-col border-2 border-sky-400 rounded-xl p-4'>
           {Object.entries(feedback).map(([key, value]) => (
             <div className='my-4' key={key}>
               <span className='text-xl mr-4 text-gray-500'>{key}</span>
-              <span>{key === 'date_of_service' ? new Date(value).toString() : value}</span>
+              <span>{key === 'date_of_service' ? new Date(value).toLocaleString() : value}</span>
             </div>
           ))}
         </div>

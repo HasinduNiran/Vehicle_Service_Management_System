@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
@@ -23,19 +22,20 @@ const EditFeedback = () => {
         setLoading(true);
         axios.get(`http://localhost:8076/feedback/${id}`)
             .then((response) => {
-                setName(response.data.name);
-                setEmail(response.data.email);
-                setPhoneNumber(response.data.phone_number);
-                setEmployee(response.data.employee);
-                setDateOfService(response.data.date_of_service);
-                setMessage(response.data.message);
-
-                setLoading(false);
+                const { name, email, phone_number, employee, date_of_service, message } = response.data;
+                setName(name);
+                setEmail(email);
+                setPhoneNumber(phone_number);
+                setEmployee(employee);
+                setDateOfService(date_of_service);
+                setMessage(message);
             })
             .catch((error) => {
+                console.error('Error fetching feedback:', error);
+                alert('An error occurred while fetching feedback. Please try again later.');
+            })
+            .finally(() => {
                 setLoading(false);
-                alert('An Error occurred. please check the console for more information')
-                console.log(error);
             });
     };
 
@@ -45,13 +45,14 @@ const EditFeedback = () => {
             setLoading(true);
             axios.put(`http://localhost:8076/feedback/${id}`, data)
                 .then(() => {
-                    setLoading(false);
                     navigate('/feedback');
                 })
                 .catch((error) => {
+                    console.error('Error updating feedback:', error);
+                    alert('An error occurred while saving feedback. Please try again later.');
+                })
+                .finally(() => {
                     setLoading(false);
-                    alert('An error occurred. Please check the console and try again');
-                    console.log('Error updating Feedback:', error);
                 });
         } else {
             alert('Please fill in all fields before submitting.');
@@ -90,14 +91,7 @@ const EditFeedback = () => {
 
                     <div className='flex justify-center'>
                 </div>
-
-
-
-
-
-
                 </div>
-                {/* Other input fields go here */}
                 <button className='p-2 bg-sky-300 m-8' onClick={handleSaveFeedback}>
                     Save
                 </button>
