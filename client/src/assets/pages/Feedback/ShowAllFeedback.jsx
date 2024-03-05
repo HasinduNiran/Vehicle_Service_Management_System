@@ -6,7 +6,7 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 
 const ShowAllFeedback = () => {
-  const [feedbacks, setFeedbacks] = useState([]);
+  const [feedback, setFeedback] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
