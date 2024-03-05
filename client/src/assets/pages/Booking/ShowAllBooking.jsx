@@ -82,7 +82,7 @@ export default function ShowAllBooking() {
                 </td>
                 <td className='border-slate-700 rounded-md text-center'>
                   <div className='flex justify-center gap-x-4'>
-                    <Link to={`/booking/details/${booking._id}`}>
+                    <Link to={`/booking/read/${booking._id}`}>
                       <BsInfoCircle className='text-sky-800 text-2xl' />
                     </Link>
                     <Link to={`/edit/${booking._id}`}>

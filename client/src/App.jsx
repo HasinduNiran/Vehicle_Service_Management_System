@@ -10,7 +10,8 @@ import Home from './assets/pages/Home';
 import ShowAllBooking from './assets/pages/Booking/ShowAllBooking';
 import CreateBooking from './assets/pages/Booking/CreateBooking';
 import EditBooking from './assets/pages/Booking/EditBooking';
-
+import DeleteBooking from './assets/pages/Booking/DeleteBooking';
+import ReadOneBooking from './assets/pages/Booking/ReadOneBooking'; 
 
 
 import ShowPayment from './assets/pages/Payment/ShowPayment';
@@ -67,6 +68,7 @@ import ReadOneCustomer from './assets/pages/Customer/ReadOneCustomer';
 
 
 const App = () => {
+
   return (
 
     <Routes>
@@ -90,6 +92,13 @@ const App = () => {
       <Route path='/payments/create' element={<CreatePayments />}></Route>
       <Route path='/payments/edit/:id' element={<EditPayment />}></Route>
       <Route path='/payments/delete/:id' element={<DeletePayment />}></Route>
+
+
+    <Route path ='/show-all'  element={<ShowAllBooking/>}/>
+    <Route path='/create' element={<CreateBooking/>}/>
+    <Route path='/edit/:id' element={<EditBooking/>}/>
+    <Route path='booking/delete/:id' element={<DeleteBooking/>}/>
+    <Route path='booking/read/:id' element={<ReadOneBooking/>}/>
 
       <Route path='/inventory/allInventory' element={<ShowInventory />}></Route>
       <Route path='/inventory/create' element={<CreateInventory />}></Route>
@@ -118,6 +127,7 @@ const App = () => {
     <Route path='/feedback/edit/:id' element={<EditFeedbck/>}></Route>
     <Route path='/feedback/delete/:id' element={<DeleteFeedback/>}></Route>
     <Route path='/feedback/get/:id' element={<ReadOneFeedback/>}></Route>
+
 
     <Route path='/customer/allCustomer' element={<ShowCustomer/>}></Route>
     <Route path='/customer/create' element={<CreateCustomer/>}></Route>
