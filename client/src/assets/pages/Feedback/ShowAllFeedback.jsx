@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { AiOutlineEdit } from "react-icons/ai";
-import { BsInfoCircle } from "react-icons/bs";
-import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
 
 const ShowAllFeedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -12,33 +9,29 @@ const ShowAllFeedback = () => {
 
   useEffect(() => {
     setLoading(true);
-    setError(null);
 
     axios
-      .get("/feedback")
+      .get("http://localhost:8076/feedback")
       .then((response) => {
         setFeedbacks(response.data.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching feedback:", error);
-        setError(
-          "An error occurred while fetching the feedback. Please try again later."
-        );
-      })
-      .finally(() => {
+        setError("An error occurred while fetching the feedback.");
         setLoading(false);
       });
   }, []);
 
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl my-8">All Feedbacks</h1>
+      <div className="text-center">
+        <h1 className="text-2xl font-bold mb-4">All Feedbacks</h1>
         <Link
           to="/feedback/create"
           className="bg-green-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          <MdOutlineAddBox className="text-sky-800 text-4xl" />
+          Add Feedback
         </Link>
       </div>
       {loading ? (
@@ -46,7 +39,7 @@ const ShowAllFeedback = () => {
       ) : error ? (
         <div>{error}</div>
       ) : (
-        <table className="w-full border-separate border-spacing-2">
+        <table className="table-auto w-full">
           <thead>
             <tr>
               <th className="border border-green-800 rounded-md">Name</th>
@@ -63,9 +56,15 @@ const ShowAllFeedback = () => {
             </tr>
           </thead>
           <tbody>
-            {feedbacks && feedbacks.length > 0 ? (
+            {feedbacks.length === 0 ? (
+              <tr>
+                <td colSpan="7" className="text-center">
+                  No feedbacks available
+                </td>
+              </tr>
+            ) : (
               feedbacks.map((feedback) => (
-                <tr key={feedback._id} className="h-8">
+                <tr key={feedback._id}>
                   <td className="border border-gray-600 rounded-md">
                     {feedback.name}
                   </td>
@@ -85,26 +84,27 @@ const ShowAllFeedback = () => {
                     {feedback.message}
                   </td>
                   <td className="border border-gray-600 rounded-md">
-                    <div className="flex justify-center gap-x-4">
-                      <Link to={`/feedback/get/${feedback._id}`}>
-                        <BsInfoCircle className="text-2xl text-green-800" />
-                      </Link>
-                      <Link to={`/feedback/edit/${feedback._id}`}>
-                        <AiOutlineEdit className="text-2xl text-yellow-600" />
-                      </Link>
-                      <Link to={`/feedback/delete/${feedback._id}`}>
-                        <MdOutlineDelete className="text-2xl text-red-600" />
-                      </Link>
-                    </div>
+                    <Link
+                      to={`/feedback/edit/${feedback._id}`}
+                      className="bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                    >
+                      Edit
+                    </Link>
+                    <Link
+                      to={`/feedback/get/${feedback._id}`}
+                      className="bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                    >
+                      View
+                    </Link>
+                    <Link
+                      to={`/feedback/delete/${feedback._id}`}
+                      className="bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                    >
+                      Delete
+                    </Link>
                   </td>
                 </tr>
               ))
-            ) : (
-              <tr>
-                <td colSpan="7" className="text-center">
-                  No feedbacks available
-                </td>
-              </tr>
             )}
           </tbody>
         </table>
