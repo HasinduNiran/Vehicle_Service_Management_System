@@ -1,13 +1,13 @@
 // Importing necessary dependencies
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from 'react';
-import Spinner from "../../components/Spinner";
+import Spinner from "../../components/Spinner"
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
- 
-const CreateCustomer = () => {
-  
+// Functional component for EditMenu
+const EditCustomer = () => {
+  // State variables for managing form data and loading state
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [NIC, setNIC] = useState('');
@@ -17,9 +17,31 @@ const CreateCustomer = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  // Event handler for saving the customer
-  const handleSaveCustomer = () => {
+  useEffect(() => {
+    setLoading(true);
+    axios.get(`http://localhost:8076/customer/${id}`)
+      .then((response) => {
+        const data = response.data;
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
+        setNIC(data.NIC);
+        setPhone(data.phone);
+        setEmail(data.email);
+        setUsername(data.Username);
+        setPassword(data.password);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert(`An error happened. Please check console`);
+        console.log(error);
+      });
+  }, [id]);
+
+  // Event handler for editing the menu
+  const handleEditCustomer = () => {
     // Creating data object from form inputs
     const data = {
       firstName,
@@ -29,13 +51,13 @@ const CreateCustomer = () => {
       email,
       Username,
       password,
-
     };
+
     setLoading(true);
 
-    // Making a POST request to save the customer data
+    // Making a PUT request to edit the menu data
     axios
-      .post('http://localhost:8076/customer', data)
+      .put(`http://localhost:8076/customer/${id}`, data)
       .then(() => {
         // Resetting loading state and navigating to the home page
         setLoading(false);
@@ -49,7 +71,7 @@ const CreateCustomer = () => {
       });
   };
 
-  // JSX for rendering the create book form
+  // JSX for rendering the edit menu form
   return (
     <div className="p-4">
     
@@ -119,13 +141,13 @@ const CreateCustomer = () => {
           className='border-2 border-gray-500 px-4 py-2 w-full'
         />
       </div>
-      <button className='p-2 bg-sky-300 m-8' onClick={handleSaveCustomer}>
-        Save
-      </button>
+        <button className='p-2 bg-sky-300 m-8' onClick={handleEditCustomer}>
+          Save
+        </button>
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
-// Exporting the CreateBooks component
-export default CreateCustomer;
+// Exporting the EditMenu component
+export default EditCustomer;

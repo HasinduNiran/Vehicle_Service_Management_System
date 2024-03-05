@@ -9,19 +9,19 @@ const Home = () => {
         <nav>
           <ul className="space-y-4">
             <li>
-              <Link to="/page1" className="text-blue-500 hover:underline">Customer</Link>
+              <Link to="/customer/allCustomer" className="text-blue-500 hover:underline">Customer</Link>
             </li>
             <li>
-              <Link to="/page2" className="text-blue-500 hover:underline">Package</Link>
+              <Link to="/package" className="text-blue-500 hover:underline">Package</Link>
             </li>
             <li>
-              <Link to="/page3" className="text-blue-500 hover:underline">Booking</Link>
+              <Link to="/show-all" className="text-blue-500 hover:underline">Booking</Link>
             </li>
             <li>
               <Link to="/vehicle" className="text-blue-500 hover:underline">Vehicle</Link>
             </li>
             <li>
-              <Link to="/page5" className="text-blue-500 hover:underline">Inventory</Link>
+              <Link to="/inventory/allInventory" className="text-blue-500 hover:underline">Inventory</Link>
             </li>
             <li>
               <Link to="/payments/show" className="text-blue-500 hover:underline">Payment</Link>
