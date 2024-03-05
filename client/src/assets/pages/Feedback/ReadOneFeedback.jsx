@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import Spinner from '../../components/Spinner';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import Spinner from "../../components/Spinner";
 
 const ReadOneFeedback = () => {
   const [feedback, setFeedback] = useState({});
@@ -10,12 +10,13 @@ const ReadOneFeedback = () => {
 
   const fetchFeedback = () => {
     setLoading(true);
-    axios.get(`http://localhost:8076/api/feedback/${id}`)
+    axios
+      .get(`http://localhost:8076/api/feedback/${id}`)
       .then((response) => {
         setFeedback(response.data);
       })
       .catch((error) => {
-        console.error('Error fetching feedback:', error);
+        console.error("Error fetching feedback:", error);
         // Handle error state or display error message to the user
       })
       .finally(() => {
@@ -28,16 +29,20 @@ const ReadOneFeedback = () => {
   }, [id]);
 
   return (
-    <div className='p-4'>
-      <h1 className='text-3xl my-4'>Read One Feedback</h1>
+    <div className="p-4">
+      <h1 className="text-3xl my-4">Read One Feedback</h1>
       {loading ? (
         <Spinner />
       ) : (
-        <div className='flex flex-col border-2 border-sky-400 rounded-xl p-4'>
+        <div className="flex flex-col border-2 border-sky-400 rounded-xl p-4">
           {Object.entries(feedback).map(([key, value]) => (
-            <div className='my-4' key={key}>
-              <span className='text-xl mr-4 text-gray-500'>{key}</span>
-              <span>{key === 'date_of_service' ? new Date(value).toLocaleString() : value}</span>
+            <div className="my-4" key={key}>
+              <span className="text-xl mr-4 text-gray-500">{key}</span>
+              <span>
+                {key === "date_of_service"
+                  ? new Date(value).toLocaleString()
+                  : value}
+              </span>
             </div>
           ))}
         </div>
