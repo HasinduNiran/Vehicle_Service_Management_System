@@ -20,7 +20,7 @@ const CreateFeedback = () => {
     axios.post('http://localhost:8076/feedback', data)
       .then(() => {
         setLoading(false);
-        navigate('/');
+        navigate('/feedback');
       })
       .catch((error) => {
         setLoading(false);

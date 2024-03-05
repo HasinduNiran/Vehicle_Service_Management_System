@@ -12,7 +12,7 @@ const DeleteFeedback = () => {
     axios.delete(`http://localhost:8076/feedback/${id}`)
       .then(() => {
         setLoading(false);
-        navigate('/');
+        navigate('/feedback');
       })
       .catch((error) => {
         setLoading(false);

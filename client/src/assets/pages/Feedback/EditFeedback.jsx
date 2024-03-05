@@ -21,13 +21,15 @@ const EditFeedback = () => {
 
     const fetchFeedbackData = () => {
         setLoading(true);
-        axios.get(`http://localhost:8076/vehicles/${id}`)
+        axios.get(`http://localhost:8076/feedback/${id}`)
             .then((response) => {
                 setName(response.data.name);
                 setEmail(response.data.email);
                 setPhoneNumber(response.data.phone_number);
                 setEmployee(response.data.employee);
                 setDateOfService(response.data.date_of_service);
+                setMessage(response.data.message);
+
                 setLoading(false);
             })
             .catch((error) => {
@@ -44,7 +46,7 @@ const EditFeedback = () => {
             axios.put(`http://localhost:8076/feedback/${id}`, data)
                 .then(() => {
                     setLoading(false);
-                    navigate('/');
+                    navigate('/feedback');
                 })
                 .catch((error) => {
                     setLoading(false);
@@ -66,6 +68,34 @@ const EditFeedback = () => {
                     <input type='text' value={name} onChange={(e) => setName(e.target.value)}
                         className='border-2 border-gray-500 px-4 py-2 w-full'
                     />
+                    <label className='text-xl mr-4 text-gray-500'>Email</label>
+                    <input type='text' value={email} onChange={(e) => setEmail(e.target.value)}
+                        className='border-2 border-gray-500 px-4 py-2 w-full' />
+
+                         <label className='text-xl mr-4 text-gray-500'>Phone Number</label>
+                    <input type='text' value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}
+                    className='border-2 border-gray-500 px-4 py-2 w-full' />    
+
+                     <label className='text-xl mr-4 text-gray-500'>Employee</label>
+                    <input type='text' value={employee} onChange={(e) => setEmployee(e.target.value)}
+                    className='border-2 border-gray-500 px-4 py-2 w-full' />
+
+                     <label className='text-xl mr-4 text-gray-500'>Date Of Service</label>
+                    <input type='text' value={dateOfService} onChange={(e) => setDateOfService(e.target.value)}
+                    className='border-2 border-gray-500 px-4 py-2 w-full' />
+
+                     <label className='text-xl mr-4 text-gray-500'>Message</label>
+                    <input type='text' value={message} onChange={(e) => setMessage(e.target.value)}
+                    className='border-2 border-gray-500 px-4 py-2 w-full' />
+
+                    <div className='flex justify-center'>
+                </div>
+
+
+
+
+
+
                 </div>
                 {/* Other input fields go here */}
                 <button className='p-2 bg-sky-300 m-8' onClick={handleSaveFeedback}>
