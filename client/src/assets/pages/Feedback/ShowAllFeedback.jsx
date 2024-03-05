@@ -6,7 +6,7 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 
 const ShowAllFeedback = () => {
-  const [feedback, setFeedback] = useState([]);
+  const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -16,7 +16,7 @@ const ShowAllFeedback = () => {
 
     axios.get('/feedback')
       .then((response) => {
-        setFeedback(response.data.data);
+        setFeedbacks(response.data.data);
       })
       .catch((error) => {
         console.error('Error fetching feedback:', error);
@@ -53,7 +53,7 @@ const ShowAllFeedback = () => {
             </tr>
           </thead>
           <tbody>
-            {feedback.map((feedback) => (
+            {feedbacks.map((feedback) => (
               <tr key={feedback._id} className='h-8'>
                 <td className='border border-gray-600 rounded-md'>{feedback.name}</td>
                 <td className='border border-gray-600 rounded-md'>{feedback.email}</td>
@@ -64,13 +64,13 @@ const ShowAllFeedback = () => {
                 <td className='border border-gray-600 rounded-md'>
                   <div className='flex justify-center gap-x-4'>
                     <Link to={`/feedback/get/${feedback._id}`}>
-                      <BsInfoCircle className='text-2x1 text-green-800' />
+                      <BsInfoCircle className='text-2xl text-green-800' />
                     </Link>
                     <Link to={`/feedback/edit/${feedback._id}`}>
-                      <AiOutlineEdit className='text-2x1 text-yellow-600' />
+                      <AiOutlineEdit className='text-2xl text-yellow-600' />
                     </Link>
                     <Link to={`/feedback/delete/${feedback._id}`}>
-                      <MdOutlineDelete className='text-2x1 text-red-600' />
+                      <MdOutlineDelete className='text-2xl text-red-600' />
                     </Link>
                   </div>
                 </td>
