@@ -16,11 +16,11 @@ const ShowAllFeedback = () => {
 
     axios.get('/feedback')
       .then((response) => {
-        setFeedbacks(response.data.data);
+        setFeedback(response.data.data);
       })
       .catch((error) => {
-        console.error('Error fetching feedbacks:', error);
-        setError('An error occurred while fetching the feedbacks. Please try again later.');
+        console.error('Error fetching feedback:', error);
+        setError('An error occurred while fetching the feedback. Please try again later.');
       })
       .finally(() => {
         setLoading(false);
