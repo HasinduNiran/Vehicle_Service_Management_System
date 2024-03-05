@@ -55,7 +55,7 @@ import DeleteInventory from './assets/pages/Inventory/DeleteInventory'
 
 import ShowAllFeedback from './assets/pages/Feedback/ShowAllFeedback';
 import CreateFeedback from './assets/pages/Feedback//CreateFeedback';
-import EditFeedbck from './assets/pages/Feedback/EditFeedbck';
+import EditFeedback from './assets/pages/Feedback/EditFeedback';
 import DeleteFeedback from './assets/pages/Feedback/DeleteFeedback';
 import ReadOneFeedback from './assets/pages/Feedback/ReadOneFeedback';
 
