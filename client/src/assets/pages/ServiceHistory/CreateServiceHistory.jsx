@@ -26,7 +26,7 @@ const CreateServiceHistory = () => {
   try {
     const response = await axios.post('http://localhost:8076/ServiceHistory/', data);
     SetLoading(false);
-    navigate('/'); // Navigate to the homepage after successful creation
+    navigate('/ServiceHistory'); // Navigate to the homepage after successful creation
   } catch (error) {
     SetLoading(false);
     console.error('Error creating service history:', error);

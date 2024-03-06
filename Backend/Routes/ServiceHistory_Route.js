@@ -41,7 +41,7 @@ router.get('/', async (request, response) => {
         const serviceHistories = await serviceHistory.find({});
         response.status(200).json({
             count: serviceHistories.length,
-            data: serviceHistories,
+            service: serviceHistories,
         });
     } catch (error) {
         console.log(error.message);

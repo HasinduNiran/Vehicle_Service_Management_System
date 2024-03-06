@@ -14,7 +14,7 @@ const DeleteServiceHistory = () => {
     
    .then(() => {
         setLoading(false);
-        navigate('/');
+        navigate('/ServiceHistory');
       }).catch(() => {
         setLoading(false);
         console.error('Error deleting service',error);

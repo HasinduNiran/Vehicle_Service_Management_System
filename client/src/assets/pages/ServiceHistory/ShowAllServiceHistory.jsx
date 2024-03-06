@@ -3,17 +3,19 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 
-const ShowAllServiceHistory = () => {
+export default function ShowAllServiceHistory ()  {
 
     const [serviceHistories, setServiceHistory] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [count, setCount] = useState();
 
     useEffect(() => {
         setLoading(true);
         axios
             .get('http://localhost:8076/ServiceHistory')
             .then((res) => {
-                setServiceHistory(res.data);
+                setServiceHistory(res.data.service);
+                setCount(res.data.count);
                 setLoading(false);
             })
             .catch((err) => {
@@ -44,25 +46,28 @@ const ShowAllServiceHistory = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {serviceHistories.map((serviceHistories) => (
-                            <tr key={serviceHistories._id}>
-                                <td className='border border-gray-600 rounded-md'>{serviceHistories.Customer_Name}</td>
-                                <td className='border border-gray-600 rounded-md'>{serviceHistories.Allocated_Employee}</td>
-                                <td className='border border-gray-600 rounded-md'>{serviceHistories.Vehicle_Number}</td>
-                                <td className='border border-gray-600 rounded-md'>{serviceHistories.Service_History}</td>
+                        {Array.isArray(serviceHistories) && serviceHistories.map((service, index) => (
+                            <tr key={service._id}>
+                               
+                                <td className='border border-gray-600 rounded-md'>{service.Customer_Name}</td>
+                                <td className='border border-gray-600 rounded-md'>{service.Allocated_Employee}</td>
+                                <td className='border border-gray-600 rounded-md'>{service.Vehicle_Number}</td>
+                                <td className='border border-gray-600 rounded-md'>{service.Service_History}</td>
 
                                 <td className='border border-gray-600 rounded-md'>
-                                    <Link to={`/ServiceHistory/edit/${serviceHistories._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
-                                    <Link to={`/ServiceHistory/delete/${serviceHistories._id}`} className='bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
-                                    <Link to={`/ServiceHistory/get/${history._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Show</Link>
+                                    <Link to={`/ServiceHistory/edit/${service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
+                                    <Link to={`/ServiceHistory/delete/${service._id}`} className='bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
+                                    <Link to={`/ServiceHistory/get/${service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Show</Link>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
+                    {count? (<p>{count}</p>): ''}
                 </table>
+                
             )}
         </div>
     );
 };
 
-export default ShowAllServiceHistory
+
