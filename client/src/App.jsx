@@ -47,6 +47,12 @@ import EditPackage from './assets/pages/SPackage/EditPackage'
 import ReadOnePackage from './assets/pages/SPackage/ReadOnePackage'
 import DeletePackage from './assets/pages/SPackage/DeletePAckage'
 
+import ShowService from './assets/pages/Service/Showservices';
+import CreateService from './assets/pages/Service/CreateService';
+import EditService from './assets/pages/Service/EditService';
+import ReadOneService from './assets/pages/Service/ReadOneService';
+import DeleteService from './assets/pages/Service/DeleteService';
+
 import ShowInventory from './assets/pages/Inventory/ShowInventory'
 import CreateInventory from './assets/pages/Inventory/CreateInventory'
 import EditInventory from './assets/pages/Inventory/EditInventory'
@@ -121,6 +127,12 @@ const App = () => {
     <Route path='/package/edit/:id' element={<EditPackage/>}></Route>
     <Route path='/package/get/:id' element={<ReadOnePackage/>}></Route>
     <Route path='/package/delete/:id' element={<DeletePackage/>}></Route>
+    
+    <Route path='/service' element={<ShowService/>}></Route>
+    <Route path='/service/create' element={<CreateService />} />
+    <Route path='/service/edit/:id' element={<EditService />} />
+    <Route path='/service/get/:id' element={<ReadOneService />} />
+    <Route path='/service/delete/:id' element={<DeleteService />} />
 
     <Route path ='/show-all'  element={<ShowAllBooking/>}/>
     <Route path='/create' element={<CreateBooking/>}/>

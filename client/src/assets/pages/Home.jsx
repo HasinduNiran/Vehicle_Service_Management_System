@@ -13,6 +13,9 @@ const Home = () => {
             </li>
             <li>
               <Link to="/package" className="text-blue-500 hover:underline">Package</Link>
+            </li>                               
+            <li>
+              <Link to="/service" className="text-blue-500 hover:underline">Services</Link>
             </li>
             <li>
               <Link to="/show-all" className="text-blue-500 hover:underline">Booking</Link>
