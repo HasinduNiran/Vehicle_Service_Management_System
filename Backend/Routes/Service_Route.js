@@ -7,15 +7,13 @@ const router = express.Router();
 router.post('/', async (request, response) => {
     try {
         if (
-            !request.body.pakgname
+            !request.body.servicename
         ) {
-            return response.status(400).send({
-                message: 'Send all required fields: pakgname, pkgdescription, includes',
-            });
+            return response.status(400).send({message: error.message});
         }
 
         const newservice = {
-            pakgname: request.body.pakgname
+            servicename: request.body.servicename
         };
 
         const createdservice = await serviceModel.create(newservice);
