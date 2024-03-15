@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const serviceSchema = mongoose.Schema({
-    pakgname: {
+    servicename: {
         type: String,
         required: true,
     },
