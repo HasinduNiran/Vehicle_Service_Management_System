@@ -36,6 +36,9 @@ const Home = () => {
             <li>
               <Link to="/feedback" className="text-blue-500 hover:underline">Feedback</Link>
             </li>
+            <li>
+              <Link to={"/dashboard"} className="text-blue-500 hover:underline">Dashboard</Link>
+            </li>
           </ul>
         </nav>
       </div>
