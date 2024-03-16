@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { AiOutlineEdit, AiOutlineEye, AiOutlineDelete } from "react-icons/ai";
 
 const ShowAllFeedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -86,21 +87,21 @@ const ShowAllFeedback = () => {
                   <td className="border border-gray-600 rounded-md">
                     <Link
                       to={`/feedback/edit/${feedback._id}`}
-                      className="bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                      className="text-green-500 hover:text-green-700 mx-1"
                     >
-                      Edit
+                      <AiOutlineEdit />
                     </Link>
                     <Link
                       to={`/feedback/get/${feedback._id}`}
-                      className="bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                      className="text-blue-500 hover:text-blue-700 mx-1"
                     >
-                      View
+                      <AiOutlineEye />
                     </Link>
                     <Link
                       to={`/feedback/delete/${feedback._id}`}
-                      className="bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                      className="text-red-500 hover:text-red-700 mx-1"
                     >
-                      Delete
+                      <AiOutlineDelete />
                     </Link>
                   </td>
                 </tr>
