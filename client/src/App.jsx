@@ -20,7 +20,7 @@ import ReadOnePayment from './assets/pages/Payment/ReadOnePayment';
 //import UpdatePayment from './assets/pages/Payment/EditPayment';
 import DeletePayment from './assets/pages/Payment/DeletePayment';
 import EditPayment from './assets/pages/Payment/EditPayment';
-
+import ReportPayment from './assets/pages/Payment/ReportPayment';
 
 
 
@@ -72,6 +72,7 @@ import DeleteServiceHistory from './assets/pages/ServiceHistory/DeleteServiceHis
 import ReadOneServiceHistory from './assets/pages/ServiceHistory/ReadOneServiceHistory';
 
 
+import ManagerLogin from './assets/components/ManagerLogin';
 
 const App = () => {
 
@@ -80,6 +81,7 @@ const App = () => {
     <Routes>
 
       <Route path='/' element={<Home />}></Route>
+      <Route path='/Mlogin' element={<ManagerLogin/>}></Route>
 
       <Route path='/vehicle' element={<ShowVehicle />} />
       <Route path='/vehicle/create' element={<CreateVehicle />} />
@@ -98,7 +100,7 @@ const App = () => {
       <Route path='/payments/create' element={<CreatePayments />}></Route>
       <Route path='/payments/edit/:id' element={<EditPayment />}></Route>
       <Route path='/payments/delete/:id' element={<DeletePayment />}></Route>
-
+      <Route path='/payments/report' element={<ReportPayment />}></Route>
 
     <Route path ='/show-all'  element={<ShowAllBooking/>}/>
     <Route path='/create' element={<CreateBooking/>}/>

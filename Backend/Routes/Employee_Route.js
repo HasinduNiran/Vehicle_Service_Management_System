@@ -3,7 +3,7 @@ import { Employee } from '../Models/Employee.js';
 
 const router = express.Router();
 
-// Route for Save a new Book
+// Route for Save a new Employee
 router.post('/', async (request, response) => {
   try {
     if (
@@ -13,11 +13,12 @@ router.post('/', async (request, response) => {
       !request.body.NIC ||
       !request.body.Address ||
       !request.body.Position ||
-      !request.body.Salary
+      !request.body.ContactNo ||
+      !request.body.Email
 
     ) {
       return response.status(400).send({
-        message: 'Send all required fields: EmpID, employeeName, DOB, NIC, Address, Position, Salary',
+        message: 'Send all required fields: EmpID, employeeName, DOB, NIC, Address, Position, ContactNo,Email',
       });
     }
     const newEmployee = {
@@ -27,7 +28,8 @@ router.post('/', async (request, response) => {
       NIC: request.body.NIC,
       Address: request.body.Address,
       Position: request.body.Position,
-      Salary: request.body.Salary,
+      ContactNo: request.body.ContactNo,
+      Email: request.body.Email,
     };
 
     const employee = await Employee.create(newEmployee);
@@ -78,7 +80,8 @@ router.put('/:id', async (request, response) => {
       !request.body.NIC ||
       !request.body.Address ||
       !request.body.Position ||
-      !request.body.Salary
+      !request.body.ContactNo ||
+      !request.body.Email
     ) {
       return response.status(400).send({
         message: 'Send all required fields: EmpID, employeeName, DOB, NIC, Address, Position, Salary',
