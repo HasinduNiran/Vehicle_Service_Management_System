@@ -50,7 +50,8 @@ function ShowEmployee() {
             <th className='border border-slate-600 rounded-md max-md:hidden'>NIC</th>
             <th className='border border-slate-600 rounded-md'>Address</th>
             <th className='border border-slate-600 rounded-md'>Position</th>
-            <th className='border border-slate-600 rounded-md'>Salary</th>
+            <th className='border border-slate-600 rounded-md'>ContactNo</th>
+            <th className='border border-slate-600 rounded-md'>Email</th>
             <th className='border border-slate-600 rounded-md'>Action</th>
         </tr>
     </thead>
@@ -81,7 +82,10 @@ function ShowEmployee() {
                     {employee.Position}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                    {employee.Salary}
+                    {employee.ContactNo}
+                </td>
+                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
+                    {employee.Email}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center'>
                     <div className='flex justify-center gap-x-4'>

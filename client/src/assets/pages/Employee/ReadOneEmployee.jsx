@@ -56,9 +56,14 @@ const ReadOneEmployee = () => {
             <span>{employee.Position}</span>
           </div>
           <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Salary</span>
-            <span>{employee.Salary}</span>
+            <span className='text-xl mr-4 text-gray-500'>ContactNo</span>
+            <span>{employee.ContactNo}</span>
           </div>
+          <div className='my-4'>
+            <span className='text-xl mr-4 text-gray-500'>Email</span>
+            <span>{employee.Email}</span>
+          </div>
+          
           
         </div>
       )}
