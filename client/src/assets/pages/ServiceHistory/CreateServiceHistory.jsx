@@ -9,6 +9,7 @@ const CreateServiceHistory = () => {
  const [Allocated_Employee,SetAllocated_Employee] = useState('');
  const [Vehicle_Number,SetVehicle_Number] = useState('');
  const [Service_History,SetService_History]=useState('');
+ const[Service_Date,SetService_Date] = useState('');
  const [loading,SetLoading] = useState(false);
  const navigate = useNavigate();
 
@@ -19,7 +20,8 @@ const CreateServiceHistory = () => {
     Customer_Name,
     Allocated_Employee,
     Vehicle_Number,
-    Service_History
+    Service_History,
+    Service_Date
   };
   
   SetLoading(true);
@@ -60,6 +62,12 @@ const CreateServiceHistory = () => {
                 <label className='block'>Service History</label>
                 <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Service_History} onChange={(e) => SetService_History(e.target.value)} />
              </div>
+             <div className='mt-4'>
+                <label className='block'>Service Date</label>
+                <input type='date' className='border border-gray-600 rounded-md w-full p-2' value={Service_Date} onChange={(e) => SetService_Date(e.target.value)} />
+             </div>
+
+
 
              <div className='mt-4'>
                 <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>

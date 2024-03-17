@@ -1,29 +1,28 @@
-import express, { response } from 'express';
-
+import express from 'express';
 import { serviceHistory } from '../Models/ServiceHistory.js';
-
 
 const router = express.Router();
 
-// Route for save a new reservation
-
+// Route to save a new service history entry
 router.post('/', async (request, response) => {
     try {
         if (
             !request.body.Customer_Name ||
             !request.body.Allocated_Employee ||
             !request.body.Vehicle_Number ||
-            !request.body.Service_History
+            !request.body.Service_History||
+            !request.body.Service_Date
         ) {
             return response.status(400).send({
-                message: 'Send all required field'
+                message: 'Send all required fields'
             });
         }
         const newServiceHistory = new serviceHistory({
             Customer_Name: request.body.Customer_Name,
             Allocated_Employee: request.body.Allocated_Employee,
             Vehicle_Number: request.body.Vehicle_Number,
-            Service_History: request.body.Service_History
+            Service_History: request.body.Service_History,
+            Service_Date: request.body.Service_Date
         });
         const result = await newServiceHistory.save();
         return response.status(201).send(result);
@@ -34,8 +33,7 @@ router.post('/', async (request, response) => {
     }
 });
 
-// Read service history
-
+// Read all service history entries
 router.get('/', async (request, response) => {
     try {
         const serviceHistories = await serviceHistory.find({});
@@ -49,32 +47,35 @@ router.get('/', async (request, response) => {
     }
 });
 
-router.get('/:id', async (request, response) => {
+// Read service history entry by Vehicle_Number
+router.get('/:Vehicle_Number', async (request, response) => {
     try {
-        const { id } = request.params;
-        const serviceHistories = await serviceHistory.findById(id);
+        const { Vehicle_Number } = request.params;
+        const serviceHistories = await serviceHistory.find({ Vehicle_Number });
         return response.status(200).json(serviceHistories);
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error.message);
         response.status(500).send({ message: error.message });
     }
 });
 
-router.put('/:id', async (request, response) => {
+// Update service history entry by Vehicle_Number
+router.put('/:Vehicle_Number', async (request, response) => {
     try {
         if (
-         !request.body.Customer_Name ||
-         !request.body.Allocated_Employee ||
-         !request.body.Vehicle_Number ||
-         !request.body.Service_History
+            !request.body.Customer_Name ||
+            !request.body.Allocated_Employee ||
+            !request.body.Vehicle_Number ||
+            !request.body.Service_History||
+            !request.body.Service_Date
+        
         ) {
             return response.status(400).send({
-                message: 'Send all required field'
+                message: 'Send all required fields'
             });
         }
-        const { id } = request.params;
-        const updatedServiceHistory = await serviceHistory.findByIdAndUpdate(id, request.body);
+        const { Vehicle_Number } = request.params;
+        const updatedServiceHistory = await serviceHistory.findOneAndUpdate({ Vehicle_Number }, request.body);
         if (!updatedServiceHistory) {
             return response.status(404).send({ message: 'Service history not found' });
         }
@@ -86,13 +87,11 @@ router.put('/:id', async (request, response) => {
     }
 });
 
-
-
-
-router.delete('/:id', async (request, response) => {
+// Delete service history entry by Vehicle_Number
+router.delete('/:Vehicle_Number', async (request, response) => {
     try {
-        const { id } = request.params;
-        const result = await serviceHistory.findByIdAndDelete(id);
+        const { Vehicle_Number } = request.params;
+        const result = await serviceHistory.findOneAndDelete({ Vehicle_Number });
         return response.status(200).send({ message: 'Service history deleted' });
     } catch (error) {
         console.log(error.message);

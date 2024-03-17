@@ -83,9 +83,9 @@ const App = () => {
 
       <Route path='/vehicle' element={<ShowVehicle />} />
       <Route path='/vehicle/create' element={<CreateVehicle />} />
-      <Route path='/vehicle/edit/:id' element={<EditVehicle />} />
-      <Route path='/vehicle/get/:id' element={<ReadOneVehicle />} />
-      <Route path='/vehicle/delete/:id' element={<DeleteVehicle />} />
+      <Route path='/vehicle/edit/:Register_Number' element={<EditVehicle />} />
+      <Route path='/vehicle/get/:Register_Number' element={<ReadOneVehicle />} />
+      <Route path='/vehicle/delete/:Register_Number' element={<DeleteVehicle />} />
 
       <Route path='/employees/allEmployee' element={<ShowEmployee />}></Route>
       <Route path='/employees/create' element={<CreateEmployee />}></Route>
@@ -143,9 +143,9 @@ const App = () => {
 
     <Route path='/ServiceHistory' element={<ShowAllServiceHistory/>}></Route>
     <Route path='/ServiceHistory/create' element={<CreateServiceHistory/>}></Route>
-    <Route path='/ServiceHistory/edit/:id' element={<EditServiceHistory/>}></Route>
-    <Route path='/ServiceHistory/delete/:id' element={<DeleteServiceHistory/>}></Route>
-    <Route path='/ServiceHistory/get/:id' element={<ReadOneServiceHistory/>}></Route>
+    <Route path='/ServiceHistory/edit/:Vehicle_Number' element={<EditServiceHistory/>}></Route>
+    <Route path='/ServiceHistory/delete/:Vehicle_Number' element={<DeleteServiceHistory/>}></Route>
+    <Route path='/ServiceHistory/get/:Vehicle_Number' element={<ReadOneServiceHistory/>}></Route>
   
 
     </Routes>  

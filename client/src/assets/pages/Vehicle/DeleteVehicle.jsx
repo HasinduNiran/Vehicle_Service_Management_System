@@ -4,12 +4,12 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const DeleteVehicle = () => {
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
+  const { Register_Number } = useParams(); // Use Register_Number instead of id
   const navigate = useNavigate();
 
   const handleDelete = () => {
     setLoading(true);
-    axios.delete(`http://localhost:8076/vehicles/${id}`)
+    axios.delete(`http://localhost:8076/vehicles/${Register_Number}`) // Use Register_Number in URL
       .then(() => {
         setLoading(false);
         navigate('/');

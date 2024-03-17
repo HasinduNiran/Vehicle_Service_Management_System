@@ -9,7 +9,7 @@ const EditVehicle = () => {
   const [Owner, setOwner] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { Register_Number: id } = useParams(); // Use Register_Number as id
 
   useEffect(() => {
     setLoading(true);
@@ -25,7 +25,7 @@ const EditVehicle = () => {
         console.log(error);
         alert('Error fetching vehicle. Please try again.');
       });
-  }, [id]); // Add id as a dependency
+  }, [id]); // Use id as dependency
 
   const handleEditVehicle = async (e) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ const EditVehicle = () => {
     };
     setLoading(true);
     try {
-      await axios.put(`http://localhost:8076/vehicles/${id}`, data); // Fix the URL with backticks
+      await axios.put(`http://localhost:8076/vehicles/${id}`, data); // Use id in URL
       setLoading(false);
       navigate('/vehicle');
     } catch (error) {

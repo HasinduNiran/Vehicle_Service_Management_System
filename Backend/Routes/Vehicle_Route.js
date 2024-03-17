@@ -56,17 +56,21 @@ router.get('/', async (request, response) => {
     }
 });
 
-// Route for retrieving a specific Vehicle by ID
-router.get('/:id', async (request, response) => {
+// Route for retrieving a specific Vehicle by Register_Number
+router.get('/:Register_Number', async (request, response) => {
     try {
-        // Extracting the Vehicle item ID from the request parameters
-        const { id } = request.params;
+        // Extracting the Vehicle item Register_Number from the request parameters
+        const { Register_Number } = request.params;
 
-        // Fetching a vehicle from the database based on the ID
-        const vehicle = await Vehicle.findById(id);
-        
+        // Fetching a vehicle from the database based on the Register_Number
+        const vehicle = await Vehicle.findOne({ Register_Number });
+
         // Sending the fetched vehicle as a JSON response
-        response.status(200).json(vehicle);
+        if (vehicle) {
+            response.status(200).json(vehicle);
+        } else {
+            response.status(404).json({ message: 'Vehicle not found' });
+        }
     } catch (error) {
         // Handling errors and sending an error response
         console.error(error.message);
@@ -74,21 +78,21 @@ router.get('/:id', async (request, response) => {
     }
 });
 
-// Route for updating a Vehicle item by ID
-router.put('/:id', async (request, response) => {
+// Route for updating a Vehicle item by Register_Number
+router.put('/:Register_Number', async (request, response) => {
     try {
         // Validating that all required fields are provided in the request body
-        if (!request.body.Register_Number || !request.body.Model || !request.body.Owner) {
+        if (!request.body.Model || !request.body.Owner) {
             return response.status(400).send({
                 message: 'Please provide all required fields'
             });
         }
 
-        // Extracting the Vehicle item ID from the request parameters
-        const { id } = request.params;
-        
-        // Updating the Vehicle item in the database using findByIdAndUpdate
-        await Vehicle.findByIdAndUpdate(id, request.body);
+        // Extracting the Vehicle item Register_Number from the request parameters
+        const { Register_Number } = request.params;
+
+        // Updating the Vehicle item in the database using findOneAndUpdate
+        await Vehicle.findOneAndUpdate({ Register_Number }, request.body);
 
         // Sending a success response
         return response.status(200).send({ message: 'Vehicle updated successfully' });
@@ -100,14 +104,14 @@ router.put('/:id', async (request, response) => {
     }
 });
 
-// Route for deleting a Vehicle item by ID
-router.delete('/:id', async(request, response) => {
+// Route for deleting a Vehicle item by Register_Number
+router.delete('/:Register_Number', async(request, response) => {
     try {
-        // Extracting the vehicle ID from the request parameters
-        const { id } = request.params;
+        // Extracting the vehicle Register_Number from the request parameters
+        const { Register_Number } = request.params;
 
         // Attempting to delete the vehicle from the database
-        await Vehicle.findByIdAndDelete(id);
+        await Vehicle.findOneAndDelete({ Register_Number });
 
         // Sending a success response
         return response.status(200).send({ message: 'Vehicle deleted successfully' });

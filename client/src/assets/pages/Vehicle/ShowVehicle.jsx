@@ -20,16 +20,6 @@ const ShowVehicle = () => {
       });
   }, []);
 
-  // const handleDelete = (id) => {
-  //   axios.delete(`http://localhost:8076/vehicles/${id}`)
-  //     .then(() => {
-  //       setVehicles(vehicles.filter(vehicle => vehicle._id !== id));
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
   return (
     <div className='p-4'>
       <div className='flex justify-between items-center'>
@@ -50,15 +40,14 @@ const ShowVehicle = () => {
           </thead>
           <tbody>
             {vehicles.map((vehicle) => (
-              <tr key={vehicle._id}>
+              <tr key={vehicle.Register_Number}>
                 <td className='border border-gray-600 rounded-md'>{vehicle.Register_Number}</td>
                 <td className='border border-gray-600 rounded-md'>{vehicle.Model}</td>
                 <td className='border border-gray-600 rounded-md'>{vehicle.Owner}</td>
                 <td className='border border-gray-600 rounded-md'>
-                  <Link to={`/vehicle/edit/${vehicle._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
-                  <Link to={`/vehicle/delete/${vehicle._id}`} className='bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>delete</Link>
-                 
-                  <Link to={`/vehicle/get/${vehicle._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Show</Link>
+                  <Link to={`/vehicle/edit/${vehicle.Register_Number}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
+                  <Link to={`/vehicle/delete/${vehicle.Register_Number}`} className='bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
+                  <Link to={`/vehicle/get/${vehicle.Register_Number}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Show</Link>
                 </td>
               </tr>
             ))}
