@@ -8,6 +8,9 @@ const Home = () => {
         <h1 className="text-3xl font-bold mb-8 text-center">Welcome to the Home Page</h1>
         <nav>
           <ul className="space-y-4">
+          <li>
+              <Link to="/cLogin" className="text-blue-500 hover:underline">CUSTOMER LOGIN</Link>
+            </li>
             <li>
               <Link to="/customer/allCustomer" className="text-blue-500 hover:underline">Customer</Link>
             </li>

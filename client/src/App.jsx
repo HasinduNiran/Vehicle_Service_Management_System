@@ -71,6 +71,9 @@ import EditServiceHistory from './assets/pages/ServiceHistory/EditServiceHistory
 import DeleteServiceHistory from './assets/pages/ServiceHistory/DeleteServiceHistory'; 
 import ReadOneServiceHistory from './assets/pages/ServiceHistory/ReadOneServiceHistory';
 
+import CusDashboard from './assets/pages/customerDashBoard/cusDashboard'; 
+import CLogin from './assets/components/cLogin';
+
 
 
 const App = () => {
@@ -147,7 +150,8 @@ const App = () => {
     <Route path='/ServiceHistory/delete/:id' element={<DeleteServiceHistory/>}></Route>
     <Route path='/ServiceHistory/get/:id' element={<ReadOneServiceHistory/>}></Route>
   
-
+    <Route path='/cusDashboard' element={<CusDashboard/>}></Route>
+    <Route path='/cLogin' element={<CLogin/>}></Route>'
     </Routes>  
 
 
