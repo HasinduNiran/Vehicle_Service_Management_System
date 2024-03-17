@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+// Functional component for creating Feedback
 const CreateFeedback = () => {
+  // State variables for managing form data and loading state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone_number, setPhone_Number] = useState("");
@@ -11,8 +12,9 @@ const CreateFeedback = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+// Event handler for saving the Feedback
   const handleSaveFeedback = () => {
+    // Creating data object from form inputs
     if (
       !name ||
       !email ||
@@ -34,14 +36,16 @@ const CreateFeedback = () => {
       message,
     };
     setLoading(true);
-
+// Making a POST request to save the inventory data
     axios
       .post("http://localhost:8076/feedback", data)
       .then(() => {
+        // Resetting loading state and navigating to the home page
         setLoading(false);
         navigate("/feedback");
       })
       .catch((error) => {
+        // Handling errors by resetting loading state, showing an alert, and logging the error
         setLoading(false);
         console.error("Error creating feedback:", error);
         alert(
@@ -49,7 +53,7 @@ const CreateFeedback = () => {
         );
       });
   };
-
+// JSX for rendering the create inventory form
   return (
     <div className="p-4">
       <h1 className="text-3xl my-4">Create Feedback</h1>

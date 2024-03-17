@@ -18,7 +18,8 @@ import Vehicle_Route from './Routes/Vehicle_Route.js';
 import Feedback_Route from './Routes/Feedback_Route.js';
 import Booking_Route from './Routes/Booking_Route.js';
 import Package_Route from './Routes/Package_Route.js';
-
+import ServiceHistory_Route from './Routes/ServiceHistory_Route.js';
+import Manager_Route from './Routes/Manager_Route.js';
 
 
 // Creating an instance of the Express application
@@ -68,6 +69,8 @@ app.use('/feedback', Feedback_Route);
 app.use('/bookings',Booking_Route);
 app.use('/Package',Package_Route);
 
+app.use('/ServiceHistory',ServiceHistory_Route);
+app.use('/Manager',Manager_Route);
 
 
 
