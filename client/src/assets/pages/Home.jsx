@@ -8,7 +8,7 @@ import Specification from '../components/Specification';
 import WhoWeAre from '../components/WhoWeAre';
 import Satisfaction from '../components/Satisfaction';
 import MainPart from '../components/MainPart';
-
+//lasal
 
 
 const Home = () => {
