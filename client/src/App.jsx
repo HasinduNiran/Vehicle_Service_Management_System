@@ -20,7 +20,7 @@ import ReadOnePayment from './assets/pages/Payment/ReadOnePayment';
 //import UpdatePayment from './assets/pages/Payment/EditPayment';
 import DeletePayment from './assets/pages/Payment/DeletePayment';
 import EditPayment from './assets/pages/Payment/EditPayment';
-
+import ReportPayment from './assets/pages/Payment/ReportPayment';
 
 
 
@@ -100,7 +100,7 @@ const App = () => {
       <Route path='/payments/create' element={<CreatePayments />}></Route>
       <Route path='/payments/edit/:id' element={<EditPayment />}></Route>
       <Route path='/payments/delete/:id' element={<DeletePayment />}></Route>
-
+      <Route path='/payments/report' element={<ReportPayment />}></Route>
 
     <Route path ='/show-all'  element={<ShowAllBooking/>}/>
     <Route path='/create' element={<CreateBooking/>}/>
