@@ -12,7 +12,8 @@ const CreateEmployee = () => {
   const [NIC, setNIC] = useState('');
   const [Address, setAddress] = useState('');
   const [Position, setPosition] = useState('');
-  const [Salary, setSalary] = useState('');
+  const [ContactNo, setContactNo] = useState('');
+  const [Email, setEmail] = useState('');
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -26,7 +27,8 @@ const CreateEmployee = () => {
       NIC,
       Address,
       Position,
-      Salary
+      ContactNo,
+      Email
     };
     setLoading(true);
     axios
@@ -71,7 +73,7 @@ const CreateEmployee = () => {
         <div className='my-4'>
           <label className='text-xl mr-4 text-gray-500'>DOB</label>
           <input
-            type='text'
+            type='Date'
             value={DOB}
             onChange={(e) => setDOB(e.target.value)}
             className='border-2 border-gray-500 px-4 py-2  w-full '
@@ -105,14 +107,24 @@ const CreateEmployee = () => {
           />
         </div>
         <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Salary</label>
+          <label className='text-xl mr-4 text-gray-500'>ContactNo</label>
           <input
             type='text'
-            value={Salary}
-            onChange={(e) => setSalary(e.target.value)}
+            value={ContactNo}
+            onChange={(e) => setContactNo(e.target.value)}
             className='border-2 border-gray-500 px-4 py-2  w-full '
           />
         </div>
+        <div className='my-4'>
+          <label className='text-xl mr-4 text-gray-500'>Email</label>
+          <input
+            type='text'
+            value={Email}
+            onChange={(e) => setEmail(e.target.value)}
+            className='border-2 border-gray-500 px-4 py-2  w-full '
+          />
+        </div>
+        
         <button className='p-2 bg-sky-300 m-8' onClick={handleSaveEmployee}>
           Save
         </button>
