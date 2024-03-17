@@ -72,6 +72,7 @@ import DeleteServiceHistory from './assets/pages/ServiceHistory/DeleteServiceHis
 import ReadOneServiceHistory from './assets/pages/ServiceHistory/ReadOneServiceHistory';
 
 
+import ManagerLogin from './assets/components/ManagerLogin';
 
 const App = () => {
 
@@ -80,6 +81,7 @@ const App = () => {
     <Routes>
 
       <Route path='/' element={<Home />}></Route>
+      <Route path='/Mlogin' element={<ManagerLogin/>}></Route>
 
       <Route path='/vehicle' element={<ShowVehicle />} />
       <Route path='/vehicle/create' element={<CreateVehicle />} />

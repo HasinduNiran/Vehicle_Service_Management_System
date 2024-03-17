@@ -3,7 +3,7 @@ import { Employee } from '../Models/Employee.js';
 
 const router = express.Router();
 
-// Route for Save a new Book
+// Route for Save a new Employee
 router.post('/', async (request, response) => {
   try {
     if (
