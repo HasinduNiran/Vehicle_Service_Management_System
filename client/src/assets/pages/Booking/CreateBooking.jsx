@@ -2,6 +2,11 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 
+const Spinner = () => {
+    return <div>Loading...</div>;
+  };
+
+
 
 const CreateBooking = () => {
 
@@ -106,4 +111,4 @@ axios
 }
 
 
-export default CreateBooking
+export default CreateBooking;
