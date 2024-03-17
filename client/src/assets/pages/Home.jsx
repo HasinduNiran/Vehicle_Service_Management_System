@@ -1,17 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Footer from '../components/Footer';
-import './../Styles/style-starter.css'; 
-import Header from '../components/Header';
-import Testimonial from '../components/Testimoials';
-import Specification from '../components/Specification';
-import WhoWeAre from '../components/WhoWeAre';
-import Satisfaction from '../components/Satisfaction';
-import MainPart from '../components/MainPart';
-//lasal
-
-
 const Home = () => {
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center items-center">
