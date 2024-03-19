@@ -29,7 +29,7 @@ import CreateEmployee from './assets/pages/Employee/CreateEmployee';
 import DeleteEmployee from './assets/pages/Employee/DeleteEmployee';
 import EditEmployee from './assets/pages/Employee/EditEmployee';
 import ReadOneEmployee from './assets/pages/Employee/ReadOneEmployee';
-
+import ReportEmployee from './assets/pages/Employee/ReportEmployee';
 
 
 
@@ -94,6 +94,7 @@ const App = () => {
       <Route path='/employees/delete/:id' element={<DeleteEmployee />}></Route>
       <Route path='/employees/edit/:id' element={<EditEmployee />}></Route>
       <Route path='/employees/details/:id' element={<ReadOneEmployee />}></Route>
+      <Route path='/employees/reportEmployee' element={<ReportEmployee />}></Route>
 
       <Route path='/payments/show' element={<ShowPayment />}></Route>
       <Route path='/payments/detail/:id' element={<ReadOnePayment />}></Route>

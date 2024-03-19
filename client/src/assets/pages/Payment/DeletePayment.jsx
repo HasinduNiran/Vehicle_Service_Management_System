@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-//import BackButton from '../components/BackButton';
+import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 
@@ -29,7 +29,7 @@ const DeletePayment = () => {
 
   return (
     <div className='p-4'>
-      {/* Back button to navigate back */}
+      <BackButton destination='/payments/show' /> {/* Pass the destination URL here */}
       
       <h1 className='text-3xl my-4'>DeletePayment</h1>
       {loading ? <Spinner /> : ''}

@@ -36,9 +36,6 @@ const Home = () => {
             <li>
               <Link to="/feedback" className="text-blue-500 hover:underline">Feedback</Link>
             </li>
-            <li>
-              <Link to="/payments/report" className="text-blue-500 hover:underline">Report</Link>
-            </li>
           </ul>
         </nav>
       </div>

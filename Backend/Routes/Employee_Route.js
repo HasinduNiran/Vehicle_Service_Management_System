@@ -121,4 +121,36 @@ router.delete('/:id', async (request, response) => {
   }
 });
 
+// GET route for retrieving employees based on search criteria, pagination, and sorting
+router.get("/searchEmployee", async (req, res) => {
+  try {
+    // Destructuring the request query with default values
+    const { page = 1, limit = 8, search = "", sort = "EmpID" } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    // Regular expression for case-insensitive search
+    const query = {
+      $or: [
+        { EmpID: { $regex: new RegExp(search, 'i') } }, // Using RegExp instead of directly passing $regex
+        { employeeName: { $regex: new RegExp(search, 'i') } },
+        { DOB: { $regex: new RegExp(search, 'i') } },
+        { NIC: { $regex: new RegExp(search, 'i') } },
+        { Address: { $regex: new RegExp(search, 'i') } },
+        { Position: { $regex: new RegExp(search, 'i') } },
+        { ContactNo: { $regex: new RegExp(search, 'i') } },
+        { Email: { $regex: new RegExp(search, 'i') } },
+      ],
+    };
+    // Using await to ensure that sorting and pagination are applied correctly
+    const employees = await Employee.find(query)
+      .sort({ [sort]: 1 }) // Sorting based on the specified field
+      .skip(skip)
+      .limit(parseInt(limit));
+    res.status(200).json({ count: employees.length, data: employees });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: true, message: "Internal Server Error" });
+  }
+});
+
+
 export default router;

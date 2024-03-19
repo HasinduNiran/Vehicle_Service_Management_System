@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import BackButton from "../../components/BackButton";
 import Spinner from "../../components/Spinner";
 import { Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
@@ -66,6 +67,7 @@ const ReportPayment = () => {
 
   return (
     <div className="p-4">
+      <BackButton destination='/payments/show' /> {/* Pass the destination URL here */}
       <div className="flex justify-between items-center">
         <h1 className="text-3xl my-8">Payment List</h1>
         <div className="mb-4">
@@ -83,11 +85,7 @@ const ReportPayment = () => {
             Search
           </button>
         </div>
-        <Link to="/payments/create">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Add Payment
-          </button>
-        </Link>
+        
       </div>
       {loading ? (
         <div className="flex justify-center items-center">
