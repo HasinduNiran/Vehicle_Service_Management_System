@@ -10,7 +10,28 @@ function ShowEmployee() {
 
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
+    //search
+    const [error, setError] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
     //const [showType, setShowType] = useState('table');
+
+    const handleSearch = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get(
+            `http://localhost:8076/searchEmployee?search=${searchQuery}`
+          );
+          setEmployees(response.data.data);
+          setLoading(false);
+          setError(null);
+        } catch (error) {
+          console.error("Error fetching employee:", error);
+          setError(
+            "An error occurred while fetching the employee for the search query."
+          );
+          setLoading(false);
+        }
+      };
 
     useEffect(() => {
         setLoading(true);
@@ -26,16 +47,58 @@ function ShowEmployee() {
             });
     }, []);
 
+    // Filter function to apply search query filter
+    const applySearchFilter = (employee) => {
+        return (
+            employee.EmpID.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            employee.employeeName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            employee.DOB.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            employee.NIC.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            employee.Address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            employee.Position.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            employee.ContactNo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            employee.Email.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    };
+    
+    // Filter employee based on search query
+  const filteredEmployee = employees.filter(applySearchFilter);
+
   return (
     <div>
-      <label>ShowEmployee</label>
+      
 
       <div className='p-4'>
       <div className='flex justify-between items-center'>
                 <h1 className='text-3xl my-8'>Employee List</h1>
-                <Link to='/employees/create'>
-                    <MdOutlineAddBox className='text-sky-800 text-4xl' />
-                </Link>
+                
+        <div className="mb-4">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Enter search query"
+            className="mr-2 border border-gray-400 p-2"
+          />
+          <button
+            onClick={handleSearch}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Search
+          </button>
+        </div>
+                
+                <div className="flex justify-center items-center mt-8">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/employees/create'}>
+                        Add Employee
+                    </button>
+                    <div style={{ marginLeft: '10px' }}></div> {/* Space between buttons */}
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/employees/reportEmployee'}>
+                        Report
+                    </button>
+                </div>
+
+
             </div>
             {loading? (<Spinner/>
             ):(
@@ -56,7 +119,7 @@ function ShowEmployee() {
         </tr>
     </thead>
     <tbody>
-        {employees.map((employee, index) => (
+        {filteredEmployee.map((employee, index) => (
 
             <tr key={employee._id} className='h-8'>
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-//import BackButton from '../components/BackButton';
+import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 
 const ReadOneEmployee = () => {
@@ -25,7 +25,7 @@ const ReadOneEmployee = () => {
 
   return (
     <div className='p-4'>
-      {/* <BackButton /> */}
+      <BackButton destination='/employees/allEmployee' /> {/* Pass the destination URL here */}
       <h1 className='text-3xl my-4'>Show Employee</h1>
       {loading ? (
         <Spinner />
