@@ -9,9 +9,14 @@ const Home = () => {
         <nav>
           <ul className="space-y-4">
           <li>
+
+              <Link to="/cLogin" className="text-blue-500 hover:underline">CUSTOMER LOGIN</Link>
+            </li>
+
               <Link to="/Mlogin" className="text-blue-500 hover:underline">Manager Login</Link>
             </li>
             
+
             <li>
               <Link to="/customer/allCustomer" className="text-blue-500 hover:underline">Customer</Link>
             </li>

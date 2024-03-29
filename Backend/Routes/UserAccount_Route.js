@@ -146,4 +146,44 @@ router.delete('/:id', async (request, response) => {
     }
 });
 
+//loginCustomer
+
+router.post('/cLogin', async (request, response) => {
+    try {
+        const { Username, password } = request.body;
+
+        // Check if username and password are provided
+        if (!Username || !password) {
+            return response.status(400).send({
+                message: 'Username and password are required',
+            });
+        }
+
+        // Find the user with the provided username
+        const customer = await Customer.findOne({ Username });
+
+        // If the user is not found, return an error
+        if (!customer) {
+            return response.status(404).send({
+                message: 'User not found',
+            });
+        }
+
+        // Check if the password matches
+        if (password !== customer.password) {
+            return response.status(401).send({
+                message: 'Incorrect password',
+            });
+        }
+
+        // If username and password are correct, return the user data
+        response.status(200).send(customer);
+
+    } catch (error) {
+        console.error(error.message);
+        response.status(500).send({ message: 'Internal Server Error' });
+    }
+});
+
+
 export default router;
