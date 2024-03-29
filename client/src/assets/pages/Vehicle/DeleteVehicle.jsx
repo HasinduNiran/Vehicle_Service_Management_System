@@ -12,7 +12,7 @@ const DeleteVehicle = () => {
     axios.delete(`http://localhost:8076/vehicles/${Register_Number}`) // Use Register_Number in URL
       .then(() => {
         setLoading(false);
-        navigate('/');
+        navigate('/vehicle');
       })
       .catch((error) => {
         setLoading(false);

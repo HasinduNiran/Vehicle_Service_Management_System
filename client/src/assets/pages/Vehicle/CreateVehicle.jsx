@@ -22,7 +22,7 @@ const CreateVehicle = () => {
         try {
             const response = await axios.post('http://localhost:8076/vehicles', data);
             setLoading(false);
-            navigate('/'); // Navigate to the homepage after successful creation
+            navigate('/vehicle'); // Navigate to the homepage after successful creation
         } catch (error) {
             setLoading(false);
             console.error('Error creating vehicle:', error);
