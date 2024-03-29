@@ -20,7 +20,7 @@ import ReadOnePayment from './assets/pages/Payment/ReadOnePayment';
 //import UpdatePayment from './assets/pages/Payment/EditPayment';
 import DeletePayment from './assets/pages/Payment/DeletePayment';
 import EditPayment from './assets/pages/Payment/EditPayment';
-
+import ReportPayment from './assets/pages/Payment/ReportPayment';
 
 
 
@@ -29,7 +29,7 @@ import CreateEmployee from './assets/pages/Employee/CreateEmployee';
 import DeleteEmployee from './assets/pages/Employee/DeleteEmployee';
 import EditEmployee from './assets/pages/Employee/EditEmployee';
 import ReadOneEmployee from './assets/pages/Employee/ReadOneEmployee';
-
+import ReportEmployee from './assets/pages/Employee/ReportEmployee';
 
 
 
@@ -75,6 +75,7 @@ import CusDashboard from './assets/pages/customerDashBoard/cusDashboard';
 import CLogin from './assets/components/cLogin';
 
 
+import ManagerLogin from './assets/components/ManagerLogin';
 
 const App = () => {
 
@@ -83,6 +84,7 @@ const App = () => {
     <Routes>
 
       <Route path='/' element={<Home />}></Route>
+      <Route path='/Mlogin' element={<ManagerLogin/>}></Route>
 
       <Route path='/vehicle' element={<ShowVehicle />} />
       <Route path='/vehicle/create' element={<CreateVehicle />} />
@@ -95,13 +97,14 @@ const App = () => {
       <Route path='/employees/delete/:id' element={<DeleteEmployee />}></Route>
       <Route path='/employees/edit/:id' element={<EditEmployee />}></Route>
       <Route path='/employees/details/:id' element={<ReadOneEmployee />}></Route>
+      <Route path='/employees/reportEmployee' element={<ReportEmployee />}></Route>
 
       <Route path='/payments/show' element={<ShowPayment />}></Route>
       <Route path='/payments/detail/:id' element={<ReadOnePayment />}></Route>
       <Route path='/payments/create' element={<CreatePayments />}></Route>
       <Route path='/payments/edit/:id' element={<EditPayment />}></Route>
       <Route path='/payments/delete/:id' element={<DeletePayment />}></Route>
-
+      <Route path='/payments/report' element={<ReportPayment />}></Route>
 
     <Route path ='/show-all'  element={<ShowAllBooking/>}/>
     <Route path='/create' element={<CreateBooking/>}/>

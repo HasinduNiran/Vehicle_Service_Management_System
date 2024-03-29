@@ -44,4 +44,24 @@ router.get('/', async (request, response) => {
     }
   });
 
+  // Route for Manager Login
+router.post('/login', async (request, response) => {
+  try {
+    const { Musername, Mpassword } = request.body;
+    if (!Musername || !Mpassword) {
+      return response.status(400).json({ message: 'Username and password are required' });
+    }
+
+    const manager = await Manager.findOne({ Musername, Mpassword });
+
+    if (!manager) {
+      return response.status(401).json({ message: 'Invalid username or password' });
+    }
+
+    return response.status(200).json(manager);
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
 export default router;

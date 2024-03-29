@@ -24,11 +24,17 @@ const ShowPayment=()=> {
     <div className='p-4'>
         <div className='flex justify-between items-center'>
             <h1 className='text-3xl my-8'>Payment List</h1>
-            <Link to='/payments/create'>
-                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+            
+
+            <div className="flex justify-center items-center mt-8">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/payments/create'}>
                     Add Payment
-                </button>
-            </Link>
+                    </button>
+                    <div style={{ marginLeft: '10px' }}></div> {/* Space between buttons */}
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/employees/reportEmployee'}>
+                        Report
+                    </button>
+                </div>
         </div>
         {loading ? (
             <div className='flex justify-center items-center'>
