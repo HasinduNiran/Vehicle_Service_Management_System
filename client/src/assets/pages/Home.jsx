@@ -12,7 +12,7 @@ const Home = () => {
 
               <Link to="/cLogin" className="text-blue-500 hover:underline">CUSTOMER LOGIN</Link>
             </li>
-
+            <li>
               <Link to="/Mlogin" className="text-blue-500 hover:underline">Manager Login</Link>
             </li>
             
