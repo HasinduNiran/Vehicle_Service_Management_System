@@ -29,13 +29,13 @@ const CreateFeedback = () => {
       employee,
       date_of_service: dateOfService,
       message,
+      starRating
     };
 
     console.log(data); // Replace with actual server call
   };
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^\d{10}$/;
+  const phoneRegex = /^\d{10,}$/;
 
   useEffect(() => {
     const fetchEmployeesData = async () => {
@@ -50,6 +50,7 @@ const CreateFeedback = () => {
         }
       } catch (error) {
         console.error("Error fetching employees:", error);
+        alert("Failed to fetch employees. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -65,8 +66,7 @@ const CreateFeedback = () => {
       {loading && <p>Loading...</p>}
 
       <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
-        
-      <div className="p-4">
+        <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Name</label>
           <input
             type="text"
@@ -111,15 +111,21 @@ const CreateFeedback = () => {
             ))}
           </select>
         </div>
+
         <div className="p-4">
-  <label className="text-xl mr-4 text-gray-500">Star Rating</label>
-  <input
-    type="number"
-    value={starRating}
-    onChange={(e) => setStarRating(parseInt(e.target.value))}
-    className="border-2 border-gray-500 px-4 py-2 w-full"
-  />
-</div>
+          <label className="text-xl mr-4 text-gray-500">Star Rating</label>
+          <select
+            value={starRating}
+            onChange={(e) => setStarRating(parseInt(e.target.value))}
+            className="border-2 border-gray-500 px-4 py-2 w-full"
+          >
+            {[1, 2, 3, 4, 5].map((rating) => (
+              <option key={rating} value={rating}>
+                {rating}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Date of Service</label>
@@ -132,15 +138,13 @@ const CreateFeedback = () => {
 
         <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Message</label>
-          <input
-            type="text"
+          <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
 
-      
         <button className="p-2 bg-sky-300 m-8" onClick={handleSaveFeedback}>
           {loading ? "Creating..." : "Create"}
         </button>
