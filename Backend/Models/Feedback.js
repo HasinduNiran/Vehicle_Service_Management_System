@@ -26,6 +26,10 @@ const feedbackSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    star_rating: {
+        type: String ,
+        required: true,
+    },
 }, { timestamps: true });
 
 // Exporting the Feedback Model
