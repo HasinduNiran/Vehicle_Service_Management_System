@@ -33,6 +33,21 @@ const CreateFeedback = () => {
     };
 
     console.log(data); // Replace with actual server call
+
+    // Making a POST request to save the Feedback data
+    axios
+      .post('http://localhost:8076/feedback', data)
+      .then(() => {
+        // Resetting loading state and navigating to the home page
+        setLoading(false);
+        navigate('/feedback/allFeedback');
+      })
+      .catch((error) => {
+        // Handling errors by resetting loading state, showing an alert, and logging the error
+        setLoading(false);
+        alert('An error happened. Please check console');
+        console.error(error);
+      });
   };
 
   const phoneRegex = /^\d{10,}$/;
