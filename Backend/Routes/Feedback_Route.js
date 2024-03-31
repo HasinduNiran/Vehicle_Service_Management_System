@@ -1,9 +1,43 @@
-import express from "express";
-import { Feedback } from "../Models/Feedback.js";
-import React, { useEffect } from 'react';
+import express, { request } from "express";
+import { Feedback, Feedback } from "../Models/Feedback.js";
+
 
 const router = express.Router();
+router .post('/', async(request, response) => {
+  try {
+const requiredFields=[
+    "name",
+    "email",
+    "phone_number",
+    "employee",
+    "date_of_service",
+    "message",
+    "star_rating",
+];
+for (const field of requiredFields) {
+  if (!request.body[field]) {
+      return response.status(400).send({ message: `Missing field: ${field}` });
+  }
+}
 
+const newInventory = {
+  Name: request.body.Name,
+  Email: request.body.Email,
+  Phone_Number: request.body.Phone_Number,
+  Employee: request.body.Employee,
+  Date_Of_Service: request.body.Date_Of_Service,
+  Message: request.body.Message,
+  Star_Rating: request.body.Star_Rating
+};
+
+const Feedback = await Feedback.create(newFeedback);
+
+return response.status(201).send(feedback);
+} catch (error) {
+console.error(error.message);
+response.status(500).send({ message: error.message });
+}
+});
 const validateFields = (req, res, next) => {
   const requiredFields = [
     "name",
@@ -89,51 +123,6 @@ router.get("/feedback", async (req, res) => {
     res.status(500).json({ error: true, message: "Internal Server Error" });
   }
 });
-const handleSaveFeedback = async () => {
-  // Check email and phone number format
-  if (!emailRegex.test(email)) {
-    alert("Please enter a valid email address.");
-    return;
-  }
-  if (!phoneRegex.test(phoneNumber)) {
-    alert("Please enter a valid 10-digit phone number.");
-    return;
-  }
-
-  // Check if all fields are filled
-  if (!name || !email || !phoneNumber || !employee || !message) {
-    alert("Please fill in all fields before submitting.");
-    return;
-  }
-
-  // Format date_of_service
-  const formattedDate = formatDate(dateOfService);
-
-  const data = {
-    name,
-    email,
-    phone_number: phoneNumber,
-    employee,
-    date_of_service: formattedDate,
-    message,
-  };
-
-  setLoading(true);
-
-  try {
-    // Send POST request
-    await axios.post("http://localhost:8076/feedback", data);
-    setLoading(false);
-    navigate("/feedback");
-  } catch (error) {
-    setLoading(false);
-    console.error("Error creating feedback:", error);
-    alert(
-      "An error occurred while creating feedback. Please try again later."
-    );
-  }
-};
-
 router.get("/", async (req, res) => {
   try {
     const feedback = await Feedback.find({});

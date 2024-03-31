@@ -16,41 +16,54 @@ const CreateFeedback = () => {
   const [employees, setEmployees] = useState([]);
   const navigate = useNavigate();
 
-  const handleSaveFeedback = () => {
-    if (!name || !email || !phoneNumber || !employee || !dateOfService || !message) {
+  const handleSaveFeedback = async () => {
+    // Check email and phone number format
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    if (!phoneRegex.test(phoneNumber)) {
+      alert("Please enter a valid 10-digit phone number.");
+      return;
+    }
+    
+    // Check if all fields are filled
+    if (!name || !email || !phoneNumber || !employee || !message) {
       alert("Please fill in all fields before submitting.");
       return;
     }
-
+  
+    // Format date_of_service
+    const formattedDate = formatDate(dateOfService);
+  
     const data = {
       name,
       email,
       phone_number: phoneNumber,
       employee,
-      date_of_service: dateOfService,
+      date_of_service: formattedDate,
       message,
-      starRating
     };
-
-    console.log(data); // Replace with actual server call
-
-    // Making a POST request to save the Feedback data
-    axios
-      .post('http://localhost:8076/feedback', data)
-      .then(() => {
-        // Resetting loading state and navigating to the home page
-        setLoading(false);
-        navigate('/feedback/allFeedback');
-      })
-      .catch((error) => {
-        // Handling errors by resetting loading state, showing an alert, and logging the error
-        setLoading(false);
-        alert('An error happened. Please check console');
-        console.error(error);
-      });
+  
+    setLoading(true);
+  
+    try {
+      // Send POST request
+      await axios.post("http://localhost:8076/feedback", data);
+      setLoading(false);
+      navigate("/feedback");
+    } catch (error) {
+      setLoading(false);
+      console.error("Error creating feedback:", error);
+      alert(
+        "An error occurred while creating feedback. Please try again later."
+      );
+    }
   };
 
   const phoneRegex = /^\d{10,}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 
   useEffect(() => {
     const fetchEmployeesData = async () => {

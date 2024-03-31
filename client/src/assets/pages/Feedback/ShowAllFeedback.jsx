@@ -88,11 +88,10 @@ const ShowAllFeedback = () => {
             Search
           </button>
         </div>
-        <div className="create-button" padding-bottom="100px">
+        <div className="create-button">
           <Link
             to="/feedback/create"
             className="bg-green-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            padding-bottom="100px"
           >
             Add Feedback
           </Link>
@@ -109,8 +108,8 @@ const ShowAllFeedback = () => {
       ) : error ? (
         <div>{error}</div>
       ) : (
-        <div className="table" padding-top="100px">
-          <table className="table-auto w-full mb-4" padding-top="100px">
+        <div className="table">
+          <table className="table-auto w-full mb-4">
             <thead>
               <tr>
                 <th className="border border-green-800 rounded-md">Name</th>
