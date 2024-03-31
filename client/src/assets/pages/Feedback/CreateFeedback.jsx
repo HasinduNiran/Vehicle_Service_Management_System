@@ -18,6 +18,9 @@ const CreateFeedback = () => {
 
   const handleSaveFeedback = async () => {
     // Check email and phone number format
+    const phoneRegex = /^\d{10}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
     if (!emailRegex.test(email)) {
       alert("Please enter a valid email address.");
       return;
@@ -43,6 +46,7 @@ const CreateFeedback = () => {
       employee,
       date_of_service: formattedDate,
       message,
+      star_rating: starRating
     };
   
     setLoading(true);
@@ -61,9 +65,9 @@ const CreateFeedback = () => {
     }
   };
 
-  const phoneRegex = /^\d{10,}$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+  const formatDate = (date) => {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  };
 
   useEffect(() => {
     const fetchEmployeesData = async () => {

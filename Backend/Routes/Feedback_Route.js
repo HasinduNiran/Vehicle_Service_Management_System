@@ -1,43 +1,8 @@
-import express, { request } from "express";
-import { Feedback, Feedback } from "../Models/Feedback.js";
-
+import express from "express";
+import { Feedback } from "../Models/Feedback.js";
 
 const router = express.Router();
-router .post('/', async(request, response) => {
-  try {
-const requiredFields=[
-    "name",
-    "email",
-    "phone_number",
-    "employee",
-    "date_of_service",
-    "message",
-    "star_rating",
-];
-for (const field of requiredFields) {
-  if (!request.body[field]) {
-      return response.status(400).send({ message: `Missing field: ${field}` });
-  }
-}
 
-const newFeedback = {
-  Name: request.body.Name,
-  Email: request.body.Email,
-  Phone_Number: request.body.Phone_Number,
-  Employee: request.body.Employee,
-  Date_Of_Service: request.body.Date_Of_Service,
-  Message: request.body.Message,
-  Star_Rating: request.body.Star_Rating
-};
-
-const Feedback = await Feedback.create(newFeedback);
-
-return response.status(201).send(feedback);
-} catch (error) {
-console.error(error.message);
-response.status(500).send({ message: error.message });
-}
-});
 const validateFields = (req, res, next) => {
   const requiredFields = [
     "name",
@@ -48,7 +13,7 @@ const validateFields = (req, res, next) => {
     "message",
     "star_rating",
   ];
-  
+
   for (const field of requiredFields) {
     if (!req.body[field]) {
       return res.status(400).send({ message: `Field '${field}' cannot be empty` });
@@ -63,7 +28,7 @@ const validateFields = (req, res, next) => {
     return res.status(400).send({ message: "Please provide a valid 10-digit phone number" });
   }
 
-  next(); // Call next to proceed to the next middleware or route handler
+  next();
 };
 
 router.post("/", validateFields, async (req, res) => {
@@ -98,7 +63,6 @@ router.post("/", validateFields, async (req, res) => {
   }
 });
 
-
 router.get("/feedback", async (req, res) => {
   try {
     const { page = 1, limit = 5, search = "", sort = "name" } = req.query;
@@ -123,6 +87,7 @@ router.get("/feedback", async (req, res) => {
     res.status(500).json({ error: true, message: "Internal Server Error" });
   }
 });
+
 router.get("/", async (req, res) => {
   try {
     const feedback = await Feedback.find({});
@@ -183,6 +148,5 @@ router.delete("/:id", async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 });
-
 
 export default router;
