@@ -20,7 +20,7 @@ for (const field of requiredFields) {
   }
 }
 
-const newInventory = {
+const newFeedback = {
   Name: request.body.Name,
   Email: request.body.Email,
   Phone_Number: request.body.Phone_Number,
