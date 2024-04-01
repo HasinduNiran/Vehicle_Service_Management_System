@@ -46,7 +46,7 @@ const CreateFeedback = () => {
       employee,
       date_of_service: formattedDate,
       message,
-      star_rating: starRating
+      star_rating: starRating,
     };
   
     setLoading(true);

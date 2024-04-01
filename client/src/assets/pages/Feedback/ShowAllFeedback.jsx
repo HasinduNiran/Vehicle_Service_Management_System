@@ -9,6 +9,8 @@ const ShowAllFeedback = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [employees, setEmployees] = useState([]);
+  const [star_rating, setstarRating] = useState();
 
   useEffect(() => {
     setLoading(true);
@@ -24,8 +26,17 @@ const ShowAllFeedback = () => {
         setError("An error occurred while fetching the feedback.");
         setLoading(false);
       });
+
+    // Fetch employees from the database
+    axios.get("http://localhost:8076/employees")
+      .then(response => {
+        setEmployees(response.data.data);
+      })
+      .catch(error => {
+        console.error("Error fetching employees:", error);
+      });
   }, []);
-  
+
   const handleSearch = async () => {
     setLoading(true);
     try {
@@ -118,13 +129,14 @@ const ShowAllFeedback = () => {
                 <th className="border border-green-800 rounded-md">Employee</th>
                 <th className="border border-green-800 rounded-md">Date of Service</th>
                 <th className="border border-green-800 rounded-md">Message</th>
+                <th className="border border-green-800 rounded-md">Star Rating</th>
                 <th className="border border-green-800 rounded-md">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredFeedbacks.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="text-center">
+                  <td colSpan="8" className="text-center">
                     No feedbacks available
                   </td>
                 </tr>
@@ -148,6 +160,9 @@ const ShowAllFeedback = () => {
                     </td>
                     <td className="border border-gray-600 rounded-md">
                       {feedback.message}
+                    </td>
+                    <td className="border border-gray-600 rounded-md">
+                      {feedback.starRating}
                     </td>
                     <td className="border border-gray-600 rounded-md">
                       <div className="flex justify-around">
