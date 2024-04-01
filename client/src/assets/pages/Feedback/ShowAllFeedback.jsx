@@ -10,7 +10,7 @@ const ShowAllFeedback = () => {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [employees, setEmployees] = useState([]);
-  const [star_rating, setstarRating] = useState();
+  const [star_rating, setStarRating] = useState();
 
   useEffect(() => {
     setLoading(true);
