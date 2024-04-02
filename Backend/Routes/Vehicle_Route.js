@@ -118,6 +118,31 @@ router.delete('/:id', async(request, response) => {
         response.status(500).send({ message: 'Error deleting vehicle' });
     }
 });
+router.get("searchvehicle", function (req, res) {
+    var search = req.query.search;
+    console.log(search);
+    Vehicle.find({
+        $or: [
+            { Register_Number: { $regex: search, $options: "i" } },
+            { Model: { $regex: search, $options: "i" } },
+            { Owner: { $regex: search, $options: "i" } }
+        ]
+    }, function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.json(result);
+        }
+    });
+});
+
+
+
+
+
+
+
 
 // Exporting the Express router
 export default router;

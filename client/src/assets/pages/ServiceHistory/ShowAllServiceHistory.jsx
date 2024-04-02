@@ -1,13 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-
-export default function ShowAllServiceHistory ()  {
-
+export default function ShowAllServiceHistory() {
     const [serviceHistories, setServiceHistory] = useState([]);
     const [loading, setLoading] = useState(false);
     const [count, setCount] = useState();
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const handleSearch = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`http://localhost:8076/searchservices?search=${searchQuery}`);
+            setServiceHistory(response.data.data);
+            setLoading(false);
+        } catch (err) {
+            console.log(err);
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         setLoading(true);
@@ -23,13 +34,37 @@ export default function ShowAllServiceHistory ()  {
             });
     }, []);
 
+    const applyServiceHistoryFilter = (service) => {
+        return (
+            service.Customer_Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            service.Allocated_Employee.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            service.Vehicle_Number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            service.Service_History.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    };
 
+    const filteredServiceHistories = serviceHistories.filter(applyServiceHistoryFilter);
 
     return (
         <div className="p-4">
             <div className="flex justify-between items-center">
                 <h1 className="text-3xl my-8">Service History</h1>
                 <Link to={'/ServiceHistory/create'} className="text-sky-800 text-4xl">Add history</Link>
+
+                <div className="mb-4"></div>
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Enter search query"
+                    className="mr-2 border border-gray-400 p-2"
+                />
+                <button
+                    onClick={handleSearch}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    Search
+                </button>
             </div>
 
             {loading ? (
@@ -46,9 +81,9 @@ export default function ShowAllServiceHistory ()  {
                         </tr>
                     </thead>
                     <tbody>
-                        {Array.isArray(serviceHistories) && serviceHistories.map((service, index) => (
+                        {Array.isArray(serviceHistories) && filteredServiceHistories.map((service, index) => (
                             <tr key={service._id}>
-                               
+
                                 <td className='border border-gray-600 rounded-md'>{service.Customer_Name}</td>
                                 <td className='border border-gray-600 rounded-md'>{service.Allocated_Employee}</td>
                                 <td className='border border-gray-600 rounded-md'>{service.Vehicle_Number}</td>
@@ -62,12 +97,10 @@ export default function ShowAllServiceHistory ()  {
                             </tr>
                         ))}
                     </tbody>
-                    {count? (<p>{count}</p>): ''}
+                    {count ? (<p>{count}</p>) : ''}
                 </table>
-                
+
             )}
         </div>
     );
 };
-
-
