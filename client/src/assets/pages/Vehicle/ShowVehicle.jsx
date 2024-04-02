@@ -54,7 +54,7 @@ const ShowVehicle = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Enter search query"
+            placeholder="Enter vehicle "
             className="mr-2 border border-gray-400 p-2"
           />
           <button
