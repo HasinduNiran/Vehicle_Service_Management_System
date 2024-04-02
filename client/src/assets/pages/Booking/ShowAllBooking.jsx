@@ -33,6 +33,16 @@ export default function ShowAllBooking() {
     <div className='p-4'>
       <div className='flex justify-between items-center'>
         <h1 className='text-3xl my-8'>Booking</h1>
+        <div className='flex items-center'>
+          <label htmlFor='dailyLimit' className='mr-2'>Daily Limit:</label>
+          <input
+            type='number'
+            id='dailyLimit'
+            value={dailyLimit}
+            onChange={handleChangeDailyLimit}
+            className='border border-gray-400 rounded-md px-2 py-1'
+          />
+        </div>
         <Link to='/create'>
           <CgInsertBeforeO className='text-sky-800 text-4xl' />
         </Link>
