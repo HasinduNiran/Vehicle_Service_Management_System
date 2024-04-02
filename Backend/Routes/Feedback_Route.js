@@ -16,16 +16,22 @@ const validateFields = (req, res, next) => {
 
   for (const field of requiredFields) {
     if (!req.body[field]) {
-      return res.status(400).send({ message: `Field '${field}' cannot be empty` });
+      return res
+        .status(400)
+        .send({ message: `Field '${field}' cannot be empty` });
     }
   }
 
   if (!req.body.email.match(/^\S+@\S+\.\S+$/)) {
-    return res.status(400).send({ message: "Please provide a valid email address" });
+    return res
+      .status(400)
+      .send({ message: "Please provide a valid email address" });
   }
 
   if (!req.body.phone_number.match(/^\d{10}$/)) {
-    return res.status(400).send({ message: "Please provide a valid 10-digit phone number" });
+    return res
+      .status(400)
+      .send({ message: "Please provide a valid 10-digit phone number" });
   }
 
   next();
@@ -62,6 +68,15 @@ router.post("/", validateFields, async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 });
+router.get("/employees/names", async (req, res) => {
+  try {
+    const employees = await employees.find({}, "name");
+    res.status(200).json({ count: employees.length, data: employees });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
 
 router.get("/feedback", async (req, res) => {
   try {
@@ -74,7 +89,7 @@ router.get("/feedback", async (req, res) => {
         { phone_number: { $regex: search, $options: "i" } },
         { employee: { $regex: search, $options: "i" } },
         { date_of_service: { $regex: search, $options: "i" } },
-        { star_rating: { $regex: search, $options: "i"} },
+        { star_rating: { $regex: search, $options: "i" } },
       ],
     };
     const feedback = await Feedback.find(query)
@@ -102,11 +117,11 @@ router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const feedback = await Feedback.findById(id);
-    
+
     if (!feedback) {
       return res.status(404).send({ message: "Feedback not found" });
     }
-    
+
     res.status(200).json(feedback);
   } catch (error) {
     console.error(error.message);
@@ -118,13 +133,13 @@ router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const feedback = await Feedback.findById(id);
-    
+
     if (!feedback) {
       return res.status(404).send({ message: "Feedback not found" });
     }
 
     await Feedback.findByIdAndUpdate(id, req.body);
-    
+
     res.status(200).send({ message: "Feedback updated successfully" });
   } catch (error) {
     console.error(error.message);
@@ -136,11 +151,11 @@ router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const feedback = await Feedback.findById(id);
-    
+
     if (!feedback) {
       return res.status(404).send({ message: "Feedback not found" });
     }
-    
+
     await Feedback.findByIdAndDelete(id);
     res.status(200).send({ message: "Feedback deleted successfully" });
   } catch (error) {

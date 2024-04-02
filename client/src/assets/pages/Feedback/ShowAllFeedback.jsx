@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
-import jsPDF from 'jspdf';
+import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
+import jsPDF from "jspdf";
 
 const ShowAllFeedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -10,11 +10,12 @@ const ShowAllFeedback = () => {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [employees, setEmployees] = useState([]);
-  const [star_rating, setStarRating] = useState();
+  const [star_rating, setStarRating] = useState(null);
 
   useEffect(() => {
     setLoading(true);
 
+    // Fetch feedbacks
     axios
       .get("http://localhost:8076/feedback")
       .then((response) => {
@@ -27,13 +28,15 @@ const ShowAllFeedback = () => {
         setLoading(false);
       });
 
-    // Fetch employees from the database
-    axios.get("http://localhost:8076/employees")
-      .then(response => {
+    // Fetch employees
+    axios
+      .get("http://localhost:8076/employees")
+      .then((response) => {
         setEmployees(response.data.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching employees:", error);
+        // Handle error appropriately
       });
   }, []);
 
@@ -55,23 +58,10 @@ const ShowAllFeedback = () => {
     }
   };
 
-  const applySearchFilter = (feedback) => {
-    return (
-      feedback.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      feedback.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      feedback.phone_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      feedback.employee.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      feedback.date_of_service.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      feedback.message.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  };
-
-  const filteredFeedbacks = feedbacks.filter(applySearchFilter);
-
   const generatePDF = () => {
     const doc = new jsPDF();
     let y = 10;
-    filteredFeedbacks.forEach((feedback, index) => {
+    feedbacks.forEach((feedback, index) => {
       const feedbackText = `Name: ${feedback.name}\nEmail: ${feedback.email}\nPhone Number: ${feedback.phone_number}\nEmployee: ${feedback.employee}\nDate of Service: ${feedback.date_of_service}\nMessage: ${feedback.message}\n\n`;
       doc.text(feedbackText, 10, y);
       y += 50;
@@ -134,36 +124,26 @@ const ShowAllFeedback = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredFeedbacks.length === 0 ? (
+              {feedbacks.length === 0 ? (
                 <tr>
                   <td colSpan="8" className="text-center">
                     No feedbacks available
                   </td>
                 </tr>
               ) : (
-                filteredFeedbacks.map((feedback) => (
+                feedbacks.map((feedback) => (
                   <tr key={feedback._id}>
+                    <td className="border border-gray-600 rounded-md">{feedback.name}</td>
+                    <td className="border border-gray-600 rounded-md">{feedback.email}</td>
+                    <td className="border border-gray-600 rounded-md">{feedback.phone_number}</td>
                     <td className="border border-gray-600 rounded-md">
-                      {feedback.name}
+                      {
+                        employees.find((emp) => emp.name === feedback.employee)?.name || "Unknown"
+                      }
                     </td>
-                    <td className="border border-gray-600 rounded-md">
-                      {feedback.email}
-                    </td>
-                    <td className="border border-gray-600 rounded-md">
-                      {feedback.phone_number}
-                    </td>
-                    <td className="border border-gray-600 rounded-md">
-                      {feedback.employee}
-                    </td>
-                    <td className="border border-gray-600 rounded-md">
-                      {feedback.date_of_service}
-                    </td>
-                    <td className="border border-gray-600 rounded-md">
-                      {feedback.message}
-                    </td>
-                    <td className="border border-gray-600 rounded-md">
-                      {feedback.starRating}
-                    </td>
+                    <td className="border border-gray-600 rounded-md">{feedback.date_of_service}</td>
+                    <td className="border border-gray-600 rounded-md">{feedback.message}</td>
+                    <td className="border border-gray-600 rounded-md">{feedback.star_rating}</td>
                     <td className="border border-gray-600 rounded-md">
                       <div className="flex justify-around">
                         <Link to={`/feedback/edit/${feedback._id}`} className="edit-icon">
