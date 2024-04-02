@@ -61,7 +61,7 @@ export default function ShowAllBooking() {
           <tbody>
             {bookings.map((booking, index) => (
               <tr key={booking._id} className='h-8'>
-                <td className='border-1 border-slate-600 rounded-md text-center bg-blue-300 '>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-red-300 '>
                   {index + 1}
                 </td>
                 <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100'>
