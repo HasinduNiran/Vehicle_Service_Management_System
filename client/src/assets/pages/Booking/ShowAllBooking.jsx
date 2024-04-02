@@ -4,8 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
-import { CgInsertBeforeO } from "react-icons/cg";
-import { RiDeleteBin3Fill } from "react-icons/ri";
+import {MdOutlineAddBox , MdOutlineDelete} from 'react-icons/md';
 
 
 export default function ShowAllBooking() {
@@ -34,7 +33,7 @@ export default function ShowAllBooking() {
       <div className='flex justify-between items-center'>
         <h1 className='text-3xl my-8'>Booking</h1>
         <Link to='/create'>
-          <CgInsertBeforeO className='text-sky-800 text-4xl' />
+          <MdOutlineAddBox className='text-sky-800 text-5xl' />
         </Link>
 
 
@@ -83,13 +82,13 @@ export default function ShowAllBooking() {
                 <td className='border-1 border-slate-700 rounded-md text-center bg-blue-50'>
                   <div className='flex justify-center gap-x-4'>
                     <Link to={`/booking/read/${booking._id}`}>
-                      <BsInfoCircle className='text-sky-800 text-2xl' />
+                      <BsInfoCircle className='text-2x1 text-green-800' />
                     </Link>
                     <Link to={`/edit/${booking._id}`}>
-                      <AiOutlineEdit className='text-sky-800 text-2xl' />
+                      <AiOutlineEdit className='text-2x1 text-yellow-600' />
                     </Link>
                     <Link to={`/booking/delete/${booking._id}`}>
-                      <RiDeleteBin3Fill className='text-sky-800 text-2xl' />
+                      <MdOutlineDelete className='text-2x1 text-red-600' />
                     </Link>
 
                   </div>
