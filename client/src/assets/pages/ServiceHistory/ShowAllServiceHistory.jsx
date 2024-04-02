@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useReactToPrint } from 'react-to-print';
 
 export default function ShowAllServiceHistory() {
     const [serviceHistories, setServiceHistory] = useState([]);
     const [loading, setLoading] = useState(false);
     const [count, setCount] = useState();
     const [searchQuery, setSearchQuery] = useState("");
+    const componentRef = useRef();
 
     const handleSearch = async () => {
         setLoading(true);
@@ -33,6 +35,13 @@ export default function ShowAllServiceHistory() {
                 console.log(err);
             });
     }, []);
+
+    // Report generating
+    const generatePDF = useReactToPrint({
+        content: () => componentRef.current,
+        documentTitle: 'vehicle List',
+        onAfterPrint: () => alert('Data saved in PDF'),
+    });
 
     const applyServiceHistoryFilter = (service) => {
         return (
@@ -70,8 +79,9 @@ export default function ShowAllServiceHistory() {
             {loading ? (
                 <div>Loading...</div>
             ) : (
-                <table className='w-full border-separate border-spacing-2'>
+                <table className='w-full border-separate border-spacing-2' ref={componentRef}>
                     <thead>
+                    
                         <tr>
                             <th className='border border-green-800 rounded-md'>Customer Name</th>
                             <th className='border border-green-800 rounded-md'>Allocated_Employee</th>
@@ -100,7 +110,15 @@ export default function ShowAllServiceHistory() {
                     {count ? (<p>{count}</p>) : ''}
                 </table>
 
+
+
             )}
+
+            <div className="flex justify-center items-center mt-8">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generatePDF}>
+                    Generate PDF
+                </button>
+            </div>
         </div>
     );
 };

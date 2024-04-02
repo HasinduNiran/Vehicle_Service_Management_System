@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useReactToPrint } from 'react-to-print';
 
 const ShowVehicle = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const componentRef = useRef();
 
+  //search query
   const handleSearch = async () => {
     setLoading(true);
     try {
@@ -33,6 +36,14 @@ const ShowVehicle = () => {
       });
   }, []);
 
+  // Report generating
+  const generatePDF = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: 'vehicle List',
+    onAfterPrint: () => alert('Data saved in PDF'),
+  });
+  //search filter 
+
   const applySearchFilter = (vehicle) => {
     return (
       vehicle.Register_Number.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -50,24 +61,25 @@ const ShowVehicle = () => {
         <Link to={'/vehicle/create'} className='bg-green-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Add Vehicle</Link>
 
         <div className="mb-4"></div>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Enter vehicle "
-            className="mr-2 border border-gray-400 p-2"
-          />
-          <button
-            onClick={handleSearch}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Search
-          </button>
-        </div>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Enter vehicle "
+          className="mr-2 border border-gray-400 p-2"
+        />
+        <button
+          onClick={handleSearch}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Search
+        </button>
+      </div>
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <table className='w-full border-separate border-spacing-2'>
+        //
+        <table className='w-full border-separate border-spacing-2' ref={componentRef}>
           <thead>
             <tr>
               <th className='border border-green-800 rounded-md'>Vehicle Number</th>
@@ -91,7 +103,13 @@ const ShowVehicle = () => {
             ))}
           </tbody>
         </table>
+
       )}
+      <div className="flex justify-center items-center mt-8">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generatePDF}>
+          Generate PDF
+        </button>
+      </div>
     </div>
   );
 };
