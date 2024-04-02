@@ -99,5 +99,27 @@ router.delete('/:id', async (request, response) => {
         response.status(500).send({ message: error.message });
     }
 });
+router.get('/searchservices', async function (request, response) {
+    try {
+        const search = request.query.search;
+        const serviceHistories = await serviceHistory.find({
+            $or: [
+                { Customer_Name: { $regex: search, $options: 'i' } },
+                { Allocated_Employee: { $regex: search, $options: 'i' } },
+                { Vehicle_Number: { $regex: search, $options: 'i' } },
+                { Service_History: { $regex: search, $options: 'i' } }
+            ]
+        });
+        response.status(200).json(serviceHistories);
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({ message: error.message });
+    }
+});
+
+
+
+
+
 
 export default router;
