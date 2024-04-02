@@ -44,13 +44,13 @@ export default function ShowAllBooking() {
         <table className='w-full border-separate boarder-spacing-2'>
           <thead>
             <tr>
-              <th className='border border-slate-600 rounded-md'>No</th>
-              <th className='border border-slate-600 rounded-md'>Customer_Name</th>
-              <th className='border border-slate-600 rounded-md'>Vehicle_Type</th>
-              <th className='border border-slate-600 rounded-md'>Vehicle_Number</th>
-              <th className='border border-slate-600 rounded-md'>Contact_Number</th>
-              <th className='border border-slate-600 rounded-md'>Email</th>
-              <th className='border border-slate-600 rounded-md'>Action</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500'>No</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500'>Customer_Name</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500'>Vehicle_Type</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500'>Vehicle_Number</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500'>Contact_Number</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500'>Email</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500'>Action</th>
 
 
 
@@ -62,25 +62,25 @@ export default function ShowAllBooking() {
           <tbody>
             {bookings.map((booking, index) => (
               <tr key={booking._id} className='h-8'>
-                <td className='border-slate-700 rounded-md text-center'>
+                <td className='border-1 border-slate-600 rounded-md text-center bg-blue-300 '>
                   {index + 1}
                 </td>
-                <td className='border-slate-700 rounded-md text-center'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100'>
                   {booking.Customer_Name}
                 </td>
-                <td className='border-slate-700 rounded-md text-center'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100'>
                   {booking.Vehicle_Type}
                 </td>
-                <td className='border-slate-700 rounded-md text-center'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100'>
                   {booking.Vehicle_Number}
                 </td>
-                <td className='border-slate-700 rounded-md text-center'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100'>
                   {booking.Contact_Number}
                 </td>
-                <td className='border-slate-700 rounded-md text-center'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100'>
                   {booking.Email}
                 </td>
-                <td className='border-slate-700 rounded-md text-center'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-50'>
                   <div className='flex justify-center gap-x-4'>
                     <Link to={`/booking/read/${booking._id}`}>
                       <BsInfoCircle className='text-sky-800 text-2xl' />
