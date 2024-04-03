@@ -6,6 +6,8 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
 import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
 
+
+// search bar
 const ShowInventory = () => {
   // State for inventory items and loading indicator
   const [inventory, setInventory] = useState([]);
