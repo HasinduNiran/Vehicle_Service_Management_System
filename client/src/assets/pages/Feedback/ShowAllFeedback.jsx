@@ -172,8 +172,7 @@ const ShowAllFeedback = () => {
                       {feedback.phone_number}
                     </td>
                     <td className="border border-gray-600 rounded-md">
-                      {employees.find((emp) => employees.employeeName === feedback.employee)
-                        ?.Name || "Unknown"}
+                      {feedback.employeeName}
                     </td>
                     <td className="border border-gray-600 rounded-md">
                       {feedback.date_of_service}
