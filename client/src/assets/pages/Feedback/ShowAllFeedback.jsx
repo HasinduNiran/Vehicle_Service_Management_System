@@ -44,17 +44,6 @@ const ShowAllFeedback = () => {
         setError("An error occurred while fetching the feedback.");
         setLoading(false);
       });
-
-    // Fetch employees
-    axios
-      .get("http://localhost:8076/employees")
-      .then((response) => {
-        setEmployees(response.data.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching employees:", error);
-        setError("An error occurred while fetching employees.");
-      });
   }, []);
 
   const applySearchFilter = (feedback, query) => {
@@ -172,7 +161,7 @@ const ShowAllFeedback = () => {
                       {feedback.phone_number}
                     </td>
                     <td className="border border-gray-600 rounded-md">
-                      {feedback.employeeName}
+                      {feedback.employee}
                     </td>
                     <td className="border border-gray-600 rounded-md">
                       {feedback.date_of_service}
