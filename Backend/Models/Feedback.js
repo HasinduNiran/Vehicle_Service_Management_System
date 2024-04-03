@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
 // Defining the Feedback Schema
-const feedbackSchema = mongoose.Schema({
+const feedbackSchema = Schema({
     name: {
         type: String,
         required: true,
@@ -11,7 +11,7 @@ const feedbackSchema = mongoose.Schema({
         required: true,
     },
     phone_number: {
-        type: String, // Changed type from Number to String
+        type: String,
         required: true,
     },
     employee: {
@@ -26,7 +26,11 @@ const feedbackSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    star_rating: {
+        type: Number,
+        required: true,
+    },
 }, { timestamps: true });
 
 // Exporting the Feedback Model
-export const Feedback = mongoose.model('Feedback', feedbackSchema);
+export default model('Feedback', feedbackSchema);
