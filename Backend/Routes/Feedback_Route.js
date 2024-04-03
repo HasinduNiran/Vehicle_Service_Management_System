@@ -107,6 +107,7 @@ router.get("/feedback", async (req, res) => {
         { phone_number: { $regex: search, $options: "i" } },
         { employee: { $regex: search, $options: "i" } },
         { date_of_service: { $regex: search, $options: "i" } },
+        { message: { $regex: search, $options: "i" } },
         { star_rating: { $regex: search, $options: "i" } },
       ],
     };

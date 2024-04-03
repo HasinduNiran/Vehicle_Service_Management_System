@@ -43,6 +43,11 @@ const ShowAllFeedback = () => {
   const handleSearch = async () => {
     setLoading(true);
     try {
+      if (!searchQuery) {
+        // If searchQuery is null or undefined, don't make the request
+        setLoading(false);
+        return;
+      }
       const response = await axios.get(
         `http://localhost:8076/feedback?search=${searchQuery}`
       );
@@ -57,6 +62,8 @@ const ShowAllFeedback = () => {
       setLoading(false);
     }
   };
+  
+  
 
   const generatePDF = () => {
     const doc = new jsPDF();
