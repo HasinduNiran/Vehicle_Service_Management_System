@@ -23,7 +23,7 @@ const ShowAllFeedback = () => {
   };
 
   // Add debounce to handleSearch function
-  const debouncedSearch = debounce(handleSearch, 300); // Debounce for 300ms
+  const debouncedSearch = debounce(handleSearch, 100); // Debounce for 300ms
   useEffect(() => {
     debouncedSearch(); // Call the debounced function
     return debouncedSearch.cancel; // Cleanup debounce on component unmount
@@ -86,7 +86,7 @@ const ShowAllFeedback = () => {
         feedback.star_rating !== null ? feedback.star_rating : "N/A"
       }\n\n`;
       doc.text(feedbackText, 10, y);
-      y += 100;
+      y += 50;
     });
     doc.save("feedback_report.pdf");
   };
@@ -172,8 +172,8 @@ const ShowAllFeedback = () => {
                       {feedback.phone_number}
                     </td>
                     <td className="border border-gray-600 rounded-md">
-                      {employees.find((emp) => emp.name === feedback.employee)
-                        ?.employeeName || "Unknown"}
+                      {employees.find((emp) => employees.employeeName === feedback.employee)
+                        ?.Name || "Unknown"}
                     </td>
                     <td className="border border-gray-600 rounded-md">
                       {feedback.date_of_service}
