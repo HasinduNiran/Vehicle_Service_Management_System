@@ -146,13 +146,13 @@ const ShowAllFeedback = () => {
                     <td className="border border-gray-600 rounded-md">{feedback.star_rating}</td>
                     <td className="border border-gray-600 rounded-md">
                       <div className="flex justify-around">
-                        <Link to={`/feedback/edit/${feedback._id}`} className="text-2x1 text-green-800">
+                        <Link to={`/feedback/edit/${feedback._id}`} className='text-2x1 text-green-800'>
                           <FaEdit />
                         </Link>
-                        <Link to={`/feedback/get/${feedback._id}`} className="text-2x1 text-yellow-600">
+                        <Link to={`/feedback/get/${feedback._id}`} className='text-2x1 text-yellow-600'>
                           <FaEye />
                         </Link>
-                        <Link to={`/feedback/delete/${feedback._id}`} className="text-2x1 text-red-600">
+                        <Link to={`/feedback/delete/${feedback._id}`} className='text-2x1 text-red-600'>
                           <FaTrash />
                         </Link>
                       </div>

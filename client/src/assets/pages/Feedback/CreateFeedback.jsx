@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const CreateFeedback = () => {
+  // State variables for form inputs and loading state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -13,14 +14,14 @@ const CreateFeedback = () => {
   const [dateOfService, setDateOfService] = useState(new Date());
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [employees, setEmployees] = useState([]);
-  const navigate = useNavigate();
+  const [employees, setEmployees] = useState([]); // State for storing employees data
+  const navigate = useNavigate(); // Hook for navigation
 
+  // Function to handle saving feedback
   const handleSaveFeedback = async () => {
     // Check email and phone number format
-    const phoneRegex = /^\d{10}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
+    const phoneRegex = /^\d{10}$/;
     if (!emailRegex.test(email)) {
       alert("Please enter a valid email address.");
       return;
@@ -29,16 +30,16 @@ const CreateFeedback = () => {
       alert("Please enter a valid 10-digit phone number.");
       return;
     }
-    
+
     // Check if all fields are filled
     if (!name || !email || !phoneNumber || !employee || !message) {
       alert("Please fill in all fields before submitting.");
       return;
     }
-  
+
     // Format date_of_service
     const formattedDate = formatDate(dateOfService);
-  
+
     const data = {
       name,
       email,
@@ -48,14 +49,14 @@ const CreateFeedback = () => {
       message,
       star_rating: starRating,
     };
-  
+
     setLoading(true);
-  
+
     try {
       // Send POST request
       await axios.post("http://localhost:8076/feedback", data);
       setLoading(false);
-      navigate("/feedback");
+      navigate("/feedback"); // Navigate to feedback page after successful submission
     } catch (error) {
       setLoading(false);
       console.error("Error creating feedback:", error);
@@ -65,10 +66,12 @@ const CreateFeedback = () => {
     }
   };
 
+  // Function to format date
   const formatDate = (date) => {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   };
 
+  // Fetch employees data on component mount
   useEffect(() => {
     const fetchEmployeesData = async () => {
       setLoading(true);
@@ -98,6 +101,7 @@ const CreateFeedback = () => {
       {loading && <p>Loading...</p>}
 
       <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
+        {/* Form inputs */}
         <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Name</label>
           <input
@@ -107,8 +111,7 @@ const CreateFeedback = () => {
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
-
-        <div className="p-4">
+         <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Email</label>
           <input
             type="email"
@@ -176,7 +179,8 @@ const CreateFeedback = () => {
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
-
+        
+        {/* Button to submit feedback */}
         <button className="p-2 bg-sky-300 m-8" onClick={handleSaveFeedback}>
           {loading ? "Creating..." : "Create"}
         </button>
