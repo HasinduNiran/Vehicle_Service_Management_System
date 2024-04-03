@@ -14,7 +14,7 @@ const feedbackSchema = mongoose.Schema({
         type: String, // Changed type from Number to String
         required: true,
     },
-    employee: {
+    employeeName: {
         type: String,
         required: true,
     },
@@ -23,6 +23,10 @@ const feedbackSchema = mongoose.Schema({
         required: true,
     },
     message: {
+        type: String,
+        required: true,
+    },
+    star_rating: {
         type: String,
         required: true,
     },
