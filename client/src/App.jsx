@@ -64,6 +64,7 @@ import ShowCustomer from './assets/pages/Customer/ShowCustomer';
 import UpdateCustomer from './assets/pages/Customer/UpdateCustomer';
 import DeleteCustomer from './assets/pages/Customer/DeleteCustomer';
 import ReadOneCustomer from './assets/pages/Customer/ReadOneCustomer';
+import ReportCustomer from './assets/pages/Customer/ReportCustomer';
 
 import ShowAllServiceHistory from './assets/pages/ServiceHistory/ShowAllServiceHistory';
 import CreateServiceHistory from './assets/pages/ServiceHistory/CreateServiceHistory';
@@ -119,7 +120,7 @@ const App = () => {
       <Route path='/inventory/get/:id' element={<ReadOneInventory />}></Route>
 
    
-
+ 
 
 
     <Route path='/package' element={<ShowPackage/>}></Route>
@@ -146,6 +147,7 @@ const App = () => {
     <Route path='/customer/edit/:id' element={<UpdateCustomer/>}></Route>
     <Route path='/customer/delete/:id' element={<DeleteCustomer/>}></Route>
     <Route path='/customer/get/:id' element={<ReadOneCustomer/>}></Route>
+    <Route path='/customer/ReportCustomer' element={<ReportCustomer/>}></Route>
 
     <Route path='/ServiceHistory' element={<ShowAllServiceHistory/>}></Route>
     <Route path='/ServiceHistory/create' element={<CreateServiceHistory/>}></Route>

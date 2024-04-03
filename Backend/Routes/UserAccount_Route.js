@@ -146,6 +146,36 @@ router.delete('/:id', async (request, response) => {
     }
 });
 
+// GET route for retrieving employees based on search criteria, pagination, and sorting
+router.get("/searchCustomer", async (req, res) => {
+    try {
+      // Destructuring the request query with default values
+      const { page = 1, limit = 7, search = "", sort = "NIC" } = req.query;
+      const skip = (parseInt(page) - 1) * parseInt(limit);
+      // Regular expression for case-insensitive search
+      const query = {
+        $or: [
+          { firstName: { $regex: new RegExp(search, 'i') } }, // Using RegExp instead of directly passing $regex
+          { lastName: { $regex: new RegExp(search, 'i') } },
+          { NIC: { $regex: new RegExp(search, 'i') } },
+          { phone: { $regex: new RegExp(search, 'i') } },
+          { email: { $regex: new RegExp(search, 'i') } },
+          { Username: { $regex: new RegExp(search, 'i') } },
+          { password: { $regex: new RegExp(search, 'i') } },
+         ],
+      };
+      // Using await to ensure that sorting and pagination are applied correctly
+      const customer = await customer.find(query)
+        .sort({ [sort]: 1 }) // Sorting based on the specified field
+        .skip(skip)
+        .limit(parseInt(limit));
+      res.status(200).json({ count: customer.length, data: customer });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).json({ error: true, message: "Internal Server Error" });
+    }
+  });
+
 //loginCustomer
 
 router.post('/cLogin', async (request, response) => {
