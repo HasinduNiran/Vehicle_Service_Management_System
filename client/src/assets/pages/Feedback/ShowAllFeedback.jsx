@@ -3,23 +3,40 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import jsPDF from "jspdf";
+import debounce from "lodash.debounce"; // Import debounce from lodash
 
 const ShowAllFeedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [originalFeedbacks, setOriginalFeedbacks] = useState([]);
   const [employees, setEmployees] = useState([]);
-  const [star_rating, setStarRating] = useState(null);
+
+  const handleSearch = () => {
+    setLoading(true);
+    const filteredFeedbacks = originalFeedbacks.filter((feedback) =>
+      applySearchFilter(feedback, searchQuery)
+    );
+    setFeedbacks(filteredFeedbacks);
+    setLoading(false);
+  };
+
+  // Add debounce to handleSearch function
+  const debouncedSearch = debounce(handleSearch, 300); // Debounce for 300ms
+  useEffect(() => {
+    debouncedSearch(); // Call the debounced function
+    return debouncedSearch.cancel; // Cleanup debounce on component unmount
+  }, [searchQuery]); // Re-run effect if searchQuery changes
 
   useEffect(() => {
     setLoading(true);
-
     // Fetch feedbacks
     axios
       .get("http://localhost:8076/feedback")
       .then((response) => {
         setFeedbacks(response.data.data);
+        setOriginalFeedbacks(response.data.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -36,40 +53,38 @@ const ShowAllFeedback = () => {
       })
       .catch((error) => {
         console.error("Error fetching employees:", error);
-        // Handle error appropriately
+        setError("An error occurred while fetching employees.");
       });
   }, []);
 
-  const handleSearch = async () => {
-    setLoading(true);
-    try {
-      if (!searchQuery) {
-        // If searchQuery is null or undefined, don't make the request
-        setLoading(false);
-        return;
-      }
-      const response = await axios.get(
-        `http://localhost:8076/feedback?search=${searchQuery}`
-      );
-      setFeedbacks(response.data.data);
-      setLoading(false);
-      setError(null); // Clear any previous errors
-    } catch (error) {
-      console.error("Error fetching feedback:", error);
-      setError(
-        "An error occurred while fetching the feedback for the search query."
-      );
-      setLoading(false);
-    }
+  const applySearchFilter = (feedback, query) => {
+    return (
+      feedback.name.toLowerCase().includes(query.toLowerCase()) ||
+      feedback.email.toLowerCase().includes(query.toLowerCase()) ||
+      feedback.phone_number.toLowerCase().includes(query.toLowerCase()) ||
+      feedback.employee.toLowerCase().includes(query.toLowerCase()) ||
+      feedback.date_of_service.toLowerCase().includes(query.toLowerCase()) ||
+      feedback.message.toLowerCase().includes(query.toLowerCase())
+    );
   };
-  
-  
 
-  const generatePDF = () => {
+  const generatePDF = (feedbacks) => {
+    if (feedbacks.length === 0) {
+      console.log("No feedbacks to generate PDF.");
+      return;
+    }
     const doc = new jsPDF();
     let y = 10;
     feedbacks.forEach((feedback, index) => {
-      const feedbackText = `Name: ${feedback.name}\nEmail: ${feedback.email}\nPhone Number: ${feedback.phone_number}\nEmployee: ${feedback.employee}\nDate of Service: ${feedback.date_of_service}\nMessage: ${feedback.message}\n\n`;
+      const feedbackText = `Name: ${feedback.name}\nEmail: ${
+        feedback.email
+      }\nPhone Number: ${feedback.phone_number}\nEmployee: ${
+        feedback.employee
+      }\nDate of Service: ${feedback.date_of_service}\nMessage: ${
+        feedback.message
+      }\nStar Rating: ${
+        feedback.star_rating !== null ? feedback.star_rating : "N/A"
+      }\n\n`;
       doc.text(feedbackText, 10, y);
       y += 50;
     });
@@ -96,6 +111,7 @@ const ShowAllFeedback = () => {
             Search
           </button>
         </div>
+
         <div className="create-button">
           <Link
             to="/feedback/create"
@@ -104,7 +120,7 @@ const ShowAllFeedback = () => {
             Add Feedback
           </Link>
           <button
-            onClick={generatePDF}
+            onClick={() => generatePDF(feedbacks)}
             className="bg-green-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
           >
             Generate Report
@@ -122,11 +138,17 @@ const ShowAllFeedback = () => {
               <tr>
                 <th className="border border-green-800 rounded-md">Name</th>
                 <th className="border border-green-800 rounded-md">Email</th>
-                <th className="border border-green-800 rounded-md">Phone Number</th>
+                <th className="border border-green-800 rounded-md">
+                  Phone Number
+                </th>
                 <th className="border border-green-800 rounded-md">Employee</th>
-                <th className="border border-green-800 rounded-md">Date of Service</th>
+                <th className="border border-green-800 rounded-md">
+                  Date of Service
+                </th>
                 <th className="border border-green-800 rounded-md">Message</th>
-                <th className="border border-green-800 rounded-md">Star Rating</th>
+                <th className="border border-green-800 rounded-md">
+                  Star Rating
+                </th>
                 <th className="border border-green-800 rounded-md">Actions</th>
               </tr>
             </thead>
@@ -140,26 +162,48 @@ const ShowAllFeedback = () => {
               ) : (
                 feedbacks.map((feedback) => (
                   <tr key={feedback._id}>
-                    <td className="border border-gray-600 rounded-md">{feedback.name}</td>
-                    <td className="border border-gray-600 rounded-md">{feedback.email}</td>
-                    <td className="border border-gray-600 rounded-md">{feedback.phone_number}</td>
                     <td className="border border-gray-600 rounded-md">
-                      {
-                        employees.find((emp) => emp.name === feedback.employee)?.name || "Unknown"
-                      }
+                      {feedback.name}
                     </td>
-                    <td className="border border-gray-600 rounded-md">{feedback.date_of_service}</td>
-                    <td className="border border-gray-600 rounded-md">{feedback.message}</td>
-                    <td className="border border-gray-600 rounded-md">{feedback.star_rating}</td>
+                    <td className="border border-gray-600 rounded-md">
+                      {feedback.email}
+                    </td>
+                    <td className="border border-gray-600 rounded-md">
+                      {feedback.phone_number}
+                    </td>
+                    <td className="border border-gray-600 rounded-md">
+                      {employees.find((emp) => emp.name === feedback.employee)
+                        ?.employeeName || "Unknown"}
+                    </td>
+                    <td className="border border-gray-600 rounded-md">
+                      {feedback.date_of_service}
+                    </td>
+                    <td className="border border-gray-600 rounded-md">
+                      {feedback.message}
+                    </td>
+                    <td className="border border-gray-600 rounded-md">
+                      {feedback.star_rating !== null
+                        ? feedback.star_rating
+                        : "N/A"}
+                    </td>
                     <td className="border border-gray-600 rounded-md">
                       <div className="flex justify-around">
-                        <Link to={`/feedback/edit/${feedback._id}`} className='text-2x1 text-green-800'>
+                        <Link
+                          to={`/feedback/edit/${feedback._id}`}
+                          className="text-2xl text-green-800"
+                        >
                           <FaEdit />
                         </Link>
-                        <Link to={`/feedback/get/${feedback._id}`} className='text-2x1 text-yellow-600'>
+                        <Link
+                          to={`/feedback/get/${feedback._id}`}
+                          className="text-2xl text-yellow-600"
+                        >
                           <FaEye />
                         </Link>
-                        <Link to={`/feedback/delete/${feedback._id}`} className='text-2x1 text-red-600'>
+                        <Link
+                          to={`/feedback/delete/${feedback._id}`}
+                          className="text-2xl text-red-600"
+                        >
                           <FaTrash />
                         </Link>
                       </div>

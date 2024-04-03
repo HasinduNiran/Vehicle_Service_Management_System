@@ -93,13 +93,11 @@ router.get("/employees/names", async (req, res) => {
   }
 });
 
-// Get feedback with pagination, filtering, and sorting
+// GET route for retrieving feedback based on search criteria, pagination, and sorting
 router.get("/feedback", async (req, res) => {
   try {
-    let { page = 1, limit = 5, search = "", sort = "name" } = req.query;
-    page = parseInt(page);
-    limit = parseInt(limit);
-    const skip = (page - 1) * limit;
+    const { page = 1, limit = 5, search = "", sort = "name" } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
     const query = {
       $or: [
         { name: { $regex: search, $options: "i" } },
@@ -107,17 +105,16 @@ router.get("/feedback", async (req, res) => {
         { phone_number: { $regex: search, $options: "i" } },
         { employee: { $regex: search, $options: "i" } },
         { date_of_service: { $regex: search, $options: "i" } },
-        { message: { $regex: search, $options: "i" } },
         { star_rating: { $regex: search, $options: "i" } },
       ],
     };
     const feedback = await Feedback.find(query)
       .sort({ [sort]: 1 })
       .skip(skip)
-      .limit(limit);
+      .limit(parseInt(limit));
     res.status(200).json({ count: feedback.length, data: feedback });
-  } catch (error) {
-    console.error(error.message);
+  } catch (err) {
+    console.error(err.message);
     res.status(500).json({ error: true, message: "Internal Server Error" });
   }
 });
