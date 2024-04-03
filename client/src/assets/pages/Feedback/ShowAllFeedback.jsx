@@ -86,7 +86,7 @@ const ShowAllFeedback = () => {
         feedback.star_rating !== null ? feedback.star_rating : "N/A"
       }\n\n`;
       doc.text(feedbackText, 10, y);
-      y += 50;
+      y += 100;
     });
     doc.save("feedback_report.pdf");
   };
