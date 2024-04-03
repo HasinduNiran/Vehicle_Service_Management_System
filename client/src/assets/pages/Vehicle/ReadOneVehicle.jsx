@@ -55,6 +55,8 @@ const ReadOneVehicle = () => {
               <p><span className='font-bold'>Customer Name:</span> {serviceHistory.Customer_Name}</p>
               <p><span className='font-bold'>Allocated Employee:</span> {serviceHistory.Allocated_Employee}</p>            
               <p><span className='font-bold'>Service History:</span> {serviceHistory.Service_History}</p>
+              <p><span className='font-bold'>Service Date:</span> {serviceHistory.Service_Date}</p>
+
               <table className='table'>
                 <thead>
                   <tr>

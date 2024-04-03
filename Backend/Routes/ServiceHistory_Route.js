@@ -16,6 +16,7 @@ router.post('/', async (request, response) => {
             !request.body.Customer_Name ||
             !request.body.Allocated_Employee ||
             !request.body.Vehicle_Number ||
+            !request.body.Service_Date||
             !request.body.Service_History
         ) {
             return response.status(400).send({
@@ -26,7 +27,8 @@ router.post('/', async (request, response) => {
             Customer_Name: request.body.Customer_Name,
             Allocated_Employee: request.body.Allocated_Employee,
             Vehicle_Number: request.body.Vehicle_Number,
-            Service_History: request.body.Service_History
+            Service_History: request.body.Service_History,
+            Service_Date: request.body.Service_Date
         });
         const result = await newServiceHistory.save();
         return response.status(201).send(result);
@@ -87,6 +89,7 @@ router.put('/:id', async (request, response) => {
          !request.body.Customer_Name ||
          !request.body.Allocated_Employee ||
          !request.body.Vehicle_Number ||
+         !request.body.Service_Date||
          !request.body.Service_History
         ) {
             return response.status(400).send({
@@ -127,7 +130,9 @@ router.get('/searchservices', async function (request, response) {
                 { Customer_Name: { $regex: search, $options: 'i' } },
                 { Allocated_Employee: { $regex: search, $options: 'i' } },
                 { Vehicle_Number: { $regex: search, $options: 'i' } },
-                { Service_History: { $regex: search, $options: 'i' } }
+                { Service_History: { $regex: search, $options: 'i' } },
+                { Service_Date: { $regex: search, $options: 'i' } }
+
             ]
         });
         response.status(200).json(serviceHistories);
