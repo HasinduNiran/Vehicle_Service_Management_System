@@ -68,10 +68,7 @@ const CreateFeedback = () => {
 
   // Function to format date
   const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   };
 
   // Fetch employees data on component mount
@@ -80,7 +77,7 @@ const CreateFeedback = () => {
       setLoading(true);
       try {
         const response = await axios.get("http://localhost:8076/employees");
-        const employeesData = response.data;
+        const employeesData = response.data.data;
         if (Array.isArray(employeesData)) {
           setEmployees(employeesData);
         } else {
@@ -98,10 +95,8 @@ const CreateFeedback = () => {
   }, []);
 
   return (
+    
     <div className="p-4">
-      <a href="/feedback" className="text-blue-500 hover:underline mb-2 block">
-        Back to Feedback
-      </a>
       <h1 className="text-3xl my-4">Create Feedback</h1>
 
       {loading && <p>Loading...</p>}
@@ -117,7 +112,7 @@ const CreateFeedback = () => {
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
-        <div className="p-4">
+         <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Email</label>
           <input
             type="email"
@@ -146,9 +141,9 @@ const CreateFeedback = () => {
           >
             <option value="">Select Employee</option>
             {employees.map((employee) => (
-              <option key={employee._id} value={employee.employeeName}>
-                {employee.employeeName}
-              </option>
+                <option key={employee.id} value={employee.employeeName}>
+                  {employee.employeeName}
+                </option>
             ))}
           </select>
         </div>
@@ -185,7 +180,7 @@ const CreateFeedback = () => {
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
-
+        
         {/* Button to submit feedback */}
         <button className="p-2 bg-sky-300 m-8" onClick={handleSaveFeedback}>
           {loading ? "Creating..." : "Create"}
