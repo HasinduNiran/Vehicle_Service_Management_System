@@ -48,7 +48,8 @@ export default function ShowAllServiceHistory() {
             service.Customer_Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             service.Allocated_Employee.toLowerCase().includes(searchQuery.toLowerCase()) ||
             service.Vehicle_Number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            service.Service_History.toLowerCase().includes(searchQuery.toLowerCase())
+            service.Service_History.toLowerCase().includes(searchQuery.toLowerCase())||
+            service.Service_Date.toLowerCase().includes(searchQuery.toLowerCase())
         );
     };
 
@@ -87,6 +88,7 @@ export default function ShowAllServiceHistory() {
                             <th className='border border-green-800 rounded-md'>Allocated_Employee</th>
                             <th className='border border-green-800 rounded-md'>Vehicle_Number</th>
                             <th className='border border-green-800 rounded-md'>Service_History</th>
+                            <th className='border border-green-800 rounded-md'>Service Date</th>
                             <th className='border border-green-800 rounded-md'>Actions</th>
                         </tr>
                     </thead>
@@ -98,6 +100,7 @@ export default function ShowAllServiceHistory() {
                                 <td className='border border-gray-600 rounded-md'>{service.Allocated_Employee}</td>
                                 <td className='border border-gray-600 rounded-md'>{service.Vehicle_Number}</td>
                                 <td className='border border-gray-600 rounded-md'>{service.Service_History}</td>
+                                <td className='border border-gray-600 rounded-md'>{service.Service_Date}</td>
 
                                 <td className='border border-gray-600 rounded-md'>
                                     <Link to={`/ServiceHistory/edit/${service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>

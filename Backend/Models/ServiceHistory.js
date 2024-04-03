@@ -20,6 +20,10 @@ const serviceSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        Service_Date:{
+            type: String,
+            required: true,
+        }
 
 
         

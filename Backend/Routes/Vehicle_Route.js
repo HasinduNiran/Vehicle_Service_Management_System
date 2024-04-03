@@ -1,6 +1,8 @@
 // Importing the Express library
 import express from 'express';
 
+import mongoose from 'mongoose';
+
 // Importing the Vehicle model 
 import { Vehicle } from '../Models/Vehicle.js';
 
@@ -57,22 +59,38 @@ router.get('/', async (request, response) => {
 });
 
 // Route for retrieving a specific Vehicle by ID
-router.get('/:id', async (request, response) => {
+router.get('/:identifier', async (request, response) => {
     try {
-        // Extracting the Vehicle item ID from the request parameters
-        const { id } = request.params;
+        // Extracting the identifier from the request parameters
+        const { identifier } = request.params;
 
-        // Fetching a vehicle from the database based on the ID
-        const vehicle = await Vehicle.findById(id);
-        
-        // Sending the fetched vehicle as a JSON response
-        response.status(200).json(vehicle);
+        // Checking if the provided identifier is a valid MongoDB ObjectId
+        if (mongoose.Types.ObjectId.isValid(identifier)) {
+            // Fetching a vehicle from the database based on the ID
+            const vehicleById = await Vehicle.findById(identifier);
+            if (vehicleById) {
+                // Sending the fetched vehicle as a JSON response if found by ID
+                return response.status(200).json(vehicleById);
+            }
+        }
+
+        // If the provided identifier is not a valid ObjectId, try searching by register number
+        const vehicleByRegisterNumber = await Vehicle.findOne({ Register_Number: identifier });
+        if (vehicleByRegisterNumber) {
+            // Sending the fetched vehicle as a JSON response if found by register number
+            return response.status(200).json(vehicleByRegisterNumber);
+        }
+
+        // If no vehicle found by either ID or register number, send a 404 Not Found response
+        return response.status(404).json({ message: 'Vehicle not found' });
     } catch (error) {
-        // Handling errors and sending an error response
-        console.error(error.message);
-        response.status(500).send({ message: 'Error fetching vehicle' });
+        // Handling errors and sending an error response with detailed error message
+        console.error(error);
+        response.status(500).send({ message: 'Error fetching vehicle: ' + error.message });
     }
 });
+
+
 
 // Route for updating a Vehicle item by ID
 router.put('/:id', async (request, response) => {

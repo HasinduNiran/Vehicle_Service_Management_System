@@ -3,72 +3,101 @@ import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
-
 const EditServiceHistory = () => {
-
-
-  const [Customer_Name, SetCustomer_Name] = useState('');
-  const [Allocated_Employee, SetAllocated_Employee] = useState('');
-  const [Vehicle_Number, SetVehicle_Number] = useState('');
-  const [Service_History, SetService_History] = useState('');
-  const [loading, SetLoading] = useState(false);
+  const [Customer_Name, setCustomer_Name] = useState('');
+  const [Allocated_Employee, setAllocated_Employee] = useState('');
+  const [Vehicle_Number, setVehicle_Number] = useState('');
+  const [Service_History, setService_History] = useState('');
+  const [Service_Date, setService_Date] = useState('');
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
-  const navigate = useNavigate(); // Add this line to import and assign useNavigate
+  const navigate = useNavigate();
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    SetLoading(true); // Fix the typo in setLoading
-    axios.get(`http://localhost:8076/servicehistory/${id}`)
+    setLoading(true);
+    axios
+      .get('http://localhost:8076/employees')
       .then((response) => {
-        const { Customer_Name, Allocated_Employee, Vehicle_Number, Service_History } = response.data;
-        SetCustomer_Name(Customer_Name);
-        SetAllocated_Employee(Allocated_Employee);
-        SetVehicle_Number(Vehicle_Number);
-        SetService_History(Service_History);
-        SetLoading(false);
+        setEmployees(response.data.data);
+        setLoading(false);
       })
       .catch((error) => {
-        SetLoading(false);
         console.log(error);
-        alert('Error fetching vehicle. Please try again.');
+        setLoading(false);
       });
-  }, [id]); // Add id as a dependency
+  }, []);
 
-  const handleEditservice = async (e) => {
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`http://localhost:8076/ServiceHistory/${id}`) // Correct the URL with backticks and use `ServiceHistory` instead of `servicehistory`
+      .then((response) => {
+        const { Customer_Name, Allocated_Employee, Vehicle_Number, Service_History } = response.data;
+        setCustomer_Name(Customer_Name);
+        setAllocated_Employee(Allocated_Employee);
+        setVehicle_Number(Vehicle_Number);
+        setService_History(Service_History);
+        setService_Date(Service_Date);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+        alert('Error fetching service history. Please try again.'); // Update the error message
+      });
+  }, [id]);
 
+  const handleEditService = async (e) => { // Change handleEditservice to handleEditService
     e.preventDefault();
     const data = {
       Customer_Name,
       Allocated_Employee,
       Vehicle_Number,
-      Service_History
+      Service_History,
+      Service_Date
     };
-    SetLoading(true);
+    setLoading(true);
     try {
-      await axios.put(`http://localhost:8076/ServiceHistory/${id}`, data); // Fix the URL with backticks
-      SetLoading(false);
-      navigate('/ServiceHistory'); // Use navigate to navigate to the desired route
+      await axios.put(`http://localhost:8076/ServiceHistory/${id}`, data);
+      setLoading(false);
+      navigate('/ServiceHistory');
     } catch (error) {
-      SetLoading(false);
-      console.error('Error updating vehicle:', error);
-      alert('Error updating vehicle. Please try again.');
+      setLoading(false);
+      console.error('Error updating service history:', error);
+      alert('Error updating service history. Please try again.'); // Update the error message
     }
   };
 
-
   return (
-    
     <div className='flex justify-center items-center h-screen'>
-   
       <div className='w-1/2'>
-        <form onSubmit={handleEditservice} className='justify-between items-center'>
+        <form onSubmit={handleEditService}> {/* Correct the onSubmit function name */}
           <div className='mt-4'>
             <label className='block'>Customer Name</label>
-            <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Customer_Name} onChange={(e) => SetCustomer_Name(e.target.value)} />
+            <input
+              type='text'
+              className='border border-gray-600 rounded-md w-full p-2'
+              value={Customer_Name}
+              onChange={(e) => setCustomer_Name(e.target.value)} // Update the setter function name
+            />
           </div>
           <div className='mt-4'>
             <label className='block'>Allocated Employee</label>
-            <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Allocated_Employee} onChange={(e) => SetAllocated_Employee(e.target.value)} />
+            <select
+              className='border border-gray-600 rounded-md w-full p-2'
+              value={Allocated_Employee}
+              onChange={(e) => setAllocated_Employee(e.target.value)} // Update the setter function name
+            >
+              <option value=''>Select an employee</option>
+              {employees.map((employee) => (
+                <option key={employee._id} value={employee.employeeName}> {/* Use employee.name as the value */}
+                  {employee.employeeName}
+                </option>
+              ))}
+            </select>
           </div>
+
           <div className='mt-4'>
             <label className='block'>Vehicle Number</label>
             <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Vehicle_Number} onChange={(e) => SetVehicle_Number(e.target.value)} />
@@ -77,6 +106,17 @@ const EditServiceHistory = () => {
             <label className='block'>Service History</label>
             <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Service_History} onChange={(e) => SetService_History(e.target.value)} />
           </div>
+
+          <div className='mt-4'>
+            <label className='block'>Service_Date</label>
+            <input
+              type='date'
+              className='border border-gray-600 rounded-md w-full p-2'
+              value={Service_Date}
+              onChange={(e) => setService_Date(e.target.value)}
+            />
+          </div>
+
           <div className='mt-4'>
             <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
               {loading ? 'Updating...' : 'Update Service History'}
