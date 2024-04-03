@@ -1,5 +1,8 @@
 import express, { response } from 'express';
 
+import mongoose from 'mongoose';
+
+
 import { serviceHistory } from '../Models/ServiceHistory.js';
 
 
@@ -48,16 +51,33 @@ router.get('/', async (request, response) => {
         response.status(500).send({ message: error.message });
     }
 });
-
-router.get('/:id', async (request, response) => {
+router.get('/:identifier', async (request, response) => {
     try {
-        const { id } = request.params;
-        const serviceHistories = await serviceHistory.findById(id);
-        return response.status(200).json(serviceHistories);
-    }
-    catch (error) {
-        console.log(error.message);
-        response.status(500).send({ message: error.message });
+        const { identifier } = request.params;
+
+        // Check if the provided identifier is a valid MongoDB ObjectId
+        if (mongoose.Types.ObjectId.isValid(identifier)) {
+            // Fetching a service history from the database based on the ID
+            const serviceHistoryById = await serviceHistory.findById(identifier);
+            if (serviceHistoryById) {
+                // Sending the fetched service history as a JSON response if found by ID
+                return response.status(200).json(serviceHistoryById);
+            }
+        }
+
+        // If the provided identifier is not a valid ObjectId, try searching by vehicle number
+        const serviceHistoryByVehicleNumber = await serviceHistory.findOne({ Vehicle_Number: identifier });
+        if (serviceHistoryByVehicleNumber) {
+            // Sending the fetched service history as a JSON response if found by vehicle number
+            return response.status(200).json(serviceHistoryByVehicleNumber);
+        }
+
+        // If no service history found by either ID or vehicle number, send a 404 Not Found response
+        return response.status(404).json({ message: 'Service history not found' });
+    } catch (error) {
+        // Handling errors and sending an error response with detailed error message
+        console.error(error);
+        response.status(500).send({ message: 'Error fetching service history: ' + error.message });
     }
 });
 
