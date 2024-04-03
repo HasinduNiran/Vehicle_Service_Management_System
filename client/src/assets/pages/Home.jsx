@@ -15,7 +15,7 @@ const Home = () => {
   return (
     <div>
       <Header/>
-      <div className="bg-gray-100 min-h-screen flex justify-center items-center">
+      {/* <div className="bg-gray-100 min-h-screen flex justify-center items-center">
         <div className="max-w-md mx-auto p-8 bg-white shadow-lg rounded-lg">
           <h1 className="text-3xl font-bold mb-8 text-center">Welcome to the Home Page</h1>
           <nav>
@@ -31,7 +31,7 @@ const Home = () => {
             </ul>
           </nav>
         </div>
-      </div>
+      </div> */}
       
       <MainPart/>
       <Satisfaction/>

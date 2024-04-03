@@ -76,13 +76,13 @@ import CLogin from './assets/components/cLogin';
 
 
 import ManagerLogin from './assets/components/ManagerLogin';
+import Header from './assets/components/Header';
 
 const App = () => {
-
   return (
-
-    <Routes>
-
+    <>
+      <Header />
+      <Routes>
       <Route path='/' element={<Home />}></Route>
       <Route path='/Mlogin' element={<ManagerLogin/>}></Route>
 
@@ -155,10 +155,10 @@ const App = () => {
   
     <Route path='/cusDashboard' element={<CusDashboard/>}></Route>
     <Route path='/cLogin' element={<CLogin/>}></Route>'
-    </Routes>  
-
-
-  )
+      </Routes>
+    </>
+  );
 }
 
-export default App
+export default App;
+            
