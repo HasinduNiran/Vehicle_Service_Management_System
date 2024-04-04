@@ -22,7 +22,7 @@ const employeeAttendenceSchema = mongoose.Schema(
         type: String,
         //required: true,
     },
-    Workinghours: {
+    WorkingHours: {
         type: Number,
         //required: true,
     },

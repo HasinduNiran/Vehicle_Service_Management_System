@@ -25,7 +25,8 @@ router.post('/', async (request, response) => {
       Date: request.body.Date,
       InTime: request.body.InTime || null,  // Set to null if not provided
       OutTime: request.body.OutTime || null,  // Set to null if not provided
-      //OThours: request.body.OThours,
+      WorkingHours: request.body.WorkingHours || null,
+      OThours: request.body.OThours || null,
       
     };
 
@@ -184,7 +185,7 @@ router.get("/searchEmployeeAttendence", async (req, res) => {
         { Date: { $regex: new RegExp(search, 'i') } },
         { InTime: { $regex: new RegExp(search, 'i') } },
         { OutTime: { $regex: new RegExp(search, 'i') } },
-        { Workinghours: { $regex: new RegExp(search, 'i') } },
+        { WorkingHours: { $regex: new RegExp(search, 'i') } },
         { OThours: { $regex: new RegExp(search, 'i') } },
         
       ],

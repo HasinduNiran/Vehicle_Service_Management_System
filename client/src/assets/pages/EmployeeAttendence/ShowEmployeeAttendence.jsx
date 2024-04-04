@@ -46,44 +46,6 @@ function ShowEmployeeAttendence() {
     // Get unique employee names
     const employeeNames = [...new Set(employeesAttendence.map((attendance) => attendance.employeeName))];
 
-  // Helper function to calculate overtime hours
-const calculateOvertime = (inTime, outTime) => {
-    const inTimeDate = new Date(`01/01/2000 ${inTime}`);
-    const outTimeDate = new Date(`01/01/2000 ${outTime}`);
-
-    // Calculate time difference in milliseconds
-    const timeDiff = outTimeDate - inTimeDate;
-
-    // Convert time difference to hours
-    const hoursDiff = timeDiff / (1000 * 60 * 60);
-
-    // Subtract normal working hours (8 hours) to get overtime hours
-    const overtimeHours = Math.max(hoursDiff - 8, 0); // Ensure overtime is non-negative
-
-    return overtimeHours;
-};
-
-// Helper function to calculate total working hours
-const calculateWorkingHours = (inTime, outTime) => {
-    const inTimeDate = new Date(`01/01/2000 ${inTime}`);
-    const outTimeDate = new Date(`01/01/2000 ${outTime}`);
-
-    // Calculate time difference in milliseconds
-    const timeDiff = outTimeDate - inTimeDate;
-
-    // Convert time difference to hours
-    let hoursWorked = timeDiff / (1000 * 60 * 60);
-
-    // If the worked hours exceed the normal working hours (8 hours),
-    // deduct the overtime hours
-    const normalWorkingHours = 8; // Normal working hours per day
-    if (hoursWorked > normalWorkingHours) {
-        const overtimeHours = hoursWorked - normalWorkingHours;
-        hoursWorked -= overtimeHours;
-    }
-
-    return hoursWorked;
-};
 
 
   return (
@@ -176,11 +138,11 @@ const calculateWorkingHours = (inTime, outTime) => {
                 </td>
 
                 <td className='border border-slate-700 rounded-md text-center'>
-                    {calculateWorkingHours(EmployeeAttendence.InTime, EmployeeAttendence.OutTime)}
+                    {EmployeeAttendence.WorkingHours}
                 </td>
                 
                 <td className='border border-slate-700 rounded-md text-center'>
-                    {calculateOvertime(EmployeeAttendence.InTime, EmployeeAttendence.OutTime)}
+                    {EmployeeAttendence.OThours}
                 </td>
                 
                 <td className='border border-slate-700 rounded-md text-center'>
