@@ -12,7 +12,22 @@ export default function ShowAllBooking() {
 
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const componentRef = useRef();
+
+  //search query
+  const handleSearch = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`http://localhost:8076/searchbooking?search=${searchQuery}`);
+      setBookings(response.data.data);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching bookings:", err);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -39,6 +54,17 @@ const generatePDF = useReactToPrint({
   onAfterPrint: () => alert('Data saved in PDF'),
 });
 
+//search filter 
+
+const applySearchFilter = (booking) => {
+  return (
+    booking.Customer_Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    booking.Vehicle_Number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    booking.Email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+};
+
+const filteredBooking = bookings.filter(applySearchFilter);
   return (
     <div className='p-4'>
       <div className='flex justify-between items-center'>
@@ -46,8 +72,22 @@ const generatePDF = useReactToPrint({
         <Link to='/create'>
           <MdOutlineAddBox className='text-sky-800 text-5xl' />
         </Link>
-
-
+        <div className="flex gap-2 items-center">
+        <div className="mb-4"></div>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="ENTER"
+          className="mr-2 border-1 border-gray-400 rounded-md p-2"
+        />
+        <button
+          onClick={handleSearch}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Search
+        </button>
+        </div>
 
       </div>
       {loading ? <p>Loading</p> : (
@@ -61,16 +101,10 @@ const generatePDF = useReactToPrint({
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Contact_Number</th>
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Email</th>
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Action</th>
-
-
-
-
-
-
             </tr>
           </thead>
           <tbody>
-            {bookings.map((booking, index) => (
+            {filteredBooking.map((booking, index) => (
               <tr key={booking._id} className='h-8'>
                 <td className='border-1 border-slate-700 rounded-md text-center bg-red-100 font-bold text-black '>
                   {index + 1}
