@@ -16,8 +16,24 @@ const CreateVehicle = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+       // Validation function for Vehicle Number
+       const validateVehicleNumber = (value) => {
+        // Regular expression for alphanumeric with hyphen and space
+        const regex = /^[a-zA-Z0-9\s-]{0,4}[0-9]{4}$/;
+        // Check if the value matches the pattern
+        if (!value.match(regex)) {
+            return false; // Return false if validation fails
+        }
+        return true; // Return true if validation passes
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
+
+        if (!validateVehicleNumber(Register_Number)) {
+            alert('Please enter a valid vehicle number.'); // Display an error message if validation fails
+            return; // Exit the function if validation fails
+        }
 
         const data = {
             Register_Number,
@@ -57,7 +73,7 @@ const CreateVehicle = () => {
             <form onSubmit={handleSubmit}>
                 <div className='mt-4'>
                     <label className='block'>Vehicle Number</label>
-                    <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Register_Number} onChange={(e) => setRegister_Number(e.target.value)} />
+                    <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Register_Number} onChange={(e) => setRegister_Number(e.target.value)} maxLength={8}/>
                 </div>
                 <div className='mt-4'>
                     <label className='block'>Make</label>
