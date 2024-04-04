@@ -54,13 +54,13 @@ const generatePDF = useReactToPrint({
         <table className='w-full border-separate boarder-spacing-2' ref={componentRef}>
           <thead>
             <tr>
-              <th className='border-3 border-slate-600 rounded-md bg-red-500'>No</th>
-              <th className='border-3 border-slate-600 rounded-md bg-red-500'>Customer_Name</th>
-              <th className='border-3 border-slate-600 rounded-md bg-red-500'>Vehicle_Type</th>
-              <th className='border-3 border-slate-600 rounded-md bg-red-500'>Vehicle_Number</th>
-              <th className='border-3 border-slate-600 rounded-md bg-red-500'>Contact_Number</th>
-              <th className='border-3 border-slate-600 rounded-md bg-red-500'>Email</th>
-              <th className='border-3 border-slate-600 rounded-md bg-red-500'>Action</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>No</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Customer_Name</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Vehicle_Type</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Vehicle_Number</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Contact_Number</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Email</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Action</th>
 
 
 
@@ -72,25 +72,25 @@ const generatePDF = useReactToPrint({
           <tbody>
             {bookings.map((booking, index) => (
               <tr key={booking._id} className='h-8'>
-                <td className='border-1 border-slate-700 rounded-md text-center bg-red-300 '>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-red-100 font-bold text-black '>
                   {index + 1}
                 </td>
-                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100 text-black'>
                   {booking.Customer_Name}
                 </td>
-                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100 text-black'>
                   {booking.Vehicle_Type}
                 </td>
-                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100 text-black'>
                   {booking.Vehicle_Number}
                 </td>
-                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100 text-black'>
                   {booking.Contact_Number}
                 </td>
-                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100 text-black'>
                   {booking.Email}
                 </td>
-                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-50'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-red-50'>
                   <div className='flex justify-center gap-x-4'>
                     <Link to={`/booking/read/${booking._id}`}>
                       <BsInfoCircle className='text-2x1 text-green-800' />
