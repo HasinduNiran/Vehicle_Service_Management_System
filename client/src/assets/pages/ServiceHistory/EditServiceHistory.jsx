@@ -14,6 +14,7 @@ const EditServiceHistory = () => {
   const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
 
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -33,7 +34,7 @@ const EditServiceHistory = () => {
     axios
       .get(`http://localhost:8076/ServiceHistory/${id}`) // Correct the URL with backticks and use `ServiceHistory` instead of `servicehistory`
       .then((response) => {
-        const { Customer_Name, Allocated_Employee, Vehicle_Number, Service_History } = response.data;
+        const { Customer_Name, Allocated_Employee, Vehicle_Number, Service_History, Service_Date } = response.data;
         setCustomer_Name(Customer_Name);
         setAllocated_Employee(Allocated_Employee);
         setVehicle_Number(Vehicle_Number);
@@ -106,14 +107,14 @@ const EditServiceHistory = () => {
             <label className='block'>Service History</label>
             <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Service_History} onChange={(e) => SetService_History(e.target.value)} />
           </div>
-
           <div className='mt-4'>
-            <label className='block'>Service_Date</label>
+            <label className='block'>Service Date</label>
             <input
               type='date'
               className='border border-gray-600 rounded-md w-full p-2'
               value={Service_Date}
               onChange={(e) => setService_Date(e.target.value)}
+              max={new Date().toISOString().split('T')[0]} // Set the max attribute to today's date
             />
           </div>
 

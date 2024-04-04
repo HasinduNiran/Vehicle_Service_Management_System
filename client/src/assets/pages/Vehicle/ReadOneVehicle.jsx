@@ -46,7 +46,14 @@ const ReadOneVehicle = () => {
           <div className='flex justify-between items-center'>
             <div>
               <p><span className='font-bold'>Vehicle Number:</span> {vehicle.Register_Number}</p>
+              <p><span className='font-bold'>Vehicle Make:</span> {vehicle.Make}</p>
               <p><span className='font-bold'>Vehicle Model:</span> {vehicle.Model}</p>
+              <p><span className='font-bold'>Vehicle Year:</span> {vehicle.Year}</p>
+              <p><span className='font-bold'>Vehicle Engine_Details:</span> {vehicle.Engine_Details}</p>
+              <p><span className='font-bold'>Vehicle Transmission Details:</span> {vehicle.Transmission_Details}</p>
+              <p><span className='font-bold'>Vehicle Color:</span> {vehicle.Vehicle_Color}</p>
+              <p><span className='font-bold'>Vehicle Features:</span> {vehicle.Vehicle_Features}</p>
+              <p><span className='font-bold'>Condition_Assessment:</span> {vehicle.Condition_Assessment}</p>
               <p><span className='font-bold'>Vehicle Owner:</span> {vehicle.Owner}</p>
               <br></br>
 

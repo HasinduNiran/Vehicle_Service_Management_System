@@ -14,8 +14,15 @@ router.post('/', async (request, response) => {
     try {
         // Checking if all required fields are present in the request body
         if (!request.body.Register_Number ||
-             !request.body.Model || 
-             !request.body.Owner) {
+            !request.body.Make ||
+            !request.body.Model ||
+            !request.body.Year ||
+            !request.body.Engine_Details ||
+            !request.body.Transmission_Details ||
+            !request.body.Vehicle_Color ||
+            !request.body.Vehicle_Features ||
+            !request.body.Condition_Assessment ||
+            !request.body.Owner) {
             return response.status(400).send({
                 message: 'Please provide all required fields',
             });
@@ -23,9 +30,16 @@ router.post('/', async (request, response) => {
 
         // Creating a new Vehicle item with the provided data
         const newVehicle = {
-          Register_Number: request.body.Register_Number,
-          Model: request.body.Model,
-          Owner: request.body.Owner
+            Register_Number: request.body.Register_Number,
+            Make: request.body.Make,
+            Model: request.body.Model,
+            Year: request.body.Year,
+            Engine_Details: request.body.Engine_Details,
+            Transmission_Details: request.body.Transmission_Details,
+            Vehicle_Color: request.body.Vehicle_Color,
+            Vehicle_Features: request.body.Vehicle_Features,
+            Condition_Assessment: request.body.Condition_Assessment,
+            Owner: request.body.Owner
         };
 
         // Adding the new Vehicle item to the database
@@ -45,7 +59,7 @@ router.get('/', async (request, response) => {
     try {
         // Fetching all Vehicle items from the database
         const vehicles = await Vehicle.find({});
-        
+
         // Sending the fetched Vehicle items as a JSON response
         response.status(200).json({
             count: vehicles.length,
@@ -96,7 +110,16 @@ router.get('/:identifier', async (request, response) => {
 router.put('/:id', async (request, response) => {
     try {
         // Validating that all required fields are provided in the request body
-        if (!request.body.Register_Number || !request.body.Model || !request.body.Owner) {
+        if (!request.body.Register_Number ||
+            !request.body.Make ||
+            !request.body.Model ||
+            !request.body.Year ||
+            !request.body.Engine_Details ||
+            !request.body.Transmission_Details ||
+            !request.body.Vehicle_Color ||
+            !request.body.Vehicle_Features ||
+            !request.body.Condition_Assessment ||
+            !request.body.Owner) {
             return response.status(400).send({
                 message: 'Please provide all required fields'
             });
@@ -104,13 +127,12 @@ router.put('/:id', async (request, response) => {
 
         // Extracting the Vehicle item ID from the request parameters
         const { id } = request.params;
-        
+
         // Updating the Vehicle item in the database using findByIdAndUpdate
         await Vehicle.findByIdAndUpdate(id, request.body);
 
         // Sending a success response
         return response.status(200).send({ message: 'Vehicle updated successfully' });
-
     } catch (error) {
         // Handling errors and sending an error response
         console.error(error.message);
@@ -118,8 +140,9 @@ router.put('/:id', async (request, response) => {
     }
 });
 
+
 // Route for deleting a Vehicle item by ID
-router.delete('/:id', async(request, response) => {
+router.delete('/:id', async (request, response) => {
     try {
         // Extracting the vehicle ID from the request parameters
         const { id } = request.params;
@@ -142,7 +165,14 @@ router.get("searchvehicle", function (req, res) {
     Vehicle.find({
         $or: [
             { Register_Number: { $regex: search, $options: "i" } },
+            { Make: { $regex: search, $options: "i" } },
             { Model: { $regex: search, $options: "i" } },
+            { Year: { $regex: search, $options: "i" } },
+            { Engine_Details: { $regex: search, $options: "i" } },
+            { Transmission_Details: { $regex: search, $options: "i" } },
+            { Vehicle_Color: { $regex: search, $options: "i" } },
+            { Vehicle_Features: { $regex: search, $options: "i" } },
+            { Condition_Assessment: { $regex: search, $options: "i" } },
             { Owner: { $regex: search, $options: "i" } }
         ]
     }, function (err, result) {
