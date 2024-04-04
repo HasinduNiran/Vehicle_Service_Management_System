@@ -3,22 +3,16 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const CreateVehicle = () => {
-    const [selectedYear, setSelectedYear] = useState('');
     const [Register_Number, setRegister_Number] = useState('');
     const [Make, setMake] = useState('');
     const [Model, setModel] = useState('');
-    const [Year, setYear] = useState('');
+    const [selectedYear, setSelectedYear] = useState('');
     const [Engine_Details, setEngine_Details] = useState('');
     const [Transmission_Details, setTransmission_Details] = useState('');
     const [Vehicle_Color, setVehicle_Color] = useState('');
     const [Vehicle_Features, setVehicle_Features] = useState('');
     const [Condition_Assessment, setCondition_Assessment] = useState('');
     const [Owner, setOwner] = useState('');
-
-    //year set
-    const currentYear = new Date().getFullYear();
-    const years = Array.from({ length: 40 }, (_, index) => currentYear - index);
-
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -29,7 +23,7 @@ const CreateVehicle = () => {
             Register_Number,
             Make,
             Model,
-            Year,
+            Year: selectedYear,
             Engine_Details,
             Transmission_Details,
             Vehicle_Color,
@@ -42,7 +36,12 @@ const CreateVehicle = () => {
         try {
             const response = await axios.post('http://localhost:8076/vehicles', data);
             setLoading(false);
-            navigate('/vehicle'); // Navigate to the homepage after successful creation
+            if (response.status === 201) {
+                alert('Vehicle created successfully.'); // Show success message
+                navigate('/vehicle'); // Navigate to the vehicle page after successful creation
+            } else {
+                throw new Error('Failed to create vehicle.'); // Throw error if response status is not 201
+            }
         } catch (error) {
             setLoading(false);
             console.error('Error creating vehicle:', error);
@@ -55,7 +54,7 @@ const CreateVehicle = () => {
             <div className='flex justify-between items-center'>
                 <h1 className='text-2xl font-bold'>Create Vehicle</h1>
             </div>
-            <form onSubmit={handleSubmit}> {/* Use a form element and onSubmit handler */}
+            <form onSubmit={handleSubmit}>
                 <div className='mt-4'>
                     <label className='block'>Vehicle Number</label>
                     <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Register_Number} onChange={(e) => setRegister_Number(e.target.value)} />
@@ -72,9 +71,10 @@ const CreateVehicle = () => {
                     <label className='block'>Select Year</label>
                     <select className='border border-gray-600 rounded-md w-full p-2' value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
                         <option value=''>Select Year</option>
-                        {years.map(year => (
-                            <option key={year} value={year}>{year}</option>
-                        ))}
+                        {[...Array(40)].map((_, index) => {
+                            const year = new Date().getFullYear() - index;
+                            return <option key={year} value={year}>{year}</option>;
+                        })}
                     </select>
                 </div>
                 <div className='mt-4'>
