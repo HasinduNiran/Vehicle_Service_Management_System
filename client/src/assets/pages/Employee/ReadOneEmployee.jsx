@@ -25,7 +25,7 @@ const ReadOneEmployee = () => {
 
   return (
     <div className='p-4'>
-      <BackButton destination='/employees/allEmployee' /> {/* Pass the destination URL here */}
+      <BackButton destination='/employees/allEmployee' /> 
       <h1 className='text-3xl my-4'>Show Employee</h1>
       {loading ? (
         <Spinner />

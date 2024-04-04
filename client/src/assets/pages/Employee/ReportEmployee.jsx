@@ -73,7 +73,7 @@ const ReportEmployee = React.forwardRef((props, ref) => {
             
             
             <div className="p-4">
-            <BackButton destination='/employees/allEmployee' /> {/* Pass the destination URL here */}
+            <BackButton destination='/employees/allEmployee' /> 
                 <div className="flex justify-between items-center">
                     <h1 className="text-3xl my-8">Employee List</h1>
                 

@@ -20,7 +20,7 @@ import Booking_Route from './Routes/Booking_Route.js';
 import Package_Route from './Routes/Package_Route.js';
 import ServiceHistory_Route from './Routes/ServiceHistory_Route.js';
 import Manager_Route from './Routes/Manager_Route.js';
-
+import EmployeeAttendence_Route from "./Routes/EmployeeAttendence_Route.js";
 
 // Creating an instance of the Express application
 const app = express();
@@ -71,7 +71,7 @@ app.use('/Package',Package_Route);
 
 app.use('/ServiceHistory',ServiceHistory_Route);
 app.use('/Manager',Manager_Route);
-
+app.use('/EmployeeAttendence',EmployeeAttendence_Route);
 
 
 // Connecting to the MongoDB database
