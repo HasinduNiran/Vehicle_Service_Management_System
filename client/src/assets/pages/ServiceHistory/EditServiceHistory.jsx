@@ -14,6 +14,7 @@ const EditServiceHistory = () => {
   const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
 
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -33,7 +34,7 @@ const EditServiceHistory = () => {
     axios
       .get(`http://localhost:8076/ServiceHistory/${id}`) // Correct the URL with backticks and use `ServiceHistory` instead of `servicehistory`
       .then((response) => {
-        const { Customer_Name, Allocated_Employee, Vehicle_Number, Service_History } = response.data;
+        const { Customer_Name, Allocated_Employee, Vehicle_Number, Service_History, Service_Date } = response.data;
         setCustomer_Name(Customer_Name);
         setAllocated_Employee(Allocated_Employee);
         setVehicle_Number(Vehicle_Number);
@@ -113,7 +114,7 @@ const EditServiceHistory = () => {
               type='date'
               className='border border-gray-600 rounded-md w-full p-2'
               value={Service_Date}
-              onChange={(e) => setService_Date(e.target.value)}
+              onChange={(e) => setService_Date(e.target.value)} // Update the setter function name
             />
           </div>
 

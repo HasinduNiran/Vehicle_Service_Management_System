@@ -47,7 +47,9 @@ const ShowVehicle = () => {
   const applySearchFilter = (vehicle) => {
     return (
       vehicle.Register_Number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      vehicle.Make.toLowerCase().includes(searchQuery.toLowerCase()) ||
       vehicle.Model.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      vehicle.selectedYear.toLowerCase().includes(searchQuery.toLowerCase()) ||
       vehicle.Owner.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
@@ -83,7 +85,14 @@ const ShowVehicle = () => {
           <thead>
             <tr>
               <th className='border border-green-800 rounded-md'>Vehicle Number</th>
+              <th className='border border-green-800 rounded-md'>Vehicle Make</th>
               <th className='border border-green-800 rounded-md'>Vehicle Model</th>
+              <th className='border border-green-800 rounded-md'>Vehicle Year</th>
+              <th className='border border-green-800 rounded-md'>Engine Details</th>
+              <th className='border border-green-800 rounded-md'>Transmission Details</th>
+              <th className='border border-green-800 rounded-md'>Vehicle Color</th>
+              <th className='border border-green-800 rounded-md'>Vehicle Features</th>
+              <th className='border border-green-800 rounded-md'>Condition Assessment</th>
               <th className='border border-green-800 rounded-md'>Vehicle Owner</th>
               <th className='border border-green-800 rounded-md'>Actions</th>
             </tr>
@@ -92,7 +101,14 @@ const ShowVehicle = () => {
             {filteredVehicles.map((vehicle) => (
               <tr key={vehicle.Register_Number}>
                 <td className='border border-gray-600 rounded-md'>{vehicle.Register_Number}</td>
+                <td className='border border-gray-600 rounded-md'>{vehicle.Make}</td>
                 <td className='border border-gray-600 rounded-md'>{vehicle.Model}</td>
+                <td className='border border-gray-600 rounded-md'>{vehicle.Year}</td>
+                <td className='border border-gray-600 rounded-md'>{vehicle.Engine_Details}</td>
+                <td className='border border-gray-600 rounded-md'>{vehicle.Transmission_Details}</td>
+                <td className='border border-gray-600 rounded-md'>{vehicle.Vehicle_Color}</td>
+                <td className='border border-gray-600 rounded-md'>{vehicle.Vehicle_Features}</td>
+                <td className='border border-gray-600 rounded-md'>{vehicle.Condition_Assessment}</td>
                 <td className='border border-gray-600 rounded-md'>{vehicle.Owner}</td>
                 <td className='border border-gray-600 rounded-md'>
                   <Link to={`/vehicle/edit/${vehicle._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
