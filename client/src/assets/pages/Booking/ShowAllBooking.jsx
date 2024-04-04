@@ -124,7 +124,7 @@ const filteredBooking = bookings.filter(applySearchFilter);
                 <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100 text-black'>
                   {booking.Email}
                 </td>
-                <td className='border-1 border-slate-700 rounded-md text-center bg-red-50'>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-red-100'>
                   <div className='flex justify-center gap-x-4'>
                     <Link to={`/booking/read/${booking._id}`}>
                       <BsInfoCircle className='text-2x1 text-green-800' />
