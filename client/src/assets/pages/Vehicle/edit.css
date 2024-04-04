@@ -1,0 +1,81 @@
+.td {
+    display: flex;
+    justify-content: center; /* Horizontally center content */
+    align-items: center; /* Vertically center content */
+    height: 100vh; /* Make the container fill the viewport height */
+}
+
+.form {
+    padding: 20px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background-color: rgba(239, 0, 0, 0.18); /* Light gray with transparency */
+    width: 500px;
+    max-height: 1700px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 1);
+    transition: all 0.3s ease-in-out;
+}
+
+.mt-4 {
+    color: #d6c4c4;
+    font-size: 15px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 170vh; /* Make the form container take up the full height of the viewport */
+    background-image: url('t.jpg');
+    background-size: cover;
+    color: rgb(213, 202, 202);
+    font-weight: 700;
+}
+
+.title {
+    color: white; /* Change the text color to white */
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.text-box {
+    border: 1px solid white; /* Change border color to white */
+    border-radius: 5px; /* Add border radius */
+    padding: 10px; /* Add padding */
+    margin-top: 5px; /* Add top margin */
+    width: 100%; /* Set width to 100% */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+    font-size: 16px; /* Set font-size to 16px */
+    outline: none; /* Remove outline */
+    color: white; /* Change text color to white */
+    background-color: rgba(255, 255, 255, 0.2); /* Light gray with transparency */
+    transition: all 0.3s ease-in-out; /* Add transition effect */
+}
+
+.input-label {
+    color: rgb(221, 10, 10); /* Set label text color */
+    margin-bottom: 5px; /* Add bottom margin to label */
+}
+
+.create {
+    background-color: #fc8181; /* Lighter red on hover */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    border-radius: 25px; /* Rounded corners */
+    padding: 15px 30px; /* Padding */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    outline: none; /* Remove outline */
+    display: block; /* Make the button a block element */
+    margin: 0 auto; /* Center horizontally */
+}
+
+.create:hover {
+    background-color: #fc8181; /* Lighter red on hover */
+}
