@@ -68,7 +68,7 @@ router.get('/:identifier', async (request, response) => {
         }
 
         // If the provided identifier is not a valid ObjectId, try searching by vehicle number
-        const serviceHistoryByVehicleNumber = await serviceHistory.findOne({ Vehicle_Number: identifier });
+        const serviceHistoryByVehicleNumber = await serviceHistory.find({ Vehicle_Number: identifier });
         if (serviceHistoryByVehicleNumber) {
             // Sending the fetched service history as a JSON response if found by vehicle number
             return response.status(200).json(serviceHistoryByVehicleNumber);
