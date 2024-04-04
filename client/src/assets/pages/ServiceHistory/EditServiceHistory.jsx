@@ -107,14 +107,14 @@ const EditServiceHistory = () => {
             <label className='block'>Service History</label>
             <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Service_History} onChange={(e) => SetService_History(e.target.value)} />
           </div>
-
           <div className='mt-4'>
-            <label className='block'>Service_Date</label>
+            <label className='block'>Service Date</label>
             <input
               type='date'
               className='border border-gray-600 rounded-md w-full p-2'
               value={Service_Date}
-              onChange={(e) => setService_Date(e.target.value)} // Update the setter function name
+              onChange={(e) => setService_Date(e.target.value)}
+              max={new Date().toISOString().split('T')[0]} // Set the max attribute to today's date
             />
           </div>
 

@@ -3,12 +3,11 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const CreateServiceHistory = () => {
-  const [Customer_Name, SetCustomer_Name] = useState('');
-  const [Allocated_Employee, SetAllocated_Employee] = useState('');
-  const [Vehicle_Number, SetVehicle_Number] = useState('');
-  const [Service_History, SetService_History] = useState('');
-  const [Service_Date, SetService_Date] = useState('');
-
+  const [Customer_Name, setCustomer_Name] = useState('');
+  const [Allocated_Employee, setAllocated_Employee] = useState('');
+  const [Vehicle_Number, setVehicle_Number] = useState('');
+  const [Service_History, setService_History] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
   const [loading, setLoading] = useState(false);
   const [employees, setEmployees] = useState([]);
   const navigate = useNavigate();
@@ -28,26 +27,34 @@ const CreateServiceHistory = () => {
   }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+    e.preventDefault();
 
     const data = {
       Customer_Name,
       Allocated_Employee,
       Vehicle_Number,
       Service_History,
-      Service_Date: new Date().toISOString(), // Add the current date and time
+      Service_Date: selectedDate,
     };
 
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:8076/ServiceHistory/', data);
+      await axios.post('http://localhost:8076/ServiceHistory/', data);
       setLoading(false);
-      navigate('/ServiceHistory'); // Navigate to the homepage after successful creation
+      navigate('/ServiceHistory');
     } catch (error) {
       setLoading(false);
       console.error('Error creating service history:', error);
-      alert('Error creating service history. Please try again.'); // Display a generic error message
+      alert('Error creating service history. Please try again.');
     }
+  };
+
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
 
   return (
@@ -62,7 +69,7 @@ const CreateServiceHistory = () => {
             type='text'
             className='border border-gray-600 rounded-md w-full p-2'
             value={Customer_Name}
-            onChange={(e) => SetCustomer_Name(e.target.value)}
+            onChange={(e) => setCustomer_Name(e.target.value)}
           />
         </div>
 
@@ -71,7 +78,7 @@ const CreateServiceHistory = () => {
           <select
             className='border border-gray-600 rounded-md w-full p-2'
             value={Allocated_Employee}
-            onChange={(e) => SetAllocated_Employee(e.target.value)}
+            onChange={(e) => setAllocated_Employee(e.target.value)}
           >
             <option value=''>Select an employee</option>
             {employees.map((employee) => (
@@ -88,7 +95,7 @@ const CreateServiceHistory = () => {
             type='text'
             className='border border-gray-600 rounded-md w-full p-2'
             value={Vehicle_Number}
-            onChange={(e) => SetVehicle_Number(e.target.value)}
+            onChange={(e) => setVehicle_Number(e.target.value)}
           />
         </div>
 
@@ -98,51 +105,32 @@ const CreateServiceHistory = () => {
             type='text'
             className='border border-gray-600 rounded-md w-full p-2'
             value={Service_History}
-            onChange={(e) => SetService_History(e.target.value)}
+            onChange={(e) => setService_History(e.target.value)}
           />
         </div>
 
-        
         <div className='mt-4'>
-          <label className='block'>Service_Date</label>
+          <label className='block'>Service Date</label>
           <input
             type='date'
             className='border border-gray-600 rounded-md w-full p-2'
-            value={Service_Date}
-            onChange={(e) => SetService_Date(e.target.value)}
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            max={getTodayDate()}
           />
         </div>
-
-
-
-
 
         <div className='mt-4'>
           <button
             type='submit'
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
           >
-            {loading ? 'Updating...' : 'Create Service History'}
+            {loading ? 'Creating...' : 'Create Service History'}
           </button>
         </div>
-
-
-
-
-
       </form>
-
-
-
-
-
-
     </div>
-
-
-
-
   );
 };
 
-export default CreateServiceHistory
+export default CreateServiceHistory;
