@@ -31,7 +31,11 @@ import EditEmployee from './assets/pages/Employee/EditEmployee';
 import ReadOneEmployee from './assets/pages/Employee/ReadOneEmployee';
 import ReportEmployee from './assets/pages/Employee/ReportEmployee';
 
-
+import ShowEmployeeAttendence from './assets/pages/EmployeeAttendence/ShowEmployeeAttendence';
+import CreateEmployeeAttendence from './assets/pages/EmployeeAttendence/CreateEmployeeAttendence';
+import EditEmployeeAttendence from './assets/pages/EmployeeAttendence/EditEmployeeAttendence';
+import DeleteEmployeeAttendence from './assets/pages/EmployeeAttendence/DeleteEmployeeAttendence';
+import ReportEmployeeAttendence from './assets/pages/EmployeeAttendence/ReportEmployeeAttendence';
 
 import ShowVehicle from './assets/pages/Vehicle/ShowVehicle'
 import CreateVehicle from './assets/pages/Vehicle/CreateVehicle'
@@ -98,6 +102,12 @@ const App = () => {
       <Route path='/employees/edit/:id' element={<EditEmployee />}></Route>
       <Route path='/employees/details/:id' element={<ReadOneEmployee />}></Route>
       <Route path='/employees/reportEmployee' element={<ReportEmployee />}></Route>
+
+      <Route path='/EmployeeAttendence/allEmployeeAttendence' element={<ShowEmployeeAttendence />}></Route>
+      <Route path='/EmployeeAttendence/create' element={<CreateEmployeeAttendence />}></Route>
+      <Route path='/EmployeeAttendence/edit/:id' element={<EditEmployeeAttendence />}></Route>
+      <Route path='/EmployeeAttendence/delete/:id' element={<DeleteEmployeeAttendence />}></Route>
+      <Route path='/EmployeeAttendence/reportEmployeeAttendence' element={<ReportEmployeeAttendence />}></Route>
 
       <Route path='/payments/show' element={<ShowPayment />}></Route>
       <Route path='/payments/detail/:id' element={<ReadOnePayment />}></Route>
