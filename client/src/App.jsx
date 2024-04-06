@@ -62,6 +62,7 @@ import CreateInventory from './assets/pages/Inventory/CreateInventory'
 import EditInventory from './assets/pages/Inventory/EditInventory'
 import ReadOneInventory from './assets/pages/Inventory/ReadOneInventory'
 import DeleteInventory from './assets/pages/Inventory/DeleteInventory'
+import AddExistingInventory  from './assets/pages/Inventory/AddItemPage';
 
 import ShowAllFeedback from './assets/pages/Feedback/ShowAllFeedback';
 import CreateFeedback from './assets/pages/Feedback//CreateFeedback';
@@ -134,6 +135,7 @@ const App = () => {
       <Route path='/inventory/edit/:id' element={<EditInventory />}></Route>
       <Route path='/inventory/delete/:id' element={<DeleteInventory />}></Route>
       <Route path='/inventory/get/:id' element={<ReadOneInventory />}></Route>
+      <Route path='/inventory/addItem/:id' element={<AddExistingInventory />}></Route>
 
 
 

@@ -76,7 +76,7 @@ const ShowInventory = () => {
   return (
     <div className="p-4" ref={componentRef}>
       <h1 className="text-3xl mb-8">Inventory List</h1>
-      <div className="mb-4">
+      <div className="mb-4 flex justify-end items-center">
         <input
           type="text"
           name="searchQuery"
@@ -92,6 +92,15 @@ const ShowInventory = () => {
           Search
         </button>
       </div>
+      <div className="flex justify-end mb-4">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/inventory/create'}>
+          Add Inventory
+        </button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4" onClick={generatePDF}>
+          Generate PDF
+        </button>
+      </div>
+
       {loading ? (
         <Spinner />
       ) : (
@@ -139,11 +148,6 @@ const ShowInventory = () => {
           </tbody>
         </table>
       )}
-      <div className="flex justify-center items-center mt-8">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generatePDF}>
-          Generate PDF
-        </button>
-      </div>
     </div>
   );
 };
