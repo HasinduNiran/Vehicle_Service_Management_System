@@ -125,7 +125,7 @@ const ShowInventory = () => {
                 <td className="border border-slate-700 rounded-md text-center">{index + 1}</td>
                 <td className="border border-slate-700 rounded-md text-center">{inventoryItem.Name}</td>
                 <td className="border border-slate-700 rounded-md text-center">{inventoryItem.Location}</td>
-                <td className="border border-slate-700 rounded-md text-center max-md:hidden">{inventoryItem.Quantity}</td>
+                <td className={`border border-slate-700 rounded-md text-center max-md:hidden ${inventoryItem.Quantity < 15 ? 'text-red-500' : ''}`}>{inventoryItem.Quantity}</td>
                 <td className="border border-slate-700 rounded-md text-center max-md:hidden">{inventoryItem.PurchasedPrice}</td>
                 <td className="border border-slate-700 rounded-md text-center">{inventoryItem.SellPrice}</td>
                 <td className="border border-slate-700 rounded-md text-center">{inventoryItem.SupplierName}</td>
