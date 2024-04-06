@@ -28,6 +28,7 @@ router.post('/', async (request, response) => {
             });
         }
         const newServiceHistory = new serviceHistory({
+         
             Customer_Name: request.body.Customer_Name,
             Allocated_Employee: request.body.Allocated_Employee,
             Vehicle_Number: request.body.Vehicle_Number,
@@ -81,6 +82,7 @@ router.get('/:identifier', async (request, response) => {
             // Sending the fetched service history as a JSON response if found by vehicle number
             return response.status(200).json(serviceHistoryByVehicleNumber);
         }
+        
 
         // If no service history found by either ID or vehicle number, send a 404 Not Found response
         return response.status(404).json({ message: 'Service history not found' });
