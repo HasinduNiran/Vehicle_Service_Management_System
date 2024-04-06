@@ -208,6 +208,7 @@ const App = () => {
       <Route path='/customer/edit/:id' element={<UpdateCustomer />}></Route>
       <Route path='/customer/delete/:id' element={<DeleteCustomer />}></Route>
       <Route path='/customer/get/:id' element={<ReadOneCustomer />}></Route>
+ 
 
 
       <Route path='/ServiceHistory' element={<ShowAllServiceHistory />}></Route>
