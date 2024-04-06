@@ -8,7 +8,37 @@ const vehicleSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    Make: {
+        type: String,
+        required: true
+    },
     Model: {
+        type: String,
+        required: true
+    },
+    Year: {
+        type: String,
+        required: true
+    },
+    Engine_Details: {
+        type: String,
+        required: true
+    },
+    Transmission_Details: {
+        type: String,
+        required: true
+    },
+
+    Vehicle_Color: {
+        type: String,
+        required: true
+    },
+    Vehicle_Features: {
+        type: [String], // Defines an array of strings
+        required: true
+    }
+    ,
+    Condition_Assessment: {
         type: String,
         required: true
     },
@@ -22,4 +52,4 @@ const vehicleSchema = mongoose.Schema({
 //const Vehicle = mongoose.model('Vehicle', vehicleSchema);
 
 //module.exports = Vehicle;
-export const Vehicle = mongoose.model('Vehicle',vehicleSchema);
+export const Vehicle = mongoose.model('Vehicle', vehicleSchema);

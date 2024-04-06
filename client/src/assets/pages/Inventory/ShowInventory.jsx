@@ -7,11 +7,29 @@ import { BsInfoCircle } from "react-icons/bs";
 import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
 
 const ShowInventory = () => {
-  // State for inventory items and loading indicator
   const [inventory, setInventory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Fetch inventory items from the server on component mount
+  const handleSearch = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `http://localhost:8076/inventory?search=${searchQuery}`
+      );
+      setInventory(response.data.data);
+      setLoading(false);
+      setError(null);
+    } catch (error) {
+      console.error("Error fetching Inventory Items:", error);
+      setError(
+        "An error occurred while fetching the Inventory Items for the search query."
+      );
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -26,16 +44,72 @@ const ShowInventory = () => {
       });
   }, []);
 
+  const applySearchFilter = (inventoryItem) => {
+    if (!inventoryItem) return false;
+    return (
+      (String(inventoryItem.No) &&
+        String(inventoryItem.No)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())) ||
+      (String(inventoryItem.Name) &&
+        String(inventoryItem.Name)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())) ||
+      (String(inventoryItem.Location) &&
+        String(inventoryItem.Location)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())) ||
+      (String(inventoryItem.Quantity) &&
+        String(inventoryItem.Quantity)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())) ||
+      (String(inventoryItem.PurchasedPrice) &&
+        String(inventoryItem.PurchasedPrice)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())) ||
+      (String(inventoryItem.SellPrice) &&
+        String(inventoryItem.SellPrice)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())) ||
+      (String(inventoryItem.SupplierName) &&
+        String(inventoryItem.SupplierName)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())) ||
+      (String(inventoryItem.SupplierPhone) &&
+        String(inventoryItem.SupplierPhone)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())) ||
+      (String(inventoryItem.Operations) &&
+        String(inventoryItem.Operations)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()))
+    );
+  };
+
+  const filteredInventory = inventory.filter(applySearchFilter);
+
   return (
     <div className="p-4">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl my-8">Inventory List</h1>
-        <Link to="/inventory/create">
-          <MdOutlineAddBox className="text-sky-800 text-4xl" />
-        </Link>
+      <h1 className="text-3xl mb-8">Inventory List</h1>
+      
+      {/* Adjusting the position of the search bar by wrapping it in a div */}
+      <div className="mb-4">
+        <input
+          type="text"
+          name="searchQuery"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Enter search query"
+          className="mr-2 border border-gray-400 p-2"
+        />
+        <button
+          onClick={handleSearch}
+          className="bg-green-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Search
+        </button>
       </div>
-
+      
       {/* Display loading spinner or inventory table */}
       {loading ? (
         <Spinner />
@@ -43,7 +117,6 @@ const ShowInventory = () => {
         <table className="w-full border-separate border-spacing-2">
           <thead>
             <tr>
-              {/* Table headers */}
               <th className="border border-slate-600 rounded-md">No</th>
               <th className="border border-slate-600 rounded-md">Name</th>
               <th className="border border-slate-600 rounded-md">Location</th>
@@ -64,10 +137,8 @@ const ShowInventory = () => {
             </tr>
           </thead>
           <tbody>
-            {/* Display inventory items */}
-            {inventory.map((inventoryItem, index) => (
+            {filteredInventory.map((inventoryItem, index) => (
               <tr key={inventoryItem._id} className="h-8">
-                {/* Table cells for each inventory item */}
                 <td className="border border-slate-700 rounded-md text-center">
                   {index + 1}
                 </td>
@@ -93,7 +164,6 @@ const ShowInventory = () => {
                   {inventoryItem.SupplierPhone}
                 </td>
                 <td className="border border-slate-700 rounded-md text-center">
-                  {/* Operations (Info, Edit, Delete) for each inventory item */}
                   <div className="flex justify-center gap-x-4">
                     <Link to={`/inventory/get/${inventoryItem._id}`}>
                       <BsInfoCircle className="text-2x1 text-green-800" />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-//import BackButton from '../components/BackButton';
+import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 
 const ReadOneEmployee = () => {
@@ -25,7 +25,7 @@ const ReadOneEmployee = () => {
 
   return (
     <div className='p-4'>
-      {/* <BackButton /> */}
+      <BackButton destination='/employees/allEmployee' /> 
       <h1 className='text-3xl my-4'>Show Employee</h1>
       {loading ? (
         <Spinner />
@@ -56,9 +56,14 @@ const ReadOneEmployee = () => {
             <span>{employee.Position}</span>
           </div>
           <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Salary</span>
-            <span>{employee.Salary}</span>
+            <span className='text-xl mr-4 text-gray-500'>ContactNo</span>
+            <span>{employee.ContactNo}</span>
           </div>
+          <div className='my-4'>
+            <span className='text-xl mr-4 text-gray-500'>Email</span>
+            <span>{employee.Email}</span>
+          </div>
+          
           
         </div>
       )}

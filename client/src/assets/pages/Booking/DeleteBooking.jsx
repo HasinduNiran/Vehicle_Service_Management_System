@@ -16,6 +16,7 @@ const DeleteBooking = () => {
       .delete(`http://localhost:8076/bookings/${id}`)
       .then(() => {
         setLoading(false);
+        alert('Successfully deleted');
         navigate('/show-all');
       })
       .catch((error) => {

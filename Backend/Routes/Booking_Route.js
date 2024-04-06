@@ -114,6 +114,25 @@ router.post('/',async (request, response) => {
       response.status(500).send({ message: error.message });
     }
   });
+
+  router.get("searchbooking", function (req, res) {
+    var search = req.query.search;
+    console.log(search);
+    Booking.find({
+        $or: [
+            { Customer_Name: { $regex: search, $options: "i" } },
+            { Vehicle_Number: { $regex: search, $options: "i" } },
+            { Email: { $regex: search, $options: "i" } }
+        ]
+    }, function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.json(result);
+        }
+    });
+});
     export default router;
 
 

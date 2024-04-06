@@ -26,10 +26,15 @@ const employeeSchema = mongoose.Schema(
         type: String,
         required: true,
     },
-    Salary: {
+    ContactNo: {
         type: String,
-       // required: true,
+        required: true,
     },
+    Email: {
+        type: String,
+        required: true,
+    },
+
     }
 );
 

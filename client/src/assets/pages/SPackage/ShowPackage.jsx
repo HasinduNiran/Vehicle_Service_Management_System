@@ -33,7 +33,7 @@ function ShowPackage() {
           <table className='table table-bordered table-hover'>
             <thead>
               <tr>
-                <th className='text-xl mr-4 text-gray-500'>pakgname :</th>
+                <th className='text-xl mr-4 text-gray-500'>pakgname :</th> 
                 <th className='text-xl mr-4 text-gray-500'>pkgdescription :</th>
                 <th className='text-xl mr-4 text-gray-500'>includes :</th>
                 <th className='text-xl mr-4 text-gray-500'>actions :</th>
