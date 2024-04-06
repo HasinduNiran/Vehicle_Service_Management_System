@@ -2,9 +2,14 @@ import mongoose from 'mongoose';
 
 
 const vehicleSchema = mongoose.Schema({
+    
     Booking_Date: {
         type: Date,
         required: true
+    },
+    cusID: {
+        type: String, // Changed to String type for custom format
+        unique: true
     },
     Customer_Name: {
         type: String,
