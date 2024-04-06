@@ -30,6 +30,7 @@ router.post('/', async (request, response) => {
 
         // Creating a new Vehicle item with the provided data
         const newVehicle = {
+            cusID:request.body.cusID,
             Register_Number: request.body.Register_Number,
             Make: request.body.Make,
             Model: request.body.Model,
@@ -89,13 +90,19 @@ router.get('/:identifier', async (request, response) => {
         }
 
         // If the provided identifier is not a valid ObjectId, try searching by register number
-        const vehicleByRegisterNumber = await Vehicle.findOne({ Register_Number: identifier });
-        if (vehicleByRegisterNumber) {
-            // Sending the fetched vehicle as a JSON response if found by register number
-            return response.status(200).json(vehicleByRegisterNumber);
+        let vehicleResult = await Vehicle.findOne({ Register_Number: identifier });
+
+        // If no vehicle found by register number, try searching by cusID
+        if (!vehicleResult) {
+            vehicleResult = await Vehicle.findOne({ cusID: identifier });
         }
 
-        // If no vehicle found by either ID or register number, send a 404 Not Found response
+        // Sending the fetched vehicle as a JSON response if found
+        if (vehicleResult) {
+            return response.status(200).json(vehicleResult);
+        }
+
+        // If no vehicle found by either ID, register number, or cusID, send a 404 Not Found response
         return response.status(404).json({ message: 'Vehicle not found' });
     } catch (error) {
         // Handling errors and sending an error response with detailed error message

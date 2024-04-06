@@ -4,6 +4,12 @@ import mongoose from 'mongoose';
 
 // Define the schema for the vehicle
 const vehicleSchema = mongoose.Schema({
+    cusID: {
+        type: String, // Changed to String type for custom format
+        unique: true
+    },
+
+
     Register_Number: {
         type: String,
         required: true
