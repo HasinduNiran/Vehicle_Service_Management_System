@@ -2,7 +2,10 @@ import mongoose from 'mongoose';
 
 
 const vehicleSchema = mongoose.Schema({
-
+    Booking_Date: {
+        type: Date,
+        required: true
+    },
     Customer_Name: {
         type: String,
         required: true
@@ -23,6 +26,7 @@ const vehicleSchema = mongoose.Schema({
         type: String,
         required: true
     }
+    
 })
 
 export const createVehicle = mongoose.model('bookings',vehicleSchema);
