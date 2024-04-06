@@ -70,7 +70,7 @@ router.get('/:identifier', async (request, response) => {
         }
 
         // If the provided identifier is not a valid ObjectId, try searching by register number
-        const customerByCUSID = await Customer.find({ cusID: identifier });
+        const customerByCUSID = await Customer.findOne({ cusID: identifier });
         if (customerByCUSID) {
             // Sending the fetched vehicle as a JSON response if found by register number
             return response.status(200).json(customerByCUSID);

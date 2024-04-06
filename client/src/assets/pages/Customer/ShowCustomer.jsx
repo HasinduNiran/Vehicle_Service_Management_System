@@ -129,7 +129,7 @@ const ShowCustomer = () => {
                 <td className='border border-slate-700 rounded-md text-center'>
                   {/* Operations (Info, Edit, Delete) for each inventory item */}
                   <div className='flex justify-center gap-x-4'>
-                    <Link to={`/customer/get/${ customerItem._id}`}>
+                    <Link to={`/customer/get/${ customerItem.cusID}`}>
                       <BsInfoCircle className='text-2x1 text-green-800' />
                     </Link>
                     <Link to={`/customer/edit/${ customerItem._id}`}>

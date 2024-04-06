@@ -1,42 +1,42 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
 
 const ReadOneCustomer = () => {
-  // State for menu item, loading indicator, and extracting 'id' from route parameters
   const [customer, setCustomer] = useState({});
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
+  const [bookings, setBookings] = useState([]);
 
-  // Fetch menu item from the server based on the provided 'id' on component mount
+  const { id:cusID } = useParams();
+
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`http://localhost:8076/customer/${id}`)
-      .then((response) => {
-        setCustomer(response.data);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const customerResponse = await axios.get(`http://localhost:8076/customer/${cusID}`);
+        setCustomer(customerResponse.data);
+
+        const bookingsResponse = await axios.get(`http://localhost:8076/bookings/${cusID}`);
+        setBookings(bookingsResponse.data);
+
         setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
+      } catch (error) {
+        console.error(error);
         setLoading(false);
-      });
-  }, [id]); // Include 'id' in the dependency array to re-fetch data when 'id' changes
+      }
+    };
+
+    fetchData();
+  }, [cusID]);
 
   return (
     <div className='p-4'>
-      {/* Header */}
       <h1 className='text-3xl my-4'>Show Customer</h1>
-
-      {/* Display loading spinner or menu details */}
       {loading ? (
         <Spinner />
       ) : (
-        // Display menu details in a styled container
         <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
-          {/* Individual menu item details */}
           <div className='my-4'>
             <span className='text-xl mr-4 text-gray-500'>Customer Number</span>
             <span>{customer._id}</span>
@@ -77,10 +77,40 @@ const ReadOneCustomer = () => {
             <span className='text-xl mr-4 text-gray-500'>Last Update Time</span>
             <span>{new Date(customer.updatedAt).toString()}</span>
           </div>
+          {bookings.length > 0 ? (
+            <table className='table'>
+              <thead>
+                <tr>
+                  <th>Service Date</th>
+                  <th>Customer Name</th>
+                  <th>Vehicle Type</th>
+                  <th>Vehicle Number</th>
+                  <th>Contact Number</th>
+                  <th>Email</th>
+                  <th>Booking Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bookings.map((booking, index) => (
+                  <tr key={index}>
+                    <td>{booking.Booking_Date}</td>
+                    <td>{booking.Customer_Name}</td>
+                    <td>{booking.Vehicle_Type}</td>
+                    <td>{booking.Vehicle_Number}</td>
+                    <td>{booking.Contact_Number}</td>
+                    <td>{booking.Email}</td>
+                    <td>{booking.Booking_Date}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No service history available for this customer.</p>
+          )}
         </div>
       )}
     </div>
   );
 };
 
-export default ReadOneCustomer 
+export default ReadOneCustomer;
