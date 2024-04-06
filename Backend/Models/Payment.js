@@ -6,6 +6,10 @@ const paymentSchema = mongoose.Schema({
         type:String,
         required:true
     },
+    cusID: {
+        type: String, // connect to the customer
+        unique: true
+    },
     PaymentDate:{
         type:String,
         required:true

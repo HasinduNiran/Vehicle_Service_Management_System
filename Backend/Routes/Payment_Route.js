@@ -8,6 +8,7 @@ router.post('/', async (request, response) => {
   try {
     if (
       !request.body.PaymentId ||
+      !request.body.cusID||
       !request.body.PaymentDate ||
       !request.body.totalAmount ||
       !request.body.PaymentMethod
@@ -18,6 +19,7 @@ router.post('/', async (request, response) => {
     }
     const newPayment = {
       PaymentId: request.body.PaymentId,
+      cusID:request.body.cusID,
       PaymentDate: request.body.PaymentDate,
       totalAmount: request.body.totalAmount,
       PaymentMethod: request.body.PaymentMethod,
@@ -89,6 +91,7 @@ router.put('/:id', async (request, response) => {
   try {
     if (
       !request.body.PaymentId ||
+      !request.body.cusID||
       !request.body.PaymentDate ||
       !request.body.totalAmount ||
       !request.body.PaymentMethod
