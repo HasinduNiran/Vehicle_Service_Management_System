@@ -63,7 +63,7 @@ const ReadOneCustomer = () => {
           </div>
           <div className='my-4'>
             <span className='text-xl mr-4 text-gray-500'>Username</span>
-            <span>{customer.Username}</span>
+            <span>{customer.username}</span>
           </div>
           <div className='my-4'>
             <span className='text-xl mr-4 text-gray-500'>Password</span>
