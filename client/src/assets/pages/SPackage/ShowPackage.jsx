@@ -3,9 +3,9 @@ import axios from 'axios';
 import Spinner from '../../components/Spinner';
 import { Link } from 'react-router-dom';
 
-
 function ShowPackage() {
-  const [Package, setPackage] = useState([]);
+  const [packages, setPackages] = useState([]);
+  const [services, setServices] = useState({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -13,7 +13,10 @@ function ShowPackage() {
     axios
       .get(`http://localhost:8076/Package`)
       .then((response) => {
-        setPackage(response.data.data);
+        const packagesData = response.data.data;
+        setPackages(packagesData);
+        const serviceIds = packagesData.reduce((ids, pkg) => [...ids, ...pkg.includes], []);
+        fetchServices(serviceIds);
         setLoading(false);
       })
       .catch((error) => {
@@ -21,6 +24,24 @@ function ShowPackage() {
         setLoading(false);
       });
   }, []);
+
+  const fetchServices = (serviceIds) => {
+    axios
+      .get(`http://localhost:8076/Service`)
+      .then((response) => {
+        const servicesData = response.data.data;
+        const servicesMap = {};
+        servicesData.forEach(service => {
+          if (serviceIds.includes(service._id)) {
+            servicesMap[service._id] = service.Servicename;
+          }
+        });
+        setServices(servicesMap);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   return (
     <div className='p'>
@@ -33,32 +54,34 @@ function ShowPackage() {
           <table className='table table-bordered table-hover'>
             <thead>
               <tr>
-                <th className='text-xl mr-4 text-gray-500'>pakgname :</th> 
-                <th className='text-xl mr-4 text-gray-500'>pkgdescription :</th>
-                <th className='text-xl mr-4 text-gray-500'>includes :</th>
-                <th className='text-xl mr-4 text-gray-500'>actions :</th>
+                <th className='text-xl mr-4 text-gray-500'>Package Name :</th>
+                <th className='text-xl mr-4 text-gray-500'>Package Description :</th>
+                <th className='text-xl mr-4 text-gray-500'>Includes :</th>
+                <th className='text-xl mr-4 text-gray-500'>Actions :</th>
               </tr>
             </thead>
             <tbody>
-              {Package.map((Package) => (
-                <tr key={Package._id}>
-                  <td>{Package.pakgname}</td>
-                  <td>{Package.pkgdescription}</td>
-                  <td>{Package.includes}</td>
+              {packages.map(pkg => (
+                <tr key={pkg._id}>
+                  <td>{pkg.pakgname}</td>
+                  <td>{pkg.pkgdescription}</td>
                   <td>
-
-                    <Link to={`/package/edit/${Package._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
-                    <Link to={`/package/get/${Package._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>View</Link>
-                    <Link to={`/package/delete/${Package._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
-
+                    <ul>
+                      {pkg.includes.map(serviceId => (
+                        <li key={serviceId}>{services[serviceId]}</li>
+                      ))}
+                    </ul>
                   </td>
-
+                  <td>
+                    <Link to={`/package/edit/${pkg._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
+                    <Link to={`/package/get/${pkg._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>View</Link>
+                    <Link to={`/package/delete/${pkg._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
           <Link to={`/package/create/`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Create</Link>
-
         </div>
       )}
     </div>
@@ -66,9 +89,3 @@ function ShowPackage() {
 }
 
 export default ShowPackage;
-
-
-
-
-
-

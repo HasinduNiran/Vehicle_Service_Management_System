@@ -1,14 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const CreatePackage = () => {
-  const [pakgname, setname] = useState('');
-  const [pkgdescription, setdiscription] = useState('');
-  const [includes, setincludes] = useState('');
+  const [pakgname, setPakgname] = useState('');
+  const [pkgdescription, setPkgdescription] = useState('');
+  const [includes, setIncludes] = useState([]);
+  const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get('http://localhost:8076/Service')
+      .then(response => {
+        setServices(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
+  const handleServiceChange = (e) => {
+    const serviceName = e.target.value;
+    const isChecked = e.target.checked;
+
+    if (isChecked) {
+      // Add service name to includes array
+      setIncludes([...includes, serviceName]);
+    } else {
+      // Remove service name from includes array
+      setIncludes(includes.filter(name => name !== serviceName));
+    }
+  };
 
   const handleSubmit = async () => {
     const data = {
@@ -17,8 +41,7 @@ const CreatePackage = () => {
       includes
     };
     setLoading(true);
-    axios
-      .post(`http://localhost:8076/Package/`, data)
+    axios.post(`http://localhost:8076/Package/`, data)
       .then(() => {
         setLoading(false);
         navigate('/package');
@@ -44,22 +67,29 @@ const CreatePackage = () => {
                     type="text"
                     className="form-control"
                     value={pakgname}
-                    onChange={(e) => setname(e.target.value)}
+                    onChange={(e) => setPakgname(e.target.value)}
                   />
 
                   <label htmlFor="pkgdescription" className="form-label">Package Description : </label>
                   <textarea
                     className="form-control"
                     value={pkgdescription}
-                    onChange={(e) => setdiscription(e.target.value)}
+                    onChange={(e) => setPkgdescription(e.target.value)}
                   />
 
-                  <label htmlFor="includes" className="form-label">Package includes : </label>
-                  <textarea
-                    className="form-control"
-                    value={includes}
-                    onChange={(e) => setincludes(e.target.value)}
-                  />
+                  <label className="form-label">Package includes : </label>
+                  {services.map(service => (
+                    <div key={service._id} className="mb-2">
+                      <input
+                        type="checkbox"
+                        id={service._id}
+                        value={service.Servicename} // Use service name as value
+                        onChange={handleServiceChange}
+                        checked={includes.includes(service.Servicename)} // Check if service name is included in includes
+                      />
+                      <label htmlFor={service._id}>{service.Servicename}</label>
+                    </div>
+                  ))}
 
                   <button type="button" className="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded " onClick={handleSubmit}>
                     Submit
