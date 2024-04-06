@@ -7,15 +7,12 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 
 const ShowCustomer = () => {
-  // State for inventory items and loading indicator
   const [customer, setCustomer] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [error, setError] = useState(null);
 
-   //search
-   const [error, setError] = useState(null);
-   const [searchQuery, setSearchQuery] = useState("");
-
-   const handleSearch = async () => {
+  const handleSearch = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
@@ -26,14 +23,11 @@ const ShowCustomer = () => {
       setError(null);
     } catch (error) {
       console.error("Error fetching customer:", error);
-      setError(
-        "An error occurred while fetching the customer for the search query."
-      );
+      setError("An error occurred while fetching the customer for the search query.");
       setLoading(false);
     }
   };
 
-  // Fetch inventory items from the server on component mount
   useEffect(() => {
     setLoading(true);
     axios
@@ -47,21 +41,21 @@ const ShowCustomer = () => {
         setLoading(false);
       });
   }, []);
- // Filter function to apply search query filter
- const applySearchFilter = (customer) => {
-  return (
-    customer.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    customer.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    customer.NIC.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    customer.phone.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    customer.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    customer.Username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    customer.password.toLowerCase().includes(searchQuery.toLowerCase()) 
-  );
-};
 
-// Filter customer based on search query
-const filteredCustomer = customer.filter(applySearchFilter);
+  const applySearchFilter = (customer) => {
+    return (
+      
+      customer.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      customer.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      customer.NIC.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      customer.phone.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      customer.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      customer.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      customer.password.toLowerCase().includes(searchQuery.toLowerCase()) 
+    );
+  };
+
+  const filteredCustomer = customer.filter(applySearchFilter);
 
   return (
 
@@ -106,7 +100,7 @@ const filteredCustomer = customer.filter(applySearchFilter);
           <thead>
             <tr>
               {/* Table headers */}
-              <th className='border border-slate-600 rounded-md'>No</th>
+              <th className='border border-slate-600 rounded-md'>Customer ID</th>
               <th className='border border-slate-600 rounded-md'>first Name</th>
               <th className='border border-slate-600 rounded-md'>last ame</th>
               <th className='border border-slate-600 rounded-md max-md:hidden'>NIC</th>
@@ -123,13 +117,14 @@ const filteredCustomer = customer.filter(applySearchFilter);
             {filteredCustomer.map((customerItem, index) => (
               <tr key={customerItem._id} className='h-8'>
                 {/* Table cells for each inventory item */}
-                <td className='border border-slate-700 rounded-md text-center'>{index + 1}</td>
+                <td className='border border-slate-700 rounded-md text-center'>{customerItem.cusID}</td>
+
                 <td className='border border-slate-700 rounded-md text-center'>{customerItem.firstName}</td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.lastName}</td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.NIC}</td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.phone}</td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.email}</td>
-                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.Username}</td>
+                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.username}</td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.password}</td>
                 <td className='border border-slate-700 rounded-md text-center'>
                   {/* Operations (Info, Edit, Delete) for each inventory item */}

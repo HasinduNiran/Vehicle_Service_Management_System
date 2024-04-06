@@ -1,11 +1,10 @@
-// Importing necessary dependencies
 import { useState, useEffect } from "react";
 import React from 'react';
 import Spinner from "../../components/Spinner"
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-// Functional component for EditMenu
+// Functional component for EditCustomer
 const EditCustomer = () => {
   // State variables for managing form data and loading state
   const [firstName, setFirstName] = useState('');
@@ -40,7 +39,13 @@ const EditCustomer = () => {
       });
   }, [id]);
 
-  // Event handler for editing the menu
+  // Function to generate cusID like CUS1, CUS2, CUS3...
+  const generateCusID = () => {
+    const index = Math.floor(Math.random() * 100) + 1; // Generate a random index
+    return `CUS${index}`;
+  };
+
+  // Event handler for editing the customer
   const handleEditCustomer = () => {
     // Creating data object from form inputs
     const data = {
@@ -55,7 +60,7 @@ const EditCustomer = () => {
 
     setLoading(true);
 
-    // Making a PUT request to edit the menu data
+    // Making a PUT request to edit the customer data
     axios
       .put(`http://localhost:8076/customer/${id}`, data)
       .then(() => {
@@ -71,76 +76,75 @@ const EditCustomer = () => {
       });
   };
 
-  // JSX for rendering the edit menu form
+  // JSX for rendering the edit customer form
   return (
     <div className="p-4">
-    
-    <h1 className="text-3xl my-4">Create menu</h1>
-    {loading ? <Spinner /> : ''}
-    <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
-      <div className="my-4">
-        <label className='text-xl mr-4 text-gray-500'>First Name</label>
-        <input
-          type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          className='border-2 border-gray-500 px-4 py-2 w-full'
-        />
-      </div>
-      <div className="my-4">
-        <label className='text-xl mr-4 text-gray-500'>Last Name</label>
-        <input
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          className='border-2 border-gray-500 px-4 py-2 w-full'
-        />
-      </div>
-      <div className="my-4">
-        <label className='text-xl mr-4 text-gray-500'>NIC</label>
-        <input
-          type="text"
-          value={NIC}
-          onChange={(e) => setNIC(e.target.value)}
-          className='border-2 border-gray-500 px-4 py-2 w-full'
-        />
-      </div>
-      <div className="my-4">
-        <label className='text-xl mr-4 text-gray-500'> Phone</label>
-        <input
-          type="text"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          className='border-2 border-gray-500 px-4 py-2 w-full'
-        />
-      </div>
-      <div className="my-4">
-        <label className='text-xl mr-4 text-gray-500'>Email</label>
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className='border-2 border-gray-500 px-4 py-2 w-full'
-        />
-      </div>
-      <div className="my-4">
-        <label className='text-xl mr-4 text-gray-500'>Username</label>
-        <input
-          type="text"
-          value={Username}
-          onChange={(e) => setUsername(e.target.value)}
-          className='border-2 border-gray-500 px-4 py-2 w-full'
-        />
-      </div>
-      <div className="my-4">
-        <label className='text-xl mr-4 text-gray-500'>Password</label>
-        <input
-          type='text'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className='border-2 border-gray-500 px-4 py-2 w-full'
-        />
-      </div>
+      <h1 className="text-3xl my-4">Edit Customer</h1>
+      {loading ? <Spinner /> : ''}
+      <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
+        <div className="my-4">
+          <label className='text-xl mr-4 text-gray-500'>First Name</label>
+          <input
+            type="text"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          />
+        </div>
+        <div className="my-4">
+          <label className='text-xl mr-4 text-gray-500'>Last Name</label>
+          <input
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          />
+        </div>
+        <div className="my-4">
+          <label className='text-xl mr-4 text-gray-500'>NIC</label>
+          <input
+            type="text"
+            value={NIC}
+            onChange={(e) => setNIC(e.target.value)}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          />
+        </div>
+        <div className="my-4">
+          <label className='text-xl mr-4 text-gray-500'> Phone</label>
+          <input
+            type="text"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          />
+        </div>
+        <div className="my-4">
+          <label className='text-xl mr-4 text-gray-500'>Email</label>
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          />
+        </div>
+        <div className="my-4">
+          <label className='text-xl mr-4 text-gray-500'>Username</label>
+          <input
+            type="text"
+            value={Username}
+            onChange={(e) => setUsername(e.target.value)}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          />
+        </div>
+        <div className="my-4">
+          <label className='text-xl mr-4 text-gray-500'>Password</label>
+          <input
+            type='text'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          />
+        </div>
         <button className='p-2 bg-sky-300 m-8' onClick={handleEditCustomer}>
           Save
         </button>
@@ -149,5 +153,5 @@ const EditCustomer = () => {
   );
 };
 
-// Exporting the EditMenu component
+// Exporting the EditCustomer component
 export default EditCustomer;
