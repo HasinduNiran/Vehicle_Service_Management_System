@@ -5,6 +5,7 @@ import {createVehicle} from '../Models/Booking.js';
 
 const router = express.Router();
 
+
 router.post('/',async (request, response) => {
    try{
       if(
@@ -19,6 +20,7 @@ router.post('/',async (request, response) => {
     });
       }
     const newVehicle = {
+    Booking_Date: request.body.Booking_Date,
     Customer_Name: request.body.Customer_Name,
     Vehicle_Type: request.body.Vehicle_Type,
     Vehicle_Number: request.body.Vehicle_Number,
@@ -133,6 +135,12 @@ router.post('/',async (request, response) => {
         }
     });
 });
+
+
+
+
+
+
     export default router;
 
 

@@ -14,6 +14,7 @@ export default function ShowAllBooking() {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const componentRef = useRef();
+ // const [dailyBookingLimit, setDailyBookingLimit] = useState("");
 
   //search query
   const handleSearch = async () => {
@@ -44,6 +45,15 @@ export default function ShowAllBooking() {
       });
 
   }, []);
+
+
+
+  
+
+
+
+
+
 
 
 
@@ -89,7 +99,44 @@ const filteredBooking = bookings.filter(applySearchFilter);
         </button>
         </div>
 
+
+
+
+
+
+
+        {/*<div className="mt-4">
+        <label htmlFor="dailyBookingLimitInput" className="block text-sm font-medium text-gray-700">
+          Set Daily Booking Limit:
+        </label>
+        <input
+          type="number"
+          id="dailyBookingLimitInput"
+          name="dailyBookingLimitInput"
+          value={dailyBookingLimit}
+          onChange={(e) => setDailyBookingLimit(e.target.value)}
+          className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+        />
+        <button
+          onClick={handleSetDailyBookingLimit}
+          className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Set Limit
+        </button>
+  </div> */}
+      
+
+
+
+
+
+
+
+
+
       </div>
+
+      
       {loading ? <p>Loading</p> : (
         <table className='w-full border-separate boarder-spacing-2' ref={componentRef}>
           <thead>
@@ -100,6 +147,7 @@ const filteredBooking = bookings.filter(applySearchFilter);
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Vehicle_Number</th>
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Contact_Number</th>
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Email</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Booking_Date</th>
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Action</th>
             </tr>
           </thead>
@@ -123,6 +171,9 @@ const filteredBooking = bookings.filter(applySearchFilter);
                 </td>
                 <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100 text-black'>
                   {booking.Email}
+                </td>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100 text-black'>
+                  {booking.Booking_Date}
                 </td>
                 <td className='border-1 border-slate-700 rounded-md text-center bg-red-100'>
                   <div className='flex justify-center gap-x-4'>
