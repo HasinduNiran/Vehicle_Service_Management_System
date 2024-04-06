@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const CreatePayments = () => {
   const [PaymentId, setPaymentId] = useState('');
+  const [cusID,setCusID] = useState('');
   const [PaymentDate, setPaymentDate] = useState('');
   const [totalAmount, settotalAmount] = useState('');
   const [PaymentMethod, setPaymentMethod] = useState('');
@@ -18,6 +19,7 @@ const CreatePayments = () => {
   const handleSavePayment = () => {
     const data = {
       PaymentId,
+      cusID,
       PaymentDate,
       totalAmount,
       PaymentMethod,
@@ -63,6 +65,15 @@ const CreatePayments = () => {
           />
         </div>
         <div className='my-4'>
+          <label className='text-xl mr-4 text-gray-500'>Cus id</label>
+          <input
+            type='String'
+            value={cusID}
+            onChange={(e) => setCusID(e.target.value)}
+            className='border-2 border-gray-500 px-4 py-2  w-full '
+          />
+        </div>
+        <div className='my-4'>
           <label className='text-xl mr-4 text-gray-500'>totalAmount</label>
           <input
             type='number'
@@ -71,28 +82,17 @@ const CreatePayments = () => {
             className='border-2 border-gray-500 px-4 py-2  w-full '
           />
         </div>
-        <div className="form-input-container">
-          <label className='form-label'>Payment Method</label>
-          <div>
-            <input
-              type='radio'
-              value='cash'
-              checked={PaymentMethod === 'cash'}
-              onChange={() => setPaymentMethod('cash')}
-              className='form-input'
-            />
-            <label className='form-label'>Cash</label>
-          </div>
-          <div>
-            <input
-              type='radio'
-              value='card'
-              checked={PaymentMethod === 'card'}
-              onChange={() => setPaymentMethod('card')}
-              className='form-input'
-            />
-            <label className='form-label'>Card</label>
-          </div>
+        <div className="my-4">
+          <label className='text-xl mr-4 text-gray-500'>Payment Method</label>
+          <select
+            value={PaymentMethod}
+            onChange={(e) => setPaymentMethod(e.target.value)}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          >
+            <option value="">Select Payment Method</option>
+            <option value="cash">Cash</option>
+            <option value="card">Card</option>
+          </select>
         </div>
        
         <button className='p-2 bg-sky-300 m-8' onClick={handleSavePayment}>
