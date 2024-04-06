@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import Swal from 'sweetalert2';
 
 // Functional component for creating inventory
 const CreateInventory = () => {
@@ -35,9 +35,26 @@ const CreateInventory = () => {
     axios
       .post('http://localhost:8076/inventory', data)
       .then(() => {
-        // Resetting loading state and navigating to the home page
-        setLoading(false);
-        navigate('/inventory/allInventory');
+        // Displaying success toast
+        Swal.fire({
+          icon: 'success',
+          title: 'Inventory item created successfully',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          }
+        });
+
+        // Resetting loading state and navigating to the home page after 3000ms
+        setTimeout(() => {
+          setLoading(false);
+          navigate('/inventory/allInventory');
+        }, 1500);
       })
       .catch((error) => {
         // Handling errors by resetting loading state, showing an alert, and logging the error
@@ -129,4 +146,4 @@ const CreateInventory = () => {
   );
 };
 
-export default CreateInventory
+export default CreateInventory;
