@@ -37,6 +37,7 @@ import EditEmployeeAttendence from './assets/pages/EmployeeAttendence/EditEmploy
 import DeleteEmployeeAttendence from './assets/pages/EmployeeAttendence/DeleteEmployeeAttendence';
 import ReportEmployeeAttendence from './assets/pages/EmployeeAttendence/ReportEmployeeAttendence';
 
+
 import ShowVehicle from './assets/pages/Vehicle/ShowVehicle'
 import CreateVehicle from './assets/pages/Vehicle/CreateVehicle'
 import EditVehicle from './assets/pages/Vehicle/EditVehicle'
@@ -83,8 +84,12 @@ import EditServiceHistory from './assets/pages/ServiceHistory/EditServiceHistory
 import DeleteServiceHistory from './assets/pages/ServiceHistory/DeleteServiceHistory';
 import ReadOneServiceHistory from './assets/pages/ServiceHistory/ReadOneServiceHistory';
 
+
+import Dashboard from './assets/pages/dashboard/dashboard';
+
 import CusDashboard from './assets/pages/customerDashBoard/cusDashboard'; 
 import CLogin from './assets/components/cLogin';
+
 
 
 import ManagerLogin from './assets/components/ManagerLogin';
@@ -124,11 +129,20 @@ const App = () => {
       <Route path='/payments/delete/:id' element={<DeletePayment />}></Route>
       <Route path='/payments/report' element={<ReportPayment />}></Route>
 
+
+
+      <Route path ='/show-all'  element={<ShowAllBooking/>}/>
+      <Route path='/create' element={<CreateBooking/>}/>
+      <Route path='/edit/:id' element={<EditBooking/>}/>
+      <Route path='booking/delete/:id' element={<DeleteBooking/>}/>
+      <Route path='booking/read/:id' element={<ReadOneBooking/>}/>
+
       <Route path='/show-all' element={<ShowAllBooking />} />
       <Route path='/create' element={<CreateBooking />} />
       <Route path='/edit/:id' element={<EditBooking />} />
       <Route path='booking/delete/:id' element={<DeleteBooking />} />
       <Route path='booking/read/:id' element={<ReadOneBooking />} />
+
 
       <Route path='/inventory/allInventory' element={<ShowInventory />}></Route>
       <Route path='/inventory/create' element={<CreateInventory />}></Route>
@@ -136,6 +150,21 @@ const App = () => {
       <Route path='/inventory/delete/:id' element={<DeleteInventory />}></Route>
       <Route path='/inventory/get/:id' element={<ReadOneInventory />}></Route>
       <Route path='/inventory/addItem/:id' element={<AddExistingInventory />}></Route>
+
+
+    
+
+
+
+      <Route path='/package' element={<ShowPackage/>}></Route>
+      <Route path='/package/create' element={<CreatePackage/>}></Route>
+      <Route path='/package/edit/:id' element={<EditPackage/>}></Route>
+      <Route path='/package/get/:id' element={<ReadOnePackage/>}></Route>
+      <Route path='/package/delete/:id' element={<DeletePackage/>}></Route>
+
+      <Route path ='/show-all'  element={<ShowAllBooking/>}/>
+      <Route path='/create' element={<CreateBooking/>}/>
+      <Route path='/edit/:id' element={<EditBooking/>}/>
 
 
 
@@ -159,6 +188,7 @@ const App = () => {
 
 
 
+
       <Route path='/feedback' element={<ShowAllFeedback />}></Route>
       <Route path='/feedback/create' element={<CreateFeedback />}></Route>
       <Route path='/feedback/edit/:id' element={<EditFeedback />}></Route>
@@ -166,17 +196,41 @@ const App = () => {
       <Route path='/feedback/get/:id' element={<ReadOneFeedback />}></Route>
 
 
+
+      <Route path='/feedback' element={<ShowAllFeedback/>}></Route>
+      <Route path='/feedback/create' element={<CreateFeedback/>}></Route>
+      <Route path='/feedback/edit/:id' element={<EditFeedback/>}></Route>
+      <Route path='/feedback/delete/:id' element={<DeleteFeedback/>}></Route>
+      <Route path='/feedback/get/:id' element={<ReadOneFeedback/>}></Route>
+
       <Route path='/customer/allCustomer' element={<ShowCustomer />}></Route>
       <Route path='/customer/create' element={<CreateCustomer />}></Route>
       <Route path='/customer/edit/:id' element={<UpdateCustomer />}></Route>
       <Route path='/customer/delete/:id' element={<DeleteCustomer />}></Route>
       <Route path='/customer/get/:id' element={<ReadOneCustomer />}></Route>
 
+
       <Route path='/ServiceHistory' element={<ShowAllServiceHistory />}></Route>
       <Route path='/ServiceHistory/create' element={<CreateServiceHistory />}></Route>
       <Route path='/ServiceHistory/edit/:id' element={<EditServiceHistory />}></Route>
       <Route path='/ServiceHistory/delete/:id' element={<DeleteServiceHistory />}></Route>
       <Route path='/ServiceHistory/get/:id' element={<ReadOneServiceHistory />}></Route>
+
+
+      <Route path='/customer/allCustomer' element={<ShowCustomer/>}></Route>
+      <Route path='/customer/create' element={<CreateCustomer/>}></Route>
+      <Route path='/customer/edit/:id' element={<UpdateCustomer/>}></Route>
+      <Route path='/customer/delete/:id' element={<DeleteCustomer/>}></Route>
+      <Route path='/customer/get/:id' element={<ReadOneCustomer/>}></Route>
+
+      <Route path='/ServiceHistory' element={<ShowAllServiceHistory/>}></Route>
+      <Route path='/ServiceHistory/create' element={<CreateServiceHistory/>}></Route>
+      <Route path='/ServiceHistory/edit/:id' element={<EditServiceHistory/>}></Route>
+      <Route path='/ServiceHistory/delete/:id' element={<DeleteServiceHistory/>}></Route>
+      <Route path='/ServiceHistory/get/:id' element={<ReadOneServiceHistory/>}></Route>
+    
+      <Route path='/dashboard' element={<Dashboard/>}></Route>  
+      
 
       <Route path='/Servic' element={<ShowService />}></Route>
       <Route path='/Service/create' element={<CreateService/>}></Route>
@@ -203,6 +257,7 @@ const App = () => {
       </Routes>
     </>
   );
+
 
 }
 
