@@ -11,7 +11,7 @@ import ShowAllBooking from './assets/pages/Booking/ShowAllBooking';
 import CreateBooking from './assets/pages/Booking/CreateBooking';
 import EditBooking from './assets/pages/Booking/EditBooking';
 import DeleteBooking from './assets/pages/Booking/DeleteBooking';
-import ReadOneBooking from './assets/pages/Booking/ReadOneBooking'; 
+import ReadOneBooking from './assets/pages/Booking/ReadOneBooking';
 
 
 import ShowPayment from './assets/pages/Payment/ShowPayment';
@@ -51,6 +51,12 @@ import EditPackage from './assets/pages/SPackage/EditPackage'
 import ReadOnePackage from './assets/pages/SPackage/ReadOnePackage'
 import DeletePackage from './assets/pages/SPackage/DeletePAckage'
 
+import ShowService from './assets/pages/Service/Showservices';
+import CreateService from './assets/pages/Service/CreateService';
+import EditService from './assets/pages/Service/EditService';
+import ReadOneService from './assets/pages/Service/ReadOneService';
+import DeleteService from './assets/pages/Service/DeleteService';
+
 import ShowInventory from './assets/pages/Inventory/ShowInventory'
 import CreateInventory from './assets/pages/Inventory/CreateInventory'
 import EditInventory from './assets/pages/Inventory/EditInventory'
@@ -73,7 +79,7 @@ import ReportCustomer from './assets/pages/Customer/ReportCustomer';
 import ShowAllServiceHistory from './assets/pages/ServiceHistory/ShowAllServiceHistory';
 import CreateServiceHistory from './assets/pages/ServiceHistory/CreateServiceHistory';
 import EditServiceHistory from './assets/pages/ServiceHistory/EditServiceHistory';
-import DeleteServiceHistory from './assets/pages/ServiceHistory/DeleteServiceHistory'; 
+import DeleteServiceHistory from './assets/pages/ServiceHistory/DeleteServiceHistory';
 import ReadOneServiceHistory from './assets/pages/ServiceHistory/ReadOneServiceHistory';
 
 import CusDashboard from './assets/pages/customerDashBoard/cusDashboard'; 
@@ -117,11 +123,11 @@ const App = () => {
       <Route path='/payments/delete/:id' element={<DeletePayment />}></Route>
       <Route path='/payments/report' element={<ReportPayment />}></Route>
 
-    <Route path ='/show-all'  element={<ShowAllBooking/>}/>
-    <Route path='/create' element={<CreateBooking/>}/>
-    <Route path='/edit/:id' element={<EditBooking/>}/>
-    <Route path='booking/delete/:id' element={<DeleteBooking/>}/>
-    <Route path='booking/read/:id' element={<ReadOneBooking/>}/>
+      <Route path='/show-all' element={<ShowAllBooking />} />
+      <Route path='/create' element={<CreateBooking />} />
+      <Route path='/edit/:id' element={<EditBooking />} />
+      <Route path='booking/delete/:id' element={<DeleteBooking />} />
+      <Route path='booking/read/:id' element={<ReadOneBooking />} />
 
       <Route path='/inventory/allInventory' element={<ShowInventory />}></Route>
       <Route path='/inventory/create' element={<CreateInventory />}></Route>
@@ -129,29 +135,54 @@ const App = () => {
       <Route path='/inventory/delete/:id' element={<DeleteInventory />}></Route>
       <Route path='/inventory/get/:id' element={<ReadOneInventory />}></Route>
 
+
+
+
+
+      <Route path='/package' element={<ShowPackage />}></Route>
+      <Route path='/package/create' element={<CreatePackage />}></Route>
+      <Route path='/package/edit/:id' element={<EditPackage />}></Route>
+      <Route path='/package/get/:id' element={<ReadOnePackage />}></Route>
+      <Route path='/package/delete/:id' element={<DeletePackage />}></Route>
+
+      <Route path='/service' element={<ShowService />}></Route>
+      <Route path='/service/create' element={<CreateService />} />
+      <Route path='/service/edit/:id' element={<EditService />} />
+      <Route path='/service/get/:id' element={<ReadOneService />} />
+      <Route path='/service/delete/:id' element={<DeleteService />} />
+
+      <Route path='/show-all' element={<ShowAllBooking />} />
+      <Route path='/create' element={<CreateBooking />} />
+      <Route path='/edit/:id' element={<EditBooking />} />
+
+
+
+      <Route path='/feedback' element={<ShowAllFeedback />}></Route>
+      <Route path='/feedback/create' element={<CreateFeedback />}></Route>
+      <Route path='/feedback/edit/:id' element={<EditFeedback />}></Route>
+      <Route path='/feedback/delete/:id' element={<DeleteFeedback />}></Route>
+      <Route path='/feedback/get/:id' element={<ReadOneFeedback />}></Route>
+
+
+      <Route path='/customer/allCustomer' element={<ShowCustomer />}></Route>
+      <Route path='/customer/create' element={<CreateCustomer />}></Route>
+      <Route path='/customer/edit/:id' element={<UpdateCustomer />}></Route>
+      <Route path='/customer/delete/:id' element={<DeleteCustomer />}></Route>
+      <Route path='/customer/get/:id' element={<ReadOneCustomer />}></Route>
+
+      <Route path='/ServiceHistory' element={<ShowAllServiceHistory />}></Route>
+      <Route path='/ServiceHistory/create' element={<CreateServiceHistory />}></Route>
+      <Route path='/ServiceHistory/edit/:id' element={<EditServiceHistory />}></Route>
+      <Route path='/ServiceHistory/delete/:id' element={<DeleteServiceHistory />}></Route>
+      <Route path='/ServiceHistory/get/:id' element={<ReadOneServiceHistory />}></Route>
+
+      <Route path='/Servic' element={<ShowService />}></Route>
+      <Route path='/Service/create' element={<CreateService/>}></Route>
+      <Route path='/Service/edit/:id' element={<EditService />}></Route>
+      <Route path='/Service/delete/:id' element={<DeleteService />}></Route>
+      <Route path='/Service/get/:id' element={<ReadOneService />}></Route>
+
    
- 
-
-
-    <Route path='/package' element={<ShowPackage/>}></Route>
-    <Route path='/package/create' element={<CreatePackage/>}></Route>
-    <Route path='/package/edit/:id' element={<EditPackage/>}></Route>
-    <Route path='/package/get/:id' element={<ReadOnePackage/>}></Route>
-    <Route path='/package/delete/:id' element={<DeletePackage/>}></Route>
-
-    <Route path ='/show-all'  element={<ShowAllBooking/>}/>
-    <Route path='/create' element={<CreateBooking/>}/>
-    <Route path='/edit/:id' element={<EditBooking/>}/>
-
-
-
-    <Route path='/feedback' element={<ShowAllFeedback/>}></Route>
-    <Route path='/feedback/create' element={<CreateFeedback/>}></Route>
-    <Route path='/feedback/edit/:id' element={<EditFeedback/>}></Route>
-    <Route path='/feedback/delete/:id' element={<DeleteFeedback/>}></Route>
-    <Route path='/feedback/get/:id' element={<ReadOneFeedback/>}></Route>
-
-
     <Route path='/customer/allCustomer' element={<ShowCustomer/>}></Route>
     <Route path='/customer/create' element={<CreateCustomer/>}></Route>
     <Route path='/customer/edit/:id' element={<UpdateCustomer/>}></Route>
@@ -170,6 +201,7 @@ const App = () => {
       </Routes>
     </>
   );
+
 }
 
 export default App;
