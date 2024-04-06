@@ -18,6 +18,9 @@ const Header = () => {
                     <li className="nav-item">
                         <Link className="nav-link" to="/cLogin">Login</Link>
                     </li>
+                    <li>
+                        <Link to="/service" className="text-blue-500 hover:underline">Services</Link>
+                    </li>
 
                     <li className="nav-item">
                         <Link className="nav-link" to="/package">Package</Link>
@@ -40,7 +43,7 @@ const Header = () => {
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/vehicle">Vehicle</Link>
-                    
+
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/employees/allEmployee">Employee</Link>
