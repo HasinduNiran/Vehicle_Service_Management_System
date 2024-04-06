@@ -77,14 +77,19 @@ router.get('/:identifier', async (request, response) => {
         }
 
         // If the provided identifier is not a valid ObjectId, try searching by vehicle number
-        const serviceHistoryByVehicleNumber = await serviceHistory.find({ Vehicle_Number: identifier });
-        if (serviceHistoryByVehicleNumber) {
-            // Sending the fetched service history as a JSON response if found by vehicle number
-            return response.status(200).json(serviceHistoryByVehicleNumber);
-        }
-        
+        let serviceHistoryResult = await serviceHistory.find({ Vehicle_Number: identifier });
 
-        // If no service history found by either ID or vehicle number, send a 404 Not Found response
+        // If no service history found by vehicle number, try searching by Booking_Id
+        if (!serviceHistoryResult || serviceHistoryResult.length === 0) {
+            serviceHistoryResult = await serviceHistory.find({ Booking_Id: identifier });
+        }
+
+        // Sending the fetched service history as a JSON response if found
+        if (serviceHistoryResult && serviceHistoryResult.length > 0) {
+            return response.status(200).json(serviceHistoryResult);
+        }
+
+        // If no service history found by either ID, vehicle number, or Booking_Id, send a 404 Not Found response
         return response.status(404).json({ message: 'Service history not found' });
     } catch (error) {
         // Handling errors and sending an error response with detailed error message
@@ -92,6 +97,7 @@ router.get('/:identifier', async (request, response) => {
         response.status(500).send({ message: 'Error fetching service history: ' + error.message });
     }
 });
+
 
 router.put('/:id', async (request, response) => {
     try {
