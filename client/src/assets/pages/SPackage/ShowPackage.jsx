@@ -33,7 +33,7 @@ function ShowPackage() {
           <table className='table table-bordered table-hover'>
             <thead>
               <tr>
-                <th className='text-xl mr-4 text-gray-500'>pakgname :</th>
+                <th className='text-xl mr-4 text-gray-500'>pakgname :</th> 
                 <th className='text-xl mr-4 text-gray-500'>pkgdescription :</th>
                 <th className='text-xl mr-4 text-gray-500'>includes :</th>
                 <th className='text-xl mr-4 text-gray-500'>actions :</th>
@@ -45,13 +45,13 @@ function ShowPackage() {
                   <td>{Package.pakgname}</td>
                   <td>{Package.pkgdescription}</td>
                   <td>{Package.includes}</td>
-<td>
+                  <td>
 
-<Link to={`/package/edit/${Package._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
-<Link to={`/package/get/${Package._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>View</Link>
-<Link to={`/package/delete/${Package._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
+                    <Link to={`/package/edit/${Package._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
+                    <Link to={`/package/get/${Package._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>View</Link>
+                    <Link to={`/package/delete/${Package._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
 
-</td>
+                  </td>
 
                 </tr>
               ))}

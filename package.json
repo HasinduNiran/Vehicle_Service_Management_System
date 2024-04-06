@@ -1,6 +1,13 @@
 {
   "dependencies": {
+
     "sweetalert2": "^11.10.6",
     "vite": "^5.2.8"
+
+    "multer": "^1.4.5-lts.1",
+    "react-datepicker": "^6.6.0",
+    "react-to-print": "^2.15.1",
+    "sweetalert2": "^11.10.6"
+
   }
 }

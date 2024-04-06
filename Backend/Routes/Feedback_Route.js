@@ -1,140 +1,189 @@
-// Importing the Express library
 import express from "express";
+import Feedback from "../Models/Feedback.js"; // Changed import statement
 
-// Importing the Feedback model
-import { Feedback } from "../Models/Feedback.js";
-
-// Creating an Express router
 const router = express.Router();
 
-// Post route to create new feedback
-router.post('/', async (request, response) => {
-    try {
-        // Checking if all required fields are present in the request body
-        if (!request.body.name ||
-            !request.body.email ||
-            !request.body.phone_number ||
-            !request.body.employee ||
-            !request.body.date_of_service ||
-            !request.body.message) {
-            return response.status(400).send({
-                message: 'Send all required fields',
-            });
-        }
+// Middleware to validate fields in the request body
+const validateFields = (req, res, next) => {
+  const requiredFields = [
+    "name",
+    "email",
+    "phone_number",
+    "employee",
+    "date_of_service",
+    "message",
+    "star_rating",
+  ];
 
-        // Creating a new Feedback with the provided data
-        const newFeedback = {
-            name: request.body.name,
-            email: request.body.email,
-            phone_number: request.body.phone_number,
-            employee: request.body.employee,
-            date_of_service: request.body.date_of_service,
-            message: request.body.message,
-        };
-
-        // Adding the new Feedback to the database
-        const feedback = await Feedback.create(newFeedback);
-
-        // Sending the created feedback as a JSON response
-        return response.status(201).send(feedback);
-    } catch (error) {
-        // Handling errors and sending an error response
-        console.error(error.message);
-        response.status(500).send({ message: error.message });
+  // Check if all required fields are present
+  for (const field of requiredFields) {
+    if (!req.body[field]) {
+      return res
+        .status(400)
+        .send({ message: `Field '${field}' cannot be empty` });
     }
+  }
+
+  // Validate email format
+  if (!req.body.email.match(/^\S+@\S+\.\S+$/)) {
+    return res
+      .status(400)
+      .send({ message: "Please provide a valid email address" });
+  }
+
+  // Validate phone number format
+  if (!req.body.phone_number.match(/^\d{10}$/)) {
+    return res
+      .status(400)
+      .send({ message: "Please provide a valid 10-digit phone number" });
+  }
+
+  // Parse date_of_service to a Date object
+  const parsedDate = req.body.date_of_service ? new Date(req.body.date_of_service) : undefined;
+  if (!parsedDate || isNaN(parsedDate.getTime())) {
+    return res.status(400).send({ message: "Please provide a valid date for date_of_service" });
+  }
+
+  req.parsedDate = parsedDate; // Make parsed date available in request object
+  next();
+};
+
+// Create new feedback
+router.post("/", validateFields, async (req, res) => {
+  try {
+    const {
+      name,
+      email,
+      phone_number,
+      employee,
+      message,
+      star_rating,
+    } = req.body;
+
+    const newFeedback = {
+      name,
+      email,
+      phone_number,
+      employee,
+      date_of_service: req.parsedDate,
+      message,
+      star_rating,
+    };
+
+    // Save new feedback to the database
+    const feedback = await Feedback.create(newFeedback);
+    if (!feedback) {
+      return res.status(500).send({ message: "Failed to create feedback" });
+    }
+    res.status(201).send(feedback);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({ message: error.message });
+  }
 });
 
-// Route for retrieving all feedback from the database
-router.get('/', async (request, response) => {
-    try {
-        // Fetching all Feedback from the database
-        const feedback = await Feedback.find({});
-
-        // Sending the fetched Feedback as a JSON response
-        response.status(200).json({
-            count: feedback.length,
-            data: feedback
-        });
-    } catch (error) {
-        // Handling errors and sending an error response
-        console.error(error.message);
-        response.status(500).send({ message: error.message });
-    }
+// Get names of all employees
+router.get("/employees/names", async (req, res) => {
+  try {
+    const employees = await Feedback.find({}, "employee");
+    res.status(200).json({ count: employees.length, data: employees });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({ message: error.message });
+  }
 });
 
-// Route for retrieving a specific feedback item by ID
-router.get('/:id', async (request, response) => {
-    try {
-        // Extracting the Feedback ID from the request parameters
-        const { id } = request.params;
-
-        // Fetching a feedback item from the database based on the ID
-        const feedback = await Feedback.findById(id);
-
-        if (!feedback) {
-            return response.status(404).send({ message: 'Feedback not found' });
-        }
-
-        // Sending the fetched feedback item as a JSON response
-        response.status(200).json(feedback);
-    } catch (error) {
-        // Handling errors and sending an error response
-        console.error(error.message);
-        response.status(500).send({ message: error.message });
-    }
+// GET route for retrieving feedback based on search criteria, pagination, and sorting
+router.get("/feedback", async (req, res) => {
+  try {
+    const { page = 1, limit = 5, search = "", sort = "name" } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    const query = {
+      $or: [
+        { name: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+        { phone_number: { $regex: search, $options: "i" } },
+        { employee: { $regex: search, $options: "i" } },
+        { date_of_service: { $regex: search, $options: "i" } },
+        { star_rating: { $regex: search, $options: "i" } },
+      ],
+    };
+    const feedback = await Feedback.find(query)
+      .sort({ [sort]: 1 })
+      .skip(skip)
+      .limit(parseInt(limit));
+    res.status(200).json({ count: feedback.length, data: feedback });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: true, message: "Internal Server Error" });
+  }
 });
 
-// Route for updating a Feedback by ID
-router.put('/:id', async (request, response) => {
-    try {
-        // Validating that all required fields are provided in the request body
-        if (
-            !request.body.name ||
-            !request.body.email ||
-            !request.body.phone_number ||
-            !request.body.employee ||
-            !request.body.date_of_service ||
-            !request.body.message
-        ) {
-            return response.status(400).send({
-                message: 'Send all required fields',
-            });
-        }
-
-        // Extracting the Feedback ID from the request parameters
-        const { id } = request.params;
-        
-        // Updating the Feedback in the database using findByIdAndUpdate
-        await Feedback.findByIdAndUpdate(id, request.body);
-
-        // Sending a success response
-        return response.status(200).send({ message: 'Feedback updated successfully' });
-
-    } catch (error) {
-        // Handling errors and sending an error response
-        console.error(error.message);
-        response.status(500).send({ message: error.message });
-    }
+// Get all feedback
+router.get("/", async (req, res) => {
+  try {
+    const feedback = await Feedback.find({});
+    res.status(200).json({ count: feedback.length, data: feedback });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({ message: error.message });
+  }
 });
 
-// Route for deleting a Feedback by ID
-router.delete('/:id', async(request, response) => {
-    try {
-        // Extracting the feedback ID from the request parameters
-        const { id } = request.params;
+// Get feedback by ID
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const feedback = await Feedback.findById(id);
 
-        // Attempting to delete the feedback item from the database
-        await Feedback.findByIdAndDelete(id);
-
-        // Sending a success response
-        return response.status(200).send({ message: 'Feedback deleted successfully' });
-
-    } catch (error) {
-        // Handling errors and sending an error response
-        console.error(error.message);
-        response.status(500).send({ message: error.message });
+    if (!feedback) {
+      return res.status(404).send({ message: "Feedback not found" });
     }
+
+    res.status(200).json(feedback);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({ message: error.message });
+  }
 });
 
-// Exporting the Express router
-export default router;
+// Update feedback by ID
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const feedback = await Feedback.findById(id);
+
+    if (!feedback) {
+      return res.status(404).send({ message: "Feedback not found" });
+    }
+
+    // Update feedback
+    await Feedback.findByIdAndUpdate(id, req.body);
+
+    res.status(200).send({ message: "Feedback updated successfully" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
+
+// Delete feedback by ID
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const feedback = await Feedback.findById(id);
+
+    if (!feedback) {
+      return res.status(404).send({ message: "Feedback not found" });
+    }
+
+    // Delete feedback
+    await Feedback.findByIdAndDelete(id);
+    res.status(200).send({ message: "Feedback deleted successfully" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
+
+export default router; // Changed export statement

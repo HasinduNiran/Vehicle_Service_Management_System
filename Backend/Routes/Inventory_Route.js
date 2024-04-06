@@ -85,29 +85,30 @@ router.get('/:id', async (request, response) => {
 // Route for updating a inventory item by ID
 router.put('/:id', async (request, response) => {
     try {
-        // Validating that all required fields are provided in the request body
-        if (
-            !request.body.Name ||
-            !request.body.Location ||
-            !request.body.Quantity ||
-            !request.body.PurchasedPrice ||
-            !request.body.SellPrice ||
-            !request.body.SupplierName ||
-            !request.body.SupplierPhone
-        ) {
-            return response.status(400).send({
-                message: 'Send all required fields'
-            });
-        }
-
         // Extracting the inventory item ID from the request parameters
         const { id } = request.params;
         
-        // Updating the inventory item in the database using findByIdAndUpdate
-        await Inventory.findByIdAndUpdate(id, request.body);
+        // Find the inventory item by ID
+        const inventory = await Inventory.findById(id);
+
+        if (!inventory) {
+            return response.status(404).send({ message: 'Inventory not found' });
+        }
+
+        // Update the fields of the inventory item
+        inventory.Name = request.body.Name || inventory.Name;
+        inventory.Location = request.body.Location || inventory.Location;
+        inventory.Quantity = request.body.Quantity || inventory.Quantity;
+        inventory.PurchasedPrice = request.body.PurchasedPrice || inventory.PurchasedPrice;
+        inventory.SellPrice = request.body.SellPrice || inventory.SellPrice;
+        inventory.SupplierName = request.body.SupplierName || inventory.SupplierName;
+        inventory.SupplierPhone = request.body.SupplierPhone || inventory.SupplierPhone;
+
+        // Save the updated inventory item
+        await inventory.save();
 
         // Sending a success response
-        return response.status(200).send({ message: 'inventory updated successfully' });
+        return response.status(200).send({ message: 'Inventory updated successfully', data: inventory });
 
     } catch (error) {
         // Handling errors and sending an error response
@@ -115,6 +116,7 @@ router.put('/:id', async (request, response) => {
         response.status(500).send({ message: error.message });
     }
 });
+
 
 // Route for deleting a inventory item by ID
 router.delete('/:id', async(request, response) => {

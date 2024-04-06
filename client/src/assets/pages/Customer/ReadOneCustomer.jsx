@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -82,4 +83,4 @@ const ReadOneCustomer = () => {
   );
 };
 
-export default ReadOneCustomer
+export default ReadOneCustomer 

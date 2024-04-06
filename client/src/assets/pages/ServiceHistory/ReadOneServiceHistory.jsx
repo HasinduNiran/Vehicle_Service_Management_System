@@ -49,6 +49,10 @@ const ReadOneServiceHistory = () => {
               <span className="font-bold">Service_History:</span>{" "}
               {serviceHistory.Service_History}
             </p>
+            <p>
+              <span className="font-bold">Date_Of_Service:</span>{" "}
+              {serviceHistory.Service_Date}
+            </p>
           </div>
         </div>
       )}
