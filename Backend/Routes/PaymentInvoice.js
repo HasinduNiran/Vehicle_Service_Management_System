@@ -8,21 +8,22 @@ router.post('/', async (request, response) => {
     try {
       if (
         !request.body.InvoiceId ||
-        !request.body.customerName||
-        !request.body.PaymentId||
+        !request.body.customerName ||
+        !request.body.PaymentId ||
         !request.body.Vehicle_Number ||
         !request.body.Vehicle_Color ||
-        !request.body.Model||
-        !request.body.Year||
-        !request.body.Engine_Details||
-        !request.body.PaymentDate||
-        !request.body.totalAmount||
+        !request.body.Model ||
+        !request.body.Year ||
+        !request.body.Engine_Details ||
+        !request.body.PaymentDate ||
+        !request.body.totalAmount ||
         !request.body.Booking_Id
       ) {
         return response.status(400).send({
           message: 'Send all required fields:InvoiceId,customerName,PaymentId,Vehicle_Number,Vehicle_Color,Model,Year,Engine_Details,PaymentDate,totalAmount,Booking_Id',
         });
       }
+      
       const newPaymentInvoice = {
         InvoiceId: request.body.InvoiceId,
         customerName:request.body.customerName,
