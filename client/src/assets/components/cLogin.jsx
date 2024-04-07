@@ -26,7 +26,7 @@ function CLogin() {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `Welcome back, ${userData.Username}!`,
+          title: `Welcome back, ${userData.username}!`,
           showConfirmButton: false,
           timer: 2000,
         });
