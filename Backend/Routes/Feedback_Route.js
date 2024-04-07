@@ -6,6 +6,7 @@ const router = express.Router();
 // Middleware to validate fields in the request body
 const validateFields = (req, res, next) => {
   const requiredFields = [
+    "CustomerID",
     "name",
     "email",
     "phone_number",
@@ -52,6 +53,7 @@ const validateFields = (req, res, next) => {
 router.post("/", validateFields, async (req, res) => {
   try {
     const {
+      CustomerID,
       name,
       email,
       phone_number,
@@ -61,6 +63,7 @@ router.post("/", validateFields, async (req, res) => {
     } = req.body;
 
     const newFeedback = {
+      CustomerID,
       name,
       email,
       phone_number,
@@ -100,6 +103,7 @@ router.get("/feedback", async (req, res) => {
     const skip = (parseInt(page) - 1) * parseInt(limit);
     const query = {
       $or: [
+        { CustomerID:{$regex: search,$options: "i"}},
         { name: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },
         { phone_number: { $regex: search, $options: "i" } },

@@ -7,12 +7,13 @@ const DeleteFeedback = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // Function to handle the confirmation dialog
+  const confirmDeleteFeedback = () => {
+    return window.confirm("Are you sure you want to delete this feedback?");
+  };
+
   const handleDelete = () => {
-    // Display confirmation dialog before deletion
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this feedback?"
-    );
-    if (!confirmDelete) {
+    if (!confirmDeleteFeedback()) {
       return;
     }
 
@@ -26,9 +27,14 @@ const DeleteFeedback = () => {
       .catch((error) => {
         setLoading(false);
         console.error("Error deleting feedback:", error);
-        alert(
-          "An error occurred while deleting the feedback. Please try again later."
-        );
+
+        // Simplified error handling and message generation
+        let errorMessage = "An error occurred while deleting the feedback. Please try again later.";
+        if (error.response?.status === 404) {
+          errorMessage = "Feedback not found. It may have already been deleted.";
+        }
+
+        alert(errorMessage);
       });
   };
 
@@ -40,6 +46,7 @@ const DeleteFeedback = () => {
         <button
           onClick={handleDelete}
           className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          disabled={loading}
         >
           {loading ? "Deleting..." : "Delete"}
         </button>
