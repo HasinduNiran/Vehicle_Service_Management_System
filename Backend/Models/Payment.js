@@ -10,6 +10,10 @@ const paymentSchema = mongoose.Schema({
         type: String, // connect to the customer
         unique: true
     },
+    Vehicle_Number:{
+        type: String,
+        required: true,
+    },
     PaymentDate:{
         type:String,
         required:true
@@ -21,6 +25,10 @@ const paymentSchema = mongoose.Schema({
     PaymentMethod: {
         type: String,
         required:true
+    }, 
+    Booking_Id: {
+        type: String,
+        required: true,
     }
 
 });

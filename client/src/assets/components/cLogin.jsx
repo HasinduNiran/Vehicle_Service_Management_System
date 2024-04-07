@@ -4,14 +4,18 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 function CLogin() {
+
   const [cusID, setCusID] = useState("");
+
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const onLogin = async (e) => {
     e.preventDefault();
     const credentials = {
+
       cusID,
+
       password,
     };
 
@@ -20,11 +24,13 @@ function CLogin() {
       const userData = response.data;
 
       if (userData) {
+
         // Redirect to user dashboard if necessary (handle on server side)
         Swal.fire({
           position: "center",
           icon: "success",
           title: `Welcome back, ${userData.firstName}!`,
+
           showConfirmButton: false,
           timer: 2000,
         });
@@ -61,8 +67,10 @@ function CLogin() {
             type="text"
             id="username"
             placeholder="Enter your username"
+
             value={cusID}
             onChange={(e) => setCusID(e.target.value)}
+
           />
         </div>
         <div>

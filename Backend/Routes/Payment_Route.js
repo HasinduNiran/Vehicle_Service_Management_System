@@ -11,20 +11,24 @@ router.post('/', async (request, response) => {
     if (
       !request.body.PaymentId ||
       !request.body.cusID||
+      !request.body.Vehicle_Number||
       !request.body.PaymentDate ||
       !request.body.totalAmount ||
-      !request.body.PaymentMethod
+      !request.body.PaymentMethod||
+      !request.body.Booking_Id
     ) {
       return response.status(400).send({
-        message: 'Send all required fields:PaymentId,PaymentDate,totalAmount,PaymentMethod',
+        message: 'Send all required fields:PaymentId,cusID,PaymentDate,totalAmount,PaymentMethod',
       });
     }
     const newPayment = {
       PaymentId: request.body.PaymentId,
       cusID:request.body.cusID,
+      Vehicle_Number: request.body.Vehicle_Number,
       PaymentDate: request.body.PaymentDate,
       totalAmount: request.body.totalAmount,
       PaymentMethod: request.body.PaymentMethod,
+      Booking_Id: request.body.Booking_Id
     };
     const payment = await Payment.create(newPayment);
     return response.status(201).send(payment);
@@ -128,12 +132,14 @@ router.put('/:id', async (request, response) => {
     if (
       !request.body.PaymentId ||
       !request.body.cusID||
+      !request.body.Vehicle_Number||
       !request.body.PaymentDate ||
       !request.body.totalAmount ||
-      !request.body.PaymentMethod
+      !request.body.PaymentMethod||
+      !request.body.Booking_Id
     ) {
       return response.status(400).send({
-        message: 'Send all required fields:PaymentId,PaymentDate,totalAmount,PaymentMethod',
+        message: 'Send all required fields:PaymentId,cusID,PaymentDate,totalAmount,PaymentMethod',
       });
     }
     const { id } = request.params;
