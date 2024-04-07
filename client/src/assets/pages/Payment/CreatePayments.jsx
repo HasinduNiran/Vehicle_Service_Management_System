@@ -13,19 +13,19 @@ const CreatePayments = () => {
   const [PaymentDate, setPaymentDate] = useState('');
   const [totalAmount, settotalAmount] = useState('');
   const [PaymentMethod, setPaymentMethod] = useState('');
-  //const [Booking_Id, setBooking_Id] = useState('');
- // const [employees, setEmployees] = useState([]);
-  const [Servicehistory,setServiceHistory]= useState([]);
+  const [Booking_Id, setBooking_Id] = useState('');
+  const [Servicehistory,setServiceHistory]= useState([]); 
+  const[count, setCount] = useState();
 
   const [loading, setLoading] = useState(false);
-  //const [Servicehistory, setServicehistory] = useState([]); // Define Servicehistory state
+  
   const navigate = useNavigate();
-  //const { enqueueSnackbar } = useSnackbar();
+ 
 
-  // const [selectedService,setSelectedService]=useState({
-  //   Booking_Id:'',
-  //   VehicleNo:''
-  // });
+  const [selectedService,setSelectedService]=useState({
+    Booking_Id:'',
+    Vehicle_Number:''
+  });
 
    useEffect(() => {
         setLoading(true);
@@ -41,38 +41,37 @@ const CreatePayments = () => {
             });
     }, []);
   
-  //  const handleServiceIdChange=(e)=>{
-  //   const selectedBooking_Id = e.target.value;
-  //   const selectedSr = Servicehistory.find((service) => service.Booking_Id === selectedBooking_Id);
-  // setSelectedService({
-  //   ...selectedService,
-  //    Booking_Id: selectedBooking_Id,
-  //    VehicleNo: selectedSr.VehicleNo,
-  //   });
-  // };
+   const handleServiceIdChange=(e)=>{
+    const selectedBooking_Id = e.target.value;
+    const selectedSr = Servicehistory.find((service) => service.Booking_Id === selectedBooking_Id);
+  setSelectedService({
+    ...selectedService,
+     Booking_Id: selectedBooking_Id,
+     Vehicle_Number: selectedSr.Vehicle_Number,
+    });
+  };
 
-  // const handleVehicleNumberChange=(e)=>{
-  //   const selectedVehicleNo = e.target.value;
-  //   const selectedsr = Servicehistory.find(
-  //     (service) => service.VehicleNo === selectedVehicleNo);
-  // setSelectedService({
-  //   ...selectedService,
-  //    Booking_Id: selectedsr.Booking_Id,
-  //    VehicleNo: selectedVehicleNo,
-  //   });
-  // };
+  const handleVehicleNumberChange=(e)=>{
+    const selectedVehicle_Number = e.target.value;
+    const selectedsr = Servicehistory.find(
+      (service) => service.Vehicle_Number === selectedVehicle_Number);
+  setSelectedService({
+    ...selectedService,
+     Booking_Id: selectedsr.Booking_Id,
+     Vehicle_Number: selectedVehicle_Number,
+    });
+  };
 
   const handleSavePayment = () => {
     const data = {
-      empname,
       PaymentId,
-      //cusID,
-      Vehicle_Number,
-      // selectedService.VehicleNo,
+      cusID,
+      Booking_Id: selectedService.Booking_Id,
+      Vehicle_Number:selectedService.Vehicle_Number,
       PaymentDate,
       totalAmount,
       PaymentMethod,
-      //Booking_Id: selectedService.Booking_Id,
+      
     };
     setLoading(true);
     axios
@@ -114,50 +113,33 @@ const CreatePayments = () => {
             className='border-2 border-gray-500 px-4 py-2  w-full '
           />
         </div>
-        {/* <div className='my-4'>
+        <div className='my-4'>
           <label className='text-xl mr-4 text-gray-500'>Service ID</label>
           <select
+            className='border-2 border-gray-500 px-4 py-2  w-full '
             value={selectedService.Booking_Id}
             onChange={handleServiceIdChange}
-            className='border-2 border-gray-500 px-4 py-2  w-full '
-            >
-              <option value=''>Select Service ID</option>
-              {
-                Servicehistory.map((service) => ( 
-                  <option key={service.Booking_Id} value={service.Booking_Id}>
-                    {service.Booking_Id}
-                  </option>
-                ))
-              }
-          </select>
-        </div> */}
-        {/* <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Emp Name</label>
-          <select
-            className='border-2 border-gray-500 px-4 py-2  w-full '
-            value={empname}
-            onChange={(e) => setEmpname(e.target.value)}
             
             >
-              <option value=''>Select emp</option>
-              {
-                employees.map((employee) => (
-                  <option key={employee._id} value={employee.employeeName}>
-                    {employee.employeeName}
-                  </option>
-                ))
-              }
+            <option value=''>Select Vehicle Number</option>
+            {
+              Servicehistory.map((service) => (
+                <option key={service._id} value={service.Booking_Id}>
+                  {service.Booking_Id}
+                </option>
+              ))
+            }
           </select>
-        </div> */}
+        </div>
         <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>V no</label>
+          <label className='text-xl mr-4 text-gray-500'>Vehicle No</label>
           <select
             className='border-2 border-gray-500 px-4 py-2  w-full '
-            value={Vehicle_Number}
-            onChange={(e) => setVehicle_Number(e.target.value)}
+            value={selectedService.Vehicle_Number}
+            onChange={handleVehicleNumberChange}
             
             >
-            <option value=''>Select</option>
+            <option value=''>Select Vehicle Number</option>
             {
               Servicehistory.map((service) => (
                 <option key={service._id} value={service.Vehicle_Number}>
@@ -165,10 +147,8 @@ const CreatePayments = () => {
                 </option>
               ))
             }
-
           </select>
         </div>
-        
         <div className='my-4'>
           <label className='text-xl mr-4 text-gray-500'>Payment Date</label>
           <input

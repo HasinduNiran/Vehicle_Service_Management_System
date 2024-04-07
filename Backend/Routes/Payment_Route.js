@@ -7,7 +7,6 @@ const router = express.Router();
 router.post('/', async (request, response) => {
   try {
     if (
-      !request.body.empname||
       !request.body.PaymentId ||
       !request.body.cusID||
       !request.body.Vehicle_Number||
@@ -21,7 +20,6 @@ router.post('/', async (request, response) => {
       });
     }
     const newPayment = {
-      empname: request.body.empname,
       PaymentId: request.body.PaymentId,
       cusID:request.body.cusID,
       Vehicle_Number: request.body.Vehicle_Number,
@@ -98,7 +96,6 @@ router.get('/:id', async (request, response) => {
 router.put('/:id', async (request, response) => {
   try {
     if (
-      !request.body.empname ||
       !request.body.PaymentId ||
       !request.body.cusID||
       !request.body.Vehicle_Number||

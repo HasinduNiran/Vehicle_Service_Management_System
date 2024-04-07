@@ -2,10 +2,6 @@ import mongoose from 'mongoose';
 
 const paymentSchema = mongoose.Schema({
 
-    empname: {
-        type: String,
-        required: true,
-    },
     PaymentId:{
         type:String,
         required:true
