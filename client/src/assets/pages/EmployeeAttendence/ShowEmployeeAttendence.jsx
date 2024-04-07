@@ -36,7 +36,7 @@ function ShowEmployeeAttendence() {
         const filteredAttendence = employeesAttendence.filter((attendance) => {
             // Check if searchName and searchDate are empty or match the attendance record
             return (searchName === '' || attendance.employeeName.toLowerCase().includes(searchName.toLowerCase())) &&
-                (searchDate === '' || attendance.Date.includes(searchDate));
+                (searchDate === '' || attendance.date.includes(searchDate));
         });
         return filteredAttendence;
     };
@@ -128,7 +128,7 @@ function ShowEmployeeAttendence() {
                     {EmployeeAttendence.employeeName}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                    {EmployeeAttendence.Date}
+                    {EmployeeAttendence.date}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
                     {EmployeeAttendence.InTime}
