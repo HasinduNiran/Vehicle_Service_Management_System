@@ -1,18 +1,16 @@
 import mongoose from 'mongoose';
 
-
 const vehicleSchema = mongoose.Schema({
-    
     Booking_Date: {
         type: Date,
         required: true
     },
     Booking_Id: {
         type: String,
-        required: true
+        unique: true
     },
     cusID: {
-        type: String, // Changed to String type for custom format
+        type: String,
         unique: true
     },
     Customer_Name: {
@@ -35,7 +33,6 @@ const vehicleSchema = mongoose.Schema({
         type: String,
         required: true
     }
-    
 });
 
 const counterSchema = mongoose.Schema({
@@ -49,7 +46,7 @@ vehicleSchema.pre('save', async function (next) {
     try {
         if (this.isNew) {
             const doc = await Counterr.findOneAndUpdate({ _id: 'bookingID' }, { $inc: { seq: 1 } }, { new: true, upsert: true });
-            this.BookingID = 'BUS' + doc.seq;
+            this.Booking_Id = 'BUS' + doc.seq; // Modified to 'Booking_Id'
         }
         next();
     } catch (error) {
@@ -57,5 +54,4 @@ vehicleSchema.pre('save', async function (next) {
     }
 });
 
-export const createVehicle = mongoose.model('bookings',vehicleSchema);
-
+export const createVehicle = mongoose.model('bookings', vehicleSchema);
