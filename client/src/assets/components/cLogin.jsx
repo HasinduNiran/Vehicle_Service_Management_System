@@ -4,14 +4,14 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 function CLogin() {
-  const [Username, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const onLogin = async (e) => {
     e.preventDefault();
     const credentials = {
-      Username,
+      username,
       password,
     };
 
@@ -21,7 +21,7 @@ function CLogin() {
 
       if (userData) {
         // Redirect to user dashboard
-        navigate("/cusDashboard");
+        navigate("/");
 
         Swal.fire({
           position: "center",
@@ -60,8 +60,8 @@ function CLogin() {
             type="text"
             id="username"
             placeholder="Enter your username"
-            value={Username}
-            onChange={(e) => setUserName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div>
