@@ -1,53 +1,55 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
-
-
-
+import { useParams } from 'react-router-dom';
 
 const ReadOnePackage = () => {
-  const [Package, setPackage] = useState([]);
-  const [loading, setLoading] = useState(false);
   const { id } = useParams();
+  const [packageData, setPackageData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-  
     axios.get(`http://localhost:8076/Package/${id}`)
-   .then((response) => {
-        setPackage(response.data);
+      .then((response) => {
+        setPackageData(response.data);
         setLoading(false);
       })
-   .catch((error) => {
-        console.log(error.message);
+      .catch((error) => {
+        console.error('Error fetching package:', error);
         setLoading(false);
       });
-  },[id]);
+  }, [id]);
 
   return (
-    <div className='p-4'>
-  <h1 className='text-3xl my-4'>Show Package</h1>
-  {loading ? (
-    <Spinner />
-  ) : (
-    <div className='flex flex-col border border-sky-400 rounded-xl w-fit p-4'>
-      <div className='my-4'>
-        <span className='text-xl mr-4 text-gray-500'>Package Name</span>
-        <span>{Package.pakgname}</span>
-      </div>
-      <div className='my-4'>
-        <span className='text-xl mr-4 text-gray-500'>Package Description</span>
-        <span>{Package.pkgdescription}</span>
-      </div>
-      <div className='my-4'>
-        <span className='text-xl mr-4 text-gray-500'>Includes</span>
-        <span>{Package.includes}</span>
-      </div>
+    <div className="p-4">
+      <h1 className="text-3xl my-4">Package Details</h1>
+      {loading ? <Spinner /> : (
+        <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
+          <div className="my-4">
+            <span className="text-xl mr-4 text-gray-500">Package Name:</span>
+            <span>{packageData?.pakgname}</span>
+          </div>
+          <div className="my-4">
+            <span className="text-xl mr-4 text-gray-500">Description:</span>
+            <span>{packageData?.pkgdescription}</span>
+          </div>
+          <div className="my-4">
+            <span className="text-xl mr-4 text-gray-500">Includes:</span>
+            <ul>
+              {packageData?.includes.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="my-4">
+            <span className="text-xl mr-4 text-gray-500">Price:</span>
+            <span>{packageData?.Price}</span>
+          </div>
+        </div>
+      )}
     </div>
-  )}
-</div>
   );
-}
+};
 
 export default ReadOnePackage;

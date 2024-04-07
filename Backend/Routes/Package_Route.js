@@ -1,101 +1,87 @@
+// packageRoutes.js
 import express from 'express';
 import { PackageModel } from '../Models/Package.js';
 
 const router = express.Router();
 
 // Add a package
-router.post('/', async (request, response) => {
+router.post('/', async (req, res) => {
     try {
-        if (
-            !request.body.pakgname ||
-            !request.body.pkgdescription || // Corrected field name
-            !request.body.includes 
-        ) {
-            return response.status(400).send({
-                message: 'Send all required fields: pakgname, pkgdescription, includes',
-            });
+        const { pakgname, pkgdescription, includes, Price } = req.body;
+
+        // Validate required fields
+        if (!pakgname || !pkgdescription || !includes || !Price) {
+            return res.status(400).json({ message: 'All required fields must be provided: pakgname, pkgdescription, includes, Price' });
         }
 
-        const newPackage = {
-            pakgname: request.body.pakgname,
-            pkgdescription: request.body.pkgdescription, // Corrected field name
-            includes: request.body.includes,
-        };
-
-        const createdPackage = await PackageModel.create(newPackage);
-
-        return response.status(201).json(createdPackage);
+        const newPackage = await PackageModel.create({ pakgname, pkgdescription, includes, Price });
+        return res.status(201).json(newPackage);
     } catch (error) {
-        console.log(error.message);
-        return response.status(500).send({ message: error.message });
+        console.error('Error adding package:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 
+
+
 // Read all packages
-router.get('/', async (request, response) => {
+router.get('/', async (req, res) => {
     try {
         const packages = await PackageModel.find({});
-        response.status(200).json({
-            count: packages.length,
-            data: packages,
-        });
+        return res.status(200).json({ count: packages.length, data: packages });
     } catch (error) {
-        console.error(error.message);
-        response.status(500).send({ message: error.message });
+        console.error('Error fetching packages:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 
 // Read a package by ID
-router.get('/:id', async (request, response) => {
+router.get('/:id', async (req, res) => {
     try {
-        const { id } = request.params;
-        const Package = await PackageModel.findById(id);
+        const { id } = req.params;
+        const foundPackage = await PackageModel.findById(id);
 
-        if (!Package) {
-            return response.status(404).json({ message: 'Package not found' });
+        if (!foundPackage) {
+            return res.status(404).json({ message: 'Package not found' });
         }
-
-        response.status(200).json(Package);
+        return res.status(200).json(foundPackage);
     } catch (error) {
-        console.error(error.message);
-        response.status(500).send({ message: error.message });
+        console.error('Error fetching package by ID:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 
 // Update a package by ID
-router.put('/:id', async (request, response) => {
+router.put('/:id', async (req, res) => {
     try {
-        const { id } = request.params;
-        const updatedPackage = await PackageModel.findByIdAndUpdate(id, request.body, {
-            new: true, // Return the modified document rather than the original
-            runValidators: true, // Run model validation before updating
-        });
+        const { id } = req.params;
+        const updatedPackage = await PackageModel.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
 
         if (!updatedPackage) {
-            return response.status(404).json({ message: 'Package not found' });
+            return res.status(404).json({ message: 'Package not found' });
         }
 
-        response.status(200).json({ message: 'Package updated successfully', data: updatedPackage });
+        return res.status(200).json({ message: 'Package updated successfully', data: updatedPackage });
     } catch (error) {
-        console.error(error.message);
-        response.status(500).send({ message: error.message });
+        console.error('Error updating package by ID:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 
 // Delete a package by ID
-router.delete('/:id', async (request, response) => {
+router.delete('/:id', async (req, res) => {
     try {
-        const { id } = request.params;
+        const { id } = req.params;
         const deletedPackage = await PackageModel.findByIdAndDelete(id);
 
         if (!deletedPackage) {
-            return response.status(404).json({ message: 'Package not found' });
+            return res.status(404).json({ message: 'Package not found' });
         }
 
-        response.status(200).json({ message: 'Package deleted successfully' });
+        return res.status(200).json({ message: 'Package deleted successfully' });
     } catch (error) {
-        console.error(error.message);
-        response.status(500).send({ message: error.message });
+        console.error('Error deleting package by ID:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 

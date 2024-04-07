@@ -1,92 +1,128 @@
-import React,{useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react';
 import Spinner from '../../components/Spinner';
-import axios from 'axios'
-import {useNavigate, useParams} from 'react-router-dom';
-
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const EditPackage = () => {
-  const [pakgname, setname] = useState('');
-  const [pkgdescription, setdiscription] = useState('');
-  const [includes, setincludes] = useState('');
+  const [pakgname, setPakgname] = useState('');
+  const [pkgdescription, setPkgdescription] = useState('');
+  const [services, setServices] = useState([]);
+  const [selectedServices, setSelectedServices] = useState([]);
+  const [Price, setPrice] = useState(0);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
-  useEffect(()=> {
+
+  useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:8076/Package/${id}`)
-    .then((response) => {
-       setname(response.data.pakgname);
-       setdiscription(response.data.pkgdescription);
-       setincludes(response.data.includes);
-       setLoading(false);
-    }).catch((error) => {
-      console.log(error.message);
-      setLoading(false);
-    });
-  },[id]);
-  const handleEdit = async(e) => {
-    e.preventDefault();
-    const data ={
+    // Fetch package details
+    axios.get(`http://localhost:8076/package/${id}`)
+      .then((response) => {
+        const packageData = response.data;
+        setPakgname(packageData.pakgname);
+        setPkgdescription(packageData.pkgdescription);
+        setSelectedServices(packageData.includes);
+        setPrice(packageData.Price);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching package details:', error);
+        setLoading(false);
+      });
+
+    // Fetch services
+    axios.get('http://localhost:8076/service')
+      .then((response) => {
+        setServices(response.data.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching services:', error);
+      });
+  }, [id]);
+
+  const handleServiceSelect = (serviceName) => {
+    if (selectedServices.includes(serviceName)) {
+      setSelectedServices(selectedServices.filter(service => service !== serviceName));
+    } else {
+      setSelectedServices([...selectedServices, serviceName]);
+    }
+  };
+
+  const handleEditPackage = () => {
+    const data = {
       pakgname,
-      pkgdescription, 
-      includes
+      pkgdescription,
+      includes: selectedServices,
+      Price
     };
     setLoading(true);
-    axios
-    .put(`http://localhost:8076/Package/${id}`, data)
-    .then(()=>{
-      setLoading(false);
-      navigate('/package');
-    })
-    .catch((error)=>{
-       setLoading(false);
-       console.log(error);
-    })
+
+    axios.put(`http://localhost:8076/package/${id}`, data)
+      .then(() => {
+        setLoading(false);
+        navigate('/package');
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert('An error occurred. Please check the console.');
+        console.error(error);
+      });
   };
-  
 
   return (
-    <>
-    <div>
-      <div className= 'p-4'>
-        <h1 className='text-3xl my-4'>Edit Package details</h1>
-        {loading ? <Spinner/>:''}
-        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
-          <div className='my-4'>
-          <form>
-      <div className="mb-3">
-      <label for="pakgname" className="form-label">Package Name : </label>
-      <input 
-      type="text" 
-      className="form-control" 
-      value={pakgname} 
-      onChange={(e)=> setname(e.target.value)} />
+    <div className="p-4">
+      <h1 className="text-3xl my-4">Edit Package</h1>
+      {loading && <Spinner />}
 
-      <label for="pkgdescription" className="form-label">Package Discription : </label>
-      <textarea 
-        className="form-control" 
-        value={pkgdescription} 
-        onChange={(e)=> setdiscription(e.target.value)}/>
-
-     <label for="includes" className="form-label">Package includes : </label>
-      <textarea 
-        className="form-control" 
-        value={includes} 
-        onChange={(e)=> setincludes(e.target.value)}/>
-
-        <button type="submit" className="btn btn-primary" onClick={handleEdit}>Submit</button>
+      <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
+        <div className="my-4">
+          <label className="text-xl mr-4 text-gray-500">Package Name</label>
+          <input
+            type="text"
+            value={pakgname}
+            onChange={(e) => setPakgname(e.target.value)}
+            className="border-2 border-gray-500 px-4 py-2 w-full"
+          />
         </div>
-      </form>
+        <div className="my-4">
+          <label className="text-xl mr-4 text-gray-500">Description</label>
+          <input
+            type="text"
+            value={pkgdescription}
+            onChange={(e) => setPkgdescription(e.target.value)}
+            className="border-2 border-gray-500 px-4 py-2 w-full"
+          />
+        </div>
+        <div className="my-4">
+          <label className="text-xl mr-4 text-gray-500">Includes</label>
+          <div className="flex flex-wrap">
+            {services.map(service => (
+              <button
+                key={service._id}
+                className={`bg-gray-200 mr-2 mb-2 px-4 py-2 rounded ${selectedServices.includes(service.Servicename) ? 'bg-blue-500 text-white' : ''}`}
+                onClick={() => handleServiceSelect(service.Servicename)}
+              >
+                {service.Servicename}
+              </button>
+            ))}
           </div>
         </div>
+        <div className="my-4">
+          <label className="text-xl mr-4 text-gray-500">Price</label>
+          <input
+            type="number"
+            value={Price}
+            onChange={(e) => setPrice(e.target.value)}
+            className="border-2 border-gray-500 px-4 py-2 w-full"
+          />
+        </div>
+
+        <button className="p-2 bg-sky-300 m-8" onClick={handleEditPackage}>
+          Save
+        </button>
       </div>
-
     </div>
-    </>
-  )
-}
+  );
+};
 
-export default EditPackage
-
-
-
+export default EditPackage;
