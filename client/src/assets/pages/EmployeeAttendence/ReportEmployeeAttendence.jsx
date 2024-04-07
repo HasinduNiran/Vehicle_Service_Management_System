@@ -126,7 +126,7 @@ function ShowEmployeeAttendence() {
                     {EmployeeAttendence.employeeName}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                    {EmployeeAttendence.Date}
+                    {EmployeeAttendence.date}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
                     {EmployeeAttendence.InTime}
