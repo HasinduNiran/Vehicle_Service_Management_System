@@ -43,6 +43,10 @@ export default function ReadOneBooking() {
              <span>{booking._id}</span>
         </div>
         <div className= 'my-4'>
+             <span className= 'text-xl mr-4 text-gray-400'>Customer-ID</span>
+             <span>{booking.cusID}</span>
+        </div>
+        <div className= 'my-4'>
              <span className= 'text-xl mr-4 text-gray-400'>Customer-Name</span>
              <span>{booking.Customer_Name}</span>
         </div>

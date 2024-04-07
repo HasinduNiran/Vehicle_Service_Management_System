@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+
+
 const customerSchema = mongoose.Schema(
     {
         cusID: {
@@ -42,7 +44,7 @@ const customerSchema = mongoose.Schema(
 
 // Define a separate counter schema to keep track of the cusID
 const counterSchema = mongoose.Schema({
-    _id: { type: String, required: true },
+    _id: { type: String, required: true},
     seq: { type: Number, default: 1 }
 });
 

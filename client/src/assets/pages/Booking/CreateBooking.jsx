@@ -11,6 +11,8 @@ const Spinner = () => {
 const CreateBooking = () => {
 
     const [Booking_Date, setBooking_Date] = useState('');
+    const [Booking_Id, setBooking_Id] = useState('');
+    const [cusID, setcusID] = useState('');
     const [Customer_Name, setCustomer_Name] = useState('');
     const [Vehicle_Type, setVehicle_Type] = useState('');
     const [Vehicle_Number, setVehicle_Number] = useState('');
@@ -29,6 +31,8 @@ const CreateBooking = () => {
 
         const data = {
             Booking_Date,
+            Booking_Id,
+            cusID,
             Customer_Name,
             Vehicle_Type,
             Vehicle_Number,
@@ -77,7 +81,26 @@ const CreateBooking = () => {
                         className='border-2 border-gray-500 px-4 py-2 w-full'
                     />
                 </div>
+                
+                <div className='my-4'>
+                    <label className='text-xl mr-4 text-gray-500'>BookingID</label>
+                    <input
+                        type='text'
+                        value={Booking_Id}
+                        onChange={(e) => setBooking_Id(e.target.value)}
+                        className='border-2 border-gray-500 px-4 py-2 w-full'
+                    />
+                </div>
 
+                <div className='my-4'>
+                    <label className='text-xl mr-4 text-gray-500'>cusID</label>
+                    <input
+                        type='text'
+                        value={cusID}
+                        onChange={(e) => setcusID(e.target.value)}
+                        className='border-2 border-gray-500 px-4 py-2 w-full'
+                    />
+                </div>
 
                 <div className='my-4'>
                     <label className='text-xl mr-4 text-gray-500'>Customer_Name</label>

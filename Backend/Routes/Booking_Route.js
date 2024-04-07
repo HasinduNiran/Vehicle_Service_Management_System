@@ -22,6 +22,8 @@ router.post('/',async (request, response) => {
     });
       }
     const newVehicle = {
+    
+    Booking_Id:request.body.Booking_Id,
     cusID:request.body.cusID,
     Booking_Date: request.body.Booking_Date,
     Customer_Name: request.body.Customer_Name,
