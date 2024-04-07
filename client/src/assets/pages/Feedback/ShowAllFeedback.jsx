@@ -23,7 +23,7 @@ const ShowAllFeedback = () => {
   };
 
   // Add debounce to handleSearch function
-  const debouncedSearch = debounce(handleSearch, 100); // Debounce for 300ms
+  const debouncedSearch = debounce(handleSearch, 100); // Debounce for 100ms
   useEffect(() => {
     debouncedSearch(); // Call the debounced function
     return debouncedSearch.cancel; // Cleanup debounce on component unmount
