@@ -35,6 +35,9 @@ const ReadOneFeedback = () => {
         Back to Feedback
       </a>
       <p className="mb-2">
+        <span className="font-bold">Customer ID:</span> {feedback.cusID}
+      </p>
+      <p className="mb-2">
         <span className="font-bold">Name:</span> {feedback.name}
       </p>
       <p className="mb-2">
@@ -49,6 +52,9 @@ const ReadOneFeedback = () => {
       </p>
       <p className="mb-2">
         <span className="font-bold">Employee:</span> {feedback.employee}
+      </p>
+      <p className="mb-2">
+        <span className="font-bold">Star Rating:</span> {feedback.starRating}
       </p>
       <p className="mb-2">
         <span className="font-bold">Date of Service:</span>{" "}

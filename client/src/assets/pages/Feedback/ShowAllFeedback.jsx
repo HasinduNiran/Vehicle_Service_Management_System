@@ -48,12 +48,14 @@ const ShowAllFeedback = () => {
 
   const applySearchFilter = (feedback, query) => {
     return (
+      feedback.cusID.toLowerCase().includes(query.toLowerCase()) ||
       feedback.name.toLowerCase().includes(query.toLowerCase()) ||
       feedback.email.toLowerCase().includes(query.toLowerCase()) ||
       feedback.phone_number.toLowerCase().includes(query.toLowerCase()) ||
       feedback.employee.toLowerCase().includes(query.toLowerCase()) ||
       feedback.date_of_service.toLowerCase().includes(query.toLowerCase()) ||
-      feedback.message.toLowerCase().includes(query.toLowerCase())
+      feedback.message.toLowerCase().includes(query.toLowerCase()) ||
+      feedback.star_rating.toLowerCase().includes(query.toLowerCase())
     );
   };
 
@@ -65,13 +67,13 @@ const ShowAllFeedback = () => {
     const doc = new jsPDF();
     let y = 10;
     feedbacks.forEach((feedback, index) => {
-      const feedbackText = `Name: ${feedback.name}\nEmail: ${
-        feedback.email
-      }\nPhone Number: ${feedback.phone_number}\nEmployee: ${
-        feedback.employee
-      }\nDate of Service: ${feedback.date_of_service}\nMessage: ${
-        feedback.message
-      }\nStar Rating: ${
+      const feedbackText = `Customer ID: ${feedback.cusID}\nName: ${
+        feedback.name
+      }\nEmail: ${feedback.email}\nPhone Number: ${
+        feedback.phone_number
+      }\nEmployee: ${feedback.employee}\nDate of Service: ${
+        feedback.date_of_service
+      }\nMessage: ${feedback.message}\nStar Rating: ${
         feedback.star_rating !== null ? feedback.star_rating : "N/A"
       }\n\n`;
       doc.text(feedbackText, 10, y);
@@ -125,6 +127,7 @@ const ShowAllFeedback = () => {
           <table className="table-auto w-full mb-4">
             <thead>
               <tr>
+                <th className="border border-green-800 rounded-md">Customer ID</th>
                 <th className="border border-green-800 rounded-md">Name</th>
                 <th className="border border-green-800 rounded-md">Email</th>
                 <th className="border border-green-800 rounded-md">
@@ -144,13 +147,16 @@ const ShowAllFeedback = () => {
             <tbody>
               {feedbacks.length === 0 ? (
                 <tr>
-                  <td colSpan="8" className="text-center">
+                  <td colSpan="9" className="text-center">
                     No feedbacks available
                   </td>
                 </tr>
               ) : (
                 feedbacks.map((feedback) => (
                   <tr key={feedback._id}>
+                    <td className="border border-gray-600 rounded-md">
+                      {feedback.cusID}
+                    </td>
                     <td className="border border-gray-600 rounded-md">
                       {feedback.name}
                     </td>
