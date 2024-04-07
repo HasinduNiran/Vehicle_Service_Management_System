@@ -4,6 +4,10 @@ import mongoose from "mongoose";
 
 const serviceSchema = mongoose.Schema(
     {
+        cusID: {
+            type: String, // Changed to String type for custom format
+            unique: true
+        },
         Customer_Name: {
             type: String,
             required: true,

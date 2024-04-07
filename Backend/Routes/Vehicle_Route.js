@@ -94,7 +94,7 @@ router.get('/:identifier', async (request, response) => {
 
         // If no vehicle found by register number, try searching by cusID
         if (!vehicleResult) {
-            vehicleResult = await Vehicle.findOne({ cusID: identifier });
+            vehicleResult = await Vehicle.find({ cusID: identifier });
         }
 
         // Sending the fetched vehicle as a JSON response if found

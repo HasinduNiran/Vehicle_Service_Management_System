@@ -28,7 +28,7 @@ router.post('/', async (request, response) => {
             });
         }
         const newServiceHistory = new serviceHistory({
-         
+            cusID:request.body.cusID,         
             Customer_Name: request.body.Customer_Name,
             Allocated_Employee: request.body.Allocated_Employee,
             Vehicle_Number: request.body.Vehicle_Number,
@@ -82,6 +82,11 @@ router.get('/:identifier', async (request, response) => {
         // If no service history found by vehicle number, try searching by Booking_Id
         if (!serviceHistoryResult || serviceHistoryResult.length === 0) {
             serviceHistoryResult = await serviceHistory.find({ Booking_Id: identifier });
+        }
+
+        // If no service history found by Booking_Id, try searching by cusID
+        if (!serviceHistoryResult || serviceHistoryResult.length === 0) {
+            serviceHistoryResult = await serviceHistory.find({ cusID: identifier });
         }
 
         // Sending the fetched service history as a JSON response if found
