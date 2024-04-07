@@ -14,6 +14,7 @@ import UserAccount_Route from './Routes/UserAccount_Route.js';
 import Employee_Route from './Routes/Employee_Route.js';
 import Inventory_Route from './Routes/Inventory_Route.js';
 import Payment_Route from './Routes/Payment_Route.js';
+import PaymentInvoice_Route from './Routes/PaymentInvoice.js';
 import Vehicle_Route from './Routes/Vehicle_Route.js';
 import Feedback_Route from './Routes/Feedback_Route.js';
 import Booking_Route from './Routes/Booking_Route.js';
@@ -74,7 +75,7 @@ app.use('/Service',Service_Route);
 app.use('/ServiceHistory',ServiceHistory_Route);
 app.use('/Manager',Manager_Route);
 app.use('/EmployeeAttendence',EmployeeAttendence_Route);
-
+app.use('/PaymentInvoice',PaymentInvoice_Route);
 
 // Connecting to the MongoDB database
 
@@ -89,3 +90,5 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
+
+  

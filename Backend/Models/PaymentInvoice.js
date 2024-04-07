@@ -1,14 +1,13 @@
 import mongoose from 'mongoose';
 
 const paymentInvoiceSchema = mongoose.Schema({
-
     InvoiceId:{
         type:String,
         required:true
     },
     customerName:{
         type:String,
-        required:true
+        required:false
     },
     PaymentId:{
         type:String,
@@ -42,11 +41,10 @@ const paymentInvoiceSchema = mongoose.Schema({
         type:Number,
         required:true
     },
-    PaymentMethod: {
+    Booking_Id: {
         type: String,
-        required:true
+        required: true,
     }
-
-
-
 });
+
+export const PaymentInvoice = mongoose.model('paymentinvoice',paymentInvoiceSchema);
