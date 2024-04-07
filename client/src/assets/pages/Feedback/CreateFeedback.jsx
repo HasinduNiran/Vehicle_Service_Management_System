@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const CreateFeedback = () => {
   // State variables for form inputs and loading state
+  const [cusID, setCustomerID] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -32,7 +33,7 @@ const CreateFeedback = () => {
     }
 
     // Check if all fields are filled
-    if (!name || !email || !phoneNumber || !employee || !message) {
+    if (!cusID || !name || !email || !phoneNumber || !employee || !message) {
       alert("Please fill in all fields before submitting.");
       return;
     }
@@ -41,12 +42,13 @@ const CreateFeedback = () => {
     const formattedDate = formatDate(dateOfService);
 
     const data = {
-      name,
-      email,
+      cusID: cusID,
+      name: name,
+      email: email,
       phone_number: phoneNumber,
-      employee,
+      employee: employee,
       date_of_service: formattedDate,
-      message,
+      message: message,
       star_rating: starRating,
     };
 
@@ -92,10 +94,9 @@ const CreateFeedback = () => {
     };
 
     fetchEmployeesData();
-  }, []);
+  }, [axios]); // Add axios dependency here
 
   return (
-    
     <div className="p-4">
       <h1 className="text-3xl my-4">Create Feedback</h1>
 
@@ -103,6 +104,15 @@ const CreateFeedback = () => {
 
       <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
         {/* Form inputs */}
+        <div className="p-4">
+          <label className="text-xl mr-4 text-gray-500">Customer ID</label>
+          <input
+            type="text"
+            value={cusID}
+            onChange={(e) => setCustomerID(e.target.value)}
+            className="border-2 border-gray-500 px-4 py-2 w-full"
+          />
+        </div>
         <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Name</label>
           <input
@@ -112,7 +122,7 @@ const CreateFeedback = () => {
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
-         <div className="p-4">
+        <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Email</label>
           <input
             type="email"
@@ -121,7 +131,6 @@ const CreateFeedback = () => {
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
-
         <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Phone Number</label>
           <input
@@ -131,7 +140,6 @@ const CreateFeedback = () => {
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
-
         <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Employee</label>
           <select
@@ -141,13 +149,12 @@ const CreateFeedback = () => {
           >
             <option value="">Select Employee</option>
             {employees.map((employee) => (
-                <option key={employee.id} value={employee.employeeName}>
-                  {employee.employeeName}
-                </option>
+              <option key={employee.id} value={employee.id}>
+                {employee.employeeName}
+              </option>
             ))}
           </select>
         </div>
-
         <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Star Rating</label>
           <select
@@ -162,7 +169,6 @@ const CreateFeedback = () => {
             ))}
           </select>
         </div>
-
         <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Date of Service</label>
           <DatePicker
@@ -171,7 +177,6 @@ const CreateFeedback = () => {
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
-
         <div className="p-4">
           <label className="text-xl mr-4 text-gray-500">Message</label>
           <textarea
