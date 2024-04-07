@@ -7,11 +7,13 @@ const DeleteFeedback = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // Function to handle the confirmation dialog
+  const confirmDeleteFeedback = () => {
+    return window.confirm("Are you sure you want to delete this feedback?");
+  };
+
   const handleDelete = () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this feedback?"
-    );
-    if (!confirmDelete) {
+    if (!confirmDeleteFeedback()) {
       return;
     }
 
@@ -26,8 +28,9 @@ const DeleteFeedback = () => {
         setLoading(false);
         console.error("Error deleting feedback:", error);
 
+        // Simplified error handling and message generation
         let errorMessage = "An error occurred while deleting the feedback. Please try again later.";
-        if (error.response && error.response.status === 404) {
+        if (error.response?.status === 404) {
           errorMessage = "Feedback not found. It may have already been deleted.";
         }
 
