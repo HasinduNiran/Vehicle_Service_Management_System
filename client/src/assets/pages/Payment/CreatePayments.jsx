@@ -15,10 +15,10 @@ const CreatePayments = () => {
   const [PaymentMethod, setPaymentMethod] = useState('');
   //const [Booking_Id, setBooking_Id] = useState('');
  // const [employees, setEmployees] = useState([]);
-  const [servicehistory,setServiceHistory]= useState([]);
+  const [Servicehistory,setServiceHistory]= useState([]);
 
   const [loading, setLoading] = useState(false);
-  //const [serviceHistory, setServiceHistory] = useState([]); // Define serviceHistory state
+  //const [Servicehistory, setServicehistory] = useState([]); // Define Servicehistory state
   const navigate = useNavigate();
   //const { enqueueSnackbar } = useSnackbar();
 
@@ -27,23 +27,23 @@ const CreatePayments = () => {
   //   VehicleNo:''
   // });
 
-  useEffect(()=>{
-    setLoading(true);
-    axios
-      .get('http://localhost:8076/servicehistory')
-      .then((response) => {
-        setServiceHistory(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, []);
+   useEffect(() => {
+        setLoading(true);
+        axios
+            .get('http://localhost:8076/ServiceHistory')
+            .then((res) => {
+                setServiceHistory(res.data.service);
+                setCount(res.data.count);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
   
   //  const handleServiceIdChange=(e)=>{
   //   const selectedBooking_Id = e.target.value;
-  //   const selectedSr = servicehistory.find((service) => service.Booking_Id === selectedBooking_Id);
+  //   const selectedSr = Servicehistory.find((service) => service.Booking_Id === selectedBooking_Id);
   // setSelectedService({
   //   ...selectedService,
   //    Booking_Id: selectedBooking_Id,
@@ -53,7 +53,7 @@ const CreatePayments = () => {
 
   // const handleVehicleNumberChange=(e)=>{
   //   const selectedVehicleNo = e.target.value;
-  //   const selectedsr = servicehistory.find(
+  //   const selectedsr = Servicehistory.find(
   //     (service) => service.VehicleNo === selectedVehicleNo);
   // setSelectedService({
   //   ...selectedService,
@@ -123,7 +123,7 @@ const CreatePayments = () => {
             >
               <option value=''>Select Service ID</option>
               {
-                servicehistory.map((service) => ( 
+                Servicehistory.map((service) => ( 
                   <option key={service.Booking_Id} value={service.Booking_Id}>
                     {service.Booking_Id}
                   </option>
@@ -159,7 +159,7 @@ const CreatePayments = () => {
             >
             <option value=''>Select</option>
             {
-              servicehistory.map((service) => (
+              Servicehistory.map((service) => (
                 <option key={service._id} value={service.Vehicle_Number}>
                   {service.Vehicle_Number}
                 </option>
