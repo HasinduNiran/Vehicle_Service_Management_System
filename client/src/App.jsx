@@ -22,6 +22,11 @@ import DeletePayment from './assets/pages/Payment/DeletePayment';
 import EditPayment from './assets/pages/Payment/EditPayment';
 import ReportPayment from './assets/pages/Payment/ReportPayment';
 
+// import CreateInvoice from './assets/pages/PaymentInvoice/CreateInvoice';
+// import ReadOneInvoice from './assets/pages/PaymentInvoice/ReadOneInvoice';
+// import ShowInvoice from './assets/pages/PaymentInvoice/ShowInvoice';
+// import EditInvoice from './assets/pages/PaymentInvoice/EditInvoice';
+// import ReportInvoice from './assets/pages/PaymentInvoice/ReportInvoice';
 
 
 import ShowEmployee from './assets/pages/Employee/ShowEmployee';
@@ -109,6 +114,7 @@ const App = () => {
       <Route path='/vehicle/get/:id' element={<ReadOneVehicle />} />
       <Route path='/vehicle/delete/:id' element={<DeleteVehicle />} />
 
+
       <Route path='/employees/allEmployee' element={<ShowEmployee />}></Route>
       <Route path='/employees/create' element={<CreateEmployee />}></Route>
       <Route path='/employees/delete/:id' element={<DeleteEmployee />}></Route>
@@ -128,7 +134,12 @@ const App = () => {
       <Route path='/payments/edit/:id' element={<EditPayment />}></Route>
       <Route path='/payments/delete/:id' element={<DeletePayment />}></Route>
       <Route path='/payments/report' element={<ReportPayment />}></Route>
-
+      
+      {/* <Route path='/PaymentInvoice/Invoice' element={<ShowInvoice/>}></Route>
+      <Route path='/PaymentInvoice/create' element={<CreateInvoice/>}></Route>
+      <Route path='/PaymentInvoice/edit/:id' element={<EditInvoice/>}></Route>
+      <Route path='/PaymentInvoice/delete/:id' element={<ReportInvoice/>}></Route>
+      <Route path='/PaymentInvoice/read/:id' element={<ReadOneInvoice/>}></Route> */}
 
 
       <Route path ='/show-all'  element={<ShowAllBooking/>}/>

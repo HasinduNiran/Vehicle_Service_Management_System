@@ -46,6 +46,7 @@ const ShowPayment=()=> {
                     <tr>
                         <th className='border border-slate-600 rounded-md'>No</th>
                         <th className='border border-slate-600 rounded-md'>Payment ID</th>
+                        <th className='border border-slate-600 rounded-md '>Customer Id</th>
                         <th className='border border-slate-600 rounded-md'>Date</th>
                         <th className='border border-slate-600 rounded-md max-md:hidden'>Total Amount</th>
                         <th className='border border-slate-600 rounded-md max-md:hidden'>Payment Method</th>
@@ -62,6 +63,9 @@ const ShowPayment=()=> {
                             </td>
                             <td className='border border-slate-700 rounded-md text-center'>
                                 {payment.PaymentId}
+                            </td>
+                            <td className='border border-slate-700 rounded-md text-center'>
+                                {payment.cusID}
                             </td>
                             <td className='border border-slate-700 rounded-md text-center'>
                                 {payment.PaymentDate}
