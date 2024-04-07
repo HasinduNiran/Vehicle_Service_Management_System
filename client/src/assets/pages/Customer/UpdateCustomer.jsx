@@ -12,7 +12,7 @@ const EditCustomer = () => {
   const [NIC, setNIC] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [Username, setUsername] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const EditCustomer = () => {
         setNIC(data.NIC);
         setPhone(data.phone);
         setEmail(data.email);
-        setUsername(data.Username);
+        setUsername(data.username);
         setPassword(data.password);
         setLoading(false);
       })
@@ -54,7 +54,7 @@ const EditCustomer = () => {
       NIC,
       phone,
       email,
-      Username,
+      username,
       password,
     };
 
@@ -131,7 +131,7 @@ const EditCustomer = () => {
           <label className='text-xl mr-4 text-gray-500'>Username</label>
           <input
             type="text"
-            value={Username}
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
             className='border-2 border-gray-500 px-4 py-2 w-full'
           />

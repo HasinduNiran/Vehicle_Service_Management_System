@@ -6,6 +6,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom';
 
 import Home from './assets/pages/Home';
+import ReadOneHome from './assets/pages/ReadOneHome';
 
 import ShowAllBooking from './assets/pages/Booking/ShowAllBooking';
 import CreateBooking from './assets/pages/Booking/CreateBooking';
@@ -102,7 +103,9 @@ const App = () => {
       {/* <Header /> */}
       <Routes>
       <Route path='/' element={<Home />}></Route>
+      <Route path='/ReadOneHome/:cusID' element={<ReadOneHome />}></Route>     
       <Route path='/Mlogin' element={<ManagerLogin/>}></Route>
+      
 
       <Route path='/vehicle' element={<ShowVehicle />} />
       <Route path='/vehicle/create' element={<CreateVehicle />} />
@@ -126,7 +129,7 @@ const App = () => {
       <Route path='/payments/show' element={<ShowPayment />}></Route>
       <Route path='/payments/detail/:id' element={<ReadOnePayment />}></Route>
       <Route path='/payments/create' element={<CreatePayments />}></Route>
-      <Route path='/payments/edit/:id' element={<EditPayment />}></Route>
+       <Route path='/payments/edit/:id' element={<EditPayment />}></Route>
       <Route path='/payments/delete/:id' element={<DeletePayment />}></Route>
       <Route path='/payments/report' element={<ReportPayment />}></Route>
 
@@ -212,6 +215,8 @@ const App = () => {
       <Route path='/customer/edit/:id' element={<UpdateCustomer />}></Route>
       <Route path='/customer/delete/:id' element={<DeleteCustomer />}></Route>
       <Route path='/customer/get/:id' element={<ReadOneCustomer />}></Route>
+       
+
  
 
 

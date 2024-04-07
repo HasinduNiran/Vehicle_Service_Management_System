@@ -142,22 +142,23 @@ router.get("/searchCustomer", async (req, res) => {
 
 router.post('/cLogin', async (request, response) => {
     try {
-        const { username, password } = request.body;
-        if (!username || !password) {
-            return response.status(400).send({ message: 'Username and password are required' });
+        const { cusID, password } = request.body;
+        if (!cusID || !password) {
+            return response.status(400).json({ message: 'cusID and password are required' });
         }
-        const customer = await Customer.findOne({ username });
+        const customer = await Customer.findOne({ cusID });
         if (!customer) {
-            return response.status(404).send({ message: 'User not found' });
+            return response.status(404).json({ message: 'User not found' });
         }
         if (password !== customer.password) {
-            return response.status(401).send({ message: 'Incorrect password' });
+            return response.status(401).json({ message: 'Incorrect password' });
         }
-        response.status(200).send(customer);
+        response.status(200).json(customer);
     } catch (error) {
         console.error(error.message);
-        response.status(500).send({ message: 'Internal Server Error' });
+        response.status(500).json({ message: 'Internal Server Error' });
     }
 });
+
 
 export default router;

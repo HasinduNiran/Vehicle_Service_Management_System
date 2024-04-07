@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 function CLogin() {
-  const [Username, setUserName] = useState("");
+  const [cusID, setCusID] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const onLogin = async (e) => {
     e.preventDefault();
     const credentials = {
-      Username,
+      cusID,
       password,
     };
 
@@ -20,16 +20,17 @@ function CLogin() {
       const userData = response.data;
 
       if (userData) {
-        // Redirect to user dashboard
-        navigate("/cusDashboard");
-
+        // Redirect to user dashboard if necessary (handle on server side)
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `Welcome back, ${userData.Username}!`,
+          title: `Welcome back, ${userData.cusID}!`,
           showConfirmButton: false,
           timer: 2000,
         });
+
+        // Perform navigation after successful login
+        navigate(`/ReadOneHome/${cusID}`); // Corrected template literal usage
       } else {
         Swal.fire({
           position: "center",
@@ -40,13 +41,13 @@ function CLogin() {
         });
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Login failed:", error.response.data.message || error.message);
       Swal.fire({
         position: "center",
         icon: "error",
         title: "Login failed",
-        showConfirmButton: false,
-        timer: 2000,
+        text: error.response.data.message || error.message,
+        showConfirmButton: true,
       });
     }
   };
@@ -60,8 +61,8 @@ function CLogin() {
             type="text"
             id="username"
             placeholder="Enter your username"
-            value={Username}
-            onChange={(e) => setUserName(e.target.value)}
+            value={cusID}
+            onChange={(e) => setCusID(e.target.value)}
           />
         </div>
         <div>
