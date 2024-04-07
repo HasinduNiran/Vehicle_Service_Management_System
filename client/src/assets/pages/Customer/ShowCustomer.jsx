@@ -138,6 +138,13 @@ const ShowCustomer = () => {
                     <Link to={`/customer/delete/${ customerItem._id}`}>
                       <MdOutlineDelete className='text-2x1 text-red-600' />
                     </Link>
+                    <Link to={`/create/${ customerItem.cusID}`}>
+                    <button>Booking</button>
+                    </Link>
+                    <Link to={`/feedback/create/${ customerItem.cusID}`}>
+                      <button>feedback</button>
+                    </Link>
+
                   </div>
                 </td>
               </tr>

@@ -134,6 +134,7 @@ const App = () => {
 
       <Route path ='/show-all'  element={<ShowAllBooking/>}/>
       <Route path='/create' element={<CreateBooking/>}/>
+      <Route path='/create/:cusID' element={<CreateBooking/>}/>
       <Route path='/edit/:id' element={<EditBooking/>}/>
       <Route path='booking/delete/:id' element={<DeleteBooking/>}/>
       <Route path='booking/read/:id' element={<ReadOneBooking/>}/>
@@ -193,6 +194,7 @@ const App = () => {
 
       <Route path='/feedback' element={<ShowAllFeedback />}></Route>
       <Route path='/feedback/create' element={<CreateFeedback />}></Route>
+      <Route path='/feedback/create/:cusID' element={<CreateFeedback />}></Route>
       <Route path='/feedback/edit/:id' element={<EditFeedback />}></Route>
       <Route path='/feedback/delete/:id' element={<DeleteFeedback />}></Route>
       <Route path='/feedback/get/:id' element={<ReadOneFeedback />}></Route>
