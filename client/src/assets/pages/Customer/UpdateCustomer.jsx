@@ -39,11 +39,11 @@ const EditCustomer = () => {
       });
   }, [id]);
 
-  // Function to generate cusID like CUS1, CUS2, CUS3...
-  const generateCusID = () => {
-    const index = Math.floor(Math.random() * 100) + 1; // Generate a random index
-    return `CUS${index}`;
-  };
+  // // Function to generate cusID like CUS1, CUS2, CUS3...
+  // const generateCusID = () => {
+  //   const index = Math.floor(Math.random() * 100) + 1; // Generate a random index
+  //   return `CUS${index}`;
+  // };
 
   // Event handler for editing the customer
   const handleEditCustomer = () => {
