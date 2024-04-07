@@ -29,7 +29,14 @@ const CreateFeedback = ({ cusID }) => {
       alert("Please enter a valid 10-digit phone number.");
       return;
     }
-    if (!firstName || !lastName || !email || !phoneNumber || !employee || !message) {
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !phoneNumber ||
+      !employee ||
+      !message
+    ) {
       alert("Please fill in all fields before submitting.");
       return;
     }
@@ -126,7 +133,7 @@ const CreateFeedback = ({ cusID }) => {
           <label className="text-xl mr-4 text-gray-500">First Name</label>
           <input
             type="text"
-            value={firstName}
+            value={firstName || ""}
             readOnly
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
@@ -135,7 +142,7 @@ const CreateFeedback = ({ cusID }) => {
           <label className="text-xl mr-4 text-gray-500">Last Name</label>
           <input
             type="text"
-            value={lastName}
+            value={lastName || ""}
             readOnly
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
@@ -153,7 +160,7 @@ const CreateFeedback = ({ cusID }) => {
           <label className="text-xl mr-4 text-gray-500">Phone Number</label>
           <input
             type="tel"
-            value={phoneNumber}
+            value={phoneNumber || ""}
             readOnly
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
@@ -188,6 +195,7 @@ const CreateFeedback = ({ cusID }) => {
           </select>
         </div>
         <div className="p-4">
+          s // Extra 's' here
           <label className="text-xl mr-4 text-gray-500">Date of Service</label>
           <DatePicker
             selected={dateOfService}
