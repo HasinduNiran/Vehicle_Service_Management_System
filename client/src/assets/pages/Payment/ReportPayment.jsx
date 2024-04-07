@@ -98,6 +98,9 @@ const ReportPayment = () => {
               <tr>
                 <th className="border border-slate-600 rounded-md">No</th>
                 <th className="border border-slate-600 rounded-md">Payment ID</th>
+                <th className="border border-slate-600 rounded-md">Customer ID</th>
+                <th className="border border-slate-600 rounded-md">Service ID</th>
+                <th className="border border-slate-600 rounded-md">Vehicle No</th>
                 <th className="border border-slate-600 rounded-md">Date</th>
                 <th className="border border-slate-600 rounded-md">Total Amount</th>
                 <th className="border border-slate-600 rounded-md">Payment Method</th>
@@ -108,6 +111,9 @@ const ReportPayment = () => {
                 <tr key={payment._id} className="h-8">
                   <td className="border border-slate-700 rounded-md text-center">{index + 1}</td>
                   <td className="border border-slate-700 rounded-md text-center">{payment.PaymentId}</td>
+                  <td className="border border-slate-700 rounded-md text-center">{payment.cusID}</td>
+                  <td className="border border-slate-700 rounded-md text-center">{payment.Booking_Id}</td>
+                  <td className="border border-slate-700 rounded-md text-center">{payment.Vehicle_Number}</td>
                   <td className="border border-slate-700 rounded-md text-center">{payment.PaymentDate}</td>
                   <td className="border border-slate-700 rounded-md text-center">{payment.totalAmount}</td>
                   <td className="border border-slate-700 rounded-md text-center">{payment.PaymentMethod}</td>

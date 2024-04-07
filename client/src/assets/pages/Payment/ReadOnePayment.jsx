@@ -43,6 +43,14 @@ const ReadOnePayment=()=> {
           <span>{payment.cusID}</span>
         </div>
         <div className='my-4'>
+          <span className='text-xl mr-4 text-gray-500'>Service ID</span>
+          <span>{payment.Booking_Id}</span>
+        </div>
+        <div className='my-4'>
+          <span className='text-xl mr-4 text-gray-500'>Vehicle NO</span>
+          <span>{payment.Vehicle_Number}</span>
+        </div>
+        <div className='my-4'>
           <span className='text-xl mr-4 text-gray-500'>Date</span>
           <span>{payment.PaymentDate}</span>
         </div>
