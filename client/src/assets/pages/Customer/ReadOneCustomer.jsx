@@ -10,6 +10,8 @@ const ReadOneCustomer = () => {
   const [payments, setPayments] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [serviceHistories, setServiceHistory] = useState([]);
+  const [feedback, setFeedback] = useState({});
+
 
   const { id: cusID } = useParams();
 
@@ -31,6 +33,9 @@ const ReadOneCustomer = () => {
 
         const ServiceHistoryResponse = await axios.get(`http://localhost:8076/ServiceHistory/${cusID}`);
         setServiceHistory(ServiceHistoryResponse.data);
+
+        const FeedbackResponse = await axios.get(`http://localhost:8076/feedback/${cusID}`);
+        setFeedback(FeedbackResponse.data);
 
         setLoading(false);
       } catch (error) {
@@ -220,6 +225,42 @@ const ReadOneCustomer = () => {
             </div>
           ) : (
             <p>No service details available for this customer.</p>
+          )}
+
+{feedback.length > 0 ? (
+            <div>
+              <h2 className='text-2xl my-4'>Feedback</h2>
+              <table className='table'>
+                <thead>
+                  <tr>
+                  <th>Customer ID:</th>
+                    <th>Name:</th>
+                    <th>Email:</th>
+                    <th>Message:</th>
+                    <th>Phone Number:</th>
+                    <th>Employee:</th>
+                    <th>Star Rating:</th>
+                    <th>Date of Service:</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {feedback.map((feedback, index) => (
+                    <tr key={index}>
+                       <td>{feedback.cusID}</td>
+                      <td>{feedback.name}</td>
+                      <td>{feedback.email}</td>
+                      <td>{feedback.message}</td>
+                      <td>{feedback.phone_number}</td>
+                      <td>{feedback.employee}</td>
+                      <td>{feedback.star_rating}</td>
+                      <td>{feedback.date_of_service}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p>No feedback details available for this customer.</p>
           )}
 
 
