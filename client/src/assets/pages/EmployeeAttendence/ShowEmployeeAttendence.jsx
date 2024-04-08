@@ -108,7 +108,7 @@ function ShowEmployeeAttendence() {
             <th className='border border-slate-600 rounded-md max-md:hidden'>Date</th>
             <th className='border border-slate-600 rounded-md max-md:hidden'>InTime</th>
             <th className='border border-slate-600 rounded-md'>OutTime</th>
-            <th className='border border-slate-600 rounded-md'>Workinghours</th>
+            <th className='border border-slate-600 rounded-md'>Workedhours</th>
             <th className='border border-slate-600 rounded-md'>OThours</th>
             <th className='border border-slate-600 rounded-md'>Action</th>
         </tr>
