@@ -34,8 +34,11 @@ const vehicleSchema = mongoose.Schema({
     Email: {
         type: String,
         required: true
+    },
+    selectedPackage: {
+        type: String,
+        required: true
     }
-    
 });
 
 const counterSchema = mongoose.Schema({
