@@ -43,8 +43,12 @@ export default function ShowAllServiceHistory() {
             (service.Allocated_Employee && service.Allocated_Employee.toLowerCase().includes(query)) ||
             (service.Vehicle_Number && service.Vehicle_Number.toLowerCase().includes(query)) ||
             (service.Service_History && service.Service_History.toLowerCase().includes(query)) ||
+            (service.Milage && service.Milage.toLowerCase().includes(query)) ||
+            (service.Package && service.Package.toLowerCase().includes(query)) ||
+            (service.Booking_Id && service.Booking_Id.toLowerCase().includes(query)) ||
             (service.Service_Date && service.Service_Date.toLowerCase().includes(query)) ||
             (service.Month && service.Month.toLowerCase().includes(query)) // Add searching for the Month field
+           
         );
     };
     
