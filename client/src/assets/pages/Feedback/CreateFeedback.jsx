@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Add import for useParams
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const CreateFeedback = ({ cusID }) => {
+const CreateFeedback = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,6 +16,9 @@ const CreateFeedback = ({ cusID }) => {
   const [dateOfService, setDateOfService] = useState(new Date());
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const [userData, setUserData] = useState({});
+
+  const { cusID } = useParams(); // Get cusID from the URL
 
   const handleSaveFeedback = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -104,23 +107,19 @@ const CreateFeedback = ({ cusID }) => {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`/customer/${cusID}`)
-      .then((response) => {
-        const data = response.data;
-        setFirstName(data.firstName);
-        setLastName(data.lastName);
-        setPhoneNumber(data.phone);
-        setEmail(data.email);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        alert(`An error happened. Please check console`);
-        console.log(error);
-      });
+    if (cusID) {
+      fetchData();
+    }
   }, [cusID]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8076/customer/${cusID}`);
+      setUserData(response.data);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
 
   return (
     <div className="p-4">
@@ -133,7 +132,7 @@ const CreateFeedback = ({ cusID }) => {
           <label className="text-xl mr-4 text-gray-500">First Name</label>
           <input
             type="text"
-            value={firstName || ""}
+            value={userData.firstName}
             readOnly
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
@@ -142,7 +141,7 @@ const CreateFeedback = ({ cusID }) => {
           <label className="text-xl mr-4 text-gray-500">Last Name</label>
           <input
             type="text"
-            value={lastName || ""}
+            value={userData.lastName}
             readOnly
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
@@ -151,8 +150,8 @@ const CreateFeedback = ({ cusID }) => {
           <label className="text-xl mr-4 text-gray-500">Email</label>
           <input
             type="email"
-            value={email}
-            readOnly
+            value={userData.email}
+            
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
@@ -160,7 +159,7 @@ const CreateFeedback = ({ cusID }) => {
           <label className="text-xl mr-4 text-gray-500">Phone Number</label>
           <input
             type="tel"
-            value={phoneNumber || ""}
+            value={userData.phone}
             readOnly
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
@@ -195,7 +194,6 @@ const CreateFeedback = ({ cusID }) => {
           </select>
         </div>
         <div className="p-4">
-          s // Extra 's' here
           <label className="text-xl mr-4 text-gray-500">Date of Service</label>
           <DatePicker
             selected={dateOfService}
