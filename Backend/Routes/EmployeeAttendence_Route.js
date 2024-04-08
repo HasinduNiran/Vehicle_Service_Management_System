@@ -9,20 +9,20 @@ router.post('/', async (request, response) => {
     if (
       !request.body.EmpID ||
       !request.body.employeeName ||
-      !request.body.Date 
+      !request.body.date 
       //!request.body.InTime ||
       //!request.body.OutTime 
       //!request.body.OThours 
 
     ) {
       return response.status(400).send({
-        message: 'Send all required fields: EmpID, employeeName, Date, InTime, OutTime, OThours',
+        message: 'Send all required fields: EmpID, employeeName, date, InTime, OutTime, OThours',
       });
     }
     const newEmployeeAttendence = {
       EmpID: request.body.EmpID,
       employeeName: request.body.employeeName,
-      Date: request.body.Date,
+      date: request.body.date,
       InTime: request.body.InTime || null,  // Set to null if not provided
       OutTime: request.body.OutTime || null,  // Set to null if not provided
       WorkingHours: request.body.WorkingHours || null,
@@ -85,39 +85,53 @@ router.get('/:id', async (request, response) => {
 // Route for Update an employee
 router.put('/:id', async (request, response) => {
   try {
-    if (
-      !request.body.EmpID ||
-      !request.body.employeeName ||
-      !request.body.Date ||
-      !request.body.InTime ||
-      !request.body.OutTime 
-      //!request.body.OThours 
-      
-    ) {
-      return response.status(400).send({
-        message: 'Send all required fields: EmpID, employeeName, Date, InTime, OutTime, OThours',
-      });
+    const id = request.params.id;
+    const existingAttendance = await EmployeeAttendence.findById(id);
+
+    if (!existingAttendance) {
+      return response.status(404).send({ message: 'Attendance record not found' });
     }
 
-    const { id } = request.params;
-
-    const result = await EmployeeAttendence.findByIdAndUpdate(id, request.body);
-
-    if (!result) {
-      return response.status(404).json({ message: 'Employee not found' });
+    // Update only the fields that are provided in the request body
+    if (request.body.EmpID) {
+      existingAttendance.EmpID = request.body.EmpID;
+    }
+    if (request.body.employeeName) {
+      existingAttendance.employeeName = request.body.employeeName;
+    }
+    if (request.body.date) {
+      existingAttendance.date = request.body.date;
+    }
+    if (request.body.hasOwnProperty('InTime')) {
+      existingAttendance.InTime = request.body.InTime;
+    }
+    if (request.body.hasOwnProperty('OutTime')) {
+      existingAttendance.OutTime = request.body.OutTime;
+    }
+    if (request.body.hasOwnProperty('WorkingHours')) {
+      existingAttendance.WorkingHours = request.body.WorkingHours;
+    }
+    if (request.body.hasOwnProperty('OThours')) {
+      existingAttendance.OThours = request.body.OThours;
     }
 
-    return response.status(200).send({ message: 'Employee updated successfully' });
+    // Save the updated attendance record
+    const updatedAttendance = await existingAttendance.save();
+
+    return response.status(200).send(updatedAttendance);
   } catch (error) {
     console.log(error.message);
     response.status(500).send({ message: error.message });
   }
 });
 
+
+
+
 // Route for updating employee attendance
-// router.put('/:EmpID/:Date', async (request, response) => {
+// router.put('/:EmpID/:date', async (request, response) => {
 //   try {
-//     const { EmpID, Date } = request.params;
+//     const { EmpID, date } = request.params;
 
 //     // Check if the request body contains required fields for updating attendance
 //     if (
@@ -132,9 +146,9 @@ router.put('/:id', async (request, response) => {
 
 //     const { InTime, OutTime, OThours } = request.body;
 
-//     // Find the employee attendance record by EmpID and Date and update it
+//     // Find the employee attendance record by EmpID and date and update it
 //     const result = await EmployeeAttendence.findOneAndUpdate(
-//       { EmpID: EmpID, Date: Date },
+//       { EmpID: EmpID, date: date },
 //       { InTime: InTime, OutTime: OutTime, OThours: OThours },
 //       { new: true }
 //     );
@@ -182,7 +196,7 @@ router.get("/searchEmployeeAttendence", async (req, res) => {
       $or: [
         { EmpID: { $regex: new RegExp(search, 'i') } }, // Using RegExp instead of directly passing $regex
         { employeeName: { $regex: new RegExp(search, 'i') } },
-        { Date: { $regex: new RegExp(search, 'i') } },
+        { date: { $regex: new RegExp(search, 'i') } },
         { InTime: { $regex: new RegExp(search, 'i') } },
         { OutTime: { $regex: new RegExp(search, 'i') } },
         { WorkingHours: { $regex: new RegExp(search, 'i') } },

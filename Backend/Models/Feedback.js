@@ -2,6 +2,10 @@ import { Schema, model } from "mongoose";
 
 // Defining the Feedback Schema
 const feedbackSchema = Schema({
+    cusID: {
+        type: String,
+        unique: true,
+    },
     name: {
         type: String,
         required: true,

@@ -6,6 +6,7 @@ import { BsInfoCircle } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
 import { useReactToPrint } from 'react-to-print';
+import Swal from 'sweetalert2';
 
 const ShowInventory = () => {
   const [inventory, setInventory] = useState([]);
@@ -73,10 +74,65 @@ const ShowInventory = () => {
 
   const filteredInventory = inventory.filter(applySearchFilter);
 
+  useEffect(() => {
+    const itemsBelow15 = filteredInventory.filter(item => item.Quantity <= 15);
+    if (itemsBelow15.length > 0) {
+      const itemNamesList = itemsBelow15.map(item => `<li>${item.Name}</li>`).join('');
+      Swal.fire({
+        icon: "warning",
+        title: "warning",
+        html: `Quantity of the following items are in low level<ul>${itemNamesList}</ul>`,
+      });
+    }
+  }, [filteredInventory]);
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`http://localhost:8076/inventory/${id}`)
+          .then(response => {
+            if (response.status === 200) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+              }).then(() => {
+                // Refresh the inventory list after successful deletion
+                handleSearch();
+              });
+            } else {
+              Swal.fire({
+                title: "Error!",
+                text: "Failed to delete item.",
+                icon: "error"
+              });
+            }
+          })
+          .catch(error => {
+            console.error("Error deleting item:", error);
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to delete item.",
+              icon: "error"
+            });
+          });
+      }
+    });
+  };
+  
+
   return (
     <div className="p-4" ref={componentRef}>
       <h1 className="text-3xl mb-8">Inventory List</h1>
-      <div className="mb-4">
+      <div className="mb-4 flex justify-end items-center">
         <input
           type="text"
           name="searchQuery"
@@ -92,11 +148,19 @@ const ShowInventory = () => {
           Search
         </button>
       </div>
+      <div className="flex justify-end mb-4">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/inventory/create'}>
+          Add Inventory
+        </button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4" onClick={generatePDF}>
+          Generate PDF
+        </button>
+      </div>
+
       {loading ? (
         <Spinner />
       ) : (
-        <table className="w-full border-separate border-spacing-2"  ref={componentRef} >
-          
+        <table className="w-full border-separate border-spacing-2" ref={componentRef}>
           <thead>
             <tr>
               <th className="border border-slate-600 rounded-md">No</th>
@@ -116,7 +180,7 @@ const ShowInventory = () => {
                 <td className="border border-slate-700 rounded-md text-center">{index + 1}</td>
                 <td className="border border-slate-700 rounded-md text-center">{inventoryItem.Name}</td>
                 <td className="border border-slate-700 rounded-md text-center">{inventoryItem.Location}</td>
-                <td className="border border-slate-700 rounded-md text-center max-md:hidden">{inventoryItem.Quantity}</td>
+                <td className={`border border-slate-700 rounded-md text-center max-md:hidden ${inventoryItem.Quantity <= 15 ? 'text-red-500' : ''}`}>{inventoryItem.Quantity}</td>
                 <td className="border border-slate-700 rounded-md text-center max-md:hidden">{inventoryItem.PurchasedPrice}</td>
                 <td className="border border-slate-700 rounded-md text-center">{inventoryItem.SellPrice}</td>
                 <td className="border border-slate-700 rounded-md text-center">{inventoryItem.SupplierName}</td>
@@ -129,9 +193,9 @@ const ShowInventory = () => {
                     <Link to={`/inventory/edit/${inventoryItem._id}`}>
                       <AiOutlineEdit className="text-2xl text-yellow-600" />
                     </Link>
-                    <Link to={`/inventory/delete/${inventoryItem._id}`}>
+                    <button onClick={() => handleDelete(inventoryItem._id)}>
                       <MdOutlineDelete className="text-2xl text-red-600" />
-                    </Link>
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -139,11 +203,6 @@ const ShowInventory = () => {
           </tbody>
         </table>
       )}
-      <div className="flex justify-center items-center mt-8">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generatePDF}>
-          Generate PDF
-        </button>
-      </div>
     </div>
   );
 };

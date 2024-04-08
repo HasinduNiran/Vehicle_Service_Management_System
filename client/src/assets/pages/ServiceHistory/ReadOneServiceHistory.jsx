@@ -53,6 +53,29 @@ const ReadOneServiceHistory = () => {
               <span className="font-bold">Date_Of_Service:</span>{" "}
               {serviceHistory.Service_Date}
             </p>
+            <p>
+              <span className="font-bold">Milage:</span>{" "}
+              {serviceHistory.Milage}
+            </p>
+            <p>
+              <span className="font-bold">Package:</span>{" "}
+              {serviceHistory.Package}
+            </p>
+            <p>
+              <span className="font-bold">Booking_Id:</span>{" "}
+              {serviceHistory.Booking_Id}
+            </p>
+            <p>
+              <span className="font-bold">nextService:</span>{" "}
+              {serviceHistory.nextService}
+            </p>
+           
+
+
+
+
+
+
           </div>
         </div>
       )}

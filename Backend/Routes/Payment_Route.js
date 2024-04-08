@@ -1,4 +1,6 @@
 import express from 'express';
+import mongoose from 'mongoose';
+
 import { Payment } from '../Models/Payment.js';
 
 const router = express.Router();
@@ -8,19 +10,25 @@ router.post('/', async (request, response) => {
   try {
     if (
       !request.body.PaymentId ||
+      !request.body.cusID||
+      !request.body.Vehicle_Number||
       !request.body.PaymentDate ||
       !request.body.totalAmount ||
-      !request.body.PaymentMethod
+      !request.body.PaymentMethod||
+      !request.body.Booking_Id
     ) {
       return response.status(400).send({
-        message: 'Send all required fields:PaymentId,PaymentDate,totalAmount,PaymentMethod',
+        message: 'Send all required fields:PaymentId,cusID,PaymentDate,totalAmount,PaymentMethod',
       });
     }
     const newPayment = {
       PaymentId: request.body.PaymentId,
+      cusID:request.body.cusID,
+      Vehicle_Number: request.body.Vehicle_Number,
       PaymentDate: request.body.PaymentDate,
       totalAmount: request.body.totalAmount,
       PaymentMethod: request.body.PaymentMethod,
+      Booking_Id: request.body.Booking_Id
     };
     const payment = await Payment.create(newPayment);
     return response.status(201).send(payment);
@@ -73,7 +81,7 @@ router.get('/', async (request, response) => {
 });
 
 // Route for get 1 payment
-router.get('/:id', async (request, response) => {
+/*router.get('/:id', async (request, response) => {
   try {
     const { id } = request.params;
     const payment = await Payment.findById(id);
@@ -82,19 +90,56 @@ router.get('/:id', async (request, response) => {
     console.log(error.message);
     response.status(500).send({ message: error.message });
   }
+});*/
+
+ // Route for retrieving a specific Vehicle by ID
+ router.get('/:identifier', async (request, response) => {
+  try {
+      // Extracting the identifier from the request parameters
+      const { identifier } = request.params;
+
+      // Checking if the provided identifier is a valid MongoDB ObjectId
+      if (mongoose.Types.ObjectId.isValid(identifier)) {
+          // Fetching a vehicle from the database based on the ID
+          const PaymentByID = await Payment.findById(identifier);
+          if (PaymentByID) {
+              // Sending the fetched vehicle as a JSON response if found by ID
+              return response.status(200).json(PaymentByID);
+          }
+      }
+
+      // If the provided identifier is not a valid ObjectId, try searching by register number
+      const PaymentByCUSID = await Payment.find({ cusID: identifier });
+      if (PaymentByCUSID) {
+          // Sending the fetched vehicle as a JSON response if found by register number
+          return response.status(200).json(PaymentByCUSID);
+      }
+
+      // If no vehicle found by either ID or register number, send a 404 Not Found response
+      return response.status(404).json({ message: 'payment not found' });
+  } catch (error) {
+      // Handling errors and sending an error response with detailed error message
+      console.error(error);
+      response.status(500).send({ message: 'Error fetching booking: ' + error.message });
+  }
 });
+
+
 
 // Route for update
 router.put('/:id', async (request, response) => {
   try {
     if (
       !request.body.PaymentId ||
+      !request.body.cusID||
+      !request.body.Vehicle_Number||
       !request.body.PaymentDate ||
       !request.body.totalAmount ||
-      !request.body.PaymentMethod
+      !request.body.PaymentMethod||
+      !request.body.Booking_Id
     ) {
       return response.status(400).send({
-        message: 'Send all required fields:PaymentId,PaymentDate,totalAmount,PaymentMethod',
+        message: 'Send all required fields:PaymentId,cusID,PaymentDate,totalAmount,PaymentMethod',
       });
     }
     const { id } = request.params;

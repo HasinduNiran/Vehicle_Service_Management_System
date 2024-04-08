@@ -6,29 +6,56 @@ const CreateServiceHistory = () => {
   const [Customer_Name, setCustomer_Name] = useState('');
   const [Allocated_Employee, setAllocated_Employee] = useState('');
   const [Vehicle_Number, setVehicle_Number] = useState('');
+  const [Milage, setMilage] = useState('');
+  const [Package, setPackage] = useState('');
+  const [Booking_Id, setBooking_Id] = useState('');
+  const [nextService, setNextService] = useState('');
   const [Service_History, setService_History] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [loading, setLoading] = useState(false);
-  const [employees, setEmployees] = useState([]);
+
+  const [customers, setCustomers] = useState([]);
+  const [vehicles, setVehicles] = useState([]); 
+  const [employees, setEmployees] = useState([]); 
+
   const navigate = useNavigate();
 
-       // Validation function for Vehicle Number
-       const validateVehicleNumber = (value) => {
-        // Regular expression for alphanumeric with hyphen and space
-        const regex = /^[a-zA-Z0-9\s-]{0,4}[0-9]{4}$/;
-        // Check if the value matches the pattern
-        if (!value.match(regex)) {
-            return false; // Return false if validation fails
-        }
-        return true; // Return true if validation passes
-    };
+  // Validation function for Vehicle Number
+  const validateVehicleNumber = (value) => {
+    // Regular expression for alphanumeric with hyphen and space
+    const regex = /^[a-zA-Z0-9\s-]{0,4}[0-9]{4}$/;
+    // Check if the value matches the pattern
+    return regex.test(value);
+  };
 
   useEffect(() => {
     setLoading(true);
     axios
+      .get('http://localhost:8076/customer')
+      .then((response) => {
+        setCustomers(response.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+
+    axios
       .get('http://localhost:8076/employees')
       .then((response) => {
         setEmployees(response.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+
+    axios
+      .get('http://localhost:8076/vehicles')
+      .then((response) => {
+        setVehicles(response.data.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -40,22 +67,26 @@ const CreateServiceHistory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateVehicleNumber(Register_Number)) {
-      alert('Please enter a valid vehicle number.'); // Display an error message if validation fails
-      return; // Exit the function if validation fails
-  }
+    if (!validateVehicleNumber(Vehicle_Number)) {
+      alert('Please enter a valid vehicle number.');
+      return;
+    }
 
     const data = {
       Customer_Name,
       Allocated_Employee,
       Vehicle_Number,
+      Milage,
+      Package,
+      Booking_Id,
+      nextService,
       Service_History,
       Service_Date: selectedDate,
     };
 
     setLoading(true);
     try {
-      await axios.post('http://localhost:8076/ServiceHistory/', data);
+      await axios.post('http://localhost:8076/serviceHistory/', data);
       setLoading(false);
       navigate('/ServiceHistory');
     } catch (error) {
@@ -79,16 +110,24 @@ const CreateServiceHistory = () => {
         <h1 className='text-2xl font-bold'>Create Service History</h1>
       </div>
       <form onSubmit={handleSubmit}>
+        {/* Customer Name */}
         <div className='mt-4'>
           <label className='block'>Customer Name</label>
-          <input
-            type='text'
+          <select
             className='border border-gray-600 rounded-md w-full p-2'
             value={Customer_Name}
             onChange={(e) => setCustomer_Name(e.target.value)}
-          />
+          >
+            <option value=''>Select a customer</option>
+            {customers.map((customer) => (
+              <option key={customer._id} value={customer.Customer_Name}>
+                {customer.username}
+              </option>
+            ))}
+          </select>
         </div>
 
+        {/* Allocated Employee */}
         <div className='mt-4'>
           <label className='block'>Allocated Employee</label>
           <select
@@ -98,23 +137,75 @@ const CreateServiceHistory = () => {
           >
             <option value=''>Select an employee</option>
             {employees.map((employee) => (
-              <option key={employee._id} value={employee.employeeName}>
+              <option key={employee._id} value={employee.Allocated_Employee}>
                 {employee.employeeName}
               </option>
             ))}
           </select>
         </div>
 
+        {/* Vehicle Number */}
         <div className='mt-4'>
           <label className='block'>Vehicle Number</label>
-          <input
-            type='text'
+          <select
             className='border border-gray-600 rounded-md w-full p-2'
             value={Vehicle_Number}
-            onChange={(e) => setVehicle_Number(e.target.value)} maxLength={8}
+            onChange={(e) => setVehicle_Number(e.target.value)}
+          >
+            <option value=''>Select a vehicle</option>
+            {vehicles.map((vehicle) => (
+              <option key={vehicle._id} value={vehicle.Vehicle_Number}>
+                {vehicle.Register_Number}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Milage */}
+        <div className='mt-4'>
+          <label className='block'>Milage</label>
+          <input
+            type='number'
+            className='border border-gray-600 rounded-md w-full p-2'
+            value={Milage}
+            onChange={(e) => setMilage(e.target.value)}
           />
         </div>
 
+        {/* Package */}
+        <div className='mt-4'>
+          <label className='block'>Package</label>
+          <input
+            type='text'
+            className='border border-gray-600 rounded-md w-full p-2'
+            value={Package}
+            onChange={(e) => setPackage(e.target.value)}
+          />
+        </div>
+
+        {/* Booking ID */}
+        <div className='mt-4'>
+          <label className='block'>Booking ID</label>
+          <input
+            type='text'
+            className='border border-gray-600 rounded-md w-full p-2'
+            value={Booking_Id}
+            onChange={(e) => setBooking_Id(e.target.value)}
+          />
+        </div>
+
+        {/* Next Service */}
+        <div className='mt-4'>
+          <label className='block'>Next Service</label>
+          <input
+            type='text'
+            className='border border-gray-600 rounded-md w-full p-2'
+            value={nextService}
+            onChange={(e) => setNextService(e.target.value)}
+          />
+        </div>
+
+        {/* Service History */}
         <div className='mt-4'>
           <label className='block'>Service History</label>
           <input
@@ -125,6 +216,7 @@ const CreateServiceHistory = () => {
           />
         </div>
 
+        {/* Service Date */}
         <div className='mt-4'>
           <label className='block'>Service Date</label>
           <input
@@ -136,6 +228,7 @@ const CreateServiceHistory = () => {
           />
         </div>
 
+        {/* Submit Button */}
         <div className='mt-4'>
           <button
             type='submit'

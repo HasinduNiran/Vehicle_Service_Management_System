@@ -1,45 +1,65 @@
 import mongoose from "mongoose";
 
-//fields of the collection
 const customerSchema = mongoose.Schema(
     {
-        firstName:{
-            type: String,
-            required:true
+        cusID: {
+            type: String, // Changed to String type for custom format
+            unique: true
         },
-        lastName:{
+        firstName: {
             type: String,
-            required:true
+            required: true
         },
-        NIC:{
+        lastName: {
             type: String,
-            required:true 
+            required: true
         },
-        phone:{
+        NIC: {
             type: String,
-            required:true 
+            required: true 
         },
-        
-        email:{
+        phone: {
             type: String,
-            required:true 
+            required: true 
         },
-       
-        Username:{
+        email: {
             type: String,
-            required:true 
+            required: true 
         },
-        password:{
+        username: {
             type: String,
-            required:true 
+            required: true 
         },
-        
-
+        password: {
+            type: String,
+            required: true 
+        }
     },
     {
-        timestamps:true,
-    },
-
+        timestamps: true,
+    }
 );
 
-export const Customer = mongoose.model('Customer',customerSchema);
+// Define a separate counter schema to keep track of the cusID
+const counterSchema = mongoose.Schema({
+    _id: { type: String, required: true },
+    seq: { type: Number, default: 1 }
+});
+
+// Create a model for the counter
+const Counter = mongoose.model('Counter', counterSchema);
+
+// Add pre-save middleware for auto-generating cusID
+customerSchema.pre('save', async function (next) {
+    try {
+        if (this.isNew) {
+            const doc = await Counter.findOneAndUpdate({ _id: 'customerId' }, { $inc: { seq: 1 } }, { new: true, upsert: true });
+            this.cusID = 'CUS' + doc.seq;
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
+
+export const Customer = mongoose.model('Customer', customerSchema);

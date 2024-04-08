@@ -56,6 +56,11 @@ const ReportCustomer = React.forwardRef((props, ref) => {
 
     const filteredCustomer = customer.filter(applySearchFilter);
 
+    // Function to generate the next cusID
+    const generateCusID = (index) => {
+        return `CUS${index + 1}`;
+    };
+
     return (
         <div ref={ref}>
             <div className="p-4">
@@ -85,7 +90,7 @@ const ReportCustomer = React.forwardRef((props, ref) => {
                         <table className="w-full border-separate border-spacing-2" ref={componentRef}>
                             <thead>
                                 <tr>
-                                    <th className='border border-slate-600 rounded-md'>No</th>
+                                    <th className='border border-slate-600 rounded-md'>cusID</th>
                                     <th className='border border-slate-600 rounded-md'>First Name</th>
                                     <th className='border border-slate-600 rounded-md'>Last Name</th>
                                     <th className='border border-slate-600 rounded-md'>NIC</th>
@@ -97,7 +102,7 @@ const ReportCustomer = React.forwardRef((props, ref) => {
                             <tbody>
                                 {filteredCustomer.map((customerItem, index) => (
                                     <tr key={customerItem._id} className="h-8">
-                                        <td className="border border-slate-700 rounded-md text-center">{index + 1}</td>
+                                        <td className="border border-slate-700 rounded-md text-center">{generateCusID(index)}</td>
                                         <td className="border border-slate-700 rounded-md text-center">{customerItem.firstName}</td>
                                         <td className="border border-slate-700 rounded-md text-center">{customerItem.lastName}</td>
                                         <td className="border border-slate-700 rounded-md text-center">{customerItem.NIC}</td>

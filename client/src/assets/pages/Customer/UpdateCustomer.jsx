@@ -1,11 +1,10 @@
-// Importing necessary dependencies
 import { useState, useEffect } from "react";
 import React from 'react';
 import Spinner from "../../components/Spinner"
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-// Functional component for EditMenu
+// Functional component for EditCustomer
 const EditCustomer = () => {
   // State variables for managing form data and loading state
   const [firstName, setFirstName] = useState('');
@@ -13,7 +12,7 @@ const EditCustomer = () => {
   const [NIC, setNIC] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [Username, setUsername] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ const EditCustomer = () => {
         setNIC(data.NIC);
         setPhone(data.phone);
         setEmail(data.email);
-        setUsername(data.Username);
+        setUsername(data.username);
         setPassword(data.password);
         setLoading(false);
       })
@@ -40,7 +39,13 @@ const EditCustomer = () => {
       });
   }, [id]);
 
-  // Event handler for editing the menu
+  // // Function to generate cusID like CUS1, CUS2, CUS3...
+  // const generateCusID = () => {
+  //   const index = Math.floor(Math.random() * 100) + 1; // Generate a random index
+  //   return `CUS${index}`;
+  // };
+
+  // Event handler for editing the customer
   const handleEditCustomer = () => {
     // Creating data object from form inputs
     const data = {
@@ -49,13 +54,13 @@ const EditCustomer = () => {
       NIC,
       phone,
       email,
-      Username,
+      username,
       password,
     };
 
     setLoading(true);
 
-    // Making a PUT request to edit the menu data
+    // Making a PUT request to edit the customer data
     axios
       .put(`http://localhost:8076/customer/${id}`, data)
       .then(() => {
@@ -71,11 +76,15 @@ const EditCustomer = () => {
       });
   };
 
-  // JSX for rendering the edit menu form
+  // JSX for rendering the edit customer form
   return (
     <div className="p-4">
 
+
       <h1 className="text-3xl my-4">Create menu</h1>
+
+      <h1 className="text-3xl my-4">Edit Customer</h1>
+
       {loading ? <Spinner /> : ''}
       <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
         <div className="my-4">
@@ -127,7 +136,11 @@ const EditCustomer = () => {
           <label className='text-xl mr-4 text-gray-500'>Username</label>
           <input
             type="text"
+
             value={Username}
+
+            value={username}
+
             onChange={(e) => setUsername(e.target.value)}
             className='border-2 border-gray-500 px-4 py-2 w-full'
           />
@@ -173,5 +186,5 @@ const EditCustomer = () => {
   );
 };
 
-// Exporting the EditMenu component
+// Exporting the EditCustomer component
 export default EditCustomer;

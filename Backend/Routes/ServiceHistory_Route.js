@@ -16,7 +16,11 @@ router.post('/', async (request, response) => {
             !request.body.Customer_Name ||
             !request.body.Allocated_Employee ||
             !request.body.Vehicle_Number ||
-            !request.body.Service_Date||
+            !request.body.Milage ||
+            !request.body.Package ||
+            !request.body.Booking_Id ||
+            !request.body.nextService ||
+            !request.body.Service_Date ||
             !request.body.Service_History
         ) {
             return response.status(400).send({
@@ -24,9 +28,14 @@ router.post('/', async (request, response) => {
             });
         }
         const newServiceHistory = new serviceHistory({
+            cusID:request.body.cusID,         
             Customer_Name: request.body.Customer_Name,
             Allocated_Employee: request.body.Allocated_Employee,
             Vehicle_Number: request.body.Vehicle_Number,
+            Milage: request.body.Milage,
+            Package: request.body.Package,
+            Booking_Id: request.body.Booking_Id,
+            nextService: request.body.nextService,
             Service_History: request.body.Service_History,
             Service_Date: request.body.Service_Date
         });
@@ -68,13 +77,24 @@ router.get('/:identifier', async (request, response) => {
         }
 
         // If the provided identifier is not a valid ObjectId, try searching by vehicle number
-        const serviceHistoryByVehicleNumber = await serviceHistory.find({ Vehicle_Number: identifier });
-        if (serviceHistoryByVehicleNumber) {
-            // Sending the fetched service history as a JSON response if found by vehicle number
-            return response.status(200).json(serviceHistoryByVehicleNumber);
+        let serviceHistoryResult = await serviceHistory.find({ Vehicle_Number: identifier });
+
+        // If no service history found by vehicle number, try searching by Booking_Id
+        if (!serviceHistoryResult || serviceHistoryResult.length === 0) {
+            serviceHistoryResult = await serviceHistory.find({ Booking_Id: identifier });
         }
 
-        // If no service history found by either ID or vehicle number, send a 404 Not Found response
+        // If no service history found by Booking_Id, try searching by cusID
+        if (!serviceHistoryResult || serviceHistoryResult.length === 0) {
+            serviceHistoryResult = await serviceHistory.find({ cusID: identifier });
+        }
+
+        // Sending the fetched service history as a JSON response if found
+        if (serviceHistoryResult && serviceHistoryResult.length > 0) {
+            return response.status(200).json(serviceHistoryResult);
+        }
+
+        // If no service history found by either ID, vehicle number, or Booking_Id, send a 404 Not Found response
         return response.status(404).json({ message: 'Service history not found' });
     } catch (error) {
         // Handling errors and sending an error response with detailed error message
@@ -83,14 +103,19 @@ router.get('/:identifier', async (request, response) => {
     }
 });
 
+
 router.put('/:id', async (request, response) => {
     try {
         if (
-         !request.body.Customer_Name ||
-         !request.body.Allocated_Employee ||
-         !request.body.Vehicle_Number ||
-         !request.body.Service_Date||
-         !request.body.Service_History
+            !request.body.Customer_Name ||
+            !request.body.Allocated_Employee ||
+            !request.body.Vehicle_Number ||
+            !request.body.Milage ||
+            !request.body.Package ||
+            !request.body.Booking_Id ||
+            !request.body.nextService ||
+            !request.body.Service_Date ||
+            !request.body.Service_History
         ) {
             return response.status(400).send({
                 message: 'Send all required field'
@@ -130,6 +155,11 @@ router.get('/searchservices', async function (request, response) {
                 { Customer_Name: { $regex: search, $options: 'i' } },
                 { Allocated_Employee: { $regex: search, $options: 'i' } },
                 { Vehicle_Number: { $regex: search, $options: 'i' } },
+                { Milage: { $regex: search, $options: 'i' } },
+                { Package: { $regex: search, $options: 'i' } },
+                { Booking_Id: { $regex: search, $options: 'i' } },
+                { nextService: { $regex: search, $options: 'i' } },
+
                 { Service_History: { $regex: search, $options: 'i' } },
                 { Service_Date: { $regex: search, $options: 'i' } }
 

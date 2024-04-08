@@ -36,7 +36,7 @@ function ShowEmployeeAttendence() {
         const filteredAttendence = employeesAttendence.filter((attendance) => {
             // Check if searchName and searchDate are empty or match the attendance record
             return (searchName === '' || attendance.employeeName.toLowerCase().includes(searchName.toLowerCase())) &&
-                (searchDate === '' || attendance.Date.includes(searchDate));
+                (searchDate === '' || attendance.date.includes(searchDate));
         });
         return filteredAttendence;
     };
@@ -108,7 +108,7 @@ function ShowEmployeeAttendence() {
             <th className='border border-slate-600 rounded-md max-md:hidden'>Date</th>
             <th className='border border-slate-600 rounded-md max-md:hidden'>InTime</th>
             <th className='border border-slate-600 rounded-md'>OutTime</th>
-            <th className='border border-slate-600 rounded-md'>Workinghours</th>
+            <th className='border border-slate-600 rounded-md'>Workedhours</th>
             <th className='border border-slate-600 rounded-md'>OThours</th>
             <th className='border border-slate-600 rounded-md'>Action</th>
         </tr>
@@ -128,7 +128,7 @@ function ShowEmployeeAttendence() {
                     {EmployeeAttendence.employeeName}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                    {EmployeeAttendence.Date}
+                    {EmployeeAttendence.date}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
                     {EmployeeAttendence.InTime}

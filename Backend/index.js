@@ -22,7 +22,8 @@ import Service_Route from './Routes/Service_Route.js';
 import ServiceHistory_Route from './Routes/ServiceHistory_Route.js';
 import Manager_Route from './Routes/Manager_Route.js';
 import EmployeeAttendence_Route from "./Routes/EmployeeAttendence_Route.js";
-
+import { ReadOneHome_Route } from "./Routes/ReadOneHome_Route.js";
+import EmployeeSalary_Route from './Routes/EmployeeSalary_Route.js';
 
 // Creating an instance of the Express application
 const app = express();
@@ -74,7 +75,8 @@ app.use('/Service',Service_Route);
 app.use('/ServiceHistory',ServiceHistory_Route);
 app.use('/Manager',Manager_Route);
 app.use('/EmployeeAttendence',EmployeeAttendence_Route);
-
+app.use('/Home',ReadOneHome_Route);
+app.use('/EmployeeSalary',EmployeeSalary_Route);
 
 // Connecting to the MongoDB database
 
