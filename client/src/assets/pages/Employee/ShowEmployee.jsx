@@ -100,6 +100,10 @@ function ShowEmployee() {
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/EmployeeAttendence/allEmployeeAttendence'}>
                         Attendence
                     </button>
+                    <div style={{ marginLeft: '10px' }}></div> {/* Space between buttons */}
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/EmployeeSalary/allEmployeeSalary'}>
+                        Employee Salary
+                    </button>
                 </div>
 
 
