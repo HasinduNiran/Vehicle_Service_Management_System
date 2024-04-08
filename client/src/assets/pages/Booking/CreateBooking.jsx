@@ -20,23 +20,48 @@ const CreateBooking = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { cusID } = useParams();
+    const [packages, setPackages] = useState([]);
+
+
+    const [selectedPackage, setSelectedPackage] = useState({
+        pakgname: ''
+      });
 
     useEffect(() => {
         setLoading(true);
         axios.get(`http://localhost:8076/customer/${cusID}`)
-          .then((response) => {
-            const data = response.data;
-            setcussID(data.cusID);
-            
-            setLoading(false);
-          })
-          .catch((error) => {
-            setLoading(false);
-            alert(`An error happened. Please check console`);
-            console.log(error);
-          });
-      }, [cusID]);
+            .then((response) => {
+                const data = response.data;
+                setcussID(data.cusID);
 
+                setLoading(false);
+            })
+            .catch((error) => {
+                setLoading(false);
+                alert(`An error happened. Please check console`);
+                console.log(error);
+            });
+    }, [cusID]);
+
+    useEffect(() => {
+        setLoading(true);
+        axios
+            .get(`http://localhost:8076/Package`)
+            .then((response) => {
+                setPackages(response.data.data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error.message);
+                setLoading(false);
+            });
+    }, []);
+
+
+    const handlePackageChange = (e) => {
+        setSelectedPackage(e.target.value);
+        // Make API call with selected value if needed
+      };
     
 
     const handleSaveBooking = () => {
@@ -51,8 +76,8 @@ const CreateBooking = () => {
             Vehicle_Type,
             Vehicle_Number,
             Contact_Number,
-            Email
-
+            Email,
+            selectedPackage
         };
 
         setLoading(true);
@@ -95,6 +120,33 @@ const CreateBooking = () => {
                         className='border-2 border-gray-500 px-4 py-2 w-full'
                     />
                 </div>
+
+
+
+
+
+
+                <div className='my-4'>
+                    <label className='text-xl mr-4 text-gray-500'>Package</label>
+
+                    <select
+                        value={selectedPackage.pakgname}
+                        onChange={handlePackageChange}
+                        className='border-2 border-gray-500 px-4 py-2 w-full'
+                    >
+                        <option value=''>Select Package</option>
+                        {packages.map((pkg) => (
+                            <option key={pkg._id} value={pkg.pakgname}>
+                                {pkg.pakgname}
+                            </option>
+                        ))}
+                    </select>
+                    </div>
+
+
+
+
+
                 <div className='my-4'>
                     <label className='text-xl mr-4 text-gray-500'>customer-ID</label>
                     <input
