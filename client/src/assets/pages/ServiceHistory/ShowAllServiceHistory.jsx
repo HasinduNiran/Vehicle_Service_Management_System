@@ -90,6 +90,10 @@ export default function ShowAllServiceHistory() {
                                 <th className='border border-green-800 rounded-md'>Customer Name</th>
                                 <th className='border border-green-800 rounded-md'>Allocated Employee</th>
                                 <th className='border border-green-800 rounded-md'>Vehicle Number</th>
+                                <th className='border border-green-800 rounded-md'>Milage</th>
+                                <th className='border border-green-800 rounded-md'>Package</th>
+                                <th className='border border-green-800 rounded-md'>Booking ID</th>
+                                <th className='border border-green-800 rounded-md'>Next Service</th>
                                 <th className='border border-green-800 rounded-md'>Service History</th>
                                 <th className='border border-green-800 rounded-md'>Service Date</th>
                                 <th className='border border-green-800 rounded-md'>Actions</th>
@@ -101,6 +105,15 @@ export default function ShowAllServiceHistory() {
                                     <td className='border border-gray-600 rounded-md'>{service.Customer_Name}</td>
                                     <td className='border border-gray-600 rounded-md'>{service.Allocated_Employee}</td>
                                     <td className='border border-gray-600 rounded-md'>{service.Vehicle_Number}</td>
+                                    
+                                    <td className='border border-gray-600 rounded-md'>{service.Milage}</td>
+                                    
+                                    <td className='border border-gray-600 rounded-md'>{service.Package}</td>
+                                    
+                                    <td className='border border-gray-600 rounded-md'>{service.Booking_Id}</td>
+                                    
+                                    <td className='border border-gray-600 rounded-md'>{service.nextService}</td>
+
                                     <td className='border border-gray-600 rounded-md'>{service.Service_History}</td>
                                     <td className='border border-gray-600 rounded-md'>{service.Service_Date}</td>
                                     <td className='border border-gray-600 rounded-md'>
