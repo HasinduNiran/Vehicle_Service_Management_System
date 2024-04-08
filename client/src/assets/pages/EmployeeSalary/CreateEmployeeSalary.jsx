@@ -113,8 +113,8 @@ const CreateEmployeeSalary = () => {
   const calculatedTotalSalary = () => {
     let totalSalary = totalOTpay + totalWorkedpay;
     if (includeEPF) {
-      // Include EPF, let's say EPF is 10% of total salary
-      const epfAmount = totalSalary * 0.1;
+      // Include EPF,8%
+      const epfAmount = totalSalary * 0.08;
       totalSalary -= epfAmount;
     }
     setTotalSalary(totalSalary);
@@ -247,7 +247,7 @@ const CreateEmployeeSalary = () => {
                 readOnly
                 className='border-2 border-gray-500 px-4 py-2  w-full '
               />
-              {/* Button to calculate totalOThours */}
+              {/* Button to calculate totalWorkedhours */}
               <button className='p-2 bg-sky-300 m-2' onClick={calculateTotalWorkedhours}>
                 Calculate Total Worked hours
               </button>
@@ -273,7 +273,7 @@ const CreateEmployeeSalary = () => {
                 readOnly
                 className='border-2 border-gray-500 px-4 py-2  w-full '
               />
-              {/* Button to calculate totalOThours */}
+              {/* Button to calculate totalOTpay */}
               <button className='p-2 bg-sky-300 m-2' onClick={calculatedTotalOTpay}>
                 Calculate Total OT Pay
               </button>
@@ -287,7 +287,7 @@ const CreateEmployeeSalary = () => {
                 readOnly
                 className='border-2 border-gray-500 px-4 py-2  w-full '
               />
-              {/* Button to calculate totalOThours */}
+              {/* Button to calculate totalWorkedpay */}
               <button className='p-2 bg-sky-300 m-2' onClick={calculatedTotalWorkedpay}>
                 Calculate Total Worked Pay
               </button>
@@ -301,7 +301,7 @@ const CreateEmployeeSalary = () => {
                 readOnly
                 className='border-2 border-gray-500 px-4 py-2  w-full '
               />
-              {/* Button to calculate totalOThours */}
+              {/* Button to calculate TotalSalary */}
               <button className='p-2 bg-sky-300 m-2' onClick={calculatedTotalSalary}>
                 Calculate Total Salary
               </button>
