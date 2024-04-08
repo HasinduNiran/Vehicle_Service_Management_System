@@ -35,6 +35,7 @@ router.post('/', async (request, response) => {
             Milage: request.body.Milage,
             Package: request.body.Package,
             Booking_Id: request.body.Booking_Id,
+            Servicename: request.body.Servicename,
             nextService: request.body.nextService,
             Service_History: request.body.Service_History,
             Service_Date: request.body.Service_Date
@@ -159,7 +160,7 @@ router.get('/searchservices', async function (request, response) {
                 { Package: { $regex: search, $options: 'i' } },
                 { Booking_Id: { $regex: search, $options: 'i' } },
                 { nextService: { $regex: search, $options: 'i' } },
-
+                { Servicename: { $regex: search, $options: 'i' } },
                 { Service_History: { $regex: search, $options: 'i' } },
                 { Service_Date: { $regex: search, $options: 'i' } }
 

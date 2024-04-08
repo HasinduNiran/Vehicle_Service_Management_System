@@ -46,7 +46,12 @@ export default function ShowAllServiceHistory() {
             (service.Milage && service.Milage.toLowerCase().includes(query)) ||
             (service.Package && service.Package.toLowerCase().includes(query)) ||
             (service.Booking_Id && service.Booking_Id.toLowerCase().includes(query)) ||
+
             (service.Service_Date && service.Service_Date.toLowerCase().includes(query)) ||
+            (service.nextService && service.nextService.toLowerCase().includes(query)) ||
+            (service.Servicename && service.Servicename.toLowerCase().includes(query)) ||
+
+            
             (service.Month && service.Month.toLowerCase().includes(query)) // Add searching for the Month field
            
         );
@@ -91,11 +96,13 @@ export default function ShowAllServiceHistory() {
                     <table className='w-full border-separate border-spacing-2' ref={componentRef}>
                         <thead>
                             <tr>
+                                <th className='border border-green-800 rounded-md'>Customer ID</th>
                                 <th className='border border-green-800 rounded-md'>Customer Name</th>
                                 <th className='border border-green-800 rounded-md'>Allocated Employee</th>
                                 <th className='border border-green-800 rounded-md'>Vehicle Number</th>
                                 <th className='border border-green-800 rounded-md'>Milage</th>
                                 <th className='border border-green-800 rounded-md'>Package</th>
+                                <th className='border border-green-800 rounded-md'>Services</th>
                                 <th className='border border-green-800 rounded-md'>Booking ID</th>
                                 <th className='border border-green-800 rounded-md'>Next Service</th>
                                 <th className='border border-green-800 rounded-md'>Service History</th>
@@ -106,6 +113,7 @@ export default function ShowAllServiceHistory() {
                         <tbody>
                             {filteredServiceHistories.map((service, index) => (
                                 <tr key={service._id}>
+                                    <td className='border border-gray-600 rounded-md'>{service.cusID}</td>
                                     <td className='border border-gray-600 rounded-md'>{service.Customer_Name}</td>
                                     <td className='border border-gray-600 rounded-md'>{service.Allocated_Employee}</td>
                                     <td className='border border-gray-600 rounded-md'>{service.Vehicle_Number}</td>
@@ -113,6 +121,7 @@ export default function ShowAllServiceHistory() {
                                     <td className='border border-gray-600 rounded-md'>{service.Milage}</td>
                                     
                                     <td className='border border-gray-600 rounded-md'>{service.Package}</td>
+                                    <td className='border border-gray-600 rounded-md'>{service.Servicename}</td>
                                     
                                     <td className='border border-gray-600 rounded-md'>{service.Booking_Id}</td>
                                     
