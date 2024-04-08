@@ -43,6 +43,11 @@ import EditEmployeeAttendence from './assets/pages/EmployeeAttendence/EditEmploy
 import DeleteEmployeeAttendence from './assets/pages/EmployeeAttendence/DeleteEmployeeAttendence';
 import ReportEmployeeAttendence from './assets/pages/EmployeeAttendence/ReportEmployeeAttendence';
 
+import ShowEmployeeSalary from './assets/pages/EmployeeSalary/ShowEmployeeSalary';
+import CreateEmployeeSalary from './assets/pages/EmployeeSalary/CreateEmployeeSalary';
+import EditEmployeeSalary from './assets/pages/EmployeeSalary/EditEmployeeSalary';
+import DeleteEmployeeSalary from './assets/pages/EmployeeSalary/DeleteEmployeeSalary';
+import ReportEmployeeSalary from './assets/pages/EmployeeSalary/ReportEmployeeSalary';
 
 import ShowVehicle from './assets/pages/Vehicle/ShowVehicle'
 import CreateVehicle from './assets/pages/Vehicle/CreateVehicle'
@@ -104,7 +109,10 @@ import Header from './assets/components/Header';
 
 const App = () => {
   return (
+
+    
     <>
+    
       {/* <Header /> */}
       <Routes>
       <Route path='/' element={<Home />}></Route>
@@ -131,6 +139,12 @@ const App = () => {
       <Route path='/EmployeeAttendence/edit/:id' element={<EditEmployeeAttendence />}></Route>
       <Route path='/EmployeeAttendence/delete/:id' element={<DeleteEmployeeAttendence />}></Route>
       <Route path='/EmployeeAttendence/reportEmployeeAttendence' element={<ReportEmployeeAttendence />}></Route>
+
+      <Route path='/EmployeeSalary/allEmployeeSalary' element={<ShowEmployeeSalary />}></Route>
+      <Route path='/EmployeeSalary/create' element={<CreateEmployeeSalary />}></Route>
+      <Route path='/EmployeeSalary/edit/:id' element={<EditEmployeeSalary />}></Route>
+      <Route path='/EmployeeSalary/delete/:id' element={<DeleteEmployeeSalary />}></Route>
+      <Route path='/EmployeeSalary/reportEmployeeSalary' element={<ReportEmployeeSalary />}></Route>
 
       <Route path='/payments/show' element={<ShowPayment />}></Route>
       <Route path='/payments/detail/:id' element={<ReadOnePayment />}></Route>

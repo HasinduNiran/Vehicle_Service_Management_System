@@ -7,9 +7,9 @@ import {AiOutlineEdit} from 'react-icons/ai';
 //import {BsInfoCircle} from 'react-icons/bs';
 import {MdOutlineAddBox , MdOutlineDelete} from 'react-icons/md';
 
-function ShowEmployeeAttendence() {
+function ShowEmployeeSalary() {
 
-    const [employeesAttendence, setEmployeesAttendence] = useState([]);
+    const [employeesSalary, setEmployeesSalary] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchName, setSearchName] = useState('');
     const [searchDate, setSearchDate] = useState('');
@@ -20,9 +20,9 @@ function ShowEmployeeAttendence() {
     useEffect(() => {
         setLoading(true);
         axios
-            .get('http://localhost:8076/EmployeeAttendence')
+            .get('http://localhost:8076/EmployeeSalary')
             .then((response) => {
-                setEmployeesAttendence(response.data.data);
+                setEmployeesSalary(response.data.data);
                 setLoading(false);
             })
             .catch((error) => {
@@ -32,19 +32,19 @@ function ShowEmployeeAttendence() {
     }, []);
 
     const handleSearch = () => {
-        // Filter employeesAttendance based on search criteria
-        const filteredAttendence = employeesAttendence.filter((attendance) => {
-            // Check if searchName and searchDate are empty or match the attendance record
-            return (searchName === '' || attendance.employeeName.toLowerCase().includes(searchName.toLowerCase())) &&
-                (searchDate === '' || attendance.date.includes(searchDate));
+        // Filter employeessalary based on search criteria
+        const filteredSalary = employeesSalary.filter((salary) => {
+            // Check if searchName and searchDate are empty or match the salary record
+            return (searchName === '' || salary.employeeName.toLowerCase().includes(searchName.toLowerCase())) &&
+                (searchDate === '' || salary.fromDate.includes(searchDate));
         });
-        return filteredAttendence;
+        return filteredSalary;
     };
 
-    const filteredEmployeesAttendence = handleSearch();
+    const filteredEmployeesSalary = handleSearch();
 
     // Get unique employee names
-    const employeeNames = [...new Set(employeesAttendence.map((attendance) => attendance.employeeName))];
+    const employeeNames = [...new Set(employeesSalary.map((salary) => salary.employeeName))];
 
 
 
@@ -57,16 +57,16 @@ function ShowEmployeeAttendence() {
       <div className='flex-1 p-4'>
       <BackButton destination='/employees/allEmployee' /> 
       <div className='flex justify-between items-center'>
-                <h1 className='text-3xl my-8'>Employee Attendence List</h1>
+                <h1 className='text-3xl my-8'>Employee Salary List</h1>
                 
     
                 
                 <div className="flex justify-center items-center mt-8">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/EmployeeAttendence/create'}>
-                        Add Employee Attendence
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/EmployeeSalary/create'}>
+                        Add Employee Salary
                     </button>
                     <div style={{ marginLeft: '10px' }}></div> {/* Space between buttons */}
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/EmployeeAttendence/reportEmployeeAttendence'}>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/EmployeeSalary/reportEmployeeSalary'}>
                         Report
                     </button>
                 </div>
@@ -105,55 +105,64 @@ function ShowEmployeeAttendence() {
             <th className='border border-slate-600 rounded-md'>No</th>
             <th className='border border-slate-600 rounded-md'>EmpID</th>
             <th className='border border-slate-600 rounded-md'>employeeName</th>
-            <th className='border border-slate-600 rounded-md max-md:hidden'>Date</th>
-            <th className='border border-slate-600 rounded-md max-md:hidden'>InTime</th>
-            <th className='border border-slate-600 rounded-md'>OutTime</th>
-            <th className='border border-slate-600 rounded-md'>Workedhours</th>
-            <th className='border border-slate-600 rounded-md'>OThours</th>
+            <th className='border border-slate-600 rounded-md max-md:hidden'>fromDate</th>
+            <th className='border border-slate-600 rounded-md max-md:hidden'>toDate</th>
+            <th className='border border-slate-600 rounded-md max-md:hidden'>totalOThours</th>
+            <th className='border border-slate-600 rounded-md'>totalOTpay</th>
+            <th className='border border-slate-600 rounded-md'>totalWorkedhours</th>
+            <th className='border border-slate-600 rounded-md'>totalWorkedpay</th>
+            <th className='border border-slate-600 rounded-md'>TotalSalary</th>
             <th className='border border-slate-600 rounded-md'>Action</th>
         </tr>
     </thead>
     <tbody>
-        {filteredEmployeesAttendence.map((EmployeeAttendence, index) => (
+        {filteredEmployeesSalary.map((EmployeeSalary, index) => (
 
-            <tr key={EmployeeAttendence._id} className='h-8'>
+            <tr key={EmployeeSalary._id} className='h-8'>
 
                 <td className='border border-slate-700 rounded-md text-center'>
                     {index + 1}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center'>
-                    {EmployeeAttendence.EmpID}
+                    {EmployeeSalary.EmpID}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                    {EmployeeAttendence.employeeName}
+                    {EmployeeSalary.employeeName}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                    {EmployeeAttendence.date}
+                    {EmployeeSalary.fromDate}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                    {EmployeeAttendence.InTime}
+                    {EmployeeSalary.toDate}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                    {EmployeeAttendence.OutTime}
+                    {EmployeeSalary.totalOThours}
+                </td>
+                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
+                    {EmployeeSalary.totalOTpay}
                 </td>
 
                 <td className='border border-slate-700 rounded-md text-center'>
-                    {EmployeeAttendence.WorkingHours}
+                    {EmployeeSalary.totalWorkedhours}
                 </td>
                 
                 <td className='border border-slate-700 rounded-md text-center'>
-                    {EmployeeAttendence.OThours}
+                    {EmployeeSalary.totalWorkedpay}
+                </td>
+
+                <td className='border border-slate-700 rounded-md text-center'>
+                    {EmployeeSalary.TotalSalary}
                 </td>
                 
                 <td className='border border-slate-700 rounded-md text-center'>
                     <div className='flex justify-center gap-x-4'>
-                        {/* <Link to={`/EmployeeAttendence/details/${EmployeeAttendence._id}`}>
+                        {/* <Link to={`/EmployeeSalary/details/${EmployeeSalary._id}`}>
                             <BsInfoCircle className='text-2x1 text-green-800' />
                         </Link> */}
-                        <Link to={`/EmployeeAttendence/edit/${EmployeeAttendence._id}`}>
+                        <Link to={`/EmployeeSalary/edit/${EmployeeSalary._id}`}>
                             <AiOutlineEdit className='text-2x1 text-yellow-600' />
                         </Link>
-                        <Link to={`/EmployeeAttendence/delete/${EmployeeAttendence._id}`}>
+                        <Link to={`/EmployeeSalary/delete/${EmployeeSalary._id}`}>
                             <MdOutlineDelete className='text-2x1 text-red-600' />
                         </Link>
                     </div>
@@ -169,4 +178,4 @@ function ShowEmployeeAttendence() {
   )
 }
 
-export default ShowEmployeeAttendence
+export default ShowEmployeeSalary
