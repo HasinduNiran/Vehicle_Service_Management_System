@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Spinner = () => {
     return <div>Loading...</div>;
@@ -11,6 +11,7 @@ const Spinner = () => {
 const CreateBooking = () => {
 
     const [Booking_Date, setBooking_Date] = useState('');
+    const [cussID, setcussID] = useState('');
     const [Customer_Name, setCustomer_Name] = useState('');
     const [Vehicle_Type, setVehicle_Type] = useState('');
     const [Vehicle_Number, setVehicle_Number] = useState('');
@@ -18,7 +19,23 @@ const CreateBooking = () => {
     const [Email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { cusID } = useParams();
 
+    useEffect(() => {
+        setLoading(true);
+        axios.get(`http://localhost:8076/customer/${cusID}`)
+          .then((response) => {
+            const data = response.data;
+            setcussID(data.cusID);
+            
+            setLoading(false);
+          })
+          .catch((error) => {
+            setLoading(false);
+            alert(`An error happened. Please check console`);
+            console.log(error);
+          });
+      }, [cusID]);
 
     
 
@@ -29,6 +46,7 @@ const CreateBooking = () => {
 
         const data = {
             Booking_Date,
+            cusID,
             Customer_Name,
             Vehicle_Type,
             Vehicle_Number,
@@ -77,7 +95,15 @@ const CreateBooking = () => {
                         className='border-2 border-gray-500 px-4 py-2 w-full'
                     />
                 </div>
-
+                <div className='my-4'>
+                    <label className='text-xl mr-4 text-gray-500'>customer-ID</label>
+                    <input
+                        type='text'
+                        value={cussID}
+                        onChange={(e) => setcussID(e.target.value)}
+                        className='border-2 border-gray-500 px-4 py-2 w-full'
+                    />
+                </div>
 
                 <div className='my-4'>
                     <label className='text-xl mr-4 text-gray-500'>Customer_Name</label>
