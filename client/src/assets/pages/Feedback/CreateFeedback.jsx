@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Add import for useParams
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const CreateFeedback = () => {
-  // State variables for form inputs and loading state
-  const [cusID, setCustomerID] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [employees, setEmployees] = useState([]);
   const [employee, setEmployee] = useState("");
   const [starRating, setStarRating] = useState(1);
   const [dateOfService, setDateOfService] = useState(new Date());
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [employees, setEmployees] = useState([]); // State for storing employees data
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState({});
 
-  // Function to handle saving feedback
+  const { cusID } = useParams(); // Get cusID from the URL
+
   const handleSaveFeedback = async () => {
-    // Check email and phone number format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\d{10}$/;
+
     if (!emailRegex.test(email)) {
       alert("Please enter a valid email address.");
       return;
@@ -31,21 +32,30 @@ const CreateFeedback = () => {
       alert("Please enter a valid 10-digit phone number.");
       return;
     }
-
-    // Check if all fields are filled
-    if (!cusID || !name || !email || !phoneNumber || !employee || !message) {
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !phoneNumber ||
+      !employee ||
+      !message
+    ) {
       alert("Please fill in all fields before submitting.");
       return;
     }
+    if (!dateOfService) {
+      alert("Please select a date of service.");
+      return;
+    }
 
-    // Format date_of_service
     const formattedDate = formatDate(dateOfService);
 
     const data = {
       cusID: cusID,
-      name: name,
+      firstName: firstName,
+      lastName: lastName,
       email: email,
-      phone_number: phoneNumber,
+      phone: phoneNumber,
       employee: employee,
       date_of_service: formattedDate,
       message: message,
@@ -55,10 +65,9 @@ const CreateFeedback = () => {
     setLoading(true);
 
     try {
-      // Send POST request
       await axios.post("http://localhost:8076/feedback", data);
       setLoading(false);
-      navigate("/feedback"); // Navigate to feedback page after successful submission
+      navigate("/feedback");
     } catch (error) {
       setLoading(false);
       console.error("Error creating feedback:", error);
@@ -68,12 +77,13 @@ const CreateFeedback = () => {
     }
   };
 
-  // Function to format date
   const formatDate = (date) => {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
 
-  // Fetch employees data on component mount
   useEffect(() => {
     const fetchEmployeesData = async () => {
       setLoading(true);
@@ -94,7 +104,22 @@ const CreateFeedback = () => {
     };
 
     fetchEmployeesData();
-  }, [axios]); // Add axios dependency here
+  }, []);
+
+  useEffect(() => {
+    if (cusID) {
+      fetchData();
+    }
+  }, [cusID]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8076/customer/${cusID}`);
+      setUserData(response.data);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
 
   return (
     <div className="p-4">
@@ -103,22 +128,21 @@ const CreateFeedback = () => {
       {loading && <p>Loading...</p>}
 
       <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
-        {/* Form inputs */}
         <div className="p-4">
-          <label className="text-xl mr-4 text-gray-500">Customer ID</label>
+          <label className="text-xl mr-4 text-gray-500">First Name</label>
           <input
             type="text"
-            value={cusID}
-            onChange={(e) => setCustomerID(e.target.value)}
+            value={userData.firstName}
+            readOnly
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
         <div className="p-4">
-          <label className="text-xl mr-4 text-gray-500">Name</label>
+          <label className="text-xl mr-4 text-gray-500">Last Name</label>
           <input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={userData.lastName}
+            readOnly
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
@@ -126,8 +150,8 @@ const CreateFeedback = () => {
           <label className="text-xl mr-4 text-gray-500">Email</label>
           <input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={userData.email}
+            
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
@@ -135,8 +159,8 @@ const CreateFeedback = () => {
           <label className="text-xl mr-4 text-gray-500">Phone Number</label>
           <input
             type="tel"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            value={userData.phone}
+            readOnly
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
@@ -185,9 +209,12 @@ const CreateFeedback = () => {
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
-        
-        {/* Button to submit feedback */}
-        <button className="p-2 bg-sky-300 m-8" onClick={handleSaveFeedback}>
+
+        <button
+          type="button"
+          className="p-2 bg-sky-300 m-8"
+          onClick={handleSaveFeedback}
+        >
           {loading ? "Creating..." : "Create"}
         </button>
       </div>
