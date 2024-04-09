@@ -137,8 +137,6 @@ const EditCustomer = () => {
           <input
             type="text"
 
-            value={Username}
-
             value={username}
 
             onChange={(e) => setUsername(e.target.value)}
