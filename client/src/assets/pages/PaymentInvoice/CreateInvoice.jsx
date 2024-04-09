@@ -22,12 +22,6 @@ const CreateInvoice = () => {
   const [vehicles,setVehicles]= useState([]); 
   const [payments,setPayments] = useState([]);
   
-  //to get the data when selecting one
-  const[selectedInvoices,setSelectedInvoices] = useState({
-    PaymentId:'',
-    Vehicle_Number:'',
-  });
-
   const[count, setCount] = useState();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -89,10 +83,42 @@ const handleSavePaymentInvoice = () => {
     });
 };
 
+const handlePaymentIdChange = (e) => {
+  const selectedPaymentId = e.target.value;
+  setPaymentId(selectedPaymentId);
+
+  // Find the payment associated with the selected Payment ID
+  const selectedPayment = payments.find((payment) => payment.PaymentId === selectedPaymentId);
+  
+  // If a payment is found, set the Vehicle Number to the found payment's vehicle number
+  // and retrieve the Vehicle Color from the vehicle data
+  // If not found, set the Vehicle Number and Vehicle Color to empty strings or handle accordingly
+  if (selectedPayment) {
+    setVehicle_Number(selectedPayment.Vehicle_Number);
+    setBooking_Id(selectedPayment.Booking_Id);
+    setPaymentDate(selectedPayment.PaymentDate);
+    settotalAmount(selectedPayment.totalAmount);
+
+    // Retrieve the Vehicle Color from the vehicle table based on the selectedPayment's Vehicle_Number
+    const selectedVehicle = vehicles.find((vehicle) => vehicle.Register_Number === selectedPayment.Vehicle_Number);
+    setVehicle_Color(selectedVehicle ? selectedVehicle.Vehicle_Color : '');
+    setModel(selectedVehicle ? selectedVehicle.Model : '');
+    setYear(selectedVehicle ? selectedVehicle.Year : '');
+    setEngine_Details(selectedVehicle ? selectedVehicle.Engine_Details: '');
+  } else {
+    setVehicle_Number('');
+    setVehicle_Color('');
+    setModel('');
+    setYear('');
+    setEngine_Details('');
+  }
+};
+
+
 
 return (
   <div className='p-4'>
-    <BackButton destination='/payments/show' /> {/* Pass the destination URL here */}
+    <BackButton destination='/PaymentInvoice/show' />
     <h1 className='text-3xl my-4'>Create Invoice</h1>
     {loading ? <Spinner /> : ''}
     <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
@@ -115,6 +141,24 @@ return (
         />
       </div>
       <div className='my-4'>
+        <label className='text-xl mr-4 text-gray-500'>Payment ID</label>
+        <select
+          className='border-2 border-gray-500 px-4 py-2  w-full '
+          value={PaymentId} 
+          onChange={handlePaymentIdChange}
+          //onChange={(e) => setPaymentId(e.target.value)}
+          >
+          <option value=''>Select Payment ID</option>
+          {
+            payments.map((vehicle) => (
+              <option key={vehicle._id} value={vehicle.PaymentId}>
+                {vehicle.PaymentId}
+              </option>
+            ))
+          }
+        </select>
+      </div>
+      <div className='my-4'>
         <label className='text-xl mr-4 text-gray-500'>Vehicle No</label>
         <select
           className='border-2 border-gray-500 px-4 py-2  w-full '
@@ -127,24 +171,6 @@ return (
             vehicles.map((vehicle) => (
               <option key={vehicle._id} value={vehicle.Register_Number}>
                 {vehicle.Register_Number}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Payment ID</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
-          value={PaymentId} 
-          //onChange={handleVehicleNumberChange}
-          onChange={(e) => setPaymentId(e.target.value)}
-          >
-          <option value=''>Select Vehicle NO</option>
-          {
-            payments.map((vehicle) => (
-              <option key={vehicle._id} value={vehicle.PaymentId}>
-                {vehicle.PaymentId}
               </option>
             ))
           }

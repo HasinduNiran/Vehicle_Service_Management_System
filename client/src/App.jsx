@@ -23,9 +23,10 @@ import EditPayment from './assets/pages/Payment/EditPayment';
 import ReportPayment from './assets/pages/Payment/ReportPayment';
 
 import CreateInvoice from './assets/pages/PaymentInvoice/CreateInvoice';
-//import ReadOneInvoice from './assets/pages/PaymentInvoice/ReadOneInvoice';
+import ReadOneInvoice from './assets/pages/PaymentInvoice/ReadOneInvoice';
 import ShowInvoice from './assets/pages/PaymentInvoice/ShowInvoice';
-//import EditInvoice from './assets/pages/PaymentInvoice/EditInvoice';
+import EditInvoice from './assets/pages/PaymentInvoice/EditInvoice';
+import DeleteInvoice from './assets/pages/PaymentInvoice/DeleteInvoice';
 //import ReportInvoice from './assets/pages/PaymentInvoice/ReportInvoice';
 
 
@@ -138,9 +139,10 @@ const App = () => {
       
       <Route path='/PaymentInvoice/show' element={<ShowInvoice/>}></Route>
       <Route path='/PaymentInvoice/create' element={<CreateInvoice/>}></Route>
-      {/* <Route path='/PaymentInvoice/edit/:id' element={<EditInvoice/>}></Route>
-      <Route path='/PaymentInvoice/delete/:id' element={<ReportInvoice/>}></Route>
-      <Route path='/PaymentInvoice/read/:id' element={<ReadOneInvoice/>}></Route>  */}
+      <Route path='/PaymentInvoice/edit/:id' element={<EditInvoice/>}></Route>
+      <Route path='/PaymentInvoice/delete/:id' element={<DeleteInvoice/>}></Route>
+      {/* <Route path='/PaymentInvoice/delete/:id' element={<ReportInvoice/>}></Route> */}
+      <Route path='/PaymentInvoice/read/:id' element={<ReadOneInvoice/>}></Route> 
 
 
       <Route path ='/show-all'  element={<ShowAllBooking/>}/>
