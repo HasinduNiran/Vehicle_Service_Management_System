@@ -21,11 +21,13 @@ const CreateBooking = () => {
     const navigate = useNavigate();
     const { cusID } = useParams();
     const [packages, setPackages] = useState([]);
+    const [services, setServices] = useState([]);
+    const [selectedServices, setSelectedServices] = useState([]);
 
 
     const [selectedPackage, setSelectedPackage] = useState({
         pakgname: ''
-      });
+    });
 
     useEffect(() => {
         setLoading(true);
@@ -58,11 +60,35 @@ const CreateBooking = () => {
     }, []);
 
 
+
+
     const handlePackageChange = (e) => {
         setSelectedPackage(e.target.value);
         // Make API call with selected value if needed
-      };
-    
+    };
+
+
+
+    useEffect(() => {
+        setLoading(true);
+        axios.get('http://localhost:8076/service')
+            .then((response) => {
+                setServices(response.data.data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error('Error fetching services:', error);
+                setLoading(false);
+            });
+    }, []);
+
+    const handleServiceSelect = (serviceName) => {
+        if (selectedServices.includes(serviceName)) {
+            setSelectedServices(selectedServices.filter(service => service !== serviceName));
+        } else {
+            setSelectedServices([...selectedServices, serviceName]);
+        }
+    };
 
     const handleSaveBooking = () => {
 
@@ -77,7 +103,8 @@ const CreateBooking = () => {
             Vehicle_Number,
             Contact_Number,
             Email,
-            selectedPackage
+            selectedPackage,
+            selectedServices
         };
 
         setLoading(true);
@@ -141,9 +168,22 @@ const CreateBooking = () => {
                             </option>
                         ))}
                     </select>
+                </div>
+
+                <div className="my-4">
+                    <label className="text-xl mr-4 text-gray-500">Includes</label>
+                    <div className="flex flex-wrap">
+                        {services.map(service => (
+                            <button
+                                key={service._id}
+                                className={`bg-gray-200 mr-2 mb-2 px-4 py-2 rounded ${selectedServices.includes(service.Servicename) ? 'bg-blue-500 text-white' : ''}`}
+                                onClick={() => handleServiceSelect(service.Servicename)}
+                            >
+                                {service.Servicename}
+                            </button>
+                        ))}
                     </div>
-
-
+                </div>
 
 
 
