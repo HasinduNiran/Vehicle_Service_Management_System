@@ -2,19 +2,21 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
-
 export default function ShowAllServiceHistory() {
     const [serviceHistories, setServiceHistory] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [count, setCount] = useState();
     const [searchQuery, setSearchQuery] = useState("");
     const componentRef = useRef();
 
-    const handleSearch = async () => {
+    useEffect(() => {
+        fetchServiceHistories();
+    }, []);
+
+    const fetchServiceHistories = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:8076/searchservices?search=${searchQuery}`);
-            setServiceHistory(response.data.data);
+            const response = await axios.get('http://localhost:8076/ServiceHistory');
+            setServiceHistory(response.data.service);
             setLoading(false);
         } catch (err) {
             console.log(err);
@@ -22,19 +24,41 @@ export default function ShowAllServiceHistory() {
         }
     };
 
-    useEffect(() => {
+    const handleSearch = async () => {
         setLoading(true);
-        axios
-            .get('http://localhost:8076/ServiceHistory')
-            .then((res) => {
-                setServiceHistory(res.data.service);
-                setCount(res.data.count);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+        try {
+            const response = await axios.get(`http://localhost:8076/searchservices?search=${searchQuery}`);
+            setServiceHistory(response.data);
+            setLoading(false);
+        } catch (err) {
+            console.log(err);
+            setLoading(false);
+        }
+    };
+
+    const applyServiceHistoryFilter = (service) => {
+        const query = searchQuery ? searchQuery.toLowerCase() : ""; // Check if searchQuery is defined
+        return (
+            (service.Customer_Name && service.Customer_Name.toLowerCase().includes(query)) ||
+            (service.Allocated_Employee && service.Allocated_Employee.toLowerCase().includes(query)) ||
+            (service.Vehicle_Number && service.Vehicle_Number.toLowerCase().includes(query)) ||
+            (service.Service_History && service.Service_History.toLowerCase().includes(query)) ||
+            (service.Milage && service.Milage.toLowerCase().includes(query)) ||
+            (service.Package && service.Package.toLowerCase().includes(query)) ||
+            (service.Booking_Id && service.Booking_Id.toLowerCase().includes(query)) ||
+
+            (service.Service_Date && service.Service_Date.toLowerCase().includes(query)) ||
+            (service.nextService && service.nextService.toLowerCase().includes(query)) ||
+            (service.Servicename && service.Servicename.toLowerCase().includes(query)) ||
+
+            
+            (service.Month && service.Month.toLowerCase().includes(query)) // Add searching for the Month field
+           
+        );
+    };
+    
+
+    const filteredServiceHistories = serviceHistories.filter(applyServiceHistoryFilter);
 
     // Report generating
     const generatePDF = useReactToPrint({
@@ -42,18 +66,6 @@ export default function ShowAllServiceHistory() {
         documentTitle: 'vehicle List',
         onAfterPrint: () => alert('Data saved in PDF'),
     });
-
-    const applyServiceHistoryFilter = (service) => {
-        return (
-            service.Customer_Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            service.Allocated_Employee.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            service.Vehicle_Number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            service.Service_History.toLowerCase().includes(searchQuery.toLowerCase())||
-            service.Service_Date.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-    };
-
-    const filteredServiceHistories = serviceHistories.filter(applyServiceHistoryFilter);
 
     return (
         <div className="p-4">
@@ -80,41 +92,54 @@ export default function ShowAllServiceHistory() {
             {loading ? (
                 <div>Loading...</div>
             ) : (
-                <table className='w-full border-separate border-spacing-2' ref={componentRef}>
-                    <thead>
-                    
-                        <tr>
-                            <th className='border border-green-800 rounded-md'>Customer Name</th>
-                            <th className='border border-green-800 rounded-md'>Allocated_Employee</th>
-                            <th className='border border-green-800 rounded-md'>Vehicle_Number</th>
-                            <th className='border border-green-800 rounded-md'>Service_History</th>
-                            <th className='border border-green-800 rounded-md'>Service Date</th>
-                            <th className='border border-green-800 rounded-md'>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {Array.isArray(serviceHistories) && filteredServiceHistories.map((service, index) => (
-                            <tr key={service._id}>
-
-                                <td className='border border-gray-600 rounded-md'>{service.Customer_Name}</td>
-                                <td className='border border-gray-600 rounded-md'>{service.Allocated_Employee}</td>
-                                <td className='border border-gray-600 rounded-md'>{service.Vehicle_Number}</td>
-                                <td className='border border-gray-600 rounded-md'>{service.Service_History}</td>
-                                <td className='border border-gray-600 rounded-md'>{service.Service_Date}</td>
-
-                                <td className='border border-gray-600 rounded-md'>
-                                    <Link to={`/ServiceHistory/edit/${service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
-                                    <Link to={`/ServiceHistory/delete/${service._id}`} className='bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
-                                    <Link to={`/ServiceHistory/get/${service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Show</Link>
-                                </td>
+                <div>
+                    <table className='w-full border-separate border-spacing-2' ref={componentRef}>
+                        <thead>
+                            <tr>
+                                <th className='border border-green-800 rounded-md'>Customer ID</th>
+                                <th className='border border-green-800 rounded-md'>Customer Name</th>
+                                <th className='border border-green-800 rounded-md'>Allocated Employee</th>
+                                <th className='border border-green-800 rounded-md'>Vehicle Number</th>
+                                <th className='border border-green-800 rounded-md'>Milage</th>
+                                <th className='border border-green-800 rounded-md'>Package</th>
+                                <th className='border border-green-800 rounded-md'>Services</th>
+                                <th className='border border-green-800 rounded-md'>Booking ID</th>
+                                <th className='border border-green-800 rounded-md'>Next Service</th>
+                                <th className='border border-green-800 rounded-md'>Service History</th>
+                                <th className='border border-green-800 rounded-md'>Service Date</th>
+                                <th className='border border-green-800 rounded-md'>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                    {count ? (<p>{count}</p>) : ''}
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredServiceHistories.map((service, index) => (
+                                <tr key={service._id}>
+                                    <td className='border border-gray-600 rounded-md'>{service.cusID}</td>
+                                    <td className='border border-gray-600 rounded-md'>{service.Customer_Name}</td>
+                                    <td className='border border-gray-600 rounded-md'>{service.Allocated_Employee}</td>
+                                    <td className='border border-gray-600 rounded-md'>{service.Vehicle_Number}</td>
+                                    
+                                    <td className='border border-gray-600 rounded-md'>{service.Milage}</td>
+                                    
+                                    <td className='border border-gray-600 rounded-md'>{service.Package}</td>
+                                    <td className='border border-gray-600 rounded-md'>{service.Servicename}</td>
+                                    
+                                    <td className='border border-gray-600 rounded-md'>{service.Booking_Id}</td>
+                                    
+                                    <td className='border border-gray-600 rounded-md'>{service.nextService}</td>
 
-
-
+                                    <td className='border border-gray-600 rounded-md'>{service.Service_History}</td>
+                                    <td className='border border-gray-600 rounded-md'>{service.Service_Date}</td>
+                                    <td className='border border-gray-600 rounded-md'>
+                                        <Link to={`/ServiceHistory/edit/${service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
+                                        <Link to={`/ServiceHistory/delete/${service._id}`} className='bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
+                                        <Link to={`/ServiceHistory/get/${service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Show</Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    {filteredServiceHistories.length === 0 && <p>No results found.</p>}
+                </div>
             )}
 
             <div className="flex justify-center items-center mt-8">

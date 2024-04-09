@@ -3,7 +3,7 @@ import axios from 'axios';
 import Spinner from '../../components/Spinner';
 import { Link } from 'react-router-dom';
 
-const ShowPackages = () => {
+const packagebar = () => {
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -68,15 +68,19 @@ const ShowPackages = () => {
                   </tr>
                 ))}
               </tbody>
+              
             </table>
           </div>
           <div className="mt-4">
             <Link to="/package/create" className="btn btn-success">Create New</Link>
           </div>
+
+        
+
         </>
       )}
     </div>
   );
 };
 
-export default ShowPackages;
+export default packagebar;

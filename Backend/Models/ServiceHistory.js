@@ -37,7 +37,12 @@ const serviceSchema = mongoose.Schema(
         Package: {
             type: String,
 
-        }, Booking_Id: {
+        }, 
+        Servicename: {
+            type: String,
+            
+        },
+        Booking_Id: {
             type: String,
             required: true,
         },

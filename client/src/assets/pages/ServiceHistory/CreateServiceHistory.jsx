@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const CreateServiceHistory = () => {
+  const [cusID, setcusID] = useState('');
   const [Customer_Name, setCustomer_Name] = useState('');
   const [Allocated_Employee, setAllocated_Employee] = useState('');
   const [Vehicle_Number, setVehicle_Number] = useState('');
@@ -73,6 +74,7 @@ const CreateServiceHistory = () => {
     }
 
     const data = {
+      cusID,
       Customer_Name,
       Allocated_Employee,
       Vehicle_Number,
@@ -103,6 +105,21 @@ const CreateServiceHistory = () => {
     const day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
+  const handleCusIDChange = (e) => {
+    setcusID(e.target.value);
+    const selectedCustomer = customers.find(customer => customer.cusID === e.target.value);
+    if (selectedCustomer) {
+      setCustomer_Name(selectedCustomer.Customer_Name);
+    }
+  };
+
+  const handleCustomerNameChange = (e) => {
+    setCustomer_Name(e.target.value);
+    const selectedCustomer = customers.find(customer => customer.Customer_Name === e.target.value);
+    if (selectedCustomer) {
+      setcusID(selectedCustomer.cusID);
+    }
+  };
 
   return (
     <div>
@@ -110,13 +127,31 @@ const CreateServiceHistory = () => {
         <h1 className='text-2xl font-bold'>Create Service History</h1>
       </div>
       <form onSubmit={handleSubmit}>
+      <div className='mt-4'>
+          <label className='block'>Customer ID</label>
+          <select
+            className='border border-gray-600 rounded-md w-full p-2'
+            value={cusID}
+            onChange={handleCusIDChange}
+          >
+            <option value=''>Select a customer</option>
+            {customers.map((customer) => (
+              <option key={customer._id} value={customer.cusID}>
+                {customer.cusID}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        
+
         {/* Customer Name */}
         <div className='mt-4'>
           <label className='block'>Customer Name</label>
           <select
             className='border border-gray-600 rounded-md w-full p-2'
             value={Customer_Name}
-            onChange={(e) => setCustomer_Name(e.target.value)}
+            onChange={handleCustomerNameChange}
           >
             <option value=''>Select a customer</option>
             {customers.map((customer) => (

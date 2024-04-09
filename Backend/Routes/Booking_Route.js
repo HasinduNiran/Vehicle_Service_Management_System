@@ -28,8 +28,9 @@ router.post('/',async (request, response) => {
     Vehicle_Type: request.body.Vehicle_Type,
     Vehicle_Number: request.body.Vehicle_Number,
     Contact_Number: request.body.Contact_Number,
-    Email: request.body.Email
-
+    Email: request.body.Email,
+    selectedPackage: request.body.selectedPackage,
+    selectedServices: request.body.selectedServices
     };
     
     const vehicle = await createVehicle.create(newVehicle);

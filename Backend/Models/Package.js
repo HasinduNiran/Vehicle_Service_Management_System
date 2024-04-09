@@ -1,3 +1,5 @@
+
+// Package.js
 import mongoose from "mongoose";
 
 const packageSchema = mongoose.Schema({
@@ -9,8 +11,10 @@ const packageSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    includes: {
-        type: Array, // Assuming it's a string, update the type accordingly if needed
+    includes: [String], // Change includes to an array of strings
+    Price: {
+        type: Number,
+        required: true,
     },
 });
 

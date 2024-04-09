@@ -41,13 +41,13 @@ function ShowService() {
               {Service.map((Service) => (
                 <tr key={Service._id}>
                   <td>{Service.Servicename}</td>
-<td>
+                  <td>
 
-<Link to={`/Service/edit/${Service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
-<Link to={`/Service/get/${Service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>View</Link>
-<Link to={`/Service/delete/${Service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
+                    <Link to={`/Service/edit/${Service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
+                    <Link to={`/Service/get/${Service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>View</Link>
+                    <Link to={`/Service/delete/${Service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
 
-</td>
+                  </td>
 
                 </tr>
               ))}

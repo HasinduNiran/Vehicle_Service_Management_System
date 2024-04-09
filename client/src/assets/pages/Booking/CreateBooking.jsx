@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Spinner = () => {
     return <div>Loading...</div>;
@@ -11,6 +11,7 @@ const Spinner = () => {
 const CreateBooking = () => {
 
     const [Booking_Date, setBooking_Date] = useState('');
+    const [cussID, setcussID] = useState('');
     const [Customer_Name, setCustomer_Name] = useState('');
     const [Vehicle_Type, setVehicle_Type] = useState('');
     const [Vehicle_Number, setVehicle_Number] = useState('');
@@ -18,9 +19,76 @@ const CreateBooking = () => {
     const [Email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { cusID } = useParams();
+    const [packages, setPackages] = useState([]);
+    const [services, setServices] = useState([]);
+    const [selectedServices, setSelectedServices] = useState([]);
 
 
-    
+    const [selectedPackage, setSelectedPackage] = useState({
+        pakgname: ''
+    });
+
+    useEffect(() => {
+        setLoading(true);
+        axios.get(`http://localhost:8076/customer/${cusID}`)
+            .then((response) => {
+                const data = response.data;
+                setcussID(data.cusID);
+
+                setLoading(false);
+            })
+            .catch((error) => {
+                setLoading(false);
+                alert(`An error happened. Please check console`);
+                console.log(error);
+            });
+    }, [cusID]);
+
+    useEffect(() => {
+        setLoading(true);
+        axios
+            .get(`http://localhost:8076/Package`)
+            .then((response) => {
+                setPackages(response.data.data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error.message);
+                setLoading(false);
+            });
+    }, []);
+
+
+
+
+    const handlePackageChange = (e) => {
+        setSelectedPackage(e.target.value);
+        // Make API call with selected value if needed
+    };
+
+
+
+    useEffect(() => {
+        setLoading(true);
+        axios.get('http://localhost:8076/service')
+            .then((response) => {
+                setServices(response.data.data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error('Error fetching services:', error);
+                setLoading(false);
+            });
+    }, []);
+
+    const handleServiceSelect = (serviceName) => {
+        if (selectedServices.includes(serviceName)) {
+            setSelectedServices(selectedServices.filter(service => service !== serviceName));
+        } else {
+            setSelectedServices([...selectedServices, serviceName]);
+        }
+    };
 
     const handleSaveBooking = () => {
 
@@ -29,12 +97,14 @@ const CreateBooking = () => {
 
         const data = {
             Booking_Date,
+            cusID,
             Customer_Name,
             Vehicle_Type,
             Vehicle_Number,
             Contact_Number,
-            Email
-
+            Email,
+            selectedPackage,
+            selectedServices
         };
 
         setLoading(true);
@@ -78,6 +148,54 @@ const CreateBooking = () => {
                     />
                 </div>
 
+
+
+
+
+
+                <div className='my-4'>
+                    <label className='text-xl mr-4 text-gray-500'>Package</label>
+
+                    <select
+                        value={selectedPackage.pakgname}
+                        onChange={handlePackageChange}
+                        className='border-2 border-gray-500 px-4 py-2 w-full'
+                    >
+                        <option value=''>Select Package</option>
+                        {packages.map((pkg) => (
+                            <option key={pkg._id} value={pkg.pakgname}>
+                                {pkg.pakgname}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="my-4">
+                    <label className="text-xl mr-4 text-gray-500">Includes</label>
+                    <div className="flex flex-wrap">
+                        {services.map(service => (
+                            <button
+                                key={service._id}
+                                className={`bg-gray-200 mr-2 mb-2 px-4 py-2 rounded ${selectedServices.includes(service.Servicename) ? 'bg-blue-500 text-white' : ''}`}
+                                onClick={() => handleServiceSelect(service.Servicename)}
+                            >
+                                {service.Servicename}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+
+
+                <div className='my-4'>
+                    <label className='text-xl mr-4 text-gray-500'>customer-ID</label>
+                    <input
+                        type='text'
+                        value={cussID}
+                        onChange={(e) => setcussID(e.target.value)}
+                        className='border-2 border-gray-500 px-4 py-2 w-full'
+                    />
+                </div>
 
                 <div className='my-4'>
                     <label className='text-xl mr-4 text-gray-500'>Customer_Name</label>

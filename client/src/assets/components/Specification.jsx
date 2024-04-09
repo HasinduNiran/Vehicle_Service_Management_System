@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './../Styles/style-starter.css';
+import './../pages/SPackage/ShowPackage';
 
 const Specification = () => {
 
 
-    return ( 
+    return (
         <>
             <section className="w3l-specification-6">
                 <div className="specification-6-mian py-5">
@@ -138,3 +139,6 @@ const Specification = () => {
 };
 
 export default Specification;
+
+
+
