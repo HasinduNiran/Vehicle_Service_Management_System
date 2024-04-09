@@ -144,6 +144,7 @@ const filteredBooking = bookings.filter(applySearchFilter);
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>No</th>
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Booking_ID</th>
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Package Name</th>
+              <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Services</th>
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Customer_Name</th>
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Vehicle_Type</th>
               <th className='border-3 border-slate-600 rounded-md bg-red-500 font-bold text-black'>Vehicle_Number</th>
@@ -164,6 +165,9 @@ const filteredBooking = bookings.filter(applySearchFilter);
                 </td>
                 <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100 text-black'>
                   {booking.selectedPackage}
+                </td>
+                <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100 text-black'>
+                  {booking.selectedServices}
                 </td>
                 <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100 text-black'>
                   {booking.Customer_Name}
