@@ -38,6 +38,10 @@ const vehicleSchema = mongoose.Schema({
     selectedPackage: {
         type: String,
         required: true
+    },
+    selectedService: {
+        type: [String],
+        required: true
     }
 });
 

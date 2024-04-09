@@ -21,12 +21,32 @@ const CreateBooking = () => {
     const navigate = useNavigate();
     const { cusID } = useParams();
     const [packages, setPackages] = useState([]);
-
+    const [Service, setService] = useState([]);
 
     const [selectedPackage, setSelectedPackage] = useState({
         pakgname: ''
       });
 
+      //const [selectedService, setSelectedService] = useState({
+        //Servicename: ''
+      //});
+
+      const [selectedService, setSelectedService] = useState([]); 
+
+      useEffect(() => {
+        setLoading(true);
+        axios
+          .get(`http://localhost:8076/Service`)
+          .then((response) => {
+            setService(response.data.data);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.log(error.message);
+            setLoading(false);
+          });
+      }, []);
+        
     useEffect(() => {
         setLoading(true);
         axios.get(`http://localhost:8076/customer/${cusID}`)
@@ -60,8 +80,17 @@ const CreateBooking = () => {
 
     const handlePackageChange = (e) => {
         setSelectedPackage(e.target.value);
-        // Make API call with selected value if needed
+
       };
+    
+      const handleServiceChange = (e) => {
+        const { value, checked } = e.target;
+        if (checked) {
+            setSelectedService([...selectedService, value]);
+        } else {
+            setSelectedService(selectedService.filter(service => service !== value));
+        }
+    };
     
 
     const handleSaveBooking = () => {
@@ -77,7 +106,8 @@ const CreateBooking = () => {
             Vehicle_Number,
             Contact_Number,
             Email,
-            selectedPackage
+            selectedPackage,
+            selectedService
         };
 
         setLoading(true);
@@ -142,7 +172,46 @@ const CreateBooking = () => {
                         ))}
                     </select>
                     </div>
+                
 
+
+
+
+                    <div className='my-4'>
+                    <label className='text-xl mr-4 text-gray-500'>Services</label>
+                    {Service.map((serviceItem) => (
+                        <div key={serviceItem._id} className='flex items-center'>
+                            <input
+                                type='checkbox'
+                                id={serviceItem._id}
+                                value={serviceItem.Servicename}
+                                onChange={handleServiceChange}
+                                checked={selectedService.includes(serviceItem.Servicename)}
+                                className='custom-checkbox mr-2'
+                            />
+                            <label htmlFor={serviceItem._id}>{serviceItem.Servicename}</label>
+                        </div>
+                    ))}
+                </div>
+                    
+                
+                    {/*<div className='my-4'>
+                    <label className='text-xl mr-4 text-gray-500'>Services</label>
+
+                    <select
+                        
+                        value={selectedService.Servicename}
+                        onChange={handleServiceChange}
+                        className='border-2 border-gray-500 px-4 py-2 w-full'
+                    >
+                        <option value=''>Select Package</option>
+                        {Service.map((serviceItem) => (
+                            <option key={serviceItem._id} value={serviceItem.Servicename}>
+                                {serviceItem.Servicename}
+                            </option>
+                        ))}
+                    </select>
+                    </div>*/}
 
 
 
@@ -202,7 +271,7 @@ const CreateBooking = () => {
                         className='border-2 border-gray-500 px-4 py-2 w-full'
                     />
                 </div>
-
+ 
 
 
 
