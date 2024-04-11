@@ -1,61 +1,49 @@
 import mongoose from "mongoose";
 
 // Defining the service Schema
-
-const serviceSchema = mongoose.Schema(
-    {
-        cusID: {
-            type: String, // Changed to String type for custom format
-            unique: true
-        },
-        Customer_Name: {
-            type: String,
-            required: true,
-        },
-        Allocated_Employee: {
-            type: String,
-            required: true,
-        },
-        Vehicle_Number: {
-            type: String,
-            required: true,
-        },
-        Service_History: {
-            type: String,
-            required: true,
-        },
-
-
-        Service_Date: {
-            type: String,
-            required: true,
-        },
-        Milage: {
-            type: String,
-            required: true,
-        },
-        Package: {
-            type: String,
-
-        }, 
-        Servicename: {
-            type: String,
-            
-        },
-        Booking_Id: {
-            type: String,
-            required: true,
-        },
-        nextService: {
-            type: String,
-            required: true,
-        }
-
-
-
+const serviceSchema = mongoose.Schema({
+    cusID: {
+        type: String,
+        unique: true
+    },
+    Customer_Name: {
+        type: String,
+        required: true,
+    },
+    Allocated_Employee: {
+        type: String,
+        required: true,
+    },
+    Vehicle_Number: {
+        type: String,
+        required: true,
+    },
+    Service_History: {
+        type: String,
+        required: true,
+    },
+    Service_Date: {
+        type: Date, // Changed to Date type for better representation
+        required: true,
+    },
+    Milage: {
+        type: Number, // Changed to Number type for better representation
+        required: true,
+    },
+    Package: {type:String}
+    , // Removed 'required: true' since it's optional
+     selectedServices: {
+        type: [String],
+        required: true
+    },
+    Booking_Id: {
+        type: String,
+        required: true,
+    },
+    nextService: {
+        type: String, // Changed to Date type for better representation
+        required: true,
     }
-
-
-);
+});
 
 export const serviceHistory = mongoose.model('serviceHistory', serviceSchema);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const CreateServiceHistory = () => {
   const [cusID, setcusID] = useState('');
@@ -8,94 +8,90 @@ const CreateServiceHistory = () => {
   const [Allocated_Employee, setAllocated_Employee] = useState('');
   const [Vehicle_Number, setVehicle_Number] = useState('');
   const [Milage, setMilage] = useState('');
-  const [Package, setPackage] = useState('');
+  const [selectedPackage, setselectedPackage] = useState('');
+  const [selectedServices, setselectedServices] = useState([]); 
   const [Booking_Id, setBooking_Id] = useState('');
   const [nextService, setNextService] = useState('');
   const [Service_History, setService_History] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const [customers, setCustomers] = useState([]);
-  const [vehicles, setVehicles] = useState([]); 
-  const [employees, setEmployees] = useState([]); 
+  const [employees, setEmployees] = useState([]);
+  const [booking, setBookings] = useState([]);
 
   const navigate = useNavigate();
-
-  // Validation function for Vehicle Number
-  const validateVehicleNumber = (value) => {
-    // Regular expression for alphanumeric with hyphen and space
-    const regex = /^[a-zA-Z0-9\s-]{0,4}[0-9]{4}$/;
-    // Check if the value matches the pattern
-    return regex.test(value);
-  };
+  const { id: bookingID } = useParams();
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get('http://localhost:8076/customer')
-      .then((response) => {
-        setCustomers(response.data.data);
+    axios.all([
+      axios.get('http://localhost:8076/employees'),
+      axios.get('http://localhost:8076/bookings')
+    ])
+      .then(axios.spread((employeesRes, bookingsRes) => {
+        setEmployees(employeesRes.data.data);
+        setBookings(bookingsRes.data);
         setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-
-    axios
-      .get('http://localhost:8076/employees')
-      .then((response) => {
-        setEmployees(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-
-    axios
-      .get('http://localhost:8076/vehicles')
-      .then((response) => {
-        setVehicles(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
+      }))
+      .catch(error => {
+        console.error('Error fetching initial data:', error);
         setLoading(false);
       });
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!validateVehicleNumber(Vehicle_Number)) {
-      alert('Please enter a valid vehicle number.');
-      return;
+  const handleBookingIDChange = (e) => {
+    const selectBooking_Id = e.target.value;
+    const selectedBooking = booking.find((booking) => booking.Booking_Id === selectBooking_Id);
+  
+    if (selectedBooking) {
+      setcusID(selectedBooking.cusID);
+      setCustomer_Name(selectedBooking.Customer_Name);
+      setVehicle_Number(selectedBooking.Vehicle_Number);
+      setselectedPackage(selectedBooking.selectedPackage);
+      setselectedServices(selectedBooking.selectedServices || []);
     }
+  
+    setBooking_Id(selectBooking_Id);
+  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const data = {
-      cusID,
-      Customer_Name,
-      Allocated_Employee,
-      Vehicle_Number,
-      Milage,
-      Package,
-      Booking_Id,
-      nextService,
-      Service_History,
-      Service_Date: selectedDate,
-    };
+  if (!validateVehicleNumber(Vehicle_Number)) {
+    alert('Please enter a valid vehicle number.');
+    return;
+  }
 
-    setLoading(true);
-    try {
-      await axios.post('http://localhost:8076/serviceHistory/', data);
-      setLoading(false);
-      navigate('/ServiceHistory');
-    } catch (error) {
-      setLoading(false);
-      console.error('Error creating service history:', error);
-      alert('Error creating service history. Please try again.');
-    }
+  const data = {
+    cusID,
+    Customer_Name,
+    Allocated_Employee,
+    Vehicle_Number,
+    Milage,
+    Package:selectedPackage,
+    Booking_Id,
+    nextService,
+    selectedServices,
+    Service_History,
+    Service_Date: selectedDate,
+  };
+
+  console.log('Request data:', data); // Added console log statement
+
+  setLoading(true);
+  try {
+    await axios.post('http://localhost:8076/serviceHistory/', data);
+    setLoading(false);
+    navigate('/ServiceHistory');
+  } catch (error) {
+    setLoading(false);
+    console.error('Error creating service history:', error);
+    alert('Error creating service history. Please try again.');
+  }
+};
+
+  const validateVehicleNumber = (value) => {
+    const regex = /^[a-zA-Z0-9\s-]{0,4}[0-9]{4}$/;
+    return regex.test(value);
   };
 
   const getTodayDate = () => {
@@ -105,21 +101,6 @@ const CreateServiceHistory = () => {
     const day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
-  const handleCusIDChange = (e) => {
-    setcusID(e.target.value);
-    const selectedCustomer = customers.find(customer => customer.cusID === e.target.value);
-    if (selectedCustomer) {
-      setCustomer_Name(selectedCustomer.Customer_Name);
-    }
-  };
-
-  const handleCustomerNameChange = (e) => {
-    setCustomer_Name(e.target.value);
-    const selectedCustomer = customers.find(customer => customer.Customer_Name === e.target.value);
-    if (selectedCustomer) {
-      setcusID(selectedCustomer.cusID);
-    }
-  };
 
   return (
     <div>
@@ -127,42 +108,41 @@ const CreateServiceHistory = () => {
         <h1 className='text-2xl font-bold'>Create Service History</h1>
       </div>
       <form onSubmit={handleSubmit}>
+
+    
       <div className='mt-4'>
-          <label className='block'>Customer ID</label>
+          <label className='block'>Booking ID</label>
           <select
+            className='border border-gray-600 rounded-md w-full p-2'
+            value={Booking_Id}
+            onChange={handleBookingIDChange}
+          >
+            <option value=''>Select a Booking ID</option>
+            {booking.map((B) => (
+              <option key={B._id} value={B.Booking_Id}>
+                {B.Booking_Id}
+              </option>
+            ))}
+          </select>
+        </div>
+       
+        <div className='mt-4'>
+          <label className='block'>Customer ID</label>
+          <input
             className='border border-gray-600 rounded-md w-full p-2'
             value={cusID}
-            onChange={handleCusIDChange}
-          >
-            <option value=''>Select a customer</option>
-            {customers.map((customer) => (
-              <option key={customer._id} value={customer.cusID}>
-                {customer.cusID}
-              </option>
-            ))}
-          </select>
+            disabled
+          />
         </div>
 
-        
-
-        {/* Customer Name */}
         <div className='mt-4'>
           <label className='block'>Customer Name</label>
-          <select
+          <input
             className='border border-gray-600 rounded-md w-full p-2'
             value={Customer_Name}
-            onChange={handleCustomerNameChange}
-          >
-            <option value=''>Select a customer</option>
-            {customers.map((customer) => (
-              <option key={customer._id} value={customer.Customer_Name}>
-                {customer.username}
-              </option>
-            ))}
-          </select>
+            disabled
+          />
         </div>
-
-        {/* Allocated Employee */}
         <div className='mt-4'>
           <label className='block'>Allocated Employee</label>
           <select
@@ -178,25 +158,14 @@ const CreateServiceHistory = () => {
             ))}
           </select>
         </div>
-
-        {/* Vehicle Number */}
         <div className='mt-4'>
           <label className='block'>Vehicle Number</label>
-          <select
+          <input
             className='border border-gray-600 rounded-md w-full p-2'
             value={Vehicle_Number}
-            onChange={(e) => setVehicle_Number(e.target.value)}
-          >
-            <option value=''>Select a vehicle</option>
-            {vehicles.map((vehicle) => (
-              <option key={vehicle._id} value={vehicle.Vehicle_Number}>
-                {vehicle.Register_Number}
-              </option>
-            ))}
-          </select>
+            disabled
+          />
         </div>
-
-        {/* Milage */}
         <div className='mt-4'>
           <label className='block'>Milage</label>
           <input
@@ -206,30 +175,23 @@ const CreateServiceHistory = () => {
             onChange={(e) => setMilage(e.target.value)}
           />
         </div>
-
-        {/* Package */}
         <div className='mt-4'>
-          <label className='block'>Package</label>
+          <label className='block'>selectedPackage</label>
           <input
-            type='text'
             className='border border-gray-600 rounded-md w-full p-2'
-            value={Package}
-            onChange={(e) => setPackage(e.target.value)}
+            value={selectedPackage}
+            disabled
           />
         </div>
 
-        {/* Booking ID */}
         <div className='mt-4'>
-          <label className='block'>Booking ID</label>
+          <label className='block'>Selected Services</label>
           <input
-            type='text'
             className='border border-gray-600 rounded-md w-full p-2'
-            value={Booking_Id}
-            onChange={(e) => setBooking_Id(e.target.value)}
+            value={selectedServices.join(', ')}
+            disabled
           />
         </div>
-
-        {/* Next Service */}
         <div className='mt-4'>
           <label className='block'>Next Service</label>
           <input
@@ -239,8 +201,6 @@ const CreateServiceHistory = () => {
             onChange={(e) => setNextService(e.target.value)}
           />
         </div>
-
-        {/* Service History */}
         <div className='mt-4'>
           <label className='block'>Service History</label>
           <input
@@ -250,8 +210,6 @@ const CreateServiceHistory = () => {
             onChange={(e) => setService_History(e.target.value)}
           />
         </div>
-
-        {/* Service Date */}
         <div className='mt-4'>
           <label className='block'>Service Date</label>
           <input
@@ -262,8 +220,6 @@ const CreateServiceHistory = () => {
             max={getTodayDate()}
           />
         </div>
-
-        {/* Submit Button */}
         <div className='mt-4'>
           <button
             type='submit'

@@ -17,7 +17,7 @@ router.post('/', async (request, response) => {
             !request.body.Allocated_Employee ||
             !request.body.Vehicle_Number ||
             !request.body.Milage ||
-            !request.body.Package ||
+         
             !request.body.Booking_Id ||
             !request.body.nextService ||
             !request.body.Service_Date ||
@@ -27,24 +27,32 @@ router.post('/', async (request, response) => {
                 message: 'Send all required field'
             });
         }
+
+        // Convert selectedServices to an array if it's not already
+       // const selectedServices = Array.isArray(request.body.selectedServices) ? request.body.selectedServices : [request.body.selectedServices];
+
+
+        // Convert selectedServices to an array if it's not already
+        const selectedServices = Array.isArray(request.body.selectedServices) ? request.body.selectedServices : [request.body.selectedServices];
+
         const newServiceHistory = new serviceHistory({
-            cusID:request.body.cusID,         
+            cusID: request.body.cusID,         
             Customer_Name: request.body.Customer_Name,
             Allocated_Employee: request.body.Allocated_Employee,
             Vehicle_Number: request.body.Vehicle_Number,
             Milage: request.body.Milage,
             Package: request.body.Package,
             Booking_Id: request.body.Booking_Id,
-            Servicename: request.body.Servicename,
             nextService: request.body.nextService,
             Service_History: request.body.Service_History,
-            Service_Date: request.body.Service_Date
+            Service_Date: request.body.Service_Date,
+            selectedServices: request.body.selectedServices // Ensure selectedServices is an array
         });
         const result = await newServiceHistory.save();
         return response.status(201).send(result);
 
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         response.status(500).send({ message: error.message });
     }
 });
@@ -160,7 +168,7 @@ router.get('/searchservices', async function (request, response) {
                 { Package: { $regex: search, $options: 'i' } },
                 { Booking_Id: { $regex: search, $options: 'i' } },
                 { nextService: { $regex: search, $options: 'i' } },
-                { Servicename: { $regex: search, $options: 'i' } },
+                { selectedServices: { $regex: search, $options: 'i' } },
                 { Service_History: { $regex: search, $options: 'i' } },
                 { Service_Date: { $regex: search, $options: 'i' } }
 
