@@ -14,7 +14,7 @@ export default function ShowAllBooking() {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const componentRef = useRef();
- // const [dailyBookingLimit, setDailyBookingLimit] = useState("");
+  const [DAILY_BOOKING_LIMIT, setDAILY_BOOKING_LIMIT] = useState("");
 
   //search query
   const handleSearch = async () => {
@@ -48,7 +48,11 @@ export default function ShowAllBooking() {
 
 
 
-  
+  /*const handleSetDailyBookingLimit = () => {
+    // Example function body; adapt as necessary
+    console.log("Setting daily booking limit to:", dailyBookingLimit);
+    // You might want to save this limit somewhere (e.g., in your database or state)
+  };  */
 
 
 
@@ -105,25 +109,25 @@ const filteredBooking = bookings.filter(applySearchFilter);
 
 
 
-        {/*<div className="mt-4">
-        <label htmlFor="dailyBookingLimitInput" className="block text-sm font-medium text-gray-700">
+        <div className="mt-4">
+        <label htmlFor="DAILY_BOOKING_LIMIT" className="block text-sm font-medium text-gray-700">
           Set Daily Booking Limit:
         </label>
         <input
           type="number"
-          id="dailyBookingLimitInput"
-          name="dailyBookingLimitInput"
-          value={dailyBookingLimit}
-          onChange={(e) => setDailyBookingLimit(e.target.value)}
+          id="DAILY_BOOKING_LIMIT"
+          name="DAILY_BOOKING_LIMIT"
+          value={DAILY_BOOKING_LIMIT}
+          onChange={(e) => setDAILY_BOOKING_LIMIT(e.target.value)}
           className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
         />
-        <button
+        {/*<button
           onClick={handleSetDailyBookingLimit}
           className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Set Limit
-        </button>
-  </div> */}
+  </button>  */}
+  </div> 
       
 
 
