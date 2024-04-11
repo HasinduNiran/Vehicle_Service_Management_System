@@ -23,7 +23,7 @@ const CreateBooking = () => {
     const [packages, setPackages] = useState([]);
     const [services, setServices] = useState([]);
     const [selectedServices, setSelectedServices] = useState([]);
-
+    
 
     const [selectedPackage, setSelectedPackage] = useState({
         pakgname: ''
@@ -35,7 +35,9 @@ const CreateBooking = () => {
             .then((response) => {
                 const data = response.data;
                 setcussID(data.cusID);
-
+                setContact_Number(data.phone);
+                setEmail(data.email);
+                setCustomer_Name(`${data.firstName} ${data.lastName}`);
                 setLoading(false);
             })
             .catch((error) => {
