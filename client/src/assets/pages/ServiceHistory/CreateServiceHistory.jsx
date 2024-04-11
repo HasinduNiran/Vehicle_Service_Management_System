@@ -15,7 +15,7 @@ const CreateServiceHistory = () => {
   const [Service_History, setService_History] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const [services, setServices] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [booking, setBookings] = useState([]);
 
@@ -102,6 +102,21 @@ const handleSubmit = async (e) => {
     return `${year}-${month}-${day}`;
   };
 
+
+  useEffect(() => {
+    setLoading(true);
+    axios.get('http://localhost:8076/service')
+        .then((response) => {
+            setServices(response.data.data);
+            setLoading(false);
+        })
+        .catch((error) => {
+            console.error('Error fetching services:', error);
+            setLoading(false);
+        });
+}, []);
+
+
   return (
     <div>
       <div className='flex justify-between items-center'>
@@ -186,11 +201,24 @@ const handleSubmit = async (e) => {
 
         <div className='mt-4'>
           <label className='block'>Selected Services</label>
+          
           <input
             className='border border-gray-600 rounded-md w-full p-2'
             value={selectedServices.join(', ')}
-            disabled
+            
           />
+          <div className="flex flex-wrap">
+                        {services.map(service => (
+                            <button
+                                key={service._id}
+                                className={`bg-gray-200 mr-2 mb-2 px-4 py-2 rounded ${selectedServices.includes(service.Servicename) ? 'bg-blue-500 text-white' : ''}`}
+                                onClick={() => handleServiceSelect(service.Servicename)}
+                            >
+                                {service.Servicename}
+                            </button>
+                        ))}
+                    </div>
+          
         </div>
         <div className='mt-4'>
           <label className='block'>Next Service</label>
