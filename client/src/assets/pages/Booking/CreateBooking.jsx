@@ -23,11 +23,9 @@ const CreateBooking = () => {
     const [packages, setPackages] = useState([]);
     const [services, setServices] = useState([]);
     const [selectedServices, setSelectedServices] = useState([]);
-    
+    const [selectedPackage, setSelectedPackage] = useState('');
 
-    const [selectedPackage, setSelectedPackage] = useState({
-        pakgname: ''
-    });
+    
 
     useEffect(() => {
         setLoading(true);
@@ -94,7 +92,10 @@ const CreateBooking = () => {
 
     const handleSaveBooking = () => {
 
-
+        if (!Booking_Date || !cusID || !Customer_Name || !Vehicle_Type || !Vehicle_Number || !Contact_Number || !Email || !selectedPackage && selectedServices.length===0) {
+            alert("All fields are required.");
+            return;
+        }
 
 
         const data = {
