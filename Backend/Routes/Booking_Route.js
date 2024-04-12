@@ -5,7 +5,9 @@ import mongoose from 'mongoose';
 
 import { createVehicle } from '../Models/Booking.js';
 
+
 const router = express.Router();
+
 
 
 router.post('/', async (request, response) => {
