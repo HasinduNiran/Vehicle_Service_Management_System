@@ -21,11 +21,8 @@ router.post('/', async (request, response) => {
             !request.body.Booking_Id ||
             !request.body.nextService ||
             !request.body.Service_Date ||
-            !request.body.Service_History||
-            (
-                (request.body.Package && request.body.selectedServices.length > 0) || // Both package and selected services are provided
-                (!request.body.Package && request.body.selectedServices.length === 0) // Neither package nor selected services are provided
-              )
+            !request.body.Service_History
+           
         ) {
             return response.status(400).send({
                 message: 'Send all required field'
@@ -128,11 +125,8 @@ router.put('/:id', async (request, response) => {
             !request.body.Booking_Id ||
             !request.body.nextService ||
             !request.body.Service_Date ||
-            !request.body.Service_History||
-            (
-                (request.body.Package && request.body.selectedServices.length > 0) || // Both package and selected services are provided
-                (!request.body.Package && request.body.selectedServices.length === 0) // Neither package nor selected services are provided
-              )
+            !request.body.Service_History
+          
         ) {
             return response.status(400).send({
                 message: 'Send all required field'
