@@ -22,6 +22,19 @@ const CreateServiceHistory = () => {
   const navigate = useNavigate();
   const { id: bookingID } = useParams();
 
+  const calculateNextService = (currentMilage) => {
+    const serviceInterval = 5000;
+    const nextServiceMilage = parseInt(currentMilage) + serviceInterval;
+    return nextServiceMilage;
+  };
+
+  const handleMilageChange = (e) => {
+    const { value } = e.target;
+    setMilage(value);
+    const nextServiceMilage = calculateNextService(value);
+    setNextService(nextServiceMilage.toString()+' KM');
+  };
+
   useEffect(() => {
     setLoading(true);
     axios.all([
@@ -59,16 +72,13 @@ const CreateServiceHistory = () => {
     let updatedSelectedServices;
   
     if (isServiceSelected) {
-      // If the service is already selected, remove it from the list
       updatedSelectedServices = selectedServices.filter(service => service !== serviceName);
     } else {
-      // If the service is not selected, add it to the list
       updatedSelectedServices = [...selectedServices, serviceName];
     }
   
     setSelectedServices(updatedSelectedServices);
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -201,7 +211,7 @@ const CreateServiceHistory = () => {
             type='number'
             className='border border-gray-600 rounded-md w-full p-2'
             value={milage}
-            onChange={(e) => setMilage(e.target.value)}
+            onChange={handleMilageChange}
           />
         </div>
         <div className='mt-4'>
@@ -237,7 +247,7 @@ const CreateServiceHistory = () => {
             type='text'
             className='border border-gray-600 rounded-md w-full p-2'
             value={nextService}
-            onChange={(e) => setNextService(e.target.value)}
+            onChange={handleMilageChange}
           />
         </div>
         <div className='mt-4'>
