@@ -37,51 +37,54 @@ const ReadOneVehicle = () => {
   }, [Register_Number]);
 
   return (
-    <div className='p-4'>
-      <h1 className='text-2xl font-bold'>Vehicle Details</h1>
+    <div style={{ backgroundColor: '#1f1f1f', minHeight: '100vh', padding: '20px', fontFamily: 'Arial, sans-serif', color: '#fff' }}>
+      <h1 style={{ textAlign: 'center', fontSize: '2rem', marginBottom: '30px', color: '#fff' }}>Vehicle Details</h1>
       {loading ? (
         <Spinner />
       ) : (
-        <div>
-          <div className='flex justify-between items-center'>
-            <div>
-              <p><span className='font-bold'>Vehicle Number:</span> {vehicle.Register_Number}</p>
-              <p><span className='font-bold'>Vehicle Make:</span> {vehicle.Make}</p>
-              <p><span className='font-bold'>Vehicle Model:</span> {vehicle.Model}</p>
-              <p><span className='font-bold'>Vehicle Year:</span> {vehicle.Year}</p>
-              <p><span className='font-bold'>Vehicle Engine_Details:</span> {vehicle.Engine_Details}</p>
-              <p><span className='font-bold'>Vehicle Transmission Details:</span> {vehicle.Transmission_Details}</p>
-              <p><span className='font-bold'>Vehicle Color:</span> {vehicle.Vehicle_Color}</p>
-              <p><span className='font-bold'>Vehicle Features:</span> {vehicle.Vehicle_Features}</p>
-              <p><span className='font-bold'>Condition_Assessment:</span> {vehicle.Condition_Assessment}</p>
-              <p><span className='font-bold'>Vehicle Owner:</span> {vehicle.Owner}</p>
-              <br></br>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <div style={{ background: '#2f2f2f', padding: '20px', borderRadius: '5px', boxShadow: '0px 0px 10px 2px rgba(0,0,0,0.8)' }}>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '20px', color: '#fff' }}>Vehicle Information</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
+              <p><span style={{ fontWeight: 'bold', color: '#fff' }}>Vehicle Number:</span> <span style={{ color: 'red' }}>{vehicle.Register_Number}</span></p>
+              <p><span style={{ fontWeight: 'bold', color: '#fff' }}>Vehicle Make:</span><span style={{ color: 'red' }}> {vehicle.Make}</span></p>
+              <p><span style={{ fontWeight: 'bold', color: '#fff' }}>Vehicle Model:</span><span style={{ color: 'red' }}> {vehicle.Model}</span></p>
+              <p><span style={{ fontWeight: 'bold', color: '#fff' }}>Vehicle Year:</span><span style={{ color: 'red' }}> {vehicle.Year}</span></p>
+              <p><span style={{ fontWeight: 'bold', color: '#fff' }}>Vehicle Engine Details:</span><span style={{ color: 'red' }}> {vehicle.Engine_Details}</span></p>
+              <p><span style={{ fontWeight: 'bold', color: '#fff' }}>Vehicle Transmission Details:</span><span style={{ color: 'red' }}> {vehicle.Transmission_Details}</span></p>
+              <p><span style={{ fontWeight: 'bold', color: '#fff' }}>Vehicle Color:</span><span style={{ color: 'red' }}> {vehicle.Vehicle_Color}</span></p>
+              <p><span style={{ fontWeight: 'bold', color: '#fff' }}>Vehicle Features:</span><span style={{ color: 'red' }}> {vehicle.Vehicle_Features}</span></p>
+              <p><span style={{ fontWeight: 'bold', color: '#fff' }}>Condition Assessment:</span><span style={{ color: 'red' }}> {vehicle.Condition_Assessment}</span></p>
+              <p><span style={{ fontWeight: 'bold', color: '#fff' }}>Vehicle Owner:</span><span style={{ color: 'red' }}> {vehicle.Owner}</span></p>
 
-              {serviceHistory.length > 0 ? (
-                <table className='table'>
-                  <thead>
-                    <tr>
-                      <th>Service Date</th>
-                      <th className='border border-green-800 rounded-md'>Service History</th>
-                      <th className='border border-green-800 rounded-md'>Service Employee</th>
-                      <th className='border border-green-800 rounded-md'>Service Customer</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {serviceHistory.map((service, index) => (
-                      <tr key={index}>
-                        <td className='border border-gray-600 rounded-md'>{service.Service_Date}</td>
-                        <td className='border border-gray-600 rounded-md'>{service.Service_History}</td>
-                        <td className='border border-gray-600 rounded-md'>{service.Allocated_Employee}</td>
-                        <td className='border border-gray-600 rounded-md'>{service.Customer_Name}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : (
-                <p>No service history available for this vehicle.</p>
-              )}
             </div>
+          </div>
+          <div style={{ marginTop: '30px' }}>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '20px', color: '#fff' }}>Service Histories</h2>
+            {serviceHistory.length > 0 ? (
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead style={{ background: '#333', color: '#fff' }}>
+                  <tr>
+                    <th style={{ padding: '10px', textAlign: 'left', color: 'red' }}>Service Date</th>
+                    <th style={{ padding: '10px', textAlign: 'left', color: 'red' }}>Service History</th>
+                    <th style={{ padding: '10px', textAlign: 'left', color: 'red' }}>Service Employee</th>
+                    <th style={{ padding: '10px', textAlign: 'left', color: 'red' }}>Service Customer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {serviceHistory.map((service, index) => (
+                    <tr key={index} style={{ background: index % 2 === 0 ? '#2f2f2f' : '#1f1f1f' }}>
+                      <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ccc' }}>{service.Service_Date}</td>
+                      <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ccc' }}>{service.Service_History}</td>
+                      <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ccc' }}>{service.Allocated_Employee}</td>
+                      <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ccc' }}>{service.Customer_Name}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No service history available for this vehicle.</p>
+            )}
           </div>
         </div>
       )}

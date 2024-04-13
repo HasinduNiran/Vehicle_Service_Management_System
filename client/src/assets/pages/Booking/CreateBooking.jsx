@@ -6,10 +6,7 @@ const Spinner = () => {
     return <div>Loading...</div>;
 };
 
-
-
 const CreateBooking = () => {
-
     const [Booking_Date, setBooking_Date] = useState('');
     const [cussID, setcussID] = useState('');
     const [Customer_Name, setCustomer_Name] = useState('');
@@ -24,8 +21,6 @@ const CreateBooking = () => {
     const [services, setServices] = useState([]);
     const [selectedServices, setSelectedServices] = useState([]);
     const [selectedPackage, setSelectedPackage] = useState('');
-
-    
 
     useEffect(() => {
         setLoading(true);
@@ -59,15 +54,10 @@ const CreateBooking = () => {
             });
     }, []);
 
-
-
-
     const handlePackageChange = (e) => {
         setSelectedPackage(e.target.value);
         // Make API call with selected value if needed
     };
-
-
 
     useEffect(() => {
         setLoading(true);
@@ -91,12 +81,10 @@ const CreateBooking = () => {
     };
 
     const handleSaveBooking = () => {
-
-        if (!Booking_Date || !cusID || !Customer_Name || !Vehicle_Type || !Vehicle_Number || !Contact_Number || !Email || !selectedPackage && selectedServices.length===0) {
+        if (!Booking_Date || !cusID || !Customer_Name || !Vehicle_Type || !Vehicle_Number || !Contact_Number || !Email || !selectedPackage && selectedServices.length === 0) {
             alert("All fields are required.");
             return;
         }
-
 
         const data = {
             Booking_Date,
@@ -116,147 +104,120 @@ const CreateBooking = () => {
             .then(() => {
                 setLoading(false);
                 navigate('/show-all');
-
             })
             .catch((error) => {
-
                 setLoading(false);
                 alert('An error happened. Please Check Console for more information');
                 console.log(error);
-
             });
-
-
     };
 
     const today = new Date().toISOString().split('T')[0];
 
-
     return (
-        <div className='p-4'>
-
-            <h1 className='text-3xl my-4'>CreateBooking</h1>
-            {loading ? <Spinner /> : ''}
-            <div className='flex flex-col border-2  border-sky-400 rounded-x1 w-[600px] p-4 mx-auto'>
-
-
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Select Date</label>
-                    <input
-                        type='date'
-                        value={Booking_Date}
-                        onChange={(e) => setBooking_Date(e.target.value)}
-                        min={today}
-                        className='border-2 border-gray-500 px-4 py-2 w-full'
-                    />
-                </div>
-
-
-
-
-
-
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Package</label>
-
-                    <select
-                        value={selectedPackage.pakgname}
-                        onChange={handlePackageChange}
-                        className='border-2 border-gray-500 px-4 py-2 w-full'
-                    >
-                        <option value=''>Select Package</option>
-                        {packages.map((pkg) => (
-                            <option key={pkg._id} value={pkg.pakgname}>
-                                {pkg.pakgname}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                <div className="my-4">
-                    <label className="text-xl mr-4 text-gray-500">Includes</label>
-                    <div className="flex flex-wrap">
-                        {services.map(service => (
-                            <button
-                                key={service._id}
-                                className={`bg-gray-200 mr-2 mb-2 px-4 py-2 rounded ${selectedServices.includes(service.Servicename) ? 'bg-blue-500 text-white' : ''}`}
-                                onClick={() => handleServiceSelect(service.Servicename)}
-                            >
-                                {service.Servicename}
-                            </button>
-                        ))}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f0f0f0' }}>
+            <div style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '20px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.8)', maxWidth: '600px', width: '100%', boxSizing: 'border-box' }}>
+                <h1 style={{ textAlign: 'center', marginBottom: '20px', fontSize: '24px', fontWeight: 'bold' }}>Create Booking</h1>
+                {loading ? <Spinner /> : ''}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <div>
+                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Select Date</label>
+                        <input
+                            type='date'
+                            value={Booking_Date}
+                            onChange={(e) => setBooking_Date(e.target.value)}
+                            min={today}
+                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                        />
                     </div>
+                    <div>
+                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Package</label>
+                        <select
+                            value={selectedPackage}
+                            onChange={handlePackageChange}
+                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                        >
+                            <option value=''>Select Package</option>
+                            {packages.map((pkg) => (
+                                <option key={pkg._id} value={pkg.pakgname}>
+                                    {pkg.pakgname}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Includes</label>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                            {services.map((service) => (
+                                <button
+                                    key={service._id}
+                                    onClick={() => handleServiceSelect(service.Servicename)}
+                                    style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: selectedServices.includes(service.Servicename) ? '#007bff' : '#fff', color: selectedServices.includes(service.Servicename) ? '#fff' : '#333', cursor: 'pointer' }}
+                                >
+                                    {service.Servicename}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Customer ID</label>
+                        <input
+                            type='text'
+                            value={cussID}
+                            onChange={(e) => setcussID(e.target.value)}
+                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                        />
+                    </div>
+                    <div>
+                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Customer Name</label>
+                        <input
+                            type='text'
+                            value={Customer_Name}
+                            onChange={(e) => setCustomer_Name(e.target.value)}
+                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                        />
+                    </div>
+                    <div>
+                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Vehicle Type</label>
+                        <input
+                            type='text'
+                            value={Vehicle_Type}
+                            onChange={(e) => setVehicle_Type(e.target.value)}
+                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                        />
+                    </div>
+                    <div>
+                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Vehicle Number</label>
+                        <input
+                            type='text'
+                            value={Vehicle_Number}
+                            onChange={(e) => setVehicle_Number(e.target.value)}
+                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                        />
+                    </div>
+                    <div>
+                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Contact Number</label>
+                        <input
+                            type='text'
+                            value={Contact_Number}
+                            onChange={(e) => setContact_Number(e.target.value)}
+                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                        />
+                    </div>
+                    <div>
+                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Email</label>
+                        <input
+                            type='text'
+                            value={Email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                        />
+                    </div>
+                    <button onClick={handleSaveBooking} style={{ padding: '10px 20px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', transition: 'background-color 0.3s' }}>Save Booking</button>
                 </div>
-
-
-
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>customer-ID</label>
-                    <input
-                        type='text'
-                        value={cussID}
-                        onChange={(e) => setcussID(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2 w-full'
-                    />
-                </div>
-
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Customer_Name</label>
-                    <input
-                        type='text'
-                        value={Customer_Name}
-                        onChange={(e) => setCustomer_Name(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2 w-full'
-                    />
-                </div>
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Vehicle_Type</label>
-                    <input
-                        type='text'
-                        value={Vehicle_Type}
-                        onChange={(e) => setVehicle_Type(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2 w-full'
-                    />
-                </div>
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Vehicle_Number</label>
-                    <input
-                        type='text'
-                        value={Vehicle_Number}
-                        onChange={(e) => setVehicle_Number(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2 w-full'
-                    />
-                </div>
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Contact_Number</label>
-                    <input
-                        type='text'
-                        value={Contact_Number}
-                        onChange={(e) => setContact_Number(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2 w-full'
-                    />
-                </div>
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Email</label>
-                    <input
-                        type='text'
-                        value={Email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2 w-full'
-                    />
-                </div>
-
-
-
-
-
-                <button className='p-2 bg-sky-300 m-8' onClick={handleSaveBooking}>
-                    Save
-                </button>
             </div>
         </div>
-    )
-}
-
+    );
+};
 
 export default CreateBooking;

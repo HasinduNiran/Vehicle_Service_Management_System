@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import backgroundImage from './t.jpg';
+
 
 const EditVehicle = () => {
-  const [selectedYear, setSelectedYear] = useState('');
   const [Register_Number, setRegister_Number] = useState('');
   const [Make, setMake] = useState('');
   const [Model, setModel] = useState('');
@@ -15,43 +15,26 @@ const EditVehicle = () => {
   const [Vehicle_Features, setVehicle_Features] = useState('');
   const [Condition_Assessment, setCondition_Assessment] = useState('');
   const [Owner, setOwner] = useState('');
-
-
-      // Validation function for Vehicle Number
-      const validateVehicleNumber = (value) => {
-        // Regular expression for alphanumeric with hyphen and space
-        const regex = /^[a-zA-Z0-9\s-]{0,4}[0-9]{4}$/;
-        // Check if the value matches the pattern
-        if (!value.match(regex)) {
-            return false; // Return false if validation fails
-        }
-        return true; // Return true if validation passes
-    };
-
-  
-  // Year set
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 40 }, (_, index) => currentYear - index);
-
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:8076/vehicles/${id}`)
+    axios
+      .get(`http://localhost:8076/vehicles/${id}`)
       .then((response) => {
-        setRegister_Number(response.data.Register_Number);
-        setMake(response.data.Make);
-        setModel(response.data.Model);
-        setYear(response.data.Year);
-        setEngine_Details(response.data.Engine_Details);
-        setTransmission_Details(response.data.Transmission_Details);
-        setVehicle_Color(response.data.Vehicle_Color);
-        setVehicle_Features(response.data.Vehicle_Features);
-        setCondition_Assessment(response.data.Condition_Assessment);
-        setOwner(response.data.Owner);
-
+        const data = response.data;
+        setRegister_Number(data.Register_Number);
+        setMake(data.Make);
+        setModel(data.Model);
+        setYear(data.Year);
+        setEngine_Details(data.Engine_Details);
+        setTransmission_Details(data.Transmission_Details);
+        setVehicle_Color(data.Vehicle_Color);
+        setVehicle_Features(data.Vehicle_Features);
+        setCondition_Assessment(data.Condition_Assessment);
+        setOwner(data.Owner);
         setLoading(false);
       })
       .catch((error) => {
@@ -59,15 +42,13 @@ const EditVehicle = () => {
         console.log(error);
         alert('Error fetching vehicle. Please try again.');
       });
-  }, [id]); // Add id as a dependency
+  }, [id]);
 
   const handleEditVehicle = async (e) => {
     e.preventDefault();
 
-    if (!validateVehicleNumber(Register_Number)) {
-      alert('Please enter a valid vehicle number.'); // Display an error message if validation fails
-      return; // Exit the function if validation fails
-  }
+    // Perform validation here if needed
+
     const data = {
       Register_Number,
       Make,
@@ -77,9 +58,10 @@ const EditVehicle = () => {
       Transmission_Details,
       Vehicle_Color,
       Vehicle_Features,
-      Condition_Assessment,  
-      Owner
+      Condition_Assessment,
+      Owner,
     };
+
     setLoading(true);
     try {
       await axios.put(`http://localhost:8076/vehicles/${id}`, data);
@@ -93,68 +75,217 @@ const EditVehicle = () => {
   };
 
   return (
-    <div>
-      <div className='flex justify-between items-center'>
-        <h1 className='text-2xl font-bold'>Edit Vehicle</h1>
+    <div style={styles.container}>
+      <div style={styles.formContainer}>
+        <h1 style={styles.heading}>Edit Vehicle</h1>
+        <form onSubmit={handleEditVehicle} style={styles.form}>
+          <div style={styles.formGroup}>
+            <label htmlFor="register_number" style={styles.label}>Vehicle Number</label>
+            <input
+              type="text"
+              id="register_number"
+              style={styles.input}
+              value={Register_Number}
+              onChange={(e) => setRegister_Number(e.target.value)}
+              maxLength={8}
+              required
+            />
+          </div>
+
+          <div style={styles.formGroup}>
+            <label htmlFor="make" style={styles.label}>Make</label>
+            <input
+              type="text"
+              id="make"
+              style={styles.input}
+              value={Make}
+              onChange={(e) => setMake(e.target.value)}
+              required
+            />
+          </div>
+
+          <div style={styles.formGroup}>
+            <label htmlFor="model" style={styles.label}>Model</label>
+            <input
+              type="text"
+              id="model"
+              style={styles.input}
+              value={Model}
+              onChange={(e) => setModel(e.target.value)}
+              required
+            />
+          </div>
+
+          <div style={styles.formGroup}>
+            <label htmlFor="year" style={styles.label}>Select Year</label>
+            <select
+              id="year"
+              style={styles.input}
+              value={Year}
+              onChange={(e) => setYear(e.target.value)}
+              required
+            >
+              <option value=''>Select Year</option>
+              {[...Array(40)].map((_, i) => <option key={i} value={new Date().getFullYear() - i}>{new Date().getFullYear() - i}</option>)}
+            </select>
+          </div>
+
+          <div style={styles.formGroup}>
+            <label htmlFor="engine_details" style={styles.label}>Engine Details</label>
+            <input
+              type="text"
+              id="engine_details"
+              style={styles.input}
+              value={Engine_Details}
+              onChange={(e) => setEngine_Details(e.target.value)}
+              required
+            />
+          </div>
+
+          <div style={styles.formGroup}>
+            <label htmlFor="transmission_details" style={styles.label}>Transmission Details</label>
+            <select
+              id="transmission_details"
+              style={styles.input}
+              value={Transmission_Details}
+              onChange={(e) => setTransmission_Details(e.target.value)}
+              required
+            >
+              <option value=''>Select Transmission</option>
+              <option value='Automatic'>Automatic</option>
+              <option value='Manual'>Manual</option>
+            </select>
+          </div>
+
+          <div style={styles.formGroup}>
+            <label htmlFor="vehicle_color" style={styles.label}>Vehicle Color</label>
+            <input
+              type="text"
+              id="vehicle_color"
+              style={styles.input}
+              value={Vehicle_Color}
+              onChange={(e) => setVehicle_Color(e.target.value)}
+              required
+            />
+          </div>
+
+          <div style={styles.formGroup}>
+            <label htmlFor="vehicle_features" style={styles.label}>Vehicle Features</label>
+            <input
+              type="text"
+              id="vehicle_features"
+              style={styles.input}
+              value={Vehicle_Features}
+              onChange={(e) => setVehicle_Features(e.target.value)}
+              required
+            />
+          </div>
+
+          <div style={styles.formGroup}>
+            <label htmlFor="condition_assessment" style={styles.label}>Condition Assessment</label>
+            <input
+              type="text"
+              id="condition_assessment"
+              style={styles.input}
+              value={Condition_Assessment}
+              onChange={(e) => setCondition_Assessment(e.target.value)}
+              required
+            />
+          </div>
+
+          <div style={styles.formGroup}>
+            <label htmlFor="owner" style={styles.label}>Vehicle Owner</label>
+            <input
+              type="text"
+              id="owner"
+              style={styles.input}
+              value={Owner}
+              onChange={(e) => setOwner(e.target.value)}
+              required
+            />
+          </div>
+
+          <div style={styles.buttonContainer}>
+            <button type="submit" style={styles.button} disabled={loading}>
+              {loading ? 'Editing...' : 'Edit Vehicle'}
+            </button>
+          </div>
+        </form>
       </div>
-      <form onSubmit={handleEditVehicle}>
-        <div className='mt-4'>
-          <label className='block'>Vehicle Number</label>
-          <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Register_Number} onChange={(e) => setRegister_Number(e.target.value)}maxLength={8} />
-        </div>
-        <div className='mt-4'>
-          <label className='block'>Make</label>
-          <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Make} onChange={(e) => setMake(e.target.value)} />
-        </div>
-        <div className='mt-4'>
-          <label className='block'>Model</label>
-          <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Model} onChange={(e) => setModel(e.target.value)} />
-        </div>
-        <div className='mt-4'>
-          <label className='block'>Select Year</label>
-          <select className='border border-gray-600 rounded-md w-full p-2' value={Year} onChange={(e) => setYear(e.target.value)}>
-            <option value=''>Select Year</option>
-            {years.map(year => (
-              <option key={year} value={year}>{year}</option>
-            ))}
-          </select>
-        </div>
-        <div className='mt-4'>
-          <label className='block'>Engine Details</label>
-          <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Engine_Details} onChange={(e) => setEngine_Details(e.target.value)} />
-        </div>
-                <div className='mt-4'>
-                    <label className='block'>Transmission Details</label>
-                    <select className='border border-gray-600 rounded-md w-full p-2' value={Transmission_Details} onChange={(e) => setTransmission_Details(e.target.value)}>
-                        <option value=''>Select Transmission</option>
-                        <option value='Automatic'>Automatic</option>
-                        <option value='Manual'>Manual</option>
-                    </select>
-                </div>
-                <div className='mt-4'>
-                    <label className='block'>Vehicle Color</label>
-                    <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Vehicle_Color} onChange={(e) => setVehicle_Color(e.target.value)} />
-                </div>
-                <div className='mt-4'>
-                    <label className='block'>Vehicle Features</label>
-                    <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Vehicle_Features} onChange={(e) => setVehicle_Features(e.target.value)} />
-                </div>
-                <div className='mt-4'>
-                    <label className='block'>Condition Assessment</label>
-                    <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Condition_Assessment} onChange={(e) => setCondition_Assessment(e.target.value)} />
-                </div>
-                <div className='mt-4'>
-                    <label className='block'>Vehicle Owner</label>
-                    <input type='text' className='border border-gray-600 rounded-md w-full p-2' value={Owner} onChange={(e) => setOwner(e.target.value)} />
-                </div>
-        <div className='mt-4'>
-          <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
-            {loading ? 'Updating...' : 'Update Vehicle'}
-          </button>
-        </div>
-      </form>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    
+  },
+  formContainer: {
+    width: '50%',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    padding: '20px',
+    bordercolor: 'red',
+    margin: '10px',
+    textAlign: 'center',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    padding: '20px',
+    bordercolor: 'red',
+  },
+  heading: {
+    fontSize: '3rem',
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold'
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  formGroup: {
+    marginBottom: '20px',
+  },
+  label: {
+    fontWeight: 'bold',
+    marginBottom: '0.5rem',
+    flexDirection: 'column',
+    fontSize: '1.2rem',
+    color: 'red',
+    textAlign: 'center',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center', 
+    padding: '10px',
+    display: 'block',
+    textTransform: 'uppercase',
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: '#ff0000',
+    color: '#ffffff',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'background-color 0.8s',
+  },
 };
 
 export default EditVehicle;

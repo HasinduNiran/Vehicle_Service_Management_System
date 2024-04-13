@@ -57,74 +57,74 @@ const ShowVehicle = () => {
   const filteredVehicles = vehicles.filter(applySearchFilter);
 
   return (
-    <div className='p-4'>
-      <div className='flex justify-between items-center'>
-        <h1 className='text-2xl font-bold'>Vehicles List</h1>
-        <Link to={'/vehicle/create'} className='bg-green-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Add Vehicle</Link>
+    <div style={{ padding: '1rem', display: 'flex', alignItems: 'center', minHeight: '100vh', width:'80%', alignSelf:'auto'}}>
+      <div style={{ maxWidth: '800px', width: '100%' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold' , alignItems: 'center'}}>Vehicles List</h1>
+          <Link to={'/vehicle/create'} style={{ backgroundColor: '#4CAF50', color: 'white', padding: '0.5rem 1rem', borderRadius: '5px', textDecoration: 'none' }}>Add Vehicle</Link>
 
-        <div className="mb-4"></div>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Enter vehicle "
-          className="mr-2 border border-gray-400 p-2"
-        />
-        <button
-          onClick={handleSearch}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Search
-        </button>
-      </div>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        //
-        <table className='w-full border-separate border-spacing-2' ref={componentRef}>
-          <thead>
-            <tr>
-              <th className='border border-green-800 rounded-md'>Vehicle Number</th>
-              <th className='border border-green-800 rounded-md'>Vehicle Make</th>
-              <th className='border border-green-800 rounded-md'>Vehicle Model</th>
-              <th className='border border-green-800 rounded-md'>Vehicle Year</th>
-              <th className='border border-green-800 rounded-md'>Engine Details</th>
-              <th className='border border-green-800 rounded-md'>Transmission Details</th>
-              <th className='border border-green-800 rounded-md'>Vehicle Color</th>
-              <th className='border border-green-800 rounded-md'>Vehicle Features</th>
-              <th className='border border-green-800 rounded-md'>Condition Assessment</th>
-              <th className='border border-green-800 rounded-md'>Vehicle Owner</th>
-              <th className='border border-green-800 rounded-md'>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredVehicles.map((vehicle) => (
-              <tr key={vehicle.Register_Number}>
-                <td className='border border-gray-600 rounded-md'>{vehicle.Register_Number}</td>
-                <td className='border border-gray-600 rounded-md'>{vehicle.Make}</td>
-                <td className='border border-gray-600 rounded-md'>{vehicle.Model}</td>
-                <td className='border border-gray-600 rounded-md'>{vehicle.Year}</td>
-                <td className='border border-gray-600 rounded-md'>{vehicle.Engine_Details}</td>
-                <td className='border border-gray-600 rounded-md'>{vehicle.Transmission_Details}</td>
-                <td className='border border-gray-600 rounded-md'>{vehicle.Vehicle_Color}</td>
-                <td className='border border-gray-600 rounded-md'>{vehicle.Vehicle_Features}</td>
-                <td className='border border-gray-600 rounded-md'>{vehicle.Condition_Assessment}</td>
-                <td className='border border-gray-600 rounded-md'>{vehicle.Owner}</td>
-                <td className='border border-gray-600 rounded-md'>
-                  <Link to={`/vehicle/edit/${vehicle._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
-                  <Link to={`/vehicle/delete/${vehicle._id}`} className='bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
-                  <Link to={`/vehicle/get/${vehicle.Register_Number}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Show</Link>
-                </td>
+          <div style={{ marginBottom: '0.5rem' }}></div>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Enter vehicle"
+            style={{ marginRight: '0.5rem', border: '1px solid #ccc', padding: '0.5rem' }}
+          />
+          <button
+            onClick={handleSearch}
+            style={{ backgroundColor: '#007bff', color: 'white', padding: '0.5rem 1rem', borderRadius: '5px', border: 'none', cursor: 'pointer' }}
+          >
+            Search
+          </button>
+        </div>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem', backgroundColor: '#f5f5f5' }} ref={componentRef}>
+            <thead>
+              <tr>
+                <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Number</th>
+                <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Make</th>
+                <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Model</th>
+                <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Year</th>
+                <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Engine Details</th>
+                <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Transmission Details</th>
+                <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Color</th>
+                <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Features</th>
+                <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Condition Assessment</th>
+                <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Owner</th>
+                <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-
-      )}
-      <div className="flex justify-center items-center mt-8">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generatePDF}>
-          Generate PDF
-        </button>
+            </thead>
+            <tbody>
+              {filteredVehicles.map((vehicle) => (
+                <tr key={vehicle.Register_Number}>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Register_Number}</td>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Make}</td>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Model}</td>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Year}</td>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Engine_Details}</td>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Transmission_Details}</td>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Vehicle_Color}</td>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Vehicle_Features}</td>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Condition_Assessment}</td>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Owner}</td>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>
+                    <Link to={`/vehicle/edit/${vehicle._id}`} style={{ backgroundColor: '#007bff', color: 'white', padding: '0.2rem 0.5rem', borderRadius: '5px', textDecoration: 'none', marginRight: '0.5rem' }}>Edit</Link>
+                    <Link to={`/vehicle/delete/${vehicle._id}`} style={{ backgroundColor: '#ff6666', color: 'white', padding: '0.2rem 0.5rem', borderRadius: '5px', textDecoration: 'none', marginRight: '0.5rem' }}>Delete</Link>
+                    <Link to={`/vehicle/get/${vehicle.Register_Number}`} style={{ backgroundColor: '#4CAF50', color: 'white', padding: '0.2rem 0.5rem', borderRadius: '5px', textDecoration: 'none' }}>Show</Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '1rem' }}>
+          <button style={{ backgroundColor: '#007bff', color: 'white', padding: '0.5rem 1rem', borderRadius: '5px', border: 'none', cursor: 'pointer' }} onClick={generatePDF}>
+            Generate PDF
+          </button>
+        </div>
       </div>
     </div>
   );

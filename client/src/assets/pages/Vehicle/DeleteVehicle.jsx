@@ -21,16 +21,18 @@ const DeleteVehicle = () => {
   };
 
   return (
-    <div className='p-4'>
-      <h1 className='text-2xl font-bold'>Delete Vehicle</h1>
-      <p>Are you sure you want to delete this vehicle?</p>
-      <div className='flex justify-between items-center'>
-        <button onClick={handleDelete} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>
-          {loading ? 'Deleting...' : 'Delete'}
-        </button>
-        <Link to={'/vehicle'} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
-          Cancel
-        </Link>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#1f2937' }}>
+      <div style={{ padding: '2rem', maxWidth: '600px', backgroundColor: '#2d3748', borderRadius: '10px', color: '#fff' }}>
+        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem' }}>Delete Vehicle</h1>
+        <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>Are you sure you want to delete this vehicle?</p>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <button onClick={handleDelete} style={{ backgroundColor: '#dc3545', color: 'white', padding: '0.8rem 2rem', borderRadius: '5px', cursor: 'pointer', border: 'none', marginRight: '1rem' }}>
+            {loading ? 'Deleting...' : 'Delete'}
+          </button>
+          <Link to={'/vehicle'} style={{ backgroundColor: '#007bff', color: 'white', padding: '0.8rem 2rem', borderRadius: '5px', textDecoration: 'none' }}>
+            Cancel
+          </Link>
+        </div>
       </div>
     </div>
   );

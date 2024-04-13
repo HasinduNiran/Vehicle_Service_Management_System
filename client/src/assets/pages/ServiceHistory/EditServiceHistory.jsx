@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import backgroundImage from './t.jpg';
 
 const EditServiceHistory = () => {
   const [BookingId, setBookingId] = useState('');
@@ -19,7 +20,6 @@ const EditServiceHistory = () => {
   const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
   const [services, setServices] = useState([]);
-  const [bookings, setBookings] = useState([]);
   const [packages, setPackages] = useState([]);
 
   // Validation function for Vehicle Number
@@ -37,10 +37,9 @@ const EditServiceHistory = () => {
         axios.get('http://localhost:8076/employees'),
         axios.get(`http://localhost:8076/ServiceHistory/${id}`),
         axios.get('http://localhost:8076/service'),
-        axios.get('http://localhost:8076/bookings'),
         axios.get(`http://localhost:8076/Package`)
       ])
-      .then(axios.spread((employeesRes, serviceHistoryRes, serviceRes, bookingRes, packageRes) => {
+      .then(axios.spread((employeesRes, serviceHistoryRes, serviceRes, packageRes) => {
         setEmployees(employeesRes.data.data);
         
         // Destructure the service history data
@@ -75,7 +74,6 @@ const EditServiceHistory = () => {
         setService_Date(formattedServiceDateTime); // Set the formatted date
   
         setServices(serviceRes.data.data);
-        setBookings(bookingRes.data);
         setPackages(packageRes.data.data);
         setLoading(false);
       }))
@@ -112,8 +110,6 @@ const EditServiceHistory = () => {
       Service_Date: Service_Date
     };
   
-    
-  
     setLoading(true);
     try {
       await axios.put(`http://localhost:8076/ServiceHistory/${id}`, data);
@@ -142,47 +138,48 @@ const EditServiceHistory = () => {
   };
 
   return (
-    <div className='flex justify-center items-center '>
-      <div className=''>
-        <form onSubmit={handleEditService}>
-          <h1 className='text-2xl font-bold mb-4'>Edit Service History</h1>
-          <div className='mt-4'>
-            <label className='block'>Booking ID</label>
+    <div style={styles.container}>
+      <div style={styles.formContainer}>
+        <form onSubmit={handleEditService} style={styles.form}>
+          <h1 style={styles.heading}>Edit Service History</h1>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Booking ID</label>
             <input
-              type='text'
-              className='border border-gray-600 rounded-md w-full p-2'
+              type="text"
+              style={styles.input1}
               value={BookingId}
               onChange={(e) => setBookingId(e.target.value)}
               disabled
             />
           </div>
-          <div className='mt-4'>
-            <label className='block'>Customer ID</label>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Customer ID</label>
             <input
-              type='text'
-              className='border border-gray-600 rounded-md w-full p-2'
+              type="text"
+              style={styles.input1}
               value={cusID}
               onChange={(e) => setcusID(e.target.value)}
               disabled
             />
           </div>
-          <div className='mt-4'>
-            <label className='block'>Customer Name</label>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Customer Name</label>
             <input
-              type='text'
-              className='border border-gray-600 rounded-md w-full p-2'
+              type="text"
+              style={styles.input1}
               value={Customer_Name}
               onChange={(e) => setCustomer_Name(e.target.value)}
+              disabled
             />
           </div>
-          <div className='mt-4'>
-            <label className='block'>Allocated Employee</label>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Allocated Employee</label>
             <select
-              className='border border-gray-600 rounded-md w-full p-2'
+              style={styles.input}
               value={Allocated_Employee}
               onChange={(e) => setAllocated_Employee(e.target.value)}
             >
-              <option value=''>Select an employee</option>
+              <option value="">Select an employee</option>
               {employees.map((employee) => (
                 <option key={employee._id} value={employee.employeeName}>
                   {employee.employeeName}
@@ -190,34 +187,33 @@ const EditServiceHistory = () => {
               ))}
             </select>
           </div>
-
-          <div className='mt-4'>
-            <label className='block'>Vehicle Number</label>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Vehicle Number</label>
             <input
-              type='text'
-              className='border border-gray-600 rounded-md w-full p-2'
+              type="text"
+              style={styles.input}
               value={Vehicle_Number}
               onChange={(e) => setVehicle_Number(e.target.value)}
               maxLength={8}
             />
           </div>
-          <div className='mt-4'>
-            <label className='block'>Milage</label>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Milage</label>
             <input
-              type='number'
-              className='border border-gray-600 rounded-md w-full p-2'
+              type="number"
+              style={styles.input}
               value={Milage}
               onChange={(e) => setMilage(e.target.value)}
             />
           </div>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Package</label>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Package</label>
             <select
               value={Selected_Package}
               onChange={handlePackageChange}
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.input}
             >
-              <option value=''>Select Package</option>
+              <option value="">Select Package</option>
               {packages.map((pkg) => (
                 <option key={pkg._id} value={pkg.pakgname}>
                   {pkg.pakgname}
@@ -225,14 +221,14 @@ const EditServiceHistory = () => {
               ))}
             </select>
           </div>
-          <div className='mt-4'>
-            <label className='block'>Selected Services</label>
-            <div className="flex flex-wrap">
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Selected Services</label>
+            <div style={styles.serviceButtonsContainer}>
               {services.map(service => (
                 <button
                   key={service._id}
                   type="button" // Prevents form submission
-                  className={`bg-gray-200 mr-2 mb-2 px-4 py-2 rounded ${Selected_Services.includes(service.Servicename) ? 'bg-blue-500 text-white' : ''}`}
+                  style={Object.assign({}, styles.serviceButton, Selected_Services.includes(service.Servicename) ? styles.selectedServiceButton : null)}
                   onClick={() => handleServiceSelect(service.Servicename)}
                 >
                   {service.Servicename}
@@ -240,39 +236,39 @@ const EditServiceHistory = () => {
               ))}
             </div>
           </div>
-          <div className='mt-4'>
-            <label className='block'>Next Service</label>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Next Service</label>
             <input
-              type='text'
-              className='border border-gray-600 rounded-md w-full p-2'
+              type="text"
+              style={styles.input}
               value={Next_Service}
               onChange={(e) => setNext_Service(e.target.value)}
             />
           </div>
-          <div className='mt-4'>
-            <label className='block'>Service History</label>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Service History</label>
             <input
-              type='text'
-              className='border border-gray-600 rounded-md w-full p-2'
+              type="text"
+              style={styles.input}
               value={Service_History}
               onChange={(e) => setService_History(e.target.value)}
             />
           </div>
-          <div className='mt-4'>
-            <label className='block'>Service Date</label>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Service Date</label>
             <input
-              type='datetime-local'
-              className='border border-gray-600 rounded-md w-full p-2'
+              type="datetime-local"
+              style={styles.input}
               value={Service_Date}
               onChange={(e) => setService_Date(e.target.value)}
-              placeholder='YYYY-MM-DD'
+              placeholder="YYYY-MM-DD"
               max={new Date().toISOString().split('T')[0]}
             />
           </div>
-          <div className='mt-4'>
+          <div style={styles.formGroup}>
             <button
-              type='submit'
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+              type="submit"
+              style={styles.submitButton}
             >
               {loading ? 'Updating...' : 'Update Service History'}
             </button>
@@ -281,6 +277,130 @@ const EditServiceHistory = () => {
       </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }, heading: {
+    fontSize: '3rem',
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+
+    marginBottom: '1.5rem',
+  },
+  formContainer: {
+    width: '50%',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    padding: '20px',
+    bordercolor: 'red',
+    margin: '10px',
+    textAlign: 'center',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    maxWidth: '800px',
+    padding: '20px',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    borderRadius: '10px',
+  },
+
+  formGroup: {
+    marginBottom: '1.5rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '10px',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    borderRadius: '5px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    color: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+  },
+  label: {
+    fontWeight: 'bold',
+    marginBottom: '0.5rem',
+    flexDirection: 'column',
+    fontSize: '1.2rem',
+    color: 'red',
+    textAlign: 'center',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center', 
+    padding: '10px',
+    display: 'block',
+    textTransform: 'uppercase',
+    
+  }, input1:{
+    width: '100%',
+    padding: '10px',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    borderRadius: '5px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    color: 'rgba(255, 255, 125, 0.8)',
+    textAlign: 'center',
+
+  },
+
+
+
+
+
+
+  input: {
+    width: '100%',
+    padding: '0.5rem',
+    marginTop: '0.25rem',
+    borderRadius: '0.25rem',
+    fontSize: '1.2rem',
+    color: 'black',
+    textAlign: 'center',
+    width: '100%',
+    display: 'block',
+  },
+  serviceButtonsContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    marginTop: '0.5rem',
+  },
+  serviceButton: {
+    backgroundColor: '#e0e0e0',
+    color: '#333',
+    border: 'none',
+    borderRadius: '0.25rem',
+    padding: '0.5rem 1rem',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    marginRight: '0.5rem',
+    marginBottom: '0.5rem',
+  },
+  selectedServiceButton: {
+    backgroundColor: 'red',
+    color: 'white',
+  },
+  submitButton: {
+    backgroundColor: 'red',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '0.25rem',
+    padding: '0.5rem 1rem',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
 };
 
 export default EditServiceHistory;
