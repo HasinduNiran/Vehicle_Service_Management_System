@@ -6,44 +6,49 @@ import { Inventory } from '../Models/Inventory.js';
 
 // Creating an Express router
 const router = express.Router();
+
 // Route for creating a new Inventory item
 router.post('/', async (request, response) => {
     try {
-        // Checking if all required fields are present in the request body
-        if (
-            !request.body.Name ||
-            !request.body.Location ||
-            !request.body.Quantity ||
-            !request.body.PurchasedPrice ||
-            !request.body.SellPrice ||
-            !request.body.SupplierName ||
-            !request.body.SupplierPhone
-        ) {
+        // Check if all required fields are present in the request body
+        const requiredFields = ['Name', 'Location', 'Quantity', 'PurchasedPrice', 'SellPrice', 'SupplierName', 'SupplierPhone'];
+        for (const field of requiredFields) {
+            if (!request.body[field]) {
+                return response.status(400).send({
+                    message: `Field '${field}' is required`,
+                });
+            }
+        }
+
+        // Validate Supplier Phone format (must be a 10-digit number)
+        const supplierPhoneRegex = /^\d{10}$/;
+        if (!supplierPhoneRegex.test(request.body.SupplierPhone)) {
             return response.status(400).send({
-                message: 'Send all required fields',
+                message: "Supplier Phone must be a 10-digit number",
             });
         }
-// Creating a new inventory item with the provided data
-const newInventory = {
-    Name: request.body.Name,
-    Location: request.body.Location,
-    Quantity: request.body.Quantity,
-    PurchasedPrice: request.body.PurchasedPrice,
-    SellPrice: request.body.SellPrice,
-    SupplierName: request.body.SupplierName,
-    SupplierPhone: request.body.SupplierPhone,
-};
 
-// Adding the new inventory item to the database
-const inventory = await Inventory.create(newInventory);
+        // Creating a new inventory item with the provided data
+        const newInventory = {
+            Name: request.body.Name,
+            Location: request.body.Location,
+            Quantity: request.body.Quantity,
+            PurchasedPrice: request.body.PurchasedPrice,
+            SellPrice: request.body.SellPrice,
+            SupplierName: request.body.SupplierName,
+            SupplierPhone: request.body.SupplierPhone,
+        };
 
-// Sending the created inventory item as a JSON response
-return response.status(201).send(inventory);
-} catch (error) {
-// Handling errors and sending an error response
-console.error(error.message);
-response.status(500).send({ message: error.message });
-}
+        // Adding the new inventory item to the database
+        const inventory = await Inventory.create(newInventory);
+
+        // Sending the created inventory item as a JSON response
+        return response.status(201).send(inventory);
+    } catch (error) {
+        // Handling errors and sending an error response
+        console.error(error.message);
+        response.status(500).send({ message: error.message });
+    }
 });
 
 // Route for retrieving all inventory items from the database
@@ -116,7 +121,6 @@ router.put('/:id', async (request, response) => {
         response.status(500).send({ message: error.message });
     }
 });
-
 
 // Route for deleting a inventory item by ID
 router.delete('/:id', async(request, response) => {
