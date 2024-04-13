@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const EditServiceHistory = () => {
   const [BookingId, setBookingId] = useState('');
-  const [CusID, setCusID] = useState('');
+  const [cusID, setcusID] = useState('');
   const [Customer_Name, setCustomer_Name] = useState('');
   const [Allocated_Employee, setAllocated_Employee] = useState('');
   const [Vehicle_Number, setVehicle_Number] = useState('');
@@ -20,6 +20,7 @@ const EditServiceHistory = () => {
   const [employees, setEmployees] = useState([]);
   const [services, setServices] = useState([]);
   const [bookings, setBookings] = useState([]);
+  const [packages, setPackages] = useState([]);
 
   // Validation function for Vehicle Number
   const validateVehicleNumber = (value) => {
@@ -36,36 +37,46 @@ const EditServiceHistory = () => {
         axios.get('http://localhost:8076/employees'),
         axios.get(`http://localhost:8076/ServiceHistory/${id}`),
         axios.get('http://localhost:8076/service'),
-        axios.get('http://localhost:8076/bookings')
+        axios.get('http://localhost:8076/bookings'),
+        axios.get(`http://localhost:8076/Package`)
       ])
-      .then(axios.spread((employeesRes, serviceHistoryRes, serviceRes, bookingRes) => {
+      .then(axios.spread((employeesRes, serviceHistoryRes, serviceRes, bookingRes, packageRes) => {
         setEmployees(employeesRes.data.data);
+        
+        // Destructure the service history data
         const {
-          Booking_Id:BookingId,
-          cusID:CusID,
+          Booking_Id,
+          cusID,
           Customer_Name,
           Allocated_Employee,
           Vehicle_Number,
           Milage,
-          Package:Selected_Package,
-          selectedServices:Selected_Services,
-          nextService:Next_Service,
+          Package,
+          selectedServices,
+          nextService,
           Service_History,
-          Service_Date:Service_Date
+          Service_Date
         } = serviceHistoryRes.data;
-        setBookingId(BookingId);
-        setCusID(CusID);
+  
+        // Convert the date and time to the 'YYYY-MM-DD' format
+        const formattedServiceDateTime = Service_Date ? new Date(Service_Date).toISOString().slice(0, 16) : '';
+  
+        // Set the states
+        setBookingId(Booking_Id);
+        setcusID(cusID);
         setCustomer_Name(Customer_Name);
         setAllocated_Employee(Allocated_Employee);
         setVehicle_Number(Vehicle_Number);
         setMilage(Milage);
-        setSelected_Package(Selected_Package);
-        setSelected_Services(Selected_Services || []); // Ensure Selected_Services is always an array
-        setNext_Service(Next_Service);
+        setSelected_Package(Package);
+        setSelected_Services(selectedServices || []); // Ensure Selected_Services is always an array
+        setNext_Service(nextService);
         setService_History(Service_History);
-        setService_Date(Service_Date);
+        setService_Date(formattedServiceDateTime); // Set the formatted date
+  
         setServices(serviceRes.data.data);
         setBookings(bookingRes.data);
+        setPackages(packageRes.data.data);
         setLoading(false);
       }))
       .catch(error => {
@@ -73,29 +84,36 @@ const EditServiceHistory = () => {
         setLoading(false);
       });
   }, [id]);
+  
+  const handlePackageChange = (e) => {
+    setSelected_Package(e.target.value);
+    // Make API call with selected value if needed
+  };
 
   const handleEditService = async (e) => {
     e.preventDefault();
-
+  
     if (!validateVehicleNumber(Vehicle_Number)) {
       alert('Please enter a valid vehicle number.');
       return;
     }
-
+  
     const data = {
-      Booking_Id:BookingId,
-      cusID:CusID,
-      Customer_Name,
-      Allocated_Employee,
-      Vehicle_Number,
-      Milage,
-      Package:Selected_Package,
-      selectedServices:Selected_Services,
-      nextService:Next_Service,
-      Service_History,
-      Service_Date:Service_Date
+      Booking_Id: BookingId,
+      cusID: cusID,
+      Customer_Name: Customer_Name,
+      Allocated_Employee: Allocated_Employee,
+      Vehicle_Number: Vehicle_Number,
+      Milage: Milage,
+      Package: Selected_Package,
+      selectedServices: Selected_Services,
+      nextService: Next_Service,
+      Service_History: Service_History,
+      Service_Date: Service_Date
     };
-
+  
+    
+  
     setLoading(true);
     try {
       await axios.put(`http://localhost:8076/ServiceHistory/${id}`, data);
@@ -104,7 +122,7 @@ const EditServiceHistory = () => {
     } catch (error) {
       setLoading(false);
       console.error('Error updating service history:', error);
-      alert('Error updating service history. Please try again.');
+      alert('Error updating service history. Please try again.',error);
     }
   };
 
@@ -143,8 +161,8 @@ const EditServiceHistory = () => {
             <input
               type='text'
               className='border border-gray-600 rounded-md w-full p-2'
-              value={CusID}
-              onChange={(e) => setCusID(e.target.value)}
+              value={cusID}
+              onChange={(e) => setcusID(e.target.value)}
               disabled
             />
           </div>
@@ -157,8 +175,6 @@ const EditServiceHistory = () => {
               onChange={(e) => setCustomer_Name(e.target.value)}
             />
           </div>
-          
-            
           <div className='mt-4'>
             <label className='block'>Allocated Employee</label>
             <select
@@ -194,14 +210,20 @@ const EditServiceHistory = () => {
               onChange={(e) => setMilage(e.target.value)}
             />
           </div>
-          <div className='mt-4'>
-            <label className='block'>Selected Package</label>
-            <input
-              type='text'
-              className='border border-gray-600 rounded-md w-full p-2'
+          <div className='my-4'>
+            <label className='text-xl mr-4 text-gray-500'>Package</label>
+            <select
               value={Selected_Package}
-              onChange={(e) => setSelected_Package(e.target.value)}
-            />
+              onChange={handlePackageChange}
+              className='border-2 border-gray-500 px-4 py-2 w-full'
+            >
+              <option value=''>Select Package</option>
+              {packages.map((pkg) => (
+                <option key={pkg._id} value={pkg.pakgname}>
+                  {pkg.pakgname}
+                </option>
+              ))}
+            </select>
           </div>
           <div className='mt-4'>
             <label className='block'>Selected Services</label>
@@ -239,14 +261,14 @@ const EditServiceHistory = () => {
           <div className='mt-4'>
             <label className='block'>Service Date</label>
             <input
-              type='date'
+              type='datetime-local'
               className='border border-gray-600 rounded-md w-full p-2'
               value={Service_Date}
               onChange={(e) => setService_Date(e.target.value)}
+              placeholder='YYYY-MM-DD'
               max={new Date().toISOString().split('T')[0]}
             />
           </div>
-
           <div className='mt-4'>
             <button
               type='submit'

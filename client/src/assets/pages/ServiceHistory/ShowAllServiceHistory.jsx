@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
+
 export default function ShowAllServiceHistory() {
     const [serviceHistories, setServiceHistory] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [searchQuery, setSearchQuery] = useState("");
+    const [textSearchQuery, setTextSearchQuery] = useState("");
+    const [dateSearchQuery, setDateSearchQuery] = useState("");
     const componentRef = useRef();
 
     useEffect(() => {
@@ -27,7 +29,9 @@ export default function ShowAllServiceHistory() {
     const handleSearch = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:8076/searchservices?search=${searchQuery}`);
+            // Construct the query based on text input and date input
+            const searchTextQuery = textSearchQuery.toLowerCase();
+            const response = await axios.get(`http://localhost:8076/searchservices?search=${searchTextQuery}&date=${dateSearchQuery}`);
             setServiceHistory(response.data);
             setLoading(false);
         } catch (err) {
@@ -37,24 +41,43 @@ export default function ShowAllServiceHistory() {
     };
 
     const applyServiceHistoryFilter = (service) => {
-        const query = searchQuery ? searchQuery.toLowerCase() : ""; // Check if searchQuery is defined
-        return (
-            (service.Customer_Name && service.Customer_Name.toLowerCase().includes(query)) ||
-            (service.Allocated_Employee && service.Allocated_Employee.toLowerCase().includes(query)) ||
-            (service.Vehicle_Number && service.Vehicle_Number.toLowerCase().includes(query)) ||
-            (service.Service_History && service.Service_History.toLowerCase().includes(query)) ||
-            (service.Milage && service.Milage.toLowerCase().includes(query)) ||
-            (service.Package && service.Package.toLowerCase().includes(query)) ||
-            (service.Booking_Id && service.Booking_Id.toLowerCase().includes(query)) ||
-
-            (service.Service_Date && service.Service_Date.toLowerCase().includes(query)) ||
-            (service.nextService && service.nextService.toLowerCase().includes(query)) ||
-            (service.Servicename && service.Servicename.toLowerCase().includes(query)) ||
-
-            
-            (service.Month && service.Month.toLowerCase().includes(query)) // Add searching for the Month field
-           
+        const textQuery = textSearchQuery.toLowerCase();
+        const dateQuery = dateSearchQuery;
+    
+        // Filter based on text input
+        const textFilter = (
+            (service.Customer_Name && service.Customer_Name.toLowerCase().includes(textQuery)) ||
+            (service.Allocated_Employee && service.Allocated_Employee.toLowerCase().includes(textQuery)) ||
+            (service.Vehicle_Number && service.Vehicle_Number.toLowerCase().includes(textQuery)) ||
+            (service.Service_History && service.Service_History.toLowerCase().includes(textQuery)) ||
+            (typeof service.Milage === 'string' && service.Milage.toLowerCase().includes(textQuery)) ||
+            (service.Package && service.Package.toLowerCase().includes(textQuery)) ||
+            (service.Booking_Id && service.Booking_Id.toLowerCase().includes(textQuery)) ||
+            (service.Service_Date && service.Service_Date.toLowerCase().includes(textQuery)) ||
+            (service.nextService && service.nextService.toLowerCase().includes(textQuery)) ||
+            (service.Servicename && service.Servicename.toLowerCase().includes(textQuery)) ||
+            (service.Month && service.Month.toLowerCase().includes(textQuery))
         );
+    
+        // Filter based on date input
+        let dateFilter = true;
+        if (dateQuery) {
+            const [queryYear, queryMonth, queryDate] = dateQuery.split('-');
+            const [serviceYear, serviceMonth, serviceDate] = service.Service_Date.split('-');
+            
+            // Check if year, month, or date matches the query
+            if (queryYear) {
+                dateFilter = dateFilter && (serviceYear === queryYear);
+            }
+            if (queryMonth) {
+                dateFilter = dateFilter && (serviceMonth === queryMonth);
+            }
+            if (queryDate) {
+                dateFilter = dateFilter && (serviceDate === queryDate);
+            }
+        }
+    
+        return textFilter && dateFilter;
     };
     
 
@@ -76,11 +99,20 @@ export default function ShowAllServiceHistory() {
                 <div className="mb-4"></div>
                 <input
                     type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={textSearchQuery}
+                    onChange={(e) => setTextSearchQuery(e.target.value)}
                     placeholder="Enter details..."
                     className="mr-2 border border-gray-400 p-2"
                 />
+
+                <input
+                    type="text"
+                    value={dateSearchQuery}
+                    onChange={(e) => setDateSearchQuery(e.target.value)}
+                    placeholder="Enter date 2024-04-01..."
+                    className="mr-2 border border-gray-400 p-2"
+                />
+
                 <button
                     onClick={handleSearch}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -117,14 +149,14 @@ export default function ShowAllServiceHistory() {
                                     <td className='border border-gray-600 rounded-md'>{service.Customer_Name}</td>
                                     <td className='border border-gray-600 rounded-md'>{service.Allocated_Employee}</td>
                                     <td className='border border-gray-600 rounded-md'>{service.Vehicle_Number}</td>
-                                    
+
                                     <td className='border border-gray-600 rounded-md'>{service.Milage}</td>
-                                    
+
                                     <td className='border border-gray-600 rounded-md'>{service.Package}</td>
                                     <td className='border border-gray-600 rounded-md'>{service.selectedServices}</td>
-                                    
+
                                     <td className='border border-gray-600 rounded-md'>{service.Booking_Id}</td>
-                                    
+
                                     <td className='border border-gray-600 rounded-md'>{service.nextService}</td>
 
                                     <td className='border border-gray-600 rounded-md'>{service.Service_History}</td>

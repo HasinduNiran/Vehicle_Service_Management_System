@@ -18,6 +18,7 @@ const CreateServiceHistory = () => {
   const [services, setServices] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [bookings, setBookings] = useState([]);
+  const [packages, setPackages] = useState([]);
 
   const navigate = useNavigate();
   const { id: bookingID } = useParams();
@@ -39,11 +40,13 @@ const CreateServiceHistory = () => {
     setLoading(true);
     axios.all([
       axios.get('http://localhost:8076/employees'),
-      axios.get('http://localhost:8076/bookings')
+      axios.get('http://localhost:8076/bookings'),
+      axios.get(`http://localhost:8076/Package`)
     ])
-      .then(axios.spread((employeesRes, bookingsRes) => {
+      .then(axios.spread((employeesRes, bookingsRes, packagesRes) => {
         setEmployees(employeesRes.data.data);
         setBookings(bookingsRes.data);
+        setPackages(packagesRes.data.data);
         setLoading(false);
       }))
       .catch(error => {
@@ -115,7 +118,7 @@ const CreateServiceHistory = () => {
       if (error.response) {
         console.error('Server responded with:', error.response.data);
       }
-      alert('Error creating service history. Please try again.');
+      alert('Error creating service history. Please try again.', error);
     }
   };
 
@@ -144,6 +147,12 @@ const CreateServiceHistory = () => {
         setLoading(false);
       });
   }, []);
+
+
+  const handlePackageChange = (e) => {
+    setSelectedPackage(e.target.value);
+    // Make API call with selected value if needed
+  };
 
   return (
     <div>
@@ -214,20 +223,23 @@ const CreateServiceHistory = () => {
             onChange={handleMilageChange}
           />
         </div>
-        <div className='mt-4'>
-          <label className='block'>Selected Package</label>
-          <input
-            className='border border-gray-600 rounded-md w-full p-2'
+        <div className='my-4'>
+          <label className='text-xl mr-4 text-gray-500'>Package</label>
+          <select
             value={selectedPackage}
-            disabled
-          />
+            onChange={handlePackageChange}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          >
+            <option value=''>Select Package</option>
+            {packages.map((pkg) => (
+              <option key={pkg._id} value={pkg.pakgname}>
+                {pkg.pakgname}
+              </option>
+            ))}
+          </select>
         </div>
         <div className='mt-4'>
           <label className='block'>Selected Services</label>
-          <input
-            className='border border-gray-600 rounded-md w-full p-2'
-            value={selectedServices.join(', ')}
-          />
           <div className="flex flex-wrap">
             {services.map(service => (
               <button
@@ -248,6 +260,7 @@ const CreateServiceHistory = () => {
             className='border border-gray-600 rounded-md w-full p-2'
             value={nextService}
             onChange={handleMilageChange}
+            disabled
           />
         </div>
         <div className='mt-4'>
@@ -262,7 +275,7 @@ const CreateServiceHistory = () => {
         <div className='mt-4'>
           <label className='block'>Service Date</label>
           <input
-            type='date'
+            type='datetime-local'
             className='border border-gray-600 rounded-md w-full p-2'
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
