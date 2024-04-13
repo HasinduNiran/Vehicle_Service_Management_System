@@ -121,7 +121,7 @@ export default function ShowAllServiceHistory() {
                                     <td className='border border-gray-600 rounded-md'>{service.Milage}</td>
                                     
                                     <td className='border border-gray-600 rounded-md'>{service.Package}</td>
-                                    <td className='border border-gray-600 rounded-md'>{service.Servicename}</td>
+                                    <td className='border border-gray-600 rounded-md'>{service.selectedServices}</td>
                                     
                                     <td className='border border-gray-600 rounded-md'>{service.Booking_Id}</td>
                                     
