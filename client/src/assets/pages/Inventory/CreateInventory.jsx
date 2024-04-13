@@ -3,10 +3,9 @@ import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-
 // Functional component for creating inventory
 const CreateInventory = () => {
-  // State variables for managing form data and loading state
+  // State variables for managing form data, loading state, and errors
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -15,10 +14,78 @@ const CreateInventory = () => {
   const [supplierName, setSupplierName] = useState('');
   const [supplierPhone, setSupplierPhone] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  // Function to validate form inputs
+  const validateForm = () => {
+    let errors = {};
+    let isValid = true;
+
+    // Validate Name
+    if (!name.trim()) {
+      errors.name = 'Name is required';
+      isValid = false;
+    }
+
+    // Validate Location
+    if (!location.trim()) {
+      errors.location = 'Location is required';
+      isValid = false;
+    }
+
+    // Validate Quantity
+    if (!quantity.trim()) {
+      errors.quantity = 'Quantity is required';
+      isValid = false;
+    } else if (isNaN(quantity) || parseInt(quantity) <= 0) {
+      errors.quantity = 'Quantity must be a positive number';
+      isValid = false;
+    }
+
+    // Validate Purchased Price
+    if (!purchasedPrice.trim()) {
+      errors.purchasedPrice = 'Purchased Price is required';
+      isValid = false;
+    } else if (isNaN(purchasedPrice) || parseFloat(purchasedPrice) <= 0) {
+      errors.purchasedPrice = 'Purchased Price must be a positive number';
+      isValid = false;
+    }
+
+    // Validate Sell Price
+    if (!sellPrice.trim()) {
+      errors.sellPrice = 'Sell Price is required';
+      isValid = false;
+    } else if (isNaN(sellPrice) || parseFloat(sellPrice) <= 0) {
+      errors.sellPrice = 'Sell Price must be a positive number';
+      isValid = false;
+    }
+
+    // Validate Supplier Name
+    if (!supplierName.trim()) {
+      errors.supplierName = 'Supplier Name is required';
+      isValid = false;
+    }
+
+    // Validate Supplier Phone
+    if (!supplierPhone.trim()) {
+      errors.supplierPhone = 'Supplier Phone is required';
+      isValid = false;
+    } else if (!/^\d{10}$/.test(supplierPhone)) {
+      errors.supplierPhone = 'Supplier Phone must be a 10-digit number';
+      isValid = false;
+    }
+
+    setErrors(errors);
+    return isValid;
+  };
 
   // Event handler for saving the inventory
   const handleSaveInventory = () => {
+    if (!validateForm()) {
+      return; // Don't proceed if form validation fails
+    }
+
     // Creating data object from form inputs
     const data = {
       Name: name,
@@ -81,6 +148,7 @@ const CreateInventory = () => {
             onChange={(e) => setName(e.target.value)}
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
+          {errors.name && <p className="text-red-500">{errors.name}</p>}
         </div>
         <div className="my-4">
           <label className="text-xl mr-4 text-gray-500">Location</label>
@@ -90,6 +158,7 @@ const CreateInventory = () => {
             onChange={(e) => setLocation(e.target.value)}
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
+          {errors.location && <p className="text-red-500">{errors.location}</p>}
         </div>
         <div className="my-4">
           <label className="text-xl mr-4 text-gray-500">Quantity</label>
@@ -99,42 +168,47 @@ const CreateInventory = () => {
             onChange={(e) => setQuantity(e.target.value)}
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
+          {errors.quantity && <p className="text-red-500">{errors.quantity}</p>}
         </div>
         <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">PurchasedPrice</label>
+          <label className="text-xl mr-4 text-gray-500">Purchased Price</label>
           <input
             type="number"
             value={purchasedPrice}
             onChange={(e) => setPurchasedPrice(e.target.value)}
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
+          {errors.purchasedPrice && <p className="text-red-500">{errors.purchasedPrice}</p>}
         </div>
         <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">SellPrice</label>
+          <label className="text-xl mr-4 text-gray-500">Sell Price</label>
           <input
             type="number"
             value={sellPrice}
             onChange={(e) => setSellPrice(e.target.value)}
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
+          {errors.sellPrice && <p className="text-red-500">{errors.sellPrice}</p>}
         </div>
         <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">SupplierName</label>
+          <label className="text-xl mr-4 text-gray-500">Supplier Name</label>
           <input
             type="text"
             value={supplierName}
             onChange={(e) => setSupplierName(e.target.value)}
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
+          {errors.supplierName && <p className="text-red-500">{errors.supplierName}</p>}
         </div>
         <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">SupplierPhone</label>
+          <label className="text-xl mr-4 text-gray-500">Supplier Phone</label>
           <input
             type="text"
             value={supplierPhone}
             onChange={(e) => setSupplierPhone(e.target.value)}
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
+          {errors.supplierPhone && <p className="text-red-500">{errors.supplierPhone}</p>}
         </div>
 
         {/* Save button */}
