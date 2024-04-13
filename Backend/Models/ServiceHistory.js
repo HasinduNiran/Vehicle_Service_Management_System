@@ -23,7 +23,7 @@ const serviceSchema = mongoose.Schema({
         required: true,
     },
     Service_Date: {
-        type: Date, // Changed to Date type for better representation
+        type:String, // Changed to Date type for better representation
         required: true,
     },
     Milage: {
