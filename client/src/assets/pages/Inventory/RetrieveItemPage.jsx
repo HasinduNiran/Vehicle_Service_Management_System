@@ -3,6 +3,7 @@ import Spinner from "../../components/Spinner";
 import BackButton from '../../components/BackButton';
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 const RetrieveExistingInventory = () => {
   const [name, setName] = useState('');
@@ -44,6 +45,8 @@ const RetrieveExistingInventory = () => {
           .put(`http://localhost:8076/inventory/${id}`, data)
           .then(() => {
             setRetrieveAmount(0);
+            // Display SweetAlert2 when item is successfully removed
+            Swal.fire("Success!", "Item retrieved successfully!", "success");
           })
           .catch((error) => {
             alert('An error happened while updating quantity.');

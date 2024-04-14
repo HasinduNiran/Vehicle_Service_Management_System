@@ -4,6 +4,7 @@ import Spinner from "../../components/Spinner";
 import BackButton from '../../components/BackButton';
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 // Functional component for AddExistingInventory
 const AddExistingInventory = () => {
@@ -69,6 +70,8 @@ const AddExistingInventory = () => {
         .put(`http://localhost:8076/inventory/${id}`, data)
         .then(() => {
           setNewStock(0); // Reset new stock quantity
+          // Display SweetAlert2 when item is added
+          Swal.fire("Success!", "Stock added successfully!", "success");
         })
         .catch((error) => {
           alert('An error happened while updating quantity.');
