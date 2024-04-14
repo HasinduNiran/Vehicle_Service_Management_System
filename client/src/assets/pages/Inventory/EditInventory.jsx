@@ -4,8 +4,9 @@ import React from 'react';
 import Spinner from "../../components/Spinner"
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
-// Functional component for EditMenu
+// Functional component for EditInventory
 const EditInventory = () => {
   // State variables for managing form data and loading state
   const [name, setName] = useState('');
@@ -40,7 +41,7 @@ const EditInventory = () => {
       });
   }, [id]);
 
-  // Event handler for editing the menu
+  // Event handler for editing the inventory
   const handleEditInventory = () => {
     // Creating data object from form inputs
     const data = {
@@ -55,13 +56,17 @@ const EditInventory = () => {
 
     setLoading(true);
 
-    // Making a PUT request to edit the menu data
+    // Making a PUT request to edit the inventory data
     axios
       .put(`http://localhost:8076/inventory/${id}`, data)
       .then(() => {
-        // Resetting loading state and navigating to the home page
+        // Resetting loading state
         setLoading(false);
-        navigate('/inventory/allInventory');
+        // Display SweetAlert2 when data is successfully edited
+        Swal.fire("Success!", "Inventory data updated successfully!", "success").then(() => {
+          // After user clicks OK, navigate to the home page
+          navigate('/inventory/allInventory');
+        });
       })
       .catch((error) => {
         // Handling errors by resetting loading state, showing an alert, and logging the error
@@ -71,13 +76,13 @@ const EditInventory = () => {
       });
   };
 
-  // JSX for rendering the edit menu form
+  // JSX for rendering the edit inventory form
   return (
     <div className="p-4">
       <h1 className="text-3xl my-4">Edit inventory</h1>
       {loading ? <Spinner /> : ''}
       <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
-      <div className="my-4">
+        <div className="my-4">
           <label className="text-xl mr-4 text-gray-500">Name</label>
           <input
             type="text"
@@ -148,5 +153,5 @@ const EditInventory = () => {
   );
 };
 
-// Exporting the EditMenu component
+// Exporting the EditInventory component
 export default EditInventory;
