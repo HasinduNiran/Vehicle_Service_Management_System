@@ -329,7 +329,12 @@ const styles = {
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    
   },
+
+
+
   formContainer: {
     width: '50%',
     backgroundColor: 'rgba(5, 4, 2, 0.8)',

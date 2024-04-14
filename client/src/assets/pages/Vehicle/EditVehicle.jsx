@@ -251,7 +251,18 @@ const styles = {
     flexDirection: 'column',
   },
   formGroup: {
-    marginBottom: '20px',
+    marginBottom: '1.5rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '10px',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    borderRadius: '5px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    color: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
   },
   label: {
     fontWeight: 'bold',
@@ -272,7 +283,17 @@ const styles = {
     padding: '10px',
     borderRadius: '5px',
     border: '1px solid #ccc',
+    backgroundColor: 'black',
+    color: 'white',
+    fontSize: '1.2rem',
+    marginBottom: '10px',
+    textAlign: 'left',
+    display: 'block',
+    
   },
+
+
+  
   buttonContainer: {
     display: 'flex',
     justifyContent: 'center',
