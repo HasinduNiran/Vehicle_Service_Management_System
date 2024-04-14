@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import backgroundImage from './t.jpg';
-
+import backgroundImage from '../../images/t.jpg';
 
 const EditVehicle = () => {
   const [Register_Number, setRegister_Number] = useState('');

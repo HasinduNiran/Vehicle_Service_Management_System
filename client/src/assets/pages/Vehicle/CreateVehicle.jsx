@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import backgroundImage from './t.jpg';
+import backgroundImage from '../../images/t.jpg';
 
 const CreateVehicle = () => {
   const [Register_Number, setRegister_Number] = useState('');

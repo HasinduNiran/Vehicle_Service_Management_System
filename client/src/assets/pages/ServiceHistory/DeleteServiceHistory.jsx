@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import backgroundImage from './t.jpg';
+import backgroundImage from '../../images/t.jpg';
 
 const DeleteServiceHistory = () => {
   const [loading, setLoading] = useState(false);

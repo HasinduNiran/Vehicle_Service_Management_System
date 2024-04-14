@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
-import backgroundImage from './t.jpg';
+import backgroundImage from '../../images/t.jpg';
 
 const ReadOneServiceHistory = () => {
   const [serviceHistory, setServiceHistory] = useState([]);
