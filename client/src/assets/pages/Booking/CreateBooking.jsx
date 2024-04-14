@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-
-const Spinner = () => {
-    return <div>Loading...</div>;
-};
+import backgroundImage from '../../images/t.jpg';
+import Spinner from '../../components/Spinner';
 
 const CreateBooking = () => {
     const [Booking_Date, setBooking_Date] = useState('');
@@ -115,27 +113,28 @@ const CreateBooking = () => {
     const today = new Date().toISOString().split('T')[0];
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f0f0f0' }}>
-            <div style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '20px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.8)', maxWidth: '600px', width: '100%', boxSizing: 'border-box' }}>
-                <h1 style={{ textAlign: 'center', marginBottom: '20px', fontSize: '24px', fontWeight: 'bold' }}>Create Booking</h1>
+        <div style={styles.container}>
+            <div style={styles.formContainer}>
+                <h1 style={styles.heading}>Create Booking </h1>
+                <div style={styles.underline}></div>
                 {loading ? <Spinner /> : ''}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <div>
-                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Select Date</label>
+                <div style={styles.form}>
+                    <div style={styles.inputGroup}>
+                        <label style={styles.label}>Select Date</label>
                         <input
                             type='date'
                             value={Booking_Date}
                             onChange={(e) => setBooking_Date(e.target.value)}
                             min={today}
-                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                            style={styles.input}
                         />
                     </div>
-                    <div>
-                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Package</label>
+                    <div style={styles.inputGroup}>
+                        <label style={styles.label}>Package</label>
                         <select
                             value={selectedPackage}
                             onChange={handlePackageChange}
-                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                            style={styles.input}
                         >
                             <option value=''>Select Package</option>
                             {packages.map((pkg) => (
@@ -145,79 +144,175 @@ const CreateBooking = () => {
                             ))}
                         </select>
                     </div>
-                    <div>
-                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Includes</label>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                    <div style={styles.inputGroup}>
+                        <label style={styles.label}>Includes</label>
+                        <div style={styles.servicesContainer}>
                             {services.map((service) => (
                                 <button
                                     key={service._id}
                                     onClick={() => handleServiceSelect(service.Servicename)}
-                                    style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: selectedServices.includes(service.Servicename) ? '#007bff' : '#fff', color: selectedServices.includes(service.Servicename) ? '#fff' : '#333', cursor: 'pointer' }}
+                                    style={{ ...styles.serviceButton, ...(selectedServices.includes(service.Servicename) && { backgroundColor: 'red', color: 'white' }) }}
                                 >
                                     {service.Servicename}
                                 </button>
                             ))}
                         </div>
                     </div>
-                    <div>
-                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Customer ID</label>
+                    <div style={styles.inputGroup}>
+                        <label style={styles.label}>Customer ID</label>
                         <input
                             type='text'
                             value={cussID}
                             onChange={(e) => setcussID(e.target.value)}
-                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                            style={styles.input}
                         />
                     </div>
-                    <div>
-                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Customer Name</label>
+                    <div style={styles.inputGroup}>
+                        <label style={styles.label}>Customer Name</label>
                         <input
                             type='text'
                             value={Customer_Name}
                             onChange={(e) => setCustomer_Name(e.target.value)}
-                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                            style={styles.input}
                         />
                     </div>
-                    <div>
-                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Vehicle Type</label>
+                    <div style={styles.inputGroup}>
+                        <label style={styles.label}>Vehicle Type</label>
                         <input
                             type='text'
                             value={Vehicle_Type}
                             onChange={(e) => setVehicle_Type(e.target.value)}
-                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                            style={styles.input}
                         />
                     </div>
-                    <div>
-                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Vehicle Number</label>
+                    <div style={styles.inputGroup}>
+                        <label style={styles.label}>Vehicle Number</label>
                         <input
                             type='text'
                             value={Vehicle_Number}
                             onChange={(e) => setVehicle_Number(e.target.value)}
-                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                            style={styles.input}
                         />
                     </div>
-                    <div>
-                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Contact Number</label>
+                    <div style={styles.inputGroup}>
+                        <label style={styles.label}>Contact Number</label>
                         <input
                             type='text'
                             value={Contact_Number}
                             onChange={(e) => setContact_Number(e.target.value)}
-                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                            style={styles.input}
                         />
                     </div>
-                    <div>
-                        <label style={{ fontSize: '1.2rem', marginRight: '10px', color: '#333' }}>Email</label>
+                    <div style={styles.inputGroup}>
+                        <label style={styles.label}>Email</label>
                         <input
                             type='text'
                             value={Email}
                             onChange={(e) => setEmail(e.target.value)}
-                            style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc', width: '100%' }}
+                            style={styles.input}
                         />
                     </div>
-                    <button onClick={handleSaveBooking} style={{ padding: '10px 20px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', transition: 'background-color 0.3s' }}>Save Booking</button>
+                    <button onClick={handleSaveBooking} style={styles.button}>Save Booking</button>
                 </div>
             </div>
         </div>
     );
+};
+
+const styles = {
+    container: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    },
+    formContainer: {
+        width: '50%',
+        backgroundColor: 'rgba(5, 4, 2, 0.8)',
+        borderRadius: '10px',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+        padding: '20px',
+        border: '2px solid red', // Add a red border
+        borderColor: 'red',
+        margin: '10px',
+        textAlign: 'center',
+        position: 'relative', // Add this line for absolute positioning of the line
+    },
+    form: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        maxWidth: '800px',
+        padding: '20px',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        borderRadius: '10px',
+    },
+    heading: {
+        fontSize: '3rem',
+        color: 'white',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginBottom: '1.5rem',
+    },
+    inputGroup: {
+        width: '100%',
+        padding: '10px',
+        borderRadius: '5px',
+        border: '1px solid #ccc',
+        backgroundColor: 'black',
+    },
+    label: {
+        fontWeight: 'bold',
+        marginBottom: '0.5rem',
+        flexDirection: 'column',
+        fontSize: '1.2rem',
+        color: 'red',
+        textAlign: 'center',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '10px',
+        display: 'block',
+        textTransform: 'uppercase',
+    },
+    input: {
+        padding: '8px',
+        borderRadius: '5px',
+        border: '1px solid #ccc',
+        width: '100%',
+    },
+    servicesContainer: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '10px',
+    },
+    serviceButton: {
+        backgroundColor: '#e0e0e0',
+        color: '#333',
+        border: 'none',
+        borderRadius: '0.25rem',
+        padding: '0.5rem 1rem',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s ease',
+        marginRight: '0.5rem',
+        marginBottom: '0.5rem',
+        display: 'flex',
+    },
+    button: {
+        backgroundColor: 'red',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '0.25rem',
+        fontWeight: 'bold',
+        padding: '0.5rem 1rem',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s ease',
+    },
 };
 
 export default CreateBooking;
