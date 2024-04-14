@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
 import Swal from 'sweetalert2';
-import backgroundImage from './t.jpg';
+import backgroundImage from '../../images/t.jpg';
 
 const CreateServiceHistory = () => {
   const [cusID, setCusID] = useState('');
