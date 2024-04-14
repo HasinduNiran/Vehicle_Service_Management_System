@@ -299,12 +299,16 @@ const styles = {
     width: '50%',
     backgroundColor: 'rgba(5, 4, 2, 0.8)',
     borderRadius: '10px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
     padding: '20px',
-    bordercolor: 'red',
+    border: '2px solid red', // Add a red border
+    borderColor: 'red',
     margin: '10px',
     textAlign: 'center',
+    position: 'relative', // Add this line for absolute positioning of the line
   },
+  
+  
   form: {
     display: 'flex',
     flexDirection: 'column',
