@@ -126,7 +126,7 @@ router.put('/:id', async (request, response) => {
             !request.body.nextService ||
             !request.body.Service_Date ||
             !request.body.Service_History
-          
+
         ) {
             return response.status(400).send({
                 message: 'Send all required field'

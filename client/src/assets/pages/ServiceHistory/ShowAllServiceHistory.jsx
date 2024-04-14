@@ -29,7 +29,6 @@ export default function ShowAllServiceHistory() {
     const handleSearch = async () => {
         setLoading(true);
         try {
-            // Construct the query based on text input and date input
             const searchTextQuery = textSearchQuery.toLowerCase();
             const response = await axios.get(`http://localhost:8076/searchservices?search=${searchTextQuery}&date=${dateSearchQuery}`);
             setServiceHistory(response.data);
@@ -44,7 +43,6 @@ export default function ShowAllServiceHistory() {
         const textQuery = textSearchQuery.toLowerCase();
         const dateQuery = dateSearchQuery;
     
-        // Filter based on text input
         const textFilter = (
             (service.Customer_Name && service.Customer_Name.toLowerCase().includes(textQuery)) ||
             (service.Allocated_Employee && service.Allocated_Employee.toLowerCase().includes(textQuery)) ||
@@ -59,13 +57,11 @@ export default function ShowAllServiceHistory() {
             (service.Month && service.Month.toLowerCase().includes(textQuery))
         );
     
-        // Filter based on date input
         let dateFilter = true;
         if (dateQuery) {
             const [queryYear, queryMonth, queryDate] = dateQuery.split('-');
             const [serviceYear, serviceMonth, serviceDate] = service.Service_Date.split('-');
             
-            // Check if year, month, or date matches the query
             if (queryYear) {
                 dateFilter = dateFilter && (serviceYear === queryYear);
             }
@@ -83,7 +79,6 @@ export default function ShowAllServiceHistory() {
 
     const filteredServiceHistories = serviceHistories.filter(applyServiceHistoryFilter);
 
-    // Report generating
     const generatePDF = useReactToPrint({
         content: () => componentRef.current,
         documentTitle: 'vehicle List',
@@ -91,91 +86,84 @@ export default function ShowAllServiceHistory() {
     });
 
     return (
-        <div className="p-4">
-            <div className="flex justify-between items-center">
-                <h1 className="text-3xl my-8">Service History</h1>
-                <Link to={'/ServiceHistory/create'} className="text-sky-800 text-4xl">Add history</Link>
-
-                <div className="mb-4"></div>
-                <input
-                    type="text"
-                    value={textSearchQuery}
-                    onChange={(e) => setTextSearchQuery(e.target.value)}
-                    placeholder="Enter details..."
-                    className="mr-2 border border-gray-400 p-2"
-                />
-
-                <input
-                    type="text"
-                    value={dateSearchQuery}
-                    onChange={(e) => setDateSearchQuery(e.target.value)}
-                    placeholder="Enter date 2024-04-01..."
-                    className="mr-2 border border-gray-400 p-2"
-                />
-
-                <button
-                    onClick={handleSearch}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                >
-                    Search
-                </button>
+        <div className="container mx-auto p-4">
+            <div className="flex justify-between items-center mb-8">
+                <h1 className="text-3xl">Service History</h1>
+                <Link to={'/ServiceHistory/create'} className='text-green-600 mr-2 hover:text-green-800'>Add History</Link>
+                <div className="flex">
+                    <input
+                        type="text"
+                        value={textSearchQuery}
+                        onChange={(e) => setTextSearchQuery(e.target.value)}
+                        placeholder="Search..."
+                        className="mr-4 px-4 py-2 border border-gray-400 rounded-md focus:outline-none"
+                    />
+                    <input
+                        type="text"
+                        value={dateSearchQuery}
+                        onChange={(e) => setDateSearchQuery(e.target.value)}
+                        placeholder="Enter Date (YYYY-MM-DD)"
+                        className="mr-4 px-4 py-2 border border-gray-400 rounded-md focus:outline-none"
+                    />
+                    <button
+                        onClick={handleSearch}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md"
+                    >
+                        Search
+                    </button>
+                </div>
             </div>
 
             {loading ? (
                 <div>Loading...</div>
             ) : (
                 <div>
-                    <table className='w-full border-separate border-spacing-2' ref={componentRef}>
+                    <table className='w-full border-collapse border border-gray-300' ref={componentRef}>
                         <thead>
                             <tr>
-                                <th className='border border-green-800 rounded-md'>Customer ID</th>
-                                <th className='border border-green-800 rounded-md'>Customer Name</th>
-                                <th className='border border-green-800 rounded-md'>Allocated Employee</th>
-                                <th className='border border-green-800 rounded-md'>Vehicle Number</th>
-                                <th className='border border-green-800 rounded-md'>Milage</th>
-                                <th className='border border-green-800 rounded-md'>Package</th>
-                                <th className='border border-green-800 rounded-md'>Services</th>
-                                <th className='border border-green-800 rounded-md'>Booking ID</th>
-                                <th className='border border-green-800 rounded-md'>Next Service</th>
-                                <th className='border border-green-800 rounded-md'>Service History</th>
-                                <th className='border border-green-800 rounded-md'>Service Date</th>
-                                <th className='border border-green-800 rounded-md'>Actions</th>
+                                <th className='border border-gray-300 p-3'>Customer ID</th>
+                                <th className='border border-gray-300 p-3'>Customer Name</th>
+                                <th className='border border-gray-300 p-3'>Allocated Employee</th>
+                                <th className='border border-gray-300 p-3'>Vehicle Number</th>
+                                <th className='border border-gray-300 p-3'>Milage</th>
+                                <th className='border border-gray-300 p-3'>Package</th>
+                                <th className='border border-gray-300 p-3'>Services</th>
+                                <th className='border border-gray-300 p-3'>Booking ID</th>
+                                <th className='border border-gray-300 p-3'>Next Service</th>
+                                <th className='border border-gray-300 p-3'>Service History</th>
+                                <th className='border border-gray-300 p-3'>Service Date</th>
+                                <th className='border border-gray-300 p-3'>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredServiceHistories.map((service, index) => (
                                 <tr key={service._id}>
-                                    <td className='border border-gray-600 rounded-md'>{service.cusID}</td>
-                                    <td className='border border-gray-600 rounded-md'>{service.Customer_Name}</td>
-                                    <td className='border border-gray-600 rounded-md'>{service.Allocated_Employee}</td>
-                                    <td className='border border-gray-600 rounded-md'>{service.Vehicle_Number}</td>
-
-                                    <td className='border border-gray-600 rounded-md'>{service.Milage}</td>
-
-                                    <td className='border border-gray-600 rounded-md'>{service.Package}</td>
-                                    <td className='border border-gray-600 rounded-md'>{service.selectedServices}</td>
-
-                                    <td className='border border-gray-600 rounded-md'>{service.Booking_Id}</td>
-
-                                    <td className='border border-gray-600 rounded-md'>{service.nextService}</td>
-
-                                    <td className='border border-gray-600 rounded-md'>{service.Service_History}</td>
-                                    <td className='border border-gray-600 rounded-md'>{service.Service_Date}</td>
-                                    <td className='border border-gray-600 rounded-md'>
-                                        <Link to={`/ServiceHistory/edit/${service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
-                                        <Link to={`/ServiceHistory/delete/${service._id}`} className='bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
-                                        <Link to={`/ServiceHistory/get/${service._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Show</Link>
+                                    <td className='border border-gray-300 p-3'>{service.cusID}</td>
+                                    <td className='border border-gray-300 p-3'>{service.Customer_Name}</td>
+                                    <td className='border border-gray-300 p-3'>{service.Allocated_Employee}</td>
+                                    <td className='border border-gray-300 p-3'>{service.Vehicle_Number}</td>
+                                    <td className='border border-gray-300 p-3'>{service.Milage}</td>
+                                    <td className='border border-gray-300 p-3'>{service.Package}</td>
+                                    <td className='border border-gray-300 p-3'>{service.selectedServices}</td>
+                                    <td className='border border-gray-300 p-3'>{service.Booking_Id}</td>
+                                    <td className='border border-gray-300 p-3'>{service.nextService}</td>
+                                    <td className='border border-gray-300 p-3'>{service.Service_History}</td>
+                                    <td className='border border-gray-300 p-3'>{service.Service_Date}</td>
+                                    <td className='border border-gray-300 p-3'>
+                                        <Link to={`/ServiceHistory/edit/${service._id}`} className='text-green-600 mr-2 hover:text-green-800'>Edit</Link>
+                                        <Link to={`/ServiceHistory/delete/${service._id}`} className='text-red-600 mr-2 hover:text-red-800'>Delete</Link>
+                                        <Link to={`/ServiceHistory/get/${service._id}`} className='text-blue-600 hover:text-blue-800'>Show</Link>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    {filteredServiceHistories.length === 0 && <p>No results found.</p>}
+                    {filteredServiceHistories.length === 0 && <p className="mt-4">No results found.</p>}
                 </div>
             )}
 
             <div className="flex justify-center items-center mt-8">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generatePDF}>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md" onClick={generatePDF}>
                     Generate PDF
                 </button>
             </div>
