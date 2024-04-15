@@ -3,8 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from '../images/t.jpg';
-import video1 from '../images/2.mp4';
-
+import video1 from '../images/2.mp4';import img1 from '../images/login.jpg';
 function CLogin() {
   const [cusID, setCusID] = useState("");
   const [password, setPassword] = useState("");
@@ -120,7 +119,8 @@ const styles = {
     backgroundPosition: 'center',
   },
   form: {
-    width: '800px', // Adjust form width as needed
+    width: '400px',
+ 
     backgroundColor: 'rgba(5, 4, 2, 0.8)',
     borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
@@ -139,8 +139,30 @@ const styles = {
     flex: 1,
     paddingLeft: '20px',
   },
+  imageContainer: {
+    position: 'absolute',
+    top: '20px',
+    left: '20px',
+    width: '100px',
+    height: '100px',
+    overflow: 'hidden',
+    borderRadius: '50%',
+    border: '2px solid red', // Add a red border
+    borderColor: 'white',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',  
+    textAlign: 'center',
+  },
+  
+  image: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    objectPosition: 'left top', // Align image to the left corner
+  }
+,  
   inputGroup: {
     marginBottom: '20px',
+
   },
   label: {
     display: 'block',
