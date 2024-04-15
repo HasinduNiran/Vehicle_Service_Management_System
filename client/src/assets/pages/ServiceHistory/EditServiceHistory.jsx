@@ -366,7 +366,7 @@ const styles = {
 
 
   input: {
-    width: '100%',
+    
     padding: '0.5rem',
     marginTop: '0.25rem',
     borderRadius: '0.25rem',

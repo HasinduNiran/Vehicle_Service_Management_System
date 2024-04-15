@@ -55,7 +55,7 @@ import CreateVehicle from './assets/pages/Vehicle/CreateVehicle'
 import EditVehicle from './assets/pages/Vehicle/EditVehicle'
 import ReadOneVehicle from './assets/pages/Vehicle/ReadOneVehicle'
 import DeleteVehicle from './assets/pages/Vehicle/DeleteVehicle'
-import dashboard from './assets/pages/Vehicle/VehicleDashboard'
+
 
 
 
@@ -100,7 +100,7 @@ import ReadOneServiceHistory from './assets/pages/ServiceHistory/ReadOneServiceH
 
 
 
-
+import VDashboard from './assets/pages/Vehicle/VehicleDashboard';
 
 import Dashboard from './assets/pages/dashboard/dashboard';
 
@@ -130,7 +130,7 @@ const App = () => {
         <Route path='/vehicle/edit/:id' element={<EditVehicle />} />
         <Route path='/vehicle/get/:id' element={<ReadOneVehicle />} />
         <Route path='/vehicle/delete/:id' element={<DeleteVehicle />} />
-        <Route path='/vehicle/dashboard' element={<VehicleDashboard />} />
+        <Route path='/vehicle/dashboard' element={<VDashboard />} />
 
 
         <Route path='/employees/allEmployee' element={<ShowEmployee />}></Route>
