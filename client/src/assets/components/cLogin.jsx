@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from '../images/t.jpg';
 import video1 from '../images/2.mp4';import img1 from '../images/login.jpg';
+import img1 from '../images/login.jpg';
 function CLogin() {
   const [cusID, setCusID] = useState("");
   const [password, setPassword] = useState("");
@@ -120,7 +121,6 @@ const styles = {
   },
   form: {
     width: '400px',
- 
     backgroundColor: 'rgba(5, 4, 2, 0.8)',
     borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
