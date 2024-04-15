@@ -55,6 +55,7 @@ import CreateVehicle from './assets/pages/Vehicle/CreateVehicle'
 import EditVehicle from './assets/pages/Vehicle/EditVehicle'
 import ReadOneVehicle from './assets/pages/Vehicle/ReadOneVehicle'
 import DeleteVehicle from './assets/pages/Vehicle/DeleteVehicle'
+import dashboard from './assets/pages/Vehicle/VehicleDashboard'
 
 
 
@@ -129,6 +130,8 @@ const App = () => {
         <Route path='/vehicle/edit/:id' element={<EditVehicle />} />
         <Route path='/vehicle/get/:id' element={<ReadOneVehicle />} />
         <Route path='/vehicle/delete/:id' element={<DeleteVehicle />} />
+        <Route path='/vehicle/dashboard' element={<VehicleDashboard />} />
+
 
         <Route path='/employees/allEmployee' element={<ShowEmployee />}></Route>
         <Route path='/employees/create' element={<CreateEmployee />}></Route>
