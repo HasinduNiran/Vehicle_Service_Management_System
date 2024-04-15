@@ -3,7 +3,7 @@ import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
-import logo from '../../images/t.jpg';
+import logo from '../../images/logo.jpg';
 
 const VDashboard = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -65,7 +65,7 @@ const VDashboard = () => {
       <h1>Vehicle Dashboard</h1>
       <div className="sb-nav-fixed">
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-          <a className="navbar-brand ps-3" href="index.html">Nadeeka Auto</a>
+          <a className="navbar-brand ps-3" href="/">Nadeeka Auto Care</a>
           <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             <div className="input-group">
               <input className="form-control" type="text" value={searchQuery} placeholder="Search for..." aria-label="Search for..." onChange={(e) => setSearchQuery(e.target.value)} aria-describedby="btnNavbarSearch" />
@@ -90,7 +90,7 @@ const VDashboard = () => {
               <div className="sb-sidenav-menu">
                 <div className="nav-link">
                   <div className="sb-nav-link-icon">
-                    <img src={logo} alt="Nadeeka Auto Logo" style={{ width: '100px', height: '150px' }} />
+                    <img src={logo} alt="Nadeeka Auto Logo" style={{ width: '100%', height: '200px', border: '2px solid red' }} />
                     <button
                       className='bg-red-700 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded border-none cursor-pointer'
                       onClick={() => { window.location.href = '/vehicle/create' }}
@@ -197,7 +197,7 @@ const VDashboard = () => {
                           <th className='text-xl mr-4'>Brand</th>
                           <th className='text-xl mr-4'>Model</th>
                           <th className='text-xl mr-4'>Year</th>
-                          <th className='text-xl mr-4'>Mileage</th>
+                          <th className='text-xl mr-4'>Engine details</th>
                           <th className='text-xl mr-4'>Fuel Type</th>
                           <th className='text-xl mr-4'>Transmission</th>
                           <th className='text-xl mr-4'>Color</th>
@@ -211,10 +211,10 @@ const VDashboard = () => {
                         {filteredVehicles.map((vehicle) => (
                           <tr key={vehicle._id}>
                             <td>{vehicle.Register_Number}</td>
-                            <td>{vehicle.Brand}</td>
+                            <td>{vehicle.Make}</td>
                             <td>{vehicle.Model}</td>
-                            <td>{vehicle.Manufacture_Year}</td>
-                            <td>{vehicle.Mileage}</td>
+                            <td>{vehicle.Year}</td>
+                            <td>{vehicle.Engine_Details}</td>
                             <td>{vehicle.Fuel_Type}</td>
                             <td>{vehicle.Transmission_Details}</td>
                             <td>{vehicle.Vehicle_Color}</td>
