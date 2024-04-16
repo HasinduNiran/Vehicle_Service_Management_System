@@ -42,18 +42,20 @@ const ShowCustomer = () => {
       });
   }, []);
 
-  const applySearchFilter = (customer) => {
-    return (
-      
-      customer.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      customer.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      customer.NIC.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      customer.phone.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      customer.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      customer.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      customer.password.toLowerCase().includes(searchQuery.toLowerCase()) 
-    );
-  };
+ const applySearchFilter = (customer) => {
+  if (!customer) return false; // Check if customer is defined
+  const { firstName, lastName, NIC, phone, email, username, password } = customer;
+  const searchLowerCase = searchQuery.toLowerCase();
+  return (
+    (firstName && firstName.toLowerCase().includes(searchLowerCase)) ||
+    (lastName && lastName.toLowerCase().includes(searchLowerCase)) ||
+    (NIC && NIC.toLowerCase().includes(searchLowerCase)) ||
+    (phone && phone.toLowerCase().includes(searchLowerCase)) ||
+    (email && email.toLowerCase().includes(searchLowerCase)) ||
+    (username && username.toLowerCase().includes(searchLowerCase)) ||
+    (password && password.toLowerCase().includes(searchLowerCase))
+  );
+};
 
   const filteredCustomer = customer.filter(applySearchFilter);
 
