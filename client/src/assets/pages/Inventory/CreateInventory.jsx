@@ -4,6 +4,7 @@ import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+
 // Functional component for creating inventory
 const CreateInventory = () => {
   // State variables for managing form data, loading state, and errors
