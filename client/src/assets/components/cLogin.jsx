@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from '../images/t.jpg';
+import video1 from '../images/2.mp4';
 
 function CLogin() {
   const [cusID, setCusID] = useState("");
@@ -18,7 +19,14 @@ function CLogin() {
 
     // Check if the credentials are 'staff'
     if (cusID === 'staff' && password === 'staff') {
-      
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `Welcome back Nadeeka Auto care Staff`,
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
       navigate('/Mlogin');
       return; 
     }
@@ -63,30 +71,37 @@ function CLogin() {
   return (
     <div style={styles.container}>
       <form onSubmit={onLogin} style={styles.form}>
-        <h1 style={styles.header}>Login</h1> {/* Add login header */}
-        <div style={styles.inputGroup}>
-          <label htmlFor="username" style={styles.label}>Username</label>
-          <input
-            type="text"
-            id="username"
-            placeholder="Enter your username"
-            value={cusID}
-            onChange={(e) => setCusID(e.target.value)}
-            style={styles.input}
-          />
+        <div className="image-container" style={styles.imageContainer}>
+          <video autoPlay loop muted style={styles.video}>
+            <source src={video1} type="video/mp4" />
+          </video>
         </div>
-        <div style={styles.inputGroup}>
-          <label htmlFor="password" style={styles.label}>Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={styles.input}
-          />
+        <div style={styles.formContent}>
+          <h1 style={styles.header}>Login</h1>
+          <div style={styles.inputGroup}>
+            <label htmlFor="username" style={styles.label}>Username</label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Enter your username"
+              value={cusID}
+              onChange={(e) => setCusID(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+          <div style={styles.inputGroup}>
+            <label htmlFor="password" style={styles.label}>Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+          <button type="submit" style={styles.button}>Login</button>
         </div>
-        <button type="submit" style={styles.button}>Login</button>
       </form>
     </div>
   );
@@ -94,6 +109,7 @@ function CLogin() {
 
 const styles = {
   container: {
+    position: 'relative',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -104,16 +120,24 @@ const styles = {
     backgroundPosition: 'center',
   },
   form: {
-    width: '400px',
+    width: '800px', // Adjust form width as needed
     backgroundColor: 'rgba(5, 4, 2, 0.8)',
     borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
     padding: '20px',
-    border: '2px solid red', // Add a red border
+    border: '2px solid red',
     borderColor: 'red',
     margin: '10px',
     textAlign: 'center',
-    position: 'relative',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '500px',
+  },
+  formContent: {
+    flex: 1,
+    paddingLeft: '20px',
   },
   inputGroup: {
     marginBottom: '20px',
@@ -122,12 +146,10 @@ const styles = {
     display: 'block',
     marginBottom: '5px',
     fontWeight: 'bold',
-    fontSize: '30px',
+    fontSize: '18px',
     color: 'white',
     textAlign: 'center',
     width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   input: {
     width: '100%',
@@ -142,11 +164,11 @@ const styles = {
     textAlign: 'left',
   },
   header: {
-    fontSize: '3rem',
+    fontSize: '2rem',
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
-    marginBottom: '20px', // Add margin to separate the header from the inputs
+    marginBottom: '20px',
   },
   button: {
     width: '100%',
@@ -156,6 +178,15 @@ const styles = {
     color: '#fff',
     cursor: 'pointer',
     background: 'red',
+  },
+  imageContainer: {
+    marginRight: '20px',
+  },
+  video: {
+    width: '100%', // Adjust video size as needed
+    height: 'auto',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.9)',
   },
 };
 
