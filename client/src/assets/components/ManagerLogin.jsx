@@ -81,12 +81,13 @@ function Login() {
   return (
     <div style={styles.container}>
       <div className="images">
-        <img src={image1} alt="Image 1" className="image1" />
+        {/* <img src={image1} alt="Image 1" className="image1" />
         <img src={image2} alt="Image 2" className="image2" />
+        <img src={image1} alt="Image 2" className="image2" /> */}
         {/* Add more images and adjust classNames */}
       </div>
       <form onSubmit={onLogin} style={styles.form}>
-        <h2 style={styles.header}>LOGIN</h2>
+        <h2 style={styles.header}>STAFF LOGIN</h2>
         <div style={styles.inputGroup}>
           <label htmlFor="Musername" style={styles.label}>Username:</label>
           <input
@@ -113,39 +114,45 @@ function Login() {
   );
 }
 
-const styles = {
-  container: {
-    position: 'relative',
-    minHeight: '100vh',
-    background: '#f2f2f2',
-    backgroundImage: `url(${backgroundImage})`, // Apply background image
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  images: {
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    right: 10,
-    bottom: 10,
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  form: {
-    width: '400px',
-    backgroundColor: 'rgba(5, 4, 2, 0.8)',
-    borderRadius: '10px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
-    padding: '20px',
-    border: '2px solid red',
-    margin: '10px',
-    textAlign: 'center',
-    position: 'relative',
-  },
+
+  const styles = {
+    container: {
+      position: 'relative',
+      minHeight: '100vh',
+      background: '#f2f2f2',
+      backgroundImage: `url(${backgroundImage})`, // Apply background image
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    formContainer: {
+      width: '600px', // Set width to 600px
+      height: '500px', // Set height to 500px
+      position: 'relative',
+    },
+    images: {
+      position: 'absolute',
+      top: '-50px', // Adjust top position to overlap the form
+      left: '-50px', // Adjust left position to overlap the form
+      right: '-50px', // Adjust right position to overlap the form
+      bottom: '-50px', // Adjust bottom position to overlap the form
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    form: {
+      width: '40%',
+      height: '40%',
+      backgroundColor: 'rgba(5, 4, 2, 0.8)',
+      borderRadius: '10px',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+      padding: '20px',
+      border: '2px solid red',
+      position: 'relative',
+      boxSizing: 'border-box',
+    },
   inputGroup: {
     marginBottom: '20px',
   },
