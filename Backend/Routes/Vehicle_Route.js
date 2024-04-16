@@ -31,6 +31,7 @@ router.post('/', async (request, response) => {
         // Creating a new Vehicle item with the provided data
         const newVehicle = {
             cusID:request.body.cusID,
+            image:request.body.image,
             Register_Number: request.body.Register_Number,
             Make: request.body.Make,
             Model: request.body.Model,

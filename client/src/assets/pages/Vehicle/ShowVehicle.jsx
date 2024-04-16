@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
+import VehicleReport from './VehicleReport';
 
 const ShowVehicle = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -37,23 +38,28 @@ const ShowVehicle = () => {
   }, []);
 
   // Report generating
-  const generatePDF = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: 'vehicle List',
-    onAfterPrint: () => alert('Data saved in PDF'),
-  });
+  // const generatePDF = useReactToPrint({
+  //   content: () => componentRef.current,
+  //   documentTitle: 'vehicle List',
+  //   onAfterPrint: () => alert('Data saved in PDF'),
+  // });
   //search filter 
-
   const applySearchFilter = (vehicle) => {
+    const registerNumber = vehicle.Register_Number ? vehicle.Register_Number.toLowerCase() : '';
+    const make = vehicle.Make ? vehicle.Make.toLowerCase() : '';
+    const model = vehicle.Model ? vehicle.Model.toLowerCase() : '';
+    const selectedYear = vehicle.selectedYear ? vehicle.selectedYear.toLowerCase() : '';
+    const owner = vehicle.Owner ? vehicle.Owner.toLowerCase() : '';
+  
     return (
-      vehicle.Register_Number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      vehicle.Make.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      vehicle.Model.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      vehicle.selectedYear.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      vehicle.Owner.toLowerCase().includes(searchQuery.toLowerCase())
+      registerNumber.includes(searchQuery.toLowerCase()) ||
+      make.includes(searchQuery.toLowerCase()) ||
+      model.includes(searchQuery.toLowerCase()) ||
+      selectedYear.includes(searchQuery.toLowerCase()) ||
+      owner.includes(searchQuery.toLowerCase())
     );
   };
-
+  
   const filteredVehicles = vehicles.filter(applySearchFilter);
 
   return (
@@ -84,6 +90,7 @@ const ShowVehicle = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem', backgroundColor: '#f5f5f5' }} ref={componentRef}>
             <thead>
               <tr>
+              <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle imager</th>
                 <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Number</th>
                 <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Make</th>
                 <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Model</th>
@@ -99,7 +106,8 @@ const ShowVehicle = () => {
             </thead>
             <tbody>
               {filteredVehicles.map((vehicle) => (
-                <tr key={vehicle.Register_Number}>
+                <tr key={vehicle._id}>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}><img src={vehicle.image}/></td>
                   <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Register_Number}</td>
                   <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Make}</td>
                   <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Model}</td>
@@ -121,9 +129,10 @@ const ShowVehicle = () => {
           </table>
         )}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '1rem' }}>
-          <button style={{ backgroundColor: '#007bff', color: 'white', padding: '0.5rem 1rem', borderRadius: '5px', border: 'none', cursor: 'pointer' }} onClick={generatePDF}>
-            Generate PDF
-          </button>
+          <div style={{ backgroundColor: '#007bff', color: 'white', padding: '0.5rem 1rem', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>
+          <VehicleReport  filteredVehicles= {filteredVehicles}/>
+          </div>
+          
         </div>
       </div>
     </div>

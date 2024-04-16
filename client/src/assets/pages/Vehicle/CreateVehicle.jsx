@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../../images/t.jpg';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { app } from '../../../firebase';
 
 const CreateVehicle = () => {
   const [Register_Number, setRegister_Number] = useState('');
+  const [image, setImage] = useState(null); // Modified to store image file instead of image URL
   const [Make, setMake] = useState('');
   const [Model, setModel] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
@@ -17,6 +20,8 @@ const CreateVehicle = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const storage = getStorage(app);
+
   // Validation function for Vehicle Number
   const validateVehicleNumber = (value) => {
     // Regular expression for alphanumeric with hyphen and space
@@ -28,6 +33,11 @@ const CreateVehicle = () => {
     return true; // Return true if validation passes
   };
 
+  const handleImageChange = (e) => {
+    // Update the image state with the selected file
+    setImage(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
@@ -36,29 +46,54 @@ const CreateVehicle = () => {
       return; // Exit the function if validation fails
     }
 
-    const data = {
-      Register_Number,
-      Make,
-      Model,
-      Year: selectedYear,
-      Engine_Details,
-      Transmission_Details,
-      Vehicle_Color,
-      Vehicle_Features,
-      Condition_Assessment,
-      Owner
-    };
-
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:8076/vehicles', data);
-      setLoading(false);
-      if (response.status === 201) {
-        alert('Vehicle created successfully.'); // Show success message
-        navigate('/vehicle'); // Navigate to the vehicle page after successful creation
-      } else {
-        throw new Error('Failed to create vehicle.'); // Throw error if response status is not 201
-      }
+      // Upload image to Firebase Storage
+      const storageRef = ref(storage, `images/${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          // Progress monitoring can be added here if needed
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+          console.error('Error uploading image to Firebase:', error);
+          setLoading(false);
+          alert('Error uploading image to Firebase. Please try again.');
+        },
+        () => {
+          // Handle successful uploads on complete
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            // Once image is uploaded, proceed to submit form data to backend
+            const data = {
+              Register_Number,
+              image: downloadURL, // Update image field with the download URL from Firebase Storage
+              Make,
+              Model,
+              Year: selectedYear,
+              Engine_Details,
+              Transmission_Details,
+              Vehicle_Color,
+              Vehicle_Features,
+              Condition_Assessment,
+              Owner,
+            };
+
+            // Submit form data to backend
+            axios.post('http://localhost:8076/vehicles', data).then((response) => {
+              setLoading(false);
+              if (response.status === 201) {
+                alert('Vehicle created successfully.'); // Show success message
+                navigate('/vehicle'); // Navigate to the vehicle page after successful creation
+              } else {
+                throw new Error('Failed to create vehicle.'); // Throw error if response status is not 201
+              }
+            });
+          });
+        }
+      );
     } catch (error) {
       setLoading(false);
       console.error('Error creating vehicle:', error);
@@ -71,6 +106,12 @@ const CreateVehicle = () => {
       <div style={styles.formContainer}>
         <h1 style={styles.heading}>Create Vehicle</h1>
         <form onSubmit={handleSubmit} style={styles.form}>
+          <div style={styles.formGroup}>
+            <label htmlFor="image" style={styles.label}>
+              Vehicle image
+            </label>
+            <input type="file" id="image" style={styles.input} onChange={handleImageChange} required />
+          </div>
           <div style={styles.formGroup}>
             <label htmlFor="register_number" style={styles.label}>Vehicle Number</label>
             <input type="text" id="register_number" style={styles.input} value={Register_Number} onChange={(e) => setRegister_Number(e.target.value)} maxLength={8} required />
