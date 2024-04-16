@@ -81,8 +81,8 @@ function Login() {
   return (
     <div style={styles.container}>
       <div className="images">
-        <img src={image1} alt="Image 1" className="image1" />
-        <img src={image2} alt="Image 2" className="image2" />
+        {/* <img src={image1} alt="Image 1" className="image1" />
+        <img src={image2} alt="Image 2" className="image2" /> */}
         {/* Add more images and adjust classNames */}
       </div>
       <form onSubmit={onLogin} style={styles.form}>
