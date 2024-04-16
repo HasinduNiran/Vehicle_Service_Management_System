@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from '../images/t.jpg';
 
-
 function CLogin() {
   const [cusID, setCusID] = useState("");
   const [password, setPassword] = useState("");
@@ -16,6 +15,13 @@ function CLogin() {
       cusID,
       password,
     };
+
+    // Check if the credentials are 'staff'
+    if (cusID === 'staff' && password === 'staff') {
+      
+      navigate('/Mlogin');
+      return; 
+    }
 
     try {
       const response = await axios.post("http://localhost:8076/customer/cLogin", credentials);
@@ -99,7 +105,6 @@ const styles = {
   },
   form: {
     width: '400px',
- 
     backgroundColor: 'rgba(5, 4, 2, 0.8)',
     borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
