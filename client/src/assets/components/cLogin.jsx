@@ -3,13 +3,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from '../images/t.jpg';
-<<<<<<< Updated upstream
-import video1 from '../images/2.mp4';import img1 from '../images/login.jpg';
-import img1 from '../images/login.jpg';
-=======
 import video1 from '../images/2.mp4';
 
->>>>>>> Stashed changes
 function CLogin() {
   const [cusID, setCusID] = useState("");
   const [password, setPassword] = useState("");
@@ -139,13 +134,6 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     height: '500px',
-<<<<<<< Updated upstream
-  },
-  formContent: {
-    flex: 1,
-    paddingLeft: '20px',
-=======
->>>>>>> Stashed changes
   },
   formContent: {
     flex: 1,
