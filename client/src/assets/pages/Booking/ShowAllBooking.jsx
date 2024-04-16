@@ -14,7 +14,7 @@ export default function ShowAllBooking() {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const componentRef = useRef();
- // const [dailyBookingLimit, setDailyBookingLimit] = useState("");
+  const [dailyBookingLimit, setDailyBookingLimit] = useState("");
 
   //search query
   const handleSearch = async () => {
@@ -49,7 +49,11 @@ export default function ShowAllBooking() {
 
 
   
-
+  const handleSetDailyBookingLimit = () => {
+    // Example function body; adapt as necessary
+    console.log("Setting daily booking limit to:", dailyBookingLimit);
+    // You might want to save this limit somewhere (e.g., in your database or state)
+  };
 
 
 
@@ -105,7 +109,7 @@ const filteredBooking = bookings.filter(applySearchFilter);
 
 
 
-        {/*<div className="mt-4">
+        <div className="mt-4">
         <label htmlFor="dailyBookingLimitInput" className="block text-sm font-medium text-gray-700">
           Set Daily Booking Limit:
         </label>
@@ -123,7 +127,7 @@ const filteredBooking = bookings.filter(applySearchFilter);
         >
           Set Limit
         </button>
-  </div> */}
+  </div>
       
 
 

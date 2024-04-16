@@ -8,43 +8,84 @@ import {createVehicle} from '../Models/Booking.js';
 const router = express.Router();
 
 
-router.post('/',async (request, response) => {
-   try{
-      if(
-    !request.body.Customer_Name ||
-    !request.body.Vehicle_Type || 
-    !request.body.Vehicle_Number||
-    !request.body.Contact_Number ||
-    !request.body.Email
-      ){
-    return response.status(400).send({
-      message: 'Send all required field'
-    });
-      }
-    const newVehicle = {
-    cusID:request.body.cusID,
-    Booking_Date: request.body.Booking_Date,
-    Customer_Name: request.body.Customer_Name,
-    Vehicle_Type: request.body.Vehicle_Type,
-    Vehicle_Number: request.body.Vehicle_Number,
-    Contact_Number: request.body.Contact_Number,
-    Email: request.body.Email,
-    selectedPackage: request.body.selectedPackage,
-    selectedServices: request.body.selectedServices
-    };
+router.post('/', async (request, response) => {
+
+
+
+  try {
+
+    if (!request.body.DAILY_BOOKING_LIMIT || isNaN(request.body.DAILY_BOOKING_LIMIT)) {
+      return response.status(400).send({
+        message: 'DAILY_BOOKING_LIMIT must be provided and must be a number.'
+      });
+    }
+
     
+    const DAILY_BOOKING_LIMIT = parseInt(request.body.DAILY_BOOKING_LIMIT);
+
+
+    if (
+      !request.body.Customer_Name ||
+      !request.body.Vehicle_Type ||
+      !request.body.Vehicle_Number ||
+      !request.body.Contact_Number ||
+      !request.body.Email
+    ) {
+      return response.status(400).send({
+        message: 'Send all required field'
+      });
+    }
+
+
+
+    // Assuming Booking_Date is in YYYY-MM-DD format
+    const bookingDate = new Date(request.body.Booking_Date);
+    bookingDate.setHours(0, 0, 0, 0); // Set time to 00:00:00 to compare dates only
+
+    const nextDay = new Date(bookingDate);
+    nextDay.setDate(bookingDate.getDate() + 1); // Get next day for the query
+
+    // Count bookings for the requested day
+    const count = await createVehicle.countDocuments({
+      Booking_Date: {
+        $gte: bookingDate,
+        $lt: nextDay
+      }
+    });
+
+    // Check if the limit is reached
+    if (count >= DAILY_BOOKING_LIMIT) {
+      return response.status(400).send({
+        message: 'Daily booking limit reached. Please choose another day.'
+      });
+    }
+
+
+    const newVehicle = {
+      cusID: request.body.cusID,
+      Booking_Date: request.body.Booking_Date,
+      Customer_Name: request.body.Customer_Name,
+      Vehicle_Type: request.body.Vehicle_Type,
+      Vehicle_Number: request.body.Vehicle_Number,
+      Contact_Number: request.body.Contact_Number,
+      Email: request.body.Email,
+      selectedPackage: request.body.selectedPackage,
+      selectedServices: request.body.selectedServices
+    };
+
     const vehicle = await createVehicle.create(newVehicle);
     return response.status(201).send(vehicle);
-    
-      
-    }catch(error){
-    
+
+
+  } catch (error) {
+
     console.log(error.message);
-    response.status(500).send({message: error.message});
-    
-    }
-    
-    });
+    response.status(500).send({ message: error.message });
+
+  }
+
+});
+
 
     //get all booking details
     router.get('/',async (request, response) => {
