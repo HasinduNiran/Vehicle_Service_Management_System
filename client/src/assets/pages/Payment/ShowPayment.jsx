@@ -34,6 +34,10 @@ const ShowPayment=()=> {
                     Add Payment
                     </button>
                     <div style={{ marginLeft: '10px' }}></div> {/* Space between buttons */}
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/PaymentInvoice/show'}>
+                    Invoices
+                    </button>
+                    <div style={{ marginLeft: '10px' }}></div> {/* Space between buttons */}
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/payments/report'}>
                         Report
                     </button>
