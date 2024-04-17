@@ -47,6 +47,10 @@ const ReadOneVehicle = () => {
           <div style={styles.vehicleInfo}>
             <h2 style={styles.subHeading}>Vehicle Information</h2>
             <div style={styles.infoGrid}>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', border: '3px solid white', borderRadius: '20px', padding: '20px' }}>
+                <img src={vehicle.image} alt="Vehicle" style={{ maxWidth: '100%', height: 'auto', borderRadius: '20px' }} />
+              </div><br/>
+
               <p><span style={styles.label}>Vehicle Number:</span> <span style={styles.value}>{vehicle.Register_Number}</span></p>
               <p><span style={styles.label}>Vehicle Make:</span><span style={styles.value}> {vehicle.Make}</span></p>
               <p><span style={styles.label}>Vehicle Model:</span><span style={styles.value}> {vehicle.Model}</span></p>

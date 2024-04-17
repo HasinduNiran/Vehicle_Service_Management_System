@@ -9,7 +9,11 @@ const vehicleSchema = mongoose.Schema({
         unique: true
     },
 
+    image: { type: String,
+        required: true
 
+    },
+    
     Register_Number: {
         type: String,
         required: true
