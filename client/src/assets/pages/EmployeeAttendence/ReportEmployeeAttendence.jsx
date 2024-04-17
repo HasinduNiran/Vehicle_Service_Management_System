@@ -1,121 +1,106 @@
-import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
-import BackButton from '../../components/BackButton';
-import Spinner from '../../components/Spinner';
-import { useReactToPrint } from 'react-to-print';
+import React from "react";
+import jspdf from "jspdf";
+import "jspdf-autotable";
 
-const ShowEmployeeAttendence = React.forwardRef((props, ref) => {
-    const [employeesAttendence, setEmployeesAttendence] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [searchName, setSearchName] = useState('');
-    const [searchDate, setSearchDate] = useState('');
+export default function ReportfilteredEmployeesAttendence({ filteredEmployeesAttendence }) {
+  function generatePDF(filteredEmployeesAttendence) {
+    const doc = new jspdf();
+    const tableColumn = [
+      "No",
+      "Emp ID",
+      "Employee Name",
+      "Date",
+      "In Time",
+      "Out Time",
+      "Working Hours",
+      "OT Hours",
+    ];
+    const tableRows = [];
 
-    useEffect(() => {
-        setLoading(true);
-        axios
-            .get('http://localhost:8076/EmployeeAttendence')
-            .then((response) => {
-                setEmployeesAttendence(response.data.data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.log(error);
-                setLoading(false);
-            });
-    }, []);
+    filteredEmployeesAttendence
+      .slice(0)
+      .reverse()
+      .map((attendance, index) => {
+        const data = [
+          index + 1,
+          attendance.EmpID,
+          attendance.employeeName,
+          attendance.date,
+          attendance.InTime,
+          attendance.OutTime,
+          attendance.WorkingHours,
+          attendance.OThours,
+        ];
+        tableRows.push(data);
+      });
 
-    const handleSearch = () => {
-        return employeesAttendence.filter((attendance) => {
-            return (
-                (searchName === '' || attendance.employeeName.toLowerCase().includes(searchName.toLowerCase())) &&
-                (searchDate === '' || attendance.date.includes(searchDate))
-            );
-        });
-    };
+    const date = new Date();
+    const dateStr = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
 
-    const filteredEmployeesAttendence = handleSearch();
+    doc.setFontSize(28).setFont("Mooli", "bold").setTextColor('red');
+    doc.text("Nadeeka Auto care", 60, 15);
 
-    const employeeNames = [...new Set(employeesAttendence.map((attendance) => attendance.employeeName))];
+    doc.setFont("helvetica", "normal").setFontSize(20).setTextColor(0, 0, 0);
+    doc.text("Employee Attendance Report", 55, 25);
 
-    const generatePDF = useReactToPrint({
-        content: () => componentRef.current,
-        documentTitle: 'Employee Attendance List',
-        onAfterPrint: () => alert('Data saved in PDF'),
+    doc.setFont("times", "normal").setFontSize(15).setTextColor(100, 100, 100);
+    doc.text(`Report Generated Date: ${dateStr}`, 65, 35);
+
+    doc
+      .setFont("courier", "normal")
+      .setFontSize(12)
+      .setTextColor(150, 150, 150);
+    doc.text("Nadeeka Auto Care, 1 ela, Moraketiya Road, Embilipitiya", 30, 45);
+
+    doc
+      .setFont("courier", "normal")
+      .setFontSize(12)
+      .setTextColor(150, 150, 150);
+    doc.text(
+      "--------------------------------------------------------------------------------------------------",
+      0,
+      49
+    );
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 50,
+      styles: { fontSize: 9 },
+      headStyles: {
+        fillColor: [31, 41, 55],
+        textColor: [255, 255, 255],
+        fontStyle: "bold",
+      },
     });
 
-    const componentRef = useRef();
+    doc.save(`Employee-Attendance-Report_${dateStr}.pdf`);
+  }
 
-    return (
-        <div className="flex">
-            <div className="flex-1 p-4">
-                <BackButton destination="/EmployeeAttendence/allEmployeeAttendence" />
-                <div className="flex justify-between items-center">
-                    <h1 className="text-3xl my-8">Employee Attendance List</h1>
-                </div>
-                <div className="flex justify-between mb-4">
-                    <div className="flex items-center">
-                        <select
-                            value={searchName}
-                            onChange={(e) => setSearchName(e.target.value)}
-                            className="p-2 border border-gray-300 rounded mr-2"
-                        >
-                            <option value="">All Employees</option>
-                            {employeeNames.map((name, index) => (
-                                <option key={index} value={name}>
-                                    {name}
-                                </option>
-                            ))}
-                        </select>
-                        <input
-                            type="month"
-                            value={searchDate}
-                            onChange={(e) => setSearchDate(e.target.value)}
-                            className="p-2 border border-gray-300 rounded"
-                        />
-                    </div>
-                </div>
-                {loading ? (
-                    <Spinner />
-                ) : (
-                    <div ref={componentRef}>
-                        <table className="w-full border-separate border-spacing-2">
-                            <thead>
-                                <tr>
-                                    <th className="border border-slate-600 rounded-md">No</th>
-                                    <th className="border border-slate-600 rounded-md">EmpID</th>
-                                    <th className="border border-slate-600 rounded-md">employeeName</th>
-                                    <th className="border border-slate-600 rounded-md max-md:hidden">Date</th>
-                                    <th className="border border-slate-600 rounded-md max-md:hidden">InTime</th>
-                                    <th className="border border-slate-600 rounded-md">OutTime</th>
-                                    <th className="border border-slate-600 rounded-md">Workinghours</th>
-                                    <th className="border border-slate-600 rounded-md">OThours</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredEmployeesAttendence.map((EmployeeAttendence, index) => (
-                                    <tr key={EmployeeAttendence._id} className="h-8">
-                                        <td className="border border-slate-700 rounded-md text-center">{index + 1}</td>
-                                        <td className="border border-slate-700 rounded-md text-center">{EmployeeAttendence.EmpID}</td>
-                                        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{EmployeeAttendence.employeeName}</td>
-                                        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{EmployeeAttendence.date}</td>
-                                        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{EmployeeAttendence.InTime}</td>
-                                        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{EmployeeAttendence.OutTime}</td>
-                                        <td className="border border-slate-700 rounded-md text-center">{EmployeeAttendence.WorkingHours}</td>
-                                        <td className="border border-slate-700 rounded-md text-center">{EmployeeAttendence.OThours}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-                <div className="flex justify-center items-center mt-8">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generatePDF}>
-                        Generate PDF
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-});
+  return (
+    <div>
+      <div style={styles.button}>
+        <button
+          onClick={() => {
+            generatePDF(filteredEmployeesAttendence);
+          }}
+          className="btn2"
+        >
+          Generate report
+        </button>
+      </div>
+    </div>
+  );
+}
 
-export default ShowEmployeeAttendence;
+const styles = {
+  button: {
+    backgroundColor: '#dc3545',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '0.25rem',
+    padding: '0.5rem 1rem',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
+};

@@ -1,145 +1,111 @@
-import React, { useEffect, useState, useRef } from 'react';
-import BackButton from '../../components/BackButton';
-import axios from 'axios';
-import Spinner from '../../components/Spinner';
-import { useReactToPrint } from 'react-to-print';
+import React from "react";
+import jspdf from "jspdf";
+import "jspdf-autotable";
 
-const ReportEmployee = React.forwardRef((props, ref) => {
-    const [employees, setEmployees] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const componentRef = useRef();
-    //search
-    const [error, setError] = useState(null);
-    const [searchQuery, setSearchQuery] = useState("");
+export default function ReportEmployee({ filteredEmployee }) {
+  function generatePDF(filteredEmployee) {
+    const doc = new jspdf();
+    const tableColumn = [
+      "No",
+      "Emp ID",
+      "Employee Name",
+      "Date of Birth",
+      "NIC",
+      "Address",
+      "Position",
+      "Contact No",
+      "Email",
+    ];
+    const tableRows = [];
 
-    const handleSearch = async () => {
-        setLoading(true);
-        try {
-          const response = await axios.get(
-            `http://localhost:8076/searchEmployee?search=${searchQuery}`
-          );
-          setEmployees(response.data.data);
-          setLoading(false);
-          setError(null);
-        } catch (error) {
-          console.error("Error fetching employee:", error);
-          setError(
-            "An error occurred while fetching the employee for the search query."
-          );
-          setLoading(false);
-        }
-      };
-
-    useEffect(() => {
-        setLoading(true);
-        axios
-            .get('http://localhost:8076/employees')
-            .then((response) => {
-                setEmployees(response.data.data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.log(error);
-                setLoading(false);
-            });
-    }, []);
-
-    // Report generating
-    const generatePDF = useReactToPrint({
-        content: () => componentRef.current,
-        documentTitle: 'Employee List',
-        onAfterPrint: () => alert('Data saved in PDF'),
+    filteredEmployee
+    .slice(0)
+    .reverse()
+    .map((employee, index) => {
+      const data = [
+        index + 1,
+        employee.EmpID,
+        employee.employeeName,
+        employee.DOB,
+        employee.NIC,
+        employee.Address,
+        employee.Position,
+        employee.ContactNo,
+        employee.Email,
+      ];
+      tableRows.push(data);
     });
 
-    // Filter function to apply search query filter
-    const applySearchFilter = (employee) => {
-        return (
-            employee.EmpID.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            employee.employeeName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            employee.DOB.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            employee.NIC.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            employee.Address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            employee.Position.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            employee.ContactNo.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            employee.Email.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-    };
-    
-    // Filter employee based on search query
-  const filteredEmployee = employees.filter(applySearchFilter);
+    const date = Date().split(" ");
+    const dateStr = date[1] + "-" + date[2] + "-" + date[3];
 
-    return (
-        <div ref={ref}>
-            
-            
-            <div className="p-4">
-            <BackButton destination='/employees/allEmployee' /> 
-                <div className="flex justify-between items-center">
-                    <h1 className="text-3xl my-8">Employee List</h1>
-                
 
-                <div className="mb-4">
-                <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Enter search query"
-                    className="mr-2 border border-gray-400 p-2"
-                />
-                <button
-                    onClick={handleSearch}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                >
-                    Search
-                </button>
-                </div>
-                </div>
-                {loading ? (
-                    <Spinner />
-                ) : (
-                    <>
-                        <table className="w-full border-separate border-spacing-2" ref={componentRef}>
-                            <thead>
-                                <tr>
-                                    <th className="border border-slate-600 rounded-md">No</th>
-                                    <th className="border border-slate-600 rounded-md">EmpID</th>
-                                    <th className="border border-slate-600 rounded-md">employeeName</th>
-                                    <th className="border border-slate-600 rounded-md max-md:hidden">DOB</th>
-                                    <th className="border border-slate-600 rounded-md max-md:hidden">NIC</th>
-                                    <th className="border border-slate-600 rounded-md">Address</th>
-                                    <th className="border border-slate-600 rounded-md">Position</th>
-                                    <th className="border border-slate-600 rounded-md">ContactNo</th>
-                                    <th className="border border-slate-600 rounded-md">Email</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredEmployee.map((employee, index) => (
-                                    <tr key={employee._id} className="h-8">
-                                        <td className="border border-slate-700 rounded-md text-center">{index + 1}</td>
-                                        <td className="border border-slate-700 rounded-md text-center">{employee.EmpID}</td>
-                                        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{employee.employeeName}</td>
-                                        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{employee.DOB}</td>
-                                        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{employee.NIC}</td>
-                                        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{employee.Address}</td>
-                                        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{employee.Position}</td>
-                                        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{employee.ContactNo}</td>
-                                        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{employee.Email}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
 
-                        {/* report button */}
-                        <div className="flex justify-center items-center mt-8">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generatePDF}>
-                                Generate PDF
-                            </button>
-                        </div>
-                    </>
-                )}
-            </div>
-        </div>
+    doc.setFontSize(28).setFont("Mooli", "bold").setTextColor('red');
+    doc.text("Nadeeka Auto care", 60, 15);
+
+    doc.setFont("helvetica", "normal").setFontSize(20).setTextColor(0, 0, 0);
+    doc.text("Employee Details Report", 65, 25);
+
+    doc.setFont("times", "normal").setFontSize(15).setTextColor(100, 100, 100);
+    doc.text(`Report Generated Date: ${dateStr}`, 65, 35);
+
+    doc
+      .setFont("courier", "normal")
+      .setFontSize(12)
+      .setTextColor(150, 150, 150);
+    doc.text("Nadeeka Auto Care, 1 ela, Moraketiya Road, Embilipitiya", 30, 45);
+
+    doc
+      .setFont("courier", "normal")
+      .setFontSize(12)
+      .setTextColor(150, 150, 150);
+    doc.text(
+      "--------------------------------------------------------------------------------------------------",
+      0,
+      49
     );
-});
 
-export default ReportEmployee;
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 50,
+      styles: { fontSize: 9 },
+      headStyles: {
+        fillColor: [31, 41, 55],
+        textColor: [255, 255, 255],
+        fontStyle: "bold",
+      },
+    });
+
+    doc.save(`Employee-Details-Report_${dateStr}.pdf`);
+  }
+
+  return (
+    <div>
+      <div style={styles.button}>
+        <button
+          onClick={() => {
+            generatePDF(filteredEmployee);
+          }}
+          className="btn2"
+        >
+          Generate report
+        </button>
+      </div>
+    </div>
+  );
+}
+const styles = {
+
+    button: {
+      backgroundColor: '#dc3545',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '0.25rem',
+      padding: '0.5rem 1rem',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease',
+      
+    },
+    };

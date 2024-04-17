@@ -1,4 +1,4 @@
-import React, { useEffect,useState} from 'react';
+import React, { useEffect,useState,useRef} from 'react';
 import axios from 'axios';
 import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import {AiOutlineEdit} from 'react-icons/ai';
 //import {BsInfoCircle} from 'react-icons/bs';
 import {MdOutlineAddBox , MdOutlineDelete} from 'react-icons/md';
+import ReportEmployeesAttendence from './ReportEmployeeAttendence';
 
 function ShowEmployeeAttendence() {
 
@@ -15,7 +16,7 @@ function ShowEmployeeAttendence() {
     const [searchDate, setSearchDate] = useState('');
     
     //const [showType, setShowType] = useState('table');
-
+    const componentRef = useRef();
 
     useEffect(() => {
         setLoading(true);
@@ -66,9 +67,7 @@ function ShowEmployeeAttendence() {
                         Add Employee Attendence
                     </button>
                     <div style={{ marginLeft: '10px' }}></div> {/* Space between buttons */}
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/EmployeeAttendence/reportEmployeeAttendence'}>
-                        Report
-                    </button>
+                    <ReportEmployeesAttendence filteredEmployeesAttendence={filteredEmployeesAttendence}/>
                 </div>
             </div>
 
@@ -99,7 +98,7 @@ function ShowEmployeeAttendence() {
             {loading? (<Spinner/>
             ):(
 
-              <table className='w-full border-separate border-spacing-2'>
+              <table className='w-full border-separate border-spacing-2' ref={componentRef}>
     <thead>
         <tr>
             <th className='border border-slate-600 rounded-md'>No</th>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
+import backgroundImage from '../../images/t.jpg';
 import { useNavigate } from 'react-router-dom';
 
 const CreateEmployeeAttendence = () => {
@@ -164,18 +165,18 @@ const CreateEmployeeAttendence = () => {
   
 
   return (
-    <div className='p-4'>
+    <div style={styles.container}>
       <BackButton destination='/EmployeeAttendence/allEmployeeAttendence' />
-      <h1 className='text-3xl my-4'>Create Employee Attendence</h1>
+      <h1 style={styles.heading}>Create Employee Attendance</h1>
       {loading ? <Spinner /> : ''}
-      <div className='flex justify-center space-x-8'>
-        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[300px] p-4'>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>EmpID</label>
+      <div style={styles.formContainer}>
+        <div style={styles.form}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>EmpID</label>
             <select
               value={selectedEmployee.EmpID}
               onChange={handleEmpIDChange}
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.input}
             >
               <option value=''>Select EmpID</option>
               {employees.map((employee) => (
@@ -185,13 +186,13 @@ const CreateEmployeeAttendence = () => {
               ))}
             </select>
           </div>
-
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Employee Name</label>
+  
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Employee Name</label>
             <select
               value={selectedEmployee.employeeName}
               onChange={handleEmployeeNameChange}
-              className='border-2 border-gray-500 px-4 py-2  w-full '
+              style={styles.input}
             >
               <option value=''>Select Employee Name</option>
               {employees.map((employee) => (
@@ -201,92 +202,193 @@ const CreateEmployeeAttendence = () => {
               ))}
             </select>
           </div>
-
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Date</label>
+  
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Date</label>
             <input
-              type='Date'
+              type='date'
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className='border-2 border-gray-500 px-4 py-2  w-full '
+              style={styles.input}
             />
           </div>
-          
         </div>
-        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[300px] p-4'>
-          
-        <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>InTime</label>
+  
+        <div style={styles.form}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>InTime</label>
             <input
               type='time'
               value={InTime}
               onChange={handleInTimeChange}
-              className='border-2 border-gray-500 px-4 py-2  w-full '
+              style={styles.input}
             />
             <button
               onClick={handleRecordInTime}
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2'>
+              style={styles.timeButton}
+            >
               Record Current Time
             </button>
           </div>
-          
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>OutTime</label>
+  
+          <div style={styles.formGroup}>
+            <label style={styles.label}>OutTime</label>
             <input
               type='time'
               value={OutTime}
               onChange={handleOutTimeChange}
-              className='border-2 border-gray-500 px-4 py-2  w-full '
+              style={styles.input}
             />
             <button
               onClick={handleRecordOutTime}
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2'>
+              style={styles.timeButton}
+            >
               Record Current Time
             </button>
           </div>
-          
-          
-          
         </div>
-
-        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[300px] p-4'>
-            
-          
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Working Hours</label>
+  
+        <div style={styles.form}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Working Hours</label>
             <input
               type='text'
               value={WorkingHours}
               readOnly
-              className='border-2 border-gray-500 px-4 py-2  w-full '
+              style={styles.input}
             />
           </div>
-
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Overtime Hours</label>
+  
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Overtime Hours</label>
             <input
               type='text'
               value={OThours}
               readOnly
-              className='border-2 border-gray-500 px-4 py-2  w-full '
+              style={styles.input}
             />
           </div>
-          </div>
-
+        </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
         <button
-          className='p-2 bg-sky-300 m-2'
-          style={{ width: '150px' }}
+          style={styles.button}
           onClick={handleSaveEmployeeAttendence}
         >
           Save
         </button>
       </div>
-
-
     </div>
   );
+  
+};
+
+const styles = {
+  select: {
+      width: '100%',
+      padding: '10px',
+      margin: '10px 0',
+      border: '1px solid #ccc',
+      borderRadius: '5px',
+      backgroundColor: 'black',
+
+      outline: 'none'
+
+
+  },
+  container: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      height: '100vh', // Set height to cover the viewport height
+},
+formContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+    padding: '20px',
+    border: '2px solid red', // Add a red border
+    borderColor: 'red',
+    margin: '10px auto',
+    textAlign: 'center',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '80%',
+    padding: '20px',
+},
+
+heading: {
+  fontSize: '3rem',
+  color: 'white',
+  textAlign: 'center',
+  fontWeight: 'bold',
+  marginBottom: '1.5rem',
+},
+form: {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '30%',
+  padding: '20px',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
+  borderRadius: '10px',
+},
+formGroup: {
+  marginBottom: '1.5rem',
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '10px',
+  border: '1px solid rgba(255, 255, 255, 0.8)',
+  borderRadius: '5px',
+  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+  color: 'rgba(255, 255, 255, 0.8)',
+  backgroundColor: 'rgba(5, 4, 2, 0.8)',
+},
+label: {
+  fontWeight: 'bold',
+  marginBottom: '0.5rem',
+  flexDirection: 'column',
+  fontSize: '1.2rem',
+  color: 'red',
+  textAlign: 'center',
+  width: '100%',
+  alignItems: 'center',
+  justifyContent: 'center', 
+  padding: '10px',
+  display: 'block',
+  textTransform: 'uppercase',
+  backgroundColor: 'black',
+},
+input: {
+  width: '100%',
+  padding: '10px',
+  borderRadius: '5px',
+  border: '1px solid #ccc',
+  backgroundColor: '#1B1B1B',
+},
+buttonContainer: {
+  display: 'flex',
+  justifyContent: 'center',
+},
+button: {
+  backgroundColor: 'red',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '0.25rem',
+  padding: '0.5rem 1rem',
+  cursor: 'pointer',
+  transition: 'background-color 0.3s ease',
+},
 };
 
 export default CreateEmployeeAttendence;

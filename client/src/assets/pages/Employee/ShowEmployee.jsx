@@ -1,10 +1,11 @@
-import React, { useEffect,useState} from 'react';
+import React, { useEffect,useState,useRef} from 'react';
 import axios from 'axios';
 import Spinner from '../../components/Spinner';
 import {Link} from 'react-router-dom';
 import {AiOutlineEdit} from 'react-icons/ai';
 import {BsInfoCircle} from 'react-icons/bs';
 import {MdOutlineAddBox , MdOutlineDelete} from 'react-icons/md';
+import ReportEmployee from './ReportEmployee';
 
 function ShowEmployee() {
 
@@ -14,6 +15,8 @@ function ShowEmployee() {
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     //const [showType, setShowType] = useState('table');
+
+    const componentRef = useRef();
 
     const handleSearch = async () => {
         setLoading(true);
@@ -93,9 +96,7 @@ function ShowEmployee() {
                         Add Employee
                     </button>
                     <div style={{ marginLeft: '10px' }}></div> {/* Space between buttons */}
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/employees/reportEmployee'}>
-                        Report
-                    </button>
+                        <ReportEmployee filteredEmployee={filteredEmployee} />
                     <div style={{ marginLeft: '10px' }}></div> {/* Space between buttons */}
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/EmployeeAttendence/allEmployeeAttendence'}>
                         Attendence
@@ -111,7 +112,7 @@ function ShowEmployee() {
             {loading? (<Spinner/>
             ):(
 
-              <table className='w-full border-separate border-spacing-2'>
+              <table className='w-full border-separate border-spacing-2' ref={componentRef}>
     <thead>
         <tr>
             <th className='border border-slate-600 rounded-md'>No</th>
