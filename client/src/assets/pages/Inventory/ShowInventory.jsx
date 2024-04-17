@@ -7,6 +7,8 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
 import { useReactToPrint } from 'react-to-print';
 import Swal from 'sweetalert2';
+import InventoryReport from "./InventoryReport.jsx";
+
 
 const ShowInventory = () => {
   const [inventory, setInventory] = useState([]);
@@ -152,9 +154,9 @@ const ShowInventory = () => {
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/inventory/create'}>
           Add Inventory
         </button>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4" onClick={generatePDF}>
-          Generate PDF
-        </button>
+        <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4" >
+          <InventoryReport filteredInventory={filteredInventory} />
+        </div>
       </div>
 
       {loading ? (

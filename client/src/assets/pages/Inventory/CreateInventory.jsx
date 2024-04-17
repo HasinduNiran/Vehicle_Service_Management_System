@@ -82,10 +82,44 @@ const CreateInventory = () => {
     return isValid;
   };
 
+  // Function to check if the inventory item already exists
+  const checkInventoryItem = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8076/inventory?Name=${name}`);
+      return response.data.length == name.length ;
+    } catch (error) {
+      console.error('Error checking inventory:', error);
+      return false;
+    }
+  };
+  
+
   // Event handler for saving the inventory
-  const handleSaveInventory = () => {
+  const handleSaveInventory = async () => {
     if (!validateForm()) {
       return; // Don't proceed if form validation fails
+    }
+
+    setLoading(true);
+    const itemExists = await checkInventoryItem();
+
+    if (itemExists) {
+      // Displaying error toast if item already exists
+      Swal.fire({
+        icon: 'error',
+        title: 'Item already exists in the inventory',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+      });
+      setLoading(false);
+      return;
     }
 
     // Creating data object from form inputs
@@ -98,7 +132,6 @@ const CreateInventory = () => {
       SupplierName: supplierName,
       SupplierPhone: supplierPhone,
     };
-    setLoading(true);
 
     // Making a POST request to save the inventory data
     axios
@@ -119,7 +152,7 @@ const CreateInventory = () => {
           }
         });
 
-        // Resetting loading state and navigating to the home page after 3000ms
+        // Resetting loading state and navigating to the home page after 1500ms
         setTimeout(() => {
           setLoading(false);
           navigate('/inventory/allInventory');
