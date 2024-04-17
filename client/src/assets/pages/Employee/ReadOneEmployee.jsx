@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
+import backgroundImage from '../../images/t.jpg';
 
 const ReadOneEmployee = () => {
   const [employee, setEmployee] = useState({});
@@ -24,51 +25,104 @@ const ReadOneEmployee = () => {
   }, []);
 
   return (
-    <div className='p-4'>
+    <div style={styles.container}>
       <BackButton destination='/employees/allEmployee' /> 
-      <h1 className='text-3xl my-4'>Show Employee</h1>
+      <h1 style={styles.heading}>Show Employee</h1>
       {loading ? (
         <Spinner />
       ) : (
-        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>EmpID</span>
-            <span>{employee.EmpID}</span>
+        <div style={styles.employeeContainer}>
+          <div style={styles.employeeInfo}>
+            <div style={styles.employeeField}>
+              <span style={styles.label}>Emp ID:</span>
+              <span style={styles.value}>{employee.EmpID}</span>
+            </div>
+            <div style={styles.employeeField}>
+              <span style={styles.label}>Employee Name:</span>
+              <span style={styles.value}>{employee.employeeName}</span>
+            </div>
+            <div style={styles.employeeField}>
+              <span style={styles.label}>DOB:</span>
+              <span style={styles.value}>{employee.DOB}</span>
+            </div>
+            <div style={styles.employeeField}>
+              <span style={styles.label}>NIC:</span>
+              <span style={styles.value}>{employee.NIC}</span>
+            </div>
+            <div style={styles.employeeField}>
+              <span style={styles.label}>Address:</span>
+              <span style={styles.value}>{employee.Address}</span>
+            </div>
+            <div style={styles.employeeField}>
+              <span style={styles.label}>Position:</span>
+              <span style={styles.value}>{employee.Position}</span>
+            </div>
+            <div style={styles.employeeField}>
+              <span style={styles.label}>Contact No:</span>
+              <span style={styles.value}>{employee.ContactNo}</span>
+            </div>
+            <div style={styles.employeeField}>
+              <span style={styles.label}>Email:</span> 
+              <span style={styles.value}>{employee.Email}</span>
+              </div>
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>employeeName</span>
-            <span>{employee.employeeName}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>DOB</span>
-            <span>{employee.DOB}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>NIC</span>
-            <span>{employee.NIC}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Address</span>
-            <span>{employee.Address}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Position</span>
-            <span>{employee.Position}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>ContactNo</span>
-            <span>{employee.ContactNo}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Email</span>
-            <span>{employee.Email}</span>
-          </div>
-          
-          
         </div>
       )}
     </div>
   );
+};
+
+const styles = {
+  container: {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    minHeight: '100vh',
+    padding: '20px',
+    fontFamily: 'Arial, sans-serif',
+    color: '#fff',
+  },
+  heading: {
+    textAlign: 'center',
+    fontSize: '3rem',
+    marginBottom: '30px',
+    color: '#fff',
+  },
+  employeeContainer: {
+    maxWidth: '800px',
+    margin: '0 auto',
+    boxShadow: '0 4px 6px rgba(0, 0, 4, 0.6)',
+    borderRadius: '10px',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    padding: '20px',
+    border: '2px solid red',
+    textAlign: 'left',
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    height: '50vh', 
+  },
+  employeeInfo: {
+    margin: '0 auto',
+    padding: '10px',
+    width: '80%',
+  },
+  employeeField: {
+    marginBottom: '10px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  label: {
+    fontWeight: 'bold',
+    color: 'red',
+    width: '100%',
+    padding: '1px',
+    textTransform: 'uppercase',
+  },
+  value: {
+    width : '100%',
+    color: 'white',
+  },
 };
 
 export default ReadOneEmployee;
