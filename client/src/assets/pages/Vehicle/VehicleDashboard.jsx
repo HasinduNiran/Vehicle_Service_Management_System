@@ -4,6 +4,9 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import logo from '../../images/logo.jpg';
+import VehicleReport from './VehicleReport';
+import backgroundImage from '../../images/t.jpg';
+
 
 const VDashboard = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -155,9 +158,9 @@ const VDashboard = () => {
                     >
                       View Service History
                     </button>
-                    <button
+                    <div
                       className='bg-red-700 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded border-none cursor-pointer'
-                      onClick={generatePDF}
+
                       style={{
                         backgroundColor: 'red',
                         color: 'white',
@@ -169,8 +172,8 @@ const VDashboard = () => {
                         marginTop: '15px'
                       }}
                     >
-                      Generate Report
-                    </button>
+                      <VehicleReport  filteredVehicles= {filteredVehicles}/>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -190,7 +193,10 @@ const VDashboard = () => {
                     Vehicle Details
                   </div>
                   <div className='table-responsive' ref={componentRef}>
-                    <table className='table table-bordered table-hover' style={{ color: 'white' }}>
+                  <table className='table table-bordered table-hover styled-table' style={{ color: 'black', backgroundColor: 'lightgrey', border: '3px solid black' ,backgroundImage: `url(${backgroundImage})`, // Apply background image
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',}}>
+
                       <thead>
                         <tr>
                           <th className='text-xl mr-4'>Register Number</th>
