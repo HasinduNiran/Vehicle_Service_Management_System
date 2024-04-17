@@ -56,7 +56,7 @@ const ReadOneCustomer = () => {
         <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
           <div className='my-4'>
             <span className='text-xl mr-4 text-gray-500'>Customer Number</span>
-            <span>{customer._id}</span>
+            <span>{customer.cusID}</span>
           </div>
           <div className='my-4'>
             <span className='text-xl mr-4 text-gray-500'>First Name</span>
@@ -95,9 +95,10 @@ const ReadOneCustomer = () => {
             <span>{new Date(customer.updatedAt).toString()}</span>
           </div>
 
+          <h2 className='text-2xl my-4'>Bookings</h2>
+
           {bookings.length > 0 ? (
             <div>
-              <h2 className='text-2xl my-4'>Bookings</h2>
               <table className='table'>
                 <thead>
                   <tr>
@@ -129,9 +130,10 @@ const ReadOneCustomer = () => {
             <p>No bookings available for this customer.</p>
           )}
 
+<h2 className='text-2xl my-4'>Payments</h2>
+
           {payments.length > 0 ? (
             <div>
-              <h2 className='text-2xl my-4'>Payments</h2>
               <table className='table'>
                 <thead>
                   <tr>
@@ -157,9 +159,11 @@ const ReadOneCustomer = () => {
             <p>No payment history available for this customer.</p>
           )}
 
+
+<h2 className='text-2xl my-4'>Vehicles</h2>
+
           {vehicles.length > 0 ? (
             <div>
-              <h2 className='text-2xl my-4'>Vehicles</h2>
               <table className='table'>
                 <thead>
                   <tr>
@@ -197,9 +201,11 @@ const ReadOneCustomer = () => {
             <p>No vehicle detail available for this customer.</p>
           )}
 
+
+<h2 className='text-2xl my-4'>Service Histories</h2>
+
           {serviceHistories.length > 0 ? (
             <div>
-              <h2 className='text-2xl my-4'>Service Histories</h2>
               <table className='table'>
                 <thead>
                   <tr>
@@ -227,9 +233,11 @@ const ReadOneCustomer = () => {
             <p>No service details available for this customer.</p>
           )}
 
+
+<h2 className='text-2xl my-4'>Feedback</h2>
+
 {feedback.length > 0 ? (
             <div>
-              <h2 className='text-2xl my-4'>Feedback</h2>
               <table className='table'>
                 <thead>
                   <tr>

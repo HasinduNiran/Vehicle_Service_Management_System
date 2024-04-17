@@ -102,6 +102,7 @@ import ReadOneServiceHistory from './assets/pages/ServiceHistory/ReadOneServiceH
 
 
 import Dashboard from './assets/pages/dashboard/dashboard';
+import Cdashboard from './assets/pages/Cdashboard/Cdashbord';
 
 import CusDashboard from './assets/pages/customerDashBoard/cusDashboard'; 
 
@@ -371,6 +372,7 @@ const App = () => {
       <Route path='/ServiceHistory/get/:id' element={<ReadOneServiceHistory/>}></Route>
     
       <Route path='/dashboard' element={<Dashboard/>}></Route>  
+      <Route path='/Cdashboard:id' element={<Cdashboard/>}></Route>
       
 
       <Route path='/Servic' element={<ShowService />}></Route>

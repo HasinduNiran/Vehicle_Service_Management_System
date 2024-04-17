@@ -74,8 +74,13 @@ const ReadOneHome = () => { // Remove cusID from the props
 
 
       )}
-        <Link to={`/feedback/create/${ userData.cusID}`}>
+        <Link to={`/feedback/create/${userData.cusID}`}>
          <button className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 text-xl">feedback</button>
+
+        </Link>
+
+        <Link to={`/Cdashboard/${userData.cusID}`}>
+         <button className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 text-xl">Dashboard</button>
 
         </Link>
        
