@@ -57,7 +57,7 @@ const EditEmployee = () => {
       .then(() => {
         setLoading(false);
         //enqueueSnackbar('Employee Edited successfully', { variant: 'success' });
-        navigate('/employees/allEmployee');
+        navigate('/employees/EmployeeDashboard');
       })
       .catch((error) => {
         setLoading(false);
@@ -70,7 +70,7 @@ const EditEmployee = () => {
   return (
     <div style={styles.container}>
       <div style={styles.formContainer}>
-      <BackButton destination='/employees/allEmployee' />
+      <BackButton destination='/employees/EmployeeDashboard' />
         <h1 style={styles.heading}>Edit Employee</h1>
         {loading ? <Spinner /> : ''}
         <div style={styles.form}>
@@ -95,7 +95,7 @@ const EditEmployee = () => {
           <div style={styles.formGroup}>
             <label style={styles.label}>DOB</label>
             <input
-              type='text'
+              type='Date'
               value={DOB}
               onChange={(e) => setDOB(e.target.value)}
               style={styles.input}
@@ -244,7 +244,7 @@ input: {
   padding: '10px',
   borderRadius: '5px',
   border: '1px solid #ccc',
-  backgroundColor: 'black',
+  backgroundColor: '#1B1B1B',
 },
 buttonContainer: {
   display: 'flex',

@@ -141,7 +141,7 @@ const CreateEmployeeSalary = () => {
       .post('http://localhost:8076/EmployeeSalary', data)
       .then(() => {
         setLoading(false);
-        navigate('/EmployeeSalary/allEmployeeSalary');
+        navigate('/EmployeeSalary/EmpSDashboard');
       })
       .catch((error) => {
         setLoading(false);
@@ -165,7 +165,7 @@ const CreateEmployeeSalary = () => {
 
   return (
     <div style={styles.container}>
-      <BackButton destination='/EmployeeSalary/allEmployeeSalary' />
+      <BackButton destination='/EmployeeSalary/EmpSDashboard' />
       <h1 style={styles.heading}>Create Employee Salary</h1>
       {loading ? <Spinner /> : ''}
       <div style={styles.formContainer}>

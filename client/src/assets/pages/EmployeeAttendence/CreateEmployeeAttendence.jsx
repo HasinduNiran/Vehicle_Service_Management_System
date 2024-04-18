@@ -135,7 +135,7 @@ const CreateEmployeeAttendence = () => {
       .post('http://localhost:8076/EmployeeAttendence', data)
       .then(() => {
         setLoading(false);
-        navigate('/EmployeeAttendence/allEmployeeAttendence');
+        navigate('/EmployeeAttendence/EmpADashboard');
       })
       .catch((error) => {
         setLoading(false);
@@ -166,7 +166,7 @@ const CreateEmployeeAttendence = () => {
 
   return (
     <div style={styles.container}>
-      <BackButton destination='/EmployeeAttendence/allEmployeeAttendence' />
+      <BackButton destination='/EmployeeAttendence/EmpADashboard' />
       <h1 style={styles.heading}>Create Employee Attendance</h1>
       {loading ? <Spinner /> : ''}
       <div style={styles.formContainer}>

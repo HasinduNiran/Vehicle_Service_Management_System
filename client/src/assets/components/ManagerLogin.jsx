@@ -52,7 +52,7 @@ function Login() {
             break;
           case "employee":
             message = "Welcome back! Kavindi";
-            navigate("/employees/allEmployee");
+            navigate("/employees/EmployeeDashboard");
             break;
           case "feedback":
             message = "Welcome back! Yenura";

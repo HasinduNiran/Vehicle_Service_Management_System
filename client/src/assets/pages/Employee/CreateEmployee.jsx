@@ -37,7 +37,7 @@ const CreateEmployee = () => {
       .then(() => {
         setLoading(false);
         //enqueueSnackbar('Employee Created successfully', { variant: 'success' });
-        navigate('/employees/allEmployee');
+        navigate('/employees/EmployeeDashboard');
       })
       .catch((error) => {
         setLoading(false);
@@ -51,7 +51,7 @@ const CreateEmployee = () => {
     <div style={styles.container}>
        
       <div style={styles.formContainer}>
-        <BackButton destination='/employees/allEmployee' />
+        <BackButton destination='/employees/EmployeeDashboard' />
         <h1 style={styles.heading}>Create Employee</h1>
         {loading ? <Spinner /> : ''}
         <div style={styles.form}>
@@ -227,7 +227,7 @@ input: {
   padding: '10px',
   borderRadius: '5px',
   border: '1px solid #ccc',
-  backgroundColor: 'black',
+  backgroundColor: '#1B1B1B',
 },
 buttonContainer: {
   display: 'flex',

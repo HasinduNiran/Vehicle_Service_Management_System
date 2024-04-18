@@ -15,7 +15,7 @@ const DeleteEmployeeAttendence = () => {
       .delete(`http://localhost:8076/EmployeeAttendence/${id}`)
       .then(() => {
         setLoading(false);
-        navigate('/EmployeeAttendence/allEmployeeAttendence');
+        navigate('/EmployeeAttendence/EmpADashboard');
       })
       .catch((error) => {
         setLoading(false);
@@ -26,7 +26,7 @@ const DeleteEmployeeAttendence = () => {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#1f2937' }}>
       <div style={{ padding: '2rem', maxWidth: '600px', backgroundColor: '#2d3748', borderRadius: '10px', color: '#fff' }}>
-        <BackButton destination='/EmployeeAttendence/allEmployeeAttendence' /> 
+        <BackButton destination='/EmployeeAttendence/EmpADashboard' /> 
         <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem' }}>Delete Employee Attendance</h1>
         {loading && <Spinner />}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
