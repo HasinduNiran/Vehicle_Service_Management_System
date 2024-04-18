@@ -55,8 +55,12 @@ const ShowPayment=()=> {
                         <th className='border border-slate-600 rounded-md'>Payment ID</th>
                         <th className='border border-slate-600 rounded-md '>Customer Id</th>
                         <th className='border border-slate-600 rounded-md'>Service ID</th>
-                        <th className='border border-slate-600 rounded-md '>TVehicle NO</th>
+                        <th className='border border-slate-600 rounded-md '>Vehicle NO</th>
+                        <th className='border border-slate-600 rounded-md '>Package</th>
+                        <th className='border border-slate-600 rounded-md '>Service name</th>
                         <th className='border border-slate-600 rounded-md'>Date</th>
+                        <th className='border border-slate-600 rounded-md max-md:hidden'>Package Amount</th>
+                        <th className='border border-slate-600 rounded-md max-md:hidden'>Service Amount</th>
                         <th className='border border-slate-600 rounded-md max-md:hidden'>Total Amount</th>
                         <th className='border border-slate-600 rounded-md max-md:hidden'>Payment Method</th>
                         <th className='border border-slate-600 rounded-md'>Operations</th>
@@ -83,7 +87,19 @@ const ShowPayment=()=> {
                                 {payment.Vehicle_Number}
                             </td>
                             <td className='border border-slate-700 rounded-md text-center'>
+                                {payment.Package}
+                            </td>
+                            <td className='border border-slate-700 rounded-md text-center'>
+                                {payment.selectedServices}
+                            </td>
+                            <td className='border border-slate-700 rounded-md text-center'>
                                 {payment.PaymentDate}
+                            </td>
+                            <td className='border border-slate-700 rounded-md text-center'>
+                                {payment.Pamount}
+                            </td>
+                            <td className='border border-slate-700 rounded-md text-center'>
+                                {payment.Samount}
                             </td>
                             <td className='border border-slate-700 rounded-md text-center'>
                                 {payment.totalAmount}

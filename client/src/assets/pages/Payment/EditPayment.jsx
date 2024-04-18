@@ -9,7 +9,11 @@ const EditPayment = () => {
   const [PaymentId, setPaymentId] = useState("");
   const [cusID, setCusID] = useState("");
   const [Vehicle_Number, setVehicle_Number] = useState("");
+  const [Package, setPackage] = useState("");
+  const [selectedServices, setSelectedServices] = useState("");
   const [PaymentDate, setPaymentDate] = useState("");
+  const [Pamount, setPamount] = useState("");
+  const [Samount, setSamount] = useState("");
   const [totalAmount, settotalAmount] = useState("");
   const [PaymentMethod, setPaymentMethod] = useState("");
   const [Booking_Id, setBooking_Id] = useState("");
@@ -27,7 +31,11 @@ const EditPayment = () => {
         setPaymentId(response.data.PaymentId);
         setCusID(response.data.cusID);
         setVehicle_Number(response.data.Vehicle_Number);
+        setPackage(response.data.Package);
+        setSelectedServices(response.data.selectedServices);
         setPaymentDate(response.data.PaymentDate);
+        setPamount(response.data.Pamount);
+        setSamount(response.data.Samount);
         settotalAmount(response.data.totalAmount);
         setPaymentMethod(response.data.PaymentMethod);
         setBooking_Id(response.data.Booking_Id);
@@ -45,7 +53,11 @@ const EditPayment = () => {
       cusID,
       Vehicle_Number,
       Booking_Id,
+      Package,
+      selectedServices,
       PaymentDate,
+      Pamount,
+      Samount,
       totalAmount,
       PaymentMethod,
     };
@@ -78,20 +90,29 @@ const EditPayment = () => {
             onChange={(e) => setPaymentId(e.target.value)}
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
-          <div className="my-4">
-            <label className="text-xl mr-4 text-gray-500">Cus id</label>
-            <input
-              type="String"
-              value={cusID}
-              onChange={(e) => setCusID(e.target.value)}
-              className="border-2 border-gray-500 px-4 py-2  w-full "
-            />
+           <div className="my-4">
+          <label className="text-xl mr-4 text-gray-500">Customer ID</label>
+          <div className="border-2 border-gray-500 px-4 py-2  w-full">
+            {cusID}
           </div>
+        </div>
         </div>
         <div className="my-4">
           <label className="text-xl mr-4 text-gray-500">Service ID</label>
           <div className="border-2 border-gray-500 px-4 py-2  w-full">
             {Booking_Id}
+          </div>
+        </div>
+        <div className="my-4">
+          <label className="text-xl mr-4 text-gray-500">Package</label>
+          <div className="border-2 border-gray-500 px-4 py-2  w-full">
+            {Package}
+          </div>
+        </div>
+        <div className="my-4">
+          <label className="text-xl mr-4 text-gray-500">Service Name</label>
+          <div className="border-2 border-gray-500 px-4 py-2  w-full">
+            {selectedServices}
           </div>
         </div>
 
@@ -110,7 +131,18 @@ const EditPayment = () => {
             className="border-2 border-gray-500 px-4 py-2  w-full "
           />
         </div>
-
+        <div className="my-4">
+          <label className="text-xl mr-4 text-gray-500">Package Amount</label>
+          <div className="border-2 border-gray-500 px-4 py-2  w-full">
+            {Pamount}
+          </div>
+        </div>
+        <div className="my-4">
+          <label className="text-xl mr-4 text-gray-500">Service Amount</label>
+          <div className="border-2 border-gray-500 px-4 py-2  w-full">
+            {Samount}
+          </div>
+        </div>
         <div className="my-4">
           <label className="text-xl mr-4 text-gray-500">totalAmount</label>
           <input

@@ -5,10 +5,13 @@ const paymentInvoiceSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    customerName:{
-        type:String,
-        required:false
+    customerName:{type:String}
+    , // Removed 'required: true' since it's optional
+     cusID: {
+        type: [String],
+        required: true
     },
+   
     PaymentId:{
         type:String,
         required:true
@@ -37,10 +40,18 @@ const paymentInvoiceSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    totalAmount:{
-        type:Number,
-        required:true
+    Package: {type:String}
+    , // Removed 'required: true' since it's optional
+     selectedServices: {
+        type: [String],
+        required: true
     },
+    Pamount: {type:Number}
+    ,totalAmount: {type:Number},
+     Samount:{
+        type:[Number],
+        required:true
+     },
     Booking_Id: {
         type: String,
         required: true,

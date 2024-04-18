@@ -46,8 +46,12 @@ const ReadOneInvoice = () => {
                 <span>{paymentInvoice.customerName}</span>
               </div>
               <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>Customer ID</span>
+                <span>{paymentInvoice.cusID}</span>
+              </div>
+              <div className='my-4'>
                 <span className='text-xl mr-4 text-gray-500'>Service ID:</span>
-                <span>{paymentInvoice.PaymentMethod}</span>
+                <span>{paymentInvoice.Booking_Id}</span>
               </div>
               <div className='my-4'>
                 <span className='text-xl mr-4 text-gray-500'>Payment ID:</span>
@@ -73,8 +77,25 @@ const ReadOneInvoice = () => {
                 <span className='text-xl mr-4 text-gray-500'>Engine:</span>
                 <span>{paymentInvoice.Engine_Details}</span>
               </div>
+              <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>Package:</span>
+                <span>{paymentInvoice.Package}</span>
+              </div>
+              <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>Service name</span>
+                <span>{paymentInvoice.selectedServices}</span>
+              </div>
             </div>
+            
           )}
+           <div className='total-amount' style={{ marginTop: '20px' }}>
+            <span className='text-xl mr-4 text-gray-500'>Package Amount:</span>
+            <span>{paymentInvoice.Pamount}</span>
+          </div>
+          <div className='total-amount' style={{ marginTop: '20px' }}>
+            <span className='text-xl mr-4 text-gray-500'>Service  Amount:</span>
+            <span>{paymentInvoice.Samount}</span>
+          </div>
           <div className='total-amount' style={{ marginTop: '20px' }}>
             <span className='text-xl mr-4 text-gray-500'>Total Amount:</span>
             <span>{paymentInvoice.totalAmount}</span>

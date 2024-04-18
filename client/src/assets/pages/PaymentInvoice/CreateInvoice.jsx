@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const CreateInvoice = () => {
   const[InvoiceId,setInvoiceId] = useState('');
   const[customerName,setcustomerName] = useState('');
+  const[cusID,setCusID] = useState('');
   const[PaymentId,setPaymentId] = useState('');
   const[Vehicle_Number,setVehicle_Number] = useState('');
   const[Vehicle_Color,setVehicle_Color] = useState('');
@@ -17,6 +18,10 @@ const CreateInvoice = () => {
   const[PaymentDate,setPaymentDate] = useState('');
   const[totalAmount,settotalAmount] = useState('');
   const[Booking_Id,setBooking_Id] = useState(''); 
+  const[Package,setPackage] = useState('');
+  const[selectedServices,setSelectedServices] = useState('');
+  const[Pamount,setPamount] = useState('');
+  const[Samount,setSamount] = useState('');
   
   //to connect other components
   const [vehicles,setVehicles]= useState([]); 
@@ -40,6 +45,20 @@ const CreateInvoice = () => {
         });
 }, []);
 
+// useEffect(() => {
+//   setLoading(true);
+//   axios
+//       .get('http://localhost:8076/servicehistory')
+//       .then((res) => {
+//           setVehicles(res.data.data);
+//           setCount(res.data.count);
+//           setLoading(false);
+//       })
+//       .catch((err) => {
+//           console.log(err);
+//       });
+// }, []);
+
 useEffect(() => {
   setLoading(true);
   axios
@@ -59,13 +78,18 @@ const handleSavePaymentInvoice = () => {
   const data = {
     InvoiceId,
     customerName,
+    cusID,
     PaymentId,
+    Package,
+    selectedServices,
     Vehicle_Number,
     Vehicle_Color,
     Model,
     Year,
     Engine_Details,
     PaymentDate,
+    Pamount,
+    Samount,
     totalAmount,
     Booking_Id,
   };
@@ -98,6 +122,11 @@ const handlePaymentIdChange = (e) => {
     setBooking_Id(selectedPayment.Booking_Id);
     setPaymentDate(selectedPayment.PaymentDate);
     settotalAmount(selectedPayment.totalAmount);
+    setPackage(selectedPayment.Package);
+    setSelectedServices(selectedPayment.selectedServices);
+    setPamount(selectedPayment.Pamount);
+    setSamount(selectedPayment.Samount);
+    setCusID(selectedPayment.cusID);
 
     // Retrieve the Vehicle Color from the vehicle table based on the selectedPayment's Vehicle_Number
     const selectedVehicle = vehicles.find((vehicle) => vehicle.Register_Number === selectedPayment.Vehicle_Number);
@@ -141,6 +170,15 @@ return (
         />
       </div>
       <div className='my-4'>
+        <label className='text-xl mr-4 text-gray-500'>Customer ID</label>
+        <input
+          type='String'
+          value={cusID}
+          onChange={(e) => setCusID(e.target.value)}
+          className='border-2 border-gray-500 px-4 py-2  w-full '
+        />
+      </div>
+      <div className='my-4'>
         <label className='text-xl mr-4 text-gray-500'>Payment ID</label>
         <select
           className='border-2 border-gray-500 px-4 py-2  w-full '
@@ -171,6 +209,24 @@ return (
             vehicles.map((vehicle) => (
               <option key={vehicle._id} value={vehicle.Register_Number}>
                 {vehicle.Register_Number}
+              </option>
+            ))
+          }
+        </select>
+      </div>
+      <div className='my-4'>
+        <label className='text-xl mr-4 text-gray-500'>Service ID</label>
+        <select
+          className='border-2 border-gray-500 px-4 py-2  w-full '
+          value={Booking_Id} 
+         
+          onChange={(e) => setBooking_Id(e.target.value)}
+          >
+          <option value=''>Service id</option>
+          {
+            payments.map((payment) => (
+              <option key={payment._id} value={payment.Booking_Id}>
+                {payment.Booking_Id}
               </option>
             ))
           }
@@ -263,6 +319,74 @@ return (
         </select>
       </div>
       <div className='my-4'>
+        <label className='text-xl mr-4 text-gray-500'>Package</label>
+        <select
+          className='border-2 border-gray-500 px-4 py-2  w-full '
+          value={Package} 
+          onChange={(e) => setPackage(e.target.value)}
+          >
+          <option value=''>Package</option>
+          {
+            payments.map((payment) => (
+              <option key={payment._id} value={payment.Package}>
+                {payment.Package}
+              </option>
+            ))
+          }
+        </select>
+      </div>
+      <div className='my-4'>
+        <label className='text-xl mr-4 text-gray-500'>Service Name</label>
+        <select
+          className='border-2 border-gray-500 px-4 py-2  w-full '
+          value={selectedServices} 
+          onChange={(e) => setServicename(e.target.value)}
+          >
+          <option value=''>Service Name</option>
+          {
+            payments.map((payment) => (
+              <option key={payment._id} value={payment.selectedServices}>
+                {payment.selectedServices}
+              </option>
+            ))
+          }
+        </select>
+      </div>
+      <div className='my-4'>
+        <label className='text-xl mr-4 text-gray-500'>Package Amount</label>
+        <select
+          className='border-2 border-gray-500 px-4 py-2  w-full '
+          value={Pamount} 
+          onChange={(e) => setPamount(e.target.value)}
+          >
+          <option value=''>Package Amount</option>
+          {
+            payments.map((payment) => (
+              <option key={payment._id} value={payment.Pamount}>
+                {payment.Pamount}
+              </option>
+            ))
+          }
+        </select>
+      </div>
+      <div className='my-4'>
+        <label className='text-xl mr-4 text-gray-500'>Service Amount</label>
+        <select
+          className='border-2 border-gray-500 px-4 py-2  w-full '
+          value={Samount} 
+          onChange={(e) => setSamount(e.target.value)}
+          >
+          <option value=''>Service Amount</option>
+          {
+            payments.map((payment) => (
+              <option key={payment._id} value={payment.Samount}>
+                {payment.Samount}
+              </option>
+            ))
+          }
+        </select>
+      </div>
+      <div className='my-4'>
         <label className='text-xl mr-4 text-gray-500'>Amount</label>
         <select
           className='border-2 border-gray-500 px-4 py-2  w-full '
@@ -279,24 +403,7 @@ return (
           }
         </select>
       </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Service ID</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
-          value={Booking_Id} 
-         
-          onChange={(e) => setBooking_Id(e.target.value)}
-          >
-          <option value=''>Service id</option>
-          {
-            payments.map((payment) => (
-              <option key={payment._id} value={payment.Booking_Id}>
-                {payment.Booking_Id}
-              </option>
-            ))
-          }
-        </select>
-      </div>
+      
       <button className='p-2 bg-sky-300 m-8' onClick={handleSavePaymentInvoice}>
         Save
       </button>

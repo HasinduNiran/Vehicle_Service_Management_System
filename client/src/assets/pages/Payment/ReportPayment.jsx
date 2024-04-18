@@ -100,8 +100,12 @@ const ReportPayment = () => {
                 <th className="border border-slate-600 rounded-md">Payment ID</th>
                 <th className="border border-slate-600 rounded-md">Customer ID</th>
                 <th className="border border-slate-600 rounded-md">Service ID</th>
+                <th className="border border-slate-600 rounded-md">Package</th>
+                <th className="border border-slate-600 rounded-md">Service Name</th>
                 <th className="border border-slate-600 rounded-md">Vehicle No</th>
                 <th className="border border-slate-600 rounded-md">Date</th>
+                <th className="border border-slate-600 rounded-md">Package Amount</th>
+                <th className="border border-slate-600 rounded-md">Service Amount</th>
                 <th className="border border-slate-600 rounded-md">Total Amount</th>
                 <th className="border border-slate-600 rounded-md">Payment Method</th>
               </tr>
@@ -113,8 +117,12 @@ const ReportPayment = () => {
                   <td className="border border-slate-700 rounded-md text-center">{payment.PaymentId}</td>
                   <td className="border border-slate-700 rounded-md text-center">{payment.cusID}</td>
                   <td className="border border-slate-700 rounded-md text-center">{payment.Booking_Id}</td>
+                  <td className="border border-slate-700 rounded-md text-center">{payment.Package}</td>
+                  <td className="border border-slate-700 rounded-md text-center">{payment.selectedServices}</td>
                   <td className="border border-slate-700 rounded-md text-center">{payment.Vehicle_Number}</td>
                   <td className="border border-slate-700 rounded-md text-center">{payment.PaymentDate}</td>
+                  <td className="border border-slate-700 rounded-md text-center">{payment.Pamount}</td>
+                  <td className="border border-slate-700 rounded-md text-center">{payment.Samount}</td>
                   <td className="border border-slate-700 rounded-md text-center">{payment.totalAmount}</td>
                   <td className="border border-slate-700 rounded-md text-center">{payment.PaymentMethod}</td>
                 </tr>
