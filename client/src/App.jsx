@@ -104,6 +104,7 @@ import ReadOneServiceHistory from './assets/pages/ServiceHistory/ReadOneServiceH
 import Dashboard from './assets/pages/dashboard/dashboard';
 
 import CusDashboard from './assets/pages/customerDashBoard/cusDashboard'; 
+import VDashboard from './assets/pages/Vehicle/VehicleDashboard';
 
 import CLogin from './assets/components/cLogin';
 
@@ -129,6 +130,7 @@ const App = () => {
         <Route path='/vehicle/edit/:id' element={<EditVehicle />} />
         <Route path='/vehicle/get/:id' element={<ReadOneVehicle />} />
         <Route path='/vehicle/delete/:id' element={<DeleteVehicle />} />
+        <Route path='/vehicle/dashboard' element={<VDashboard />}></Route>
 
         <Route path='/employees/allEmployee' element={<ShowEmployee />}></Route>
         <Route path='/employees/create' element={<CreateEmployee />}></Route>
