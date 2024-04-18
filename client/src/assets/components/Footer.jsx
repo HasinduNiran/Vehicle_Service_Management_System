@@ -59,20 +59,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="below-section">
-          <div className="container">
-            <div className="copyright-footer">
-              <div className="columns text-lg-left">
-                <p>© 2020 Carserving. All rights reserved | Designed by <a href="https://w3layouts.com">W3layouts</a></p>
-              </div>
-              <ul className="columns text-lg-right">
-                <li><a href="#">Privacy Policy</a></li>
-                <li>|</li>
-                <li><a href="#">Terms Of Use</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
       </section>
     </footer>
   );
