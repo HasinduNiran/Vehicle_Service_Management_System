@@ -96,14 +96,14 @@ export default function PackageReport({filteredVehicles}) {
   }
   return (
     <div>
-      <div className="grid md:grid-cols-2 gap-1 ">
+      <div className="">
         <button
           onClick={() => {
             generatePDF(filteredVehicles);
           }}
-          className="btn2"
+          className="ml-3"
         >
-          Report
+         Vehicle Report
         </button>
       </div>
     </div>

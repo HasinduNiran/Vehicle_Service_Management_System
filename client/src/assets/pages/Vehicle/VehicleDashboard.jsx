@@ -73,7 +73,7 @@ const VDashboard = () => {
     navButton: {
       backgroundColor: 'red',
       color: 'white',
-      padding: '0.8rem 3rem',
+      padding: '0.5rem 2rem',
       borderRadius: '5px',
       width: '220px',
       textDecoration: 'none',
@@ -128,24 +128,24 @@ const VDashboard = () => {
       color: 'white',
     },
     subHeading: {
-     
+
       marginTop: '20px',
       fontSize: '2 rem',
       fontWeight: 'bold',
       marginBottom: '20px',
- 
+
       color: '#fff',
       textAlign: 'center',
-     
-    
+
+
       textTransform: 'uppercase',
     },
   };
 
   return (
-    
+
     <div style={styles.container}>
-      
+
       <div className="sb-nav-fixed">
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
           <a className="navbar-brand ps-3" href="/">Nadeeka Auto Care</a>
@@ -196,7 +196,7 @@ const VDashboard = () => {
                       onClick={() => { window.location.href = '/ServiceHistory' }}
                       style={styles.navButton}
                     >
-                      View History
+                      View Service History
                     </button>
                     <div
                       style={styles.navButton}
@@ -215,7 +215,7 @@ const VDashboard = () => {
           <div id="layoutSidenav_content">
             <main>
               <div className="">
-              <h1  style={styles.subHeading}>Vehicle Dashboard</h1>
+                <h1 style={styles.subHeading}>Vehicle Dashboard</h1>
                 <div className="">
                   {/* <div className="card-header">
                     <i className="fas fa-table me-1"></i>
@@ -266,12 +266,19 @@ const VDashboard = () => {
                 </div>
               </div>
             </main>
-            <footer className="py-4 bg-light mt-auto">
+            <footer className="py-4 bg-dark mt-auto">
               <div className="container-fluid px-4">
-                <div className="d-flex align-items-center justify-content-between small">
+                <div className="d-flex align-items-center justify-content-between small text-white">
+                  <div>
+                    &copy; {new Date().getFullYear()} Nadeeka Auto Care
+                  </div>
+                  <div>
+                    <a href="#">Privacy Policy</a> &middot; <a href="#">Terms &amp; Conditions</a>
+                  </div>
                 </div>
               </div>
             </footer>
+
           </div>
         </div>
       </div>
