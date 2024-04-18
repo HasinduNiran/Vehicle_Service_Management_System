@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
-import Header from '../../components/Header'; 
+
+import { Link } from 'react-router-dom';
 
 const ReadOneCustomer = () => {
   const [customer, setCustomer] = useState({});
@@ -14,7 +15,6 @@ const ReadOneCustomer = () => {
   const [vehicles, setVehicles] = useState([]);
   const [serviceHistories, setServiceHistory] = useState([]);
   const [feedback, setFeedback] = useState({});
-
 
   const { id: cusID } = useParams();
 
@@ -50,8 +50,6 @@ const ReadOneCustomer = () => {
     fetchData();
   }, [cusID]);
 
-
-  
   const styles = {
     container: {
       color: 'black',
@@ -76,16 +74,6 @@ const ReadOneCustomer = () => {
       border: '2px solid red'
     },
     table: {
-      width: '300px',
-      margin: '0 auto',
-      padding: '20px',
-      background: 'lightgray',
-      borderRadius: '10px',
-      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',
-      fontFamily: 'Arial, sans-serif',
-      color: '#fff',
-      background: '#1f1f1f'
-    }, table: {
       width: '100%',
       borderCollapse: 'collapse',
     },
@@ -93,9 +81,7 @@ const ReadOneCustomer = () => {
       background: '#333',
       color: 'red',
       textAlign: 'center',
-      // border: '1px solid red',
-
-
+      border: '1px solid red',
     },
     tableHeader: {
       padding: '10px',
@@ -111,307 +97,336 @@ const ReadOneCustomer = () => {
     },
     tableCell: {
       padding: '10px',
-      textAlign: 'left',
+      textAlign: 'center',
       borderLeft: '1px solid red', // Adding left border
       borderRight: '1px solid red',
       background: '#1f1f1f',
       color: 'white',
     },
     subHeading: {
-     
       marginTop: '20px',
       fontSize: '2 rem',
       fontWeight: 'bold',
       marginBottom: '20px',
- 
       color: '#fff',
       textAlign: 'center',
-     
-    
       textTransform: 'uppercase',
+    },
+    logo: {
+      width: '100%',
+      height: '200px',
+      border: '2px solid red'
     },
   };
 
   return (
-<div className="sb-nav-fixed">
-<nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <Header/>
-    </nav>
-   
+    <div style={styles.container}>
+      <nav className="sb-topnav navbar navbar-expand " style={{ height: '120px', background: 'black' }}> {/* Increase navbar height */}
+        {/* Move the brand section to the right */}
+        <div className="d-flex justify-content-start align-items-center me-auto">
+          <img src={logo} alt="Nadeeka Auto Service" className="logo" style={{ width: '100px', marginLeft: '5px' }} /> {/* Decrease logo size */}
+          <a className="navbar-brand ps-3 me-4" href="/">
+            <span className="text-red">N</span>adeeka Auto Care {/* Added span around "N" and text-red class */}
+          </a> {/* Added me-4 for margin */}
+        </div>
 
-    
-    
-    <div id="layoutSidenav">
-      
-    <div id="layoutSidenav_nav">
-    
-      
-      <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-        <div className="sb-sidenav-menu">
-          <div className="nav-link">
-        
-            <div className="sb-nav-link-icon">
-              <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} />
-              <button
-                onClick={() => { window.location.href = '/vehicle/create' }}
-                style={styles.navButton}
-              >
-                Add Vehicle
-              </button>
-              <button
-                onClick={() => { window.location.href = '/vehicle/dashboard' }}
-                style={styles.navButton}
-              >
-                All Vehicles
-              </button>
-              <button
-                onClick={() => { window.location.href = '/ServiceHistory/create' }}
-                style={styles.navButton}
-              >
-                Add History
-              </button>
-              <button
-                onClick={() => { window.location.href = '/ServiceHistory' }}
-                style={styles.navButton}
-              >
-                View History
-              </button>
-              <div
-                style={styles.navButton}
-              >
-                {/* <VehicleReport filteredVehicles={filteredVehicles} /> */}
+        {/* Main Navigation Links */}
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item active">
+            <Link className="nav-link" to="/" style={{ color: 'white' }}>Home</Link> {/* Set font color to white */}
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/cLogin" style={{ color: 'white' }}>Login</Link> {/* Set font color to white */}
+          </li>
+          {/* <li className="nav-item">
+            <Link to="/service" className="nav-link text-blue-500 hover:underline">Services</Link>
+          </li> */}
+          <li className="nav-item">
+            <Link className="nav-link" to="/package" style={{ color: 'white' }}>Package</Link> {/* Set font color to white */}
+          </li>
+        </ul>
+
+        {/* User Dropdown */}
+        <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+          <li className="nav-item dropdown">
+            <a className="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i className="fas fa-user fa-fw"></i></a>
+            <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <li><a className="dropdown-item" href="#">Settings</a></li>
+              <li><a className="dropdown-item" href="#">Activity Log</a></li>
+              <li><hr className="dropdown-divider" /></li>
+              <li><a className="dropdown-item" href="#">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <div id="layoutSidenav">
+        <nav id="layoutSidenav_nav">
+
+          <div className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div className="sb-sidenav-menu">
+              <div className="nav-link">
+                <div className="sb-nav-link-icon">
+                  {/* <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} /> */}
+                  <button
+                    onClick={() => { window.location.href = '/vehicle/create' }}
+                    style={styles.navButton}
+                  >
+                    Add Vehicle
+                  </button>
+                  <button
+                    onClick={() => { window.location.href = '/vehicle/dashboard' }}
+                    style={styles.navButton}
+                  >
+                    All Vehicles
+                  </button>
+                  <button
+                    onClick={() => { window.location.href = '/ServiceHistory/create' }}
+                    style={styles.navButton}
+                  >
+                    Add History
+                  </button>
+                  <button
+                    onClick={() => { window.location.href = '/ServiceHistory' }}
+                    style={styles.navButton}
+                  >
+                    View History
+                  </button>
+                  <div
+                    style={styles.navButton}
+                  >
+                    {/* <VehicleReport filteredVehicles={filteredVehicles} /> */}
+                  </div>
+                </div>
               </div>
             </div>
+            <div className="sb-sidenav-footer">
+              <div className="small">Logged in as:</div>
+              Operation manager
+            </div>
           </div>
+        </nav>
+
+        <div id="layoutSidenav_content">
+          <h1 className='text-3xl my-4'>Show Customer</h1>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
+              <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>Customer Number</span>
+                <span>{customer._id}</span>
+              </div>
+              <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>First Name</span>
+                <span>{customer.firstName}</span>
+              </div>
+              <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>Last Name</span>
+                <span>{customer.lastName}</span>
+              </div>
+              <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>NIC</span>
+                <span>{customer.NIC}</span>
+              </div>
+              <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>Phone</span>
+                <span>{customer.phone}</span>
+              </div>
+              <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>Email</span>
+                <span>{customer.email}</span>
+              </div>
+              <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>Username</span>
+                <span>{customer.username}</span>
+              </div>
+              <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>Password</span>
+                <span>{customer.password}</span>
+              </div>
+              <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>Create Time</span>
+                <span>{new Date(customer.createdAt).toString()}</span>
+              </div>
+              <div className='my-4'>
+                <span className='text-xl mr-4 text-gray-500'>Last Update Time</span>
+                <span>{new Date(customer.updatedAt).toString()}</span>
+              </div>
+
+              {bookings.length > 0 ? (
+                <div>
+                  <h2 className='text-2xl my-4'>Bookings</h2>
+                  <table style={styles.table}>
+                    <thead>
+                      <tr style={styles.tableHead}>
+                        <th style={styles.tableHeader}>Service Date</th>
+                        <th style={styles.tableHeader}>Customer Name</th>
+                        <th style={styles.tableHeader}>Vehicle Type</th>
+                        <th style={styles.tableHeader}>Vehicle Number</th>
+                        <th style={styles.tableHeader}>Contact Number</th>
+                        <th style={styles.tableHeader}>Email</th>
+                        <th style={styles.tableHeader}>Booking Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bookings.map((booking, index) => (
+                        <tr key={index} style={index % 2 === 0 ? styles.tableRowEven : styles.tableRowOdd}>
+                          <td style={styles.tableCell}>{booking.Booking_Date}</td>
+                          <td style={styles.tableCell}>{booking.Customer_Name}</td>
+                          <td style={styles.tableCell}>{booking.Vehicle_Type}</td>
+                          <td style={styles.tableCell}>{booking.Vehicle_Number}</td>
+                          <td style={styles.tableCell}>{booking.Contact_Number}</td>
+                          <td style={styles.tableCell}>{booking.Email}</td>
+                          <td style={styles.tableCell}>{booking.Booking_Date}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p>No bookings available for this customer.</p>
+              )}
+
+              {payments.length > 0 ? (
+                <div>
+                  <h2 className='text-2xl my-4'>Payments</h2>
+                  <table style={styles.table}>
+                    <thead>
+                      <tr style={styles.tableHead}>
+                        <th style={styles.tableHeader}>Payment ID</th>
+                        <th style={styles.tableHeader}>Date</th>
+                        <th style={styles.tableHeader}>Total Amount</th>
+                        <th style={styles.tableHeader}>Payment Method</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {payments.map((payment, index) => (
+                        <tr key={index} style={index % 2 === 0 ? styles.tableRowEven : styles.tableRowOdd}>
+                          <td style={styles.tableCell}>{payment.PaymentId}</td>
+                          <td style={styles.tableCell}>{payment.PaymentDate}</td>
+                          <td style={styles.tableCell}>{payment.totalAmount}</td>
+                          <td style={styles.tableCell}>{payment.PaymentMethod}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p>No payment history available for this customer.</p>
+              )}
+
+              {vehicles.length > 0 ? (
+                <div>
+                  <h2 className='text-2xl my-4'>Vehicles</h2>
+                  <table style={styles.table}>
+                    <thead>
+                      <tr style={styles.tableHead}>
+                        <th style={styles.tableHeader}>Vehicle Number</th>
+                        <th style={styles.tableHeader}>Vehicle Make</th>
+                        <th style={styles.tableHeader}>Vehicle Model</th>
+                        <th style={styles.tableHeader}>Vehicle Year</th>
+                        <th style={styles.tableHeader}>Engine Details</th>
+                        <th style={styles.tableHeader}>Transmission Details</th>
+                        <th style={styles.tableHeader}>Vehicle Color</th>
+                        <th style={styles.tableHeader}>Vehicle Features</th>
+                        <th style={styles.tableHeader}>Condition Assessment</th>
+                        <th style={styles.tableHeader}>Vehicle Owner</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {vehicles.map((vehicle, index) => (
+                        <tr key={index} style={index % 2 === 0 ? styles.tableRowEven : styles.tableRowOdd}>
+                          <td style={styles.tableCell}>{vehicle.Register_Number}</td>
+                          <td style={styles.tableCell}>{vehicle.Make}</td>
+                          <td style={styles.tableCell}>{vehicle.Model}</td>
+                          <td style={styles.tableCell}>{vehicle.Year}</td>
+                          <td style={styles.tableCell}>{vehicle.Engine_Details}</td>
+                          <td style={styles.tableCell}>{vehicle.Transmission_Details}</td>
+                          <td style={styles.tableCell}>{vehicle.Vehicle_Color}</td>
+                          <td style={styles.tableCell}>{vehicle.Vehicle_Features.join(', ')}</td>
+                          <td style={styles.tableCell}>{vehicle.Condition_Assessment}</td>
+                          <td style={styles.tableCell}>{vehicle.Owner}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p>No vehicle detail available for this customer.</p>
+              )}
+
+              {serviceHistories.length > 0 ? (
+                <div>
+                  <h2 className='text-2xl my-4'>Service Histories</h2>
+                  <table style={styles.table}>
+                    <thead>
+                      <tr style={styles.tableHead}>
+                        <th style={styles.tableHeader}>Customer Name</th>
+                        <th style={styles.tableHeader}>Allocated Employee</th>
+                        <th style={styles.tableHeader}>Vehicle Number</th>
+                        <th style={styles.tableHeader}>Service History</th>
+                        <th style={styles.tableHeader}>Service Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {serviceHistories.map((service, index) => (
+                        <tr key={index} style={index % 2 === 0 ? styles.tableRowEven : styles.tableRowOdd}>
+                          <td style={styles.tableCell}>{service.Customer_Name}</td>
+                          <td style={styles.tableCell}>{service.Allocated_Employee}</td>
+                          <td style={styles.tableCell}>{service.Vehicle_Number}</td>
+                          <td style={styles.tableCell}>{service.Service_History}</td>
+                          <td style={styles.tableCell}>{service.Service_Date}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p>No service details available for this customer.</p>
+              )}
+
+              {feedback.length > 0 ? (
+                <div>
+                  <h2 className='text-2xl my-4'>Feedback</h2>
+                  <table style={styles.table}>
+                    <thead>
+                      <tr style={styles.tableHead}>
+                        <th style={styles.tableHeader}>Customer ID:</th>
+                        <th style={styles.tableHeader}>Name:</th>
+                        <th style={styles.tableHeader}>Email:</th>
+                        <th style={styles.tableHeader}>Message:</th>
+                        <th style={styles.tableHeader}>Phone Number:</th>
+                        <th style={styles.tableHeader}>Employee:</th>
+                        <th style={styles.tableHeader}>Star Rating:</th>
+                        <th style={styles.tableHeader}>Date of Service:</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {feedback.map((feedback, index) => (
+                        <tr key={index} style={index % 2 === 0 ? styles.tableRowEven : styles.tableRowOdd}>
+                          <td style={styles.tableCell}>{feedback.cusID}</td>
+                          <td style={styles.tableCell}>{feedback.name}</td>
+                          <td style={styles.tableCell}>{feedback.email}</td>
+                          <td style={styles.tableCell}>{feedback.message}</td>
+                          <td style={styles.tableCell}>{feedback.phone_number}</td>
+                          <td style={styles.tableCell}>{feedback.employee}</td>
+                          <td style={styles.tableCell}>{feedback.star_rating}</td>
+                          <td style={styles.tableCell}>{feedback.date_of_service}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p>No feedback details available for this customer.</p>
+              )}
+
+            </div>
+          )}
         </div>
-        <div className="sb-sidenav-footer">
-          <div className="small">Logged in as:</div>
-          Operation manager
-        </div>
-      </nav>
-    </div>
-    <div id="layoutSidenav_content">
-      <h1 className='text-3xl my-4'>Show Customer</h1>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Customer Number</span>
-            <span>{customer._id}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>First Name</span>
-            <span>{customer.firstName}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Last Name</span>
-            <span>{customer.lastName}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>NIC</span>
-            <span>{customer.NIC}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Phone</span>
-            <span>{customer.phone}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Email</span>
-            <span>{customer.email}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Username</span>
-            <span>{customer.username}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Password</span>
-            <span>{customer.password}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Create Time</span>
-            <span>{new Date(customer.createdAt).toString()}</span>
-          </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Last Update Time</span>
-            <span>{new Date(customer.updatedAt).toString()}</span>
-          </div>
-
-          {bookings.length > 0 ? (
-            <div>
-              <h2 className='text-2xl my-4'>Bookings</h2>
-              <table className='table'>
-                <thead>
-                  <tr>
-                    <th>Service Date</th>
-                    <th>Customer Name</th>
-                    <th>Vehicle Type</th>
-                    <th>Vehicle Number</th>
-                    <th>Contact Number</th>
-                    <th>Email</th>
-                    <th>Booking Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookings.map((booking, index) => (
-                    <tr key={index}>
-                      <td>{booking.Booking_Date}</td>
-                      <td>{booking.Customer_Name}</td>
-                      <td>{booking.Vehicle_Type}</td>
-                      <td>{booking.Vehicle_Number}</td>
-                      <td>{booking.Contact_Number}</td>
-                      <td>{booking.Email}</td>
-                      <td>{booking.Booking_Date}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p>No bookings available for this customer.</p>
-          )}
-
-          {payments.length > 0 ? (
-            <div>
-              <h2 className='text-2xl my-4'>Payments</h2>
-              <table className='table'>
-                <thead>
-                  <tr>
-                    <th>Payment ID</th>
-                    <th>Date</th>
-                    <th>Total Amount</th>
-                    <th>Payment Method</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {payments.map((payment, index) => (
-                    <tr key={index}>
-                      <td>{payment.PaymentId}</td>
-                      <td>{payment.PaymentDate}</td>
-                      <td>{payment.totalAmount}</td>
-                      <td>{payment.PaymentMethod}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p>No payment history available for this customer.</p>
-          )}
-
-          {vehicles.length > 0 ? (
-            <div>
-              <h2 className='text-2xl my-4'>Vehicles</h2>
-              <table className='table'>
-                <thead>
-                  <tr>
-                    <th>Vehicle Number</th>
-                    <th>Vehicle Make</th>
-                    <th>Vehicle Model</th>
-                    <th>Vehicle Year</th>
-                    <th>Engine Details</th>
-                    <th>Transmission Details</th>
-                    <th>Vehicle Color</th>
-                    <th>Vehicle Features</th>
-                    <th>Condition Assessment</th>
-                    <th>Vehicle Owner</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {vehicles.map((vehicle, index) => (
-                    <tr key={index}>
-                      <td>{vehicle.Register_Number}</td>
-                      <td>{vehicle.Make}</td>
-                      <td>{vehicle.Model}</td>
-                      <td>{vehicle.Year}</td>
-                      <td>{vehicle.Engine_Details}</td>
-                      <td>{vehicle.Transmission_Details}</td>
-                      <td>{vehicle.Vehicle_Color}</td>
-                      <td>{vehicle.Vehicle_Features.join(', ')}</td>
-                      <td>{vehicle.Condition_Assessment}</td>
-                      <td>{vehicle.Owner}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p>No vehicle detail available for this customer.</p>
-          )}
-
-          {serviceHistories.length > 0 ? (
-            <div>
-              <h2 className='text-2xl my-4'>Service Histories</h2>
-              <table className='table'>
-                <thead>
-                  <tr>
-                    <th>Customer Name</th>
-                    <th>Allocated Employee</th>
-                    <th>Vehicle Number</th>
-                    <th>Service History</th>
-                    <th>Service Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {serviceHistories.map((service, index) => (
-                    <tr key={index}>
-                      <td>{service.Customer_Name}</td>
-                      <td>{service.Allocated_Employee}</td>
-                      <td>{service.Vehicle_Number}</td>
-                      <td>{service.Service_History}</td>
-                      <td>{service.Service_Date}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p>No service details available for this customer.</p>
-          )}
-
-{feedback.length > 0 ? (
-            <div>
-              <h2 className='text-2xl my-4'>Feedback</h2>
-              <table className='table'>
-                <thead>
-                  <tr>
-                  <th>Customer ID:</th>
-                    <th>Name:</th>
-                    <th>Email:</th>
-                    <th>Message:</th>
-                    <th>Phone Number:</th>
-                    <th>Employee:</th>
-                    <th>Star Rating:</th>
-                    <th>Date of Service:</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {feedback.map((feedback, index) => (
-                    <tr key={index}>
-                       <td>{feedback.cusID}</td>
-                      <td>{feedback.name}</td>
-                      <td>{feedback.email}</td>
-                      <td>{feedback.message}</td>
-                      <td>{feedback.phone_number}</td>
-                      <td>{feedback.employee}</td>
-                      <td>{feedback.star_rating}</td>
-                      <td>{feedback.date_of_service}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p>No feedback details available for this customer.</p>
-          )}
-
-
-        </div>
-      )}
       </div>
     </div>
-    </div>
-    
   );
 };
 
