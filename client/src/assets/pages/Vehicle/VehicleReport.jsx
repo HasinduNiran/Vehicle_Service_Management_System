@@ -103,7 +103,7 @@ export default function PackageReport({filteredVehicles}) {
           }}
           className="btn2"
         >
-          Generate report
+          Report
         </button>
       </div>
     </div>

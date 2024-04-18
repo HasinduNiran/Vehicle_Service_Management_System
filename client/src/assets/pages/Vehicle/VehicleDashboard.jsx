@@ -7,7 +7,6 @@ import logo from '../../images/logo.jpg';
 import VehicleReport from './VehicleReport';
 import backgroundImage from '../../images/t.jpg';
 
-
 const VDashboard = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -63,9 +62,90 @@ const VDashboard = () => {
   // Move the declaration of filteredVehicles here
   const filteredVehicles = vehicles.filter(applySearchFilter);
 
+  const styles = {
+    container: {
+      color: 'black',
+      border: '3px solid white',
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    },
+    navButton: {
+      backgroundColor: 'red',
+      color: 'white',
+      padding: '0.8rem 3rem',
+      borderRadius: '5px',
+      width: '220px',
+      textDecoration: 'none',
+      height: '50px',
+      marginTop: '15px'
+    },
+    logo: {
+      width: '100%',
+      height: '200px',
+      border: '2px solid red'
+    },
+    table: {
+      width: '300px',
+      margin: '0 auto',
+      padding: '20px',
+      background: 'lightgray',
+      borderRadius: '10px',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',
+      fontFamily: 'Arial, sans-serif',
+      color: '#fff',
+      background: '#1f1f1f'
+    }, table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+    },
+    tableHead: {
+      background: '#333',
+      color: 'red',
+      textAlign: 'center',
+      // border: '1px solid red',
+
+
+    },
+    tableHeader: {
+      padding: '10px',
+      textAlign: 'left',
+      color: 'red',
+      border: '1px solid red',
+    },
+    tableRowEven: {
+      background: '#2f2f2f',
+    },
+    tableRowOdd: {
+      background: '#1f1f1f',
+    },
+    tableCell: {
+      padding: '10px',
+      textAlign: 'left',
+      borderLeft: '1px solid red', // Adding left border
+      borderRight: '1px solid red',
+      background: '#1f1f1f',
+      color: 'white',
+    },
+    subHeading: {
+     
+      marginTop: '20px',
+      fontSize: '2 rem',
+      fontWeight: 'bold',
+      marginBottom: '20px',
+ 
+      color: '#fff',
+      textAlign: 'center',
+     
+    
+      textTransform: 'uppercase',
+    },
+  };
+
   return (
-    <div>
-      <h1>Vehicle Dashboard</h1>
+    
+    <div style={styles.container}>
+      
       <div className="sb-nav-fixed">
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
           <a className="navbar-brand ps-3" href="/">Nadeeka Auto Care</a>
@@ -93,86 +173,35 @@ const VDashboard = () => {
               <div className="sb-sidenav-menu">
                 <div className="nav-link">
                   <div className="sb-nav-link-icon">
-                    <img src={logo} alt="Nadeeka Auto Logo" style={{ width: '100%', height: '200px', border: '2px solid red' }} />
+                    <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} />
                     <button
-                      className='bg-red-700 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded border-none cursor-pointer'
                       onClick={() => { window.location.href = '/vehicle/create' }}
-                      style={{
-                        backgroundColor: 'red',
-                        color: 'white',
-                        padding: '0.8rem 3rem',
-                        borderRadius: '5px',
-                        width: '220px',
-                        textDecoration: 'none',
-                        height: '50px',
-                        marginTop: '15px'
-                      }}
+                      style={styles.navButton}
                     >
                       Add Vehicle
                     </button>
                     <button
-                      className='bg-red-700 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded border-none cursor-pointer'
                       onClick={() => { window.location.href = '/vehicle/dashboard' }}
-                      style={{
-                        backgroundColor: 'red',
-                        color: 'white',
-                        padding: '0.8rem 3rem',
-                        borderRadius: '5px',
-                        width: '220px',
-                        textDecoration: 'none',
-                        height: '50px',
-                        marginTop: '15px'
-                      }}
+                      style={styles.navButton}
                     >
                       All Vehicles
                     </button>
                     <button
-                      className='bg-red-700 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded border-none cursor-pointer'
                       onClick={() => { window.location.href = '/ServiceHistory/create' }}
-                      style={{
-                        backgroundColor: 'red',
-                        color: 'white',
-                        padding: '0.8rem 3rem',
-                        borderRadius: '5px',
-                        width: '220px',
-                        textDecoration: 'none',
-                        height: '50px',
-                        marginTop: '15px'
-                      }}
+                      style={styles.navButton}
                     >
-                      Add Service History
+                      Add History
                     </button>
                     <button
-                      className='bg-red-700 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded border-none cursor-pointer'
                       onClick={() => { window.location.href = '/ServiceHistory' }}
-                      style={{
-                        backgroundColor: 'red',
-                        color: 'white',
-                        padding: '0.8rem 3rem',
-                        borderRadius: '5px',
-                        width: '220px',
-                        textDecoration: 'none',
-                        height: '50px',
-                        marginTop: '15px'
-                      }}
+                      style={styles.navButton}
                     >
-                      View Service History
+                      View History
                     </button>
                     <div
-                      className='bg-red-700 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded border-none cursor-pointer'
-
-                      style={{
-                        backgroundColor: 'red',
-                        color: 'white',
-                        padding: '0.8rem 3rem',
-                        borderRadius: '5px',
-                        width: '220px',
-                        textDecoration: 'none',
-                        height: '50px',
-                        marginTop: '15px'
-                      }}
+                      style={styles.navButton}
                     >
-                      <VehicleReport  filteredVehicles= {filteredVehicles}/>
+                      <VehicleReport filteredVehicles={filteredVehicles} />
                     </div>
                   </div>
                 </div>
@@ -185,49 +214,46 @@ const VDashboard = () => {
           </div>
           <div id="layoutSidenav_content">
             <main>
-              <div className="container-fluid px-4">
-                <h1 className="mt-4">Vehicle Dashboard</h1>
-                <div className="card mb-4">
-                  <div className="card-header">
+              <div className="">
+              <h1  style={styles.subHeading}>Vehicle Dashboard</h1>
+                <div className="">
+                  {/* <div className="card-header">
                     <i className="fas fa-table me-1"></i>
                     Vehicle Details
-                  </div>
-                  <div className='table-responsive' ref={componentRef}>
-                  <table className='table table-bordered table-hover styled-table' style={{ color: 'black', backgroundColor: 'lightgrey', border: '3px solid black' ,backgroundImage: `url(${backgroundImage})`, // Apply background image
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',}}>
-
-                      <thead>
+                  </div> */}
+                  <div className='' ref={componentRef}>
+                    <table className='' style={styles.table}>
+                      <thead style={styles.tableHead}>
                         <tr>
-                          <th className='text-xl mr-4'>Register Number</th>
-                          <th className='text-xl mr-4'>Brand</th>
-                          <th className='text-xl mr-4'>Model</th>
-                          <th className='text-xl mr-4'>Year</th>
-                          <th className='text-xl mr-4'>Engine details</th>
-                          <th className='text-xl mr-4'>Fuel Type</th>
-                          <th className='text-xl mr-4'>Transmission</th>
-                          <th className='text-xl mr-4'>Color</th>
-                          <th className='text-xl mr-4'>Features</th>
-                          <th className='text-xl mr-4'>Condition</th>
-                          <th className='text-xl mr-4'>Owner</th>
-                          <th className='text-xl mr-4'>Actions</th>
+                          <th style={styles.tableHeader}>Register Number</th>
+                          <th style={styles.tableHeader}>Brand</th>
+                          <th style={styles.tableHeader}>Model</th>
+                          <th style={styles.tableHeader}>Year</th>
+                          <th style={styles.tableHeader}>Engine details</th>
+                          <th style={styles.tableHeader}>Fuel Type</th>
+                          <th style={styles.tableHeader}>Transmission</th>
+                          <th style={styles.tableHeader}>Color</th>
+                          <th style={styles.tableHeader}>Features</th>
+                          <th style={styles.tableHeader}>Condition</th>
+                          <th style={styles.tableHeader}>Owner</th>
+                          <th style={styles.tableHeader}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {filteredVehicles.map((vehicle) => (
                           <tr key={vehicle._id}>
-                            <td>{vehicle.Register_Number}</td>
-                            <td>{vehicle.Make}</td>
-                            <td>{vehicle.Model}</td>
-                            <td>{vehicle.Year}</td>
-                            <td>{vehicle.Engine_Details}</td>
-                            <td>{vehicle.Fuel_Type}</td>
-                            <td>{vehicle.Transmission_Details}</td>
-                            <td>{vehicle.Vehicle_Color}</td>
-                            <td>{vehicle.Vehicle_Features}</td>
-                            <td>{vehicle.Condition_Assessment}</td>
-                            <td>{vehicle.Owner}</td>
-                            <td>
+                            <td style={styles.tableCell}>{vehicle.Register_Number}</td>
+                            <td style={styles.tableCell}>{vehicle.Make}</td>
+                            <td style={styles.tableCell}>{vehicle.Model}</td>
+                            <td style={styles.tableCell}>{vehicle.Year}</td>
+                            <td style={styles.tableCell}>{vehicle.Engine_Details}</td>
+                            <td style={styles.tableCell}>{vehicle.Fuel_Type}</td>
+                            <td style={styles.tableCell}>{vehicle.Transmission_Details}</td>
+                            <td style={styles.tableCell}>{vehicle.Vehicle_Color}</td>
+                            <td style={styles.tableCell}>{vehicle.Vehicle_Features}</td>
+                            <td style={styles.tableCell}>{vehicle.Condition_Assessment}</td>
+                            <td style={styles.tableCell}>{vehicle.Owner}</td>
+                            <td style={styles.tableCell}>
                               <Link to={`/vehicle/edit/${vehicle._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
                               <Link to={`/vehicle/get/${vehicle.Register_Number}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>View</Link>
                               <Link to={`/vehicle/delete/${vehicle._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
