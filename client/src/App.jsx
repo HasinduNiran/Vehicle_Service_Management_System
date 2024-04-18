@@ -102,6 +102,7 @@ import ReadOneServiceHistory from './assets/pages/ServiceHistory/ReadOneServiceH
 
 
 import Dashboard from './assets/pages/dashboard/dashboard';
+import ServiceHistoryDashboard from './assets/pages/ServiceHistory/ServiceHistoryDashboard';
 
 import CusDashboard from './assets/pages/customerDashBoard/cusDashboard'; 
 import VDashboard from './assets/pages/Vehicle/VehicleDashboard';
@@ -212,6 +213,7 @@ const App = () => {
         <Route path='/ServiceHistory/edit/:id' element={<EditServiceHistory />}></Route>
         <Route path='/ServiceHistory/delete/:id' element={<DeleteServiceHistory />}></Route>
         <Route path='/ServiceHistory/get/:id' element={<ReadOneServiceHistory />}></Route>
+        <Route path='/ServiceHistory/dashboard' element={<ServiceHistoryDashboard />}></Route>
 
         <Route path='/Servic' element={<ShowService />}></Route>
         <Route path='/Service/create' element={<CreateService />}></Route>

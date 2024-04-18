@@ -4,8 +4,9 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import logo from '../../images/logo.jpg';
-import VehicleReport from './VehicleReport';
+
 import backgroundImage from '../../images/t.jpg';
+import SidebarV from '../../components/SidebarV';
 
 const VDashboard = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -196,7 +197,7 @@ const VDashboard = () => {
                       onClick={() => { window.location.href = '/ServiceHistory' }}
                       style={styles.navButton}
                     >
-                      View Service History
+                      View History
                     </button>
                     <div
                       style={styles.navButton}
