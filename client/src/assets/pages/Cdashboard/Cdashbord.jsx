@@ -7,22 +7,25 @@ import '../../css/dasboard.css';
 const Cdashboard = () => {
     const [customer, setCustomer] = useState({});
     const [loading, setLoading] = useState(false);
-    const { cusID } = useParams(); // Get cusID from the URL
+    const { cusID } = useParams();
 
     useEffect(() => {
-        setLoading(true);
-        // Fetch customer data based on cusID
-        axios
-          .get(`http://localhost:8076/customer/${cusID}`)
-          .then((response) => {
-            setCustomer(response.data.data);
-            setLoading(false);
-          })
-          .catch((error) => {
-            console.log(error.message);
-            setLoading(false);
-          });
+        const fetchCustomerData = async () => {
+            setLoading(true);
+            try {
+                const customerResponse = await axios.get(`http://localhost:8076/customer/${cusID}`);
+                setCustomer(customerResponse.data.data);
+                setLoading(false);
+            } catch (error) {
+                console.log(error.message);
+                setLoading(false);
+            }
+        };
+
+        fetchCustomerData();
     }, [cusID]); // Re-run effect when cusID changes
+
+    
 
     return (
         <div>
@@ -125,28 +128,29 @@ const Cdashboard = () => {
                                 <ol className="breadcrumb mb-4">
                                     <li className="breadcrumb-item active">Dashboard</li>
                                 </ol>
+                                
                                 <div className="row">
                                     <div className="col-xl-3 col-md-6">
                                         <div className="card bg-primary text-white mb-4">
-                                            <div className="card-body">Primary Card</div>
+                                            <div className="card-body">VEHICLE DETAILS</div>
                                             <div className="card-footer d-flex align-items-center justify-content-between">
-                                                <Link to="/customer-profile" className="small text-white stretched-link">View Profile</Link>
+                                                <Link to={`/CVehicleDetails/${customer.cusID}`} className="small text-white stretched-link">View Details</Link>
                                                 <div className="small text-white"><i className="fas fa-angle-right"></i></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-xl-3 col-md-6">
                                         <div className="card bg-warning text-white mb-4">
-                                            <div className="card-body">Warning Card</div>
+                                            <div className="card-body">SERVICE HISTORY</div>
                                             <div className="card-footer d-flex align-items-center justify-content-between">
-                                                <a className="small text-white stretched-link" href="#">View Details</a>
+                                                <Link to="/CVehicleDetails" className="small text-white stretched-link">View Details</Link>
                                                 <div className="small text-white"><i className="fas fa-angle-right"></i></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-xl-3 col-md-6">
                                         <div className="card bg-success text-white mb-4">
-                                            <div className="card-body">Success Card</div>
+                                            <div className="card-body">PAYMENT DETAILS</div>
                                             <div className="card-footer d-flex align-items-center justify-content-between">
                                                 <a className="small text-white stretched-link" href="#">View Details</a>
                                                 <div className="small text-white"><i className="fas fa-angle-right"></i></div>
@@ -155,7 +159,7 @@ const Cdashboard = () => {
                                     </div>
                                     <div className="col-xl-3 col-md-6">
                                         <div className="card bg-danger text-white mb-4">
-                                            <div className="card-body">Danger Card</div>
+                                            <div className="card-body">FEEDBACK</div>
                                             <div className="card-footer d-flex align-items-center justify-content-between">
                                                 <a className="small text-white stretched-link" href="#">View Details</a>
                                                 <div className="small text-white"><i className="fas fa-angle-right"></i></div>
@@ -163,29 +167,34 @@ const Cdashboard = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="col-xl-6">
-                                        <div className="card mb-4">
-                                            <div className="card-header">
-                                                <i className="fas fa-chart-area me-1"></i>
-                                                Area Chart Example
-                                            </div>
-                                            <div className="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-                                        </div>
+                                
+                                {/* Buttons Section */}
+                                <div className="row mt-4">
+                                    <div className="col-md-6">
+                                        <Link to={`/create/${customer.cusID}`}>
+                                            <button className="btn btn-primary btn-block">Book Now</button>
+                                        </Link>
                                     </div>
-                                    <div className="col-xl-6">
-                                        <div className="card mb-4">
-                                            <div className="card-header">
-                                                <i className="fas fa-chart-bar me-1"></i>
-                                                Bar Chart Example
-                                            </div>
-                                            <div className="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                                        </div>
+                                    <div className="col-md-6">
+                                        <Link to={`/feedback/create/${customer.cusID}`}>
+                                            <button className="btn btn-secondary btn-block">Feedback</button>
+                                        </Link>
                                     </div>
                                 </div>
+
                                 <div className="card mb-4">
                                     <div className='table-responsive'>
                                         {/* Your table JSX */}
+                                    </div>
+                                </div>
+                                
+                                {/* Button to navigate to ReadOneCustomer */}
+                                <div className="row mt-4">
+                                    <div className="col-md-12">
+                                    <Link to={`/customer/get/${customer.cusID}`}>
+
+                                            <button className="btn btn-primary btn-block">View ReadOneCustomer</button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

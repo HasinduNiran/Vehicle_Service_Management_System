@@ -113,6 +113,8 @@ import CLogin from './assets/components/cLogin';
 import ManagerLogin from './assets/components/ManagerLogin';
 import Header from './assets/components/Header';
 
+import CVehicleDetails from './assets/pages/Customer/CVehicleDetails';
+
 const App = () => {
   return (
 
@@ -372,7 +374,7 @@ const App = () => {
       <Route path='/ServiceHistory/get/:id' element={<ReadOneServiceHistory/>}></Route>
     
       <Route path='/dashboard' element={<Dashboard/>}></Route>  
-      <Route path='/Cdashboard:id' element={<Cdashboard/>}></Route>
+      <Route path='/Cdashboard/:id' element={<Cdashboard/>}></Route>
       
 
       <Route path='/Servic' element={<ShowService />}></Route>
@@ -397,6 +399,8 @@ const App = () => {
   
     <Route path='/cusDashboard' element={<CusDashboard/>}></Route>
     <Route path='/cLogin' element={<CLogin/>}></Route>'
+
+    <Route path='/CVehicleDetails/:id' element={<CVehicleDetails/>}></Route>
 
       </Routes>
     </>
