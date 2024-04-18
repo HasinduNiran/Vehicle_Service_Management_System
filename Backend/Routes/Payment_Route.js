@@ -15,10 +15,14 @@ router.post('/', async (request, response) => {
       !request.body.PaymentDate ||
       !request.body.totalAmount ||
       !request.body.PaymentMethod||
-      !request.body.Booking_Id
+      !request.body.Booking_Id||
+      !request.body.Package||
+      !request.body.selectedServices||
+      !request.body.Pamount||
+      !request.body.Samount
     ) {
       return response.status(400).send({
-        message: 'Send all required fields:PaymentId,cusID,PaymentDate,totalAmount,PaymentMethod',
+        message: 'Send all required fields:PaymentId,Package,cusID,PaymentDate,totalAmount,PaymentMethod',
       });
     }
     const newPayment = {
@@ -28,7 +32,11 @@ router.post('/', async (request, response) => {
       PaymentDate: request.body.PaymentDate,
       totalAmount: request.body.totalAmount,
       PaymentMethod: request.body.PaymentMethod,
-      Booking_Id: request.body.Booking_Id
+      Booking_Id: request.body.Booking_Id,
+      Package: request.body.Package,
+      selectedServices: request.body.selectedServices,
+      Pamount: request.body.Pamount,
+      Samount: request.body.Samount
     };
     const payment = await Payment.create(newPayment);
     return response.status(201).send(payment);
@@ -136,7 +144,11 @@ router.put('/:id', async (request, response) => {
       !request.body.PaymentDate ||
       !request.body.totalAmount ||
       !request.body.PaymentMethod||
-      !request.body.Booking_Id
+      !request.body.Booking_Id||
+      !request.body.Package||
+      !request.body.selectedServices||
+      !request.body.Pamount||
+      !request.body.Samount
     ) {
       return response.status(400).send({
         message: 'Send all required fields:PaymentId,cusID,PaymentDate,totalAmount,PaymentMethod',

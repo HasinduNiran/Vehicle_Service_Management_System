@@ -9,26 +9,29 @@ const CreatePayments = () => {
   const [cusID, setCusID] = useState('');
   const [Vehicle_Number, setVehicle_Number] = useState('');
   const [PaymentDate, setPaymentDate] = useState('');
-  const [totalAmount, setTotalAmount] = useState('');
   const [PaymentMethod, setPaymentMethod] = useState('');
   const [Booking_Id, setBooking_Id] = useState('');
+  const [Package, setPackage] = useState('');
+  const [selectedServices, setSelectedServices] = useState('');
+  const [Pamount, setPamount] = useState('');
+  const [Samount, setSamount] = useState('');
   const [Servicehistory, setServiceHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-   //to validation initial value
   const initialValues = {
     PaymentId: '',
     cusID: '',
     Vehicle_Number: '',
     PaymentDate: '',
-    totalAmount: '',
     PaymentMethod: '',
-    Booking_Id: ''
+    Booking_Id: '',
+    Package: '',
+    selectedServices: '',
+    Pamount: '',
+    Samount: ''
   };
 
-
-//validation
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -37,7 +40,7 @@ const CreatePayments = () => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     setFormErrors(validate(formValues));
@@ -55,9 +58,9 @@ const CreatePayments = () => {
     if (!values.PaymentId) {
       errors.PaymentId = "PaymentId is required!";
     }
-    if (!values.cusID) {
-      errors.cusID = "Customer ID is required!";
-    }
+    // if (!values.cusID) {
+    //   errors.cusID = "Customer ID is required!";
+    // }
     if (!values.Booking_Id) {
       errors.Booking_Id = "Service ID is required!";
     }
@@ -66,25 +69,28 @@ const CreatePayments = () => {
     }
     if (!values.PaymentDate) {
       errors.PaymentDate = "Payment Date is required!";
-    }
-    if (!values.totalAmount) {
-      errors.totalAmount = "Total Amount is required!";
-    }
+     }
+    // if (!values.totalAmount) {
+    //   errors.totalAmount = "Total Amount is required!";
+    // }
     if (!values.PaymentMethod) {
       errors.PaymentMethod = "Payment Method is required!";
     }
+    if (!values.Package) {
+      errors.Package = "Package is required!";
+    }
+    // if (!values.selectedServices) {
+    //   errors.selectedServices = "Service is required!";
+    // }
     return errors;
   };
-   
 
-  //to get the service data
-  const [selectedService, setSelectedService] = useState({
-    Booking_Id: '',
-    Vehicle_Number: ''
-  });
+  const calculateTotalAmount = () => {
+    return (parseFloat(formValues.Pamount) || 0) + (parseFloat(formValues.Samount) || 0);
+  };
 
+  const totalAmount = calculateTotalAmount();
 
-  //save the payment details
   const handleSavePayment = () => {
     const data = {
       PaymentId: formValues.PaymentId,
@@ -92,10 +98,13 @@ const CreatePayments = () => {
       Booking_Id: formValues.Booking_Id,
       Vehicle_Number: formValues.Vehicle_Number,
       PaymentDate: formValues.PaymentDate,
-      totalAmount: formValues.totalAmount,
+      totalAmount: totalAmount, // Use the calculated total amount here
       PaymentMethod: formValues.PaymentMethod,
+      Package: formValues.Package,
+      selectedServices: formValues.selectedServices,
+      Pamount: formValues.Pamount,
+      Samount: formValues.Samount
     };
-
 
     setLoading(true);
     axios
@@ -110,8 +119,6 @@ const CreatePayments = () => {
       });
   };
 
-
-//call service history
   useEffect(() => {
     setLoading(true);
     axios
@@ -125,31 +132,40 @@ const CreatePayments = () => {
       });
   }, []);
 
-
-//to display one after entering another
-
   const handleServiceIdChange = (e) => {
     const selectedBooking_Id = e.target.value;
-    const selectedSr = Servicehistory.find((service) => service.Booking_Id === selectedBooking_Id);
+    const selectedServiceEntry = Servicehistory.find((service) => service.Booking_Id === selectedBooking_Id);
     
-    setSelectedService({
-      ...selectedService,
-      Booking_Id: selectedBooking_Id,
-      Vehicle_Number: selectedSr.Vehicle_Number,
-    });
-    setFormValues({ ...formValues, Booking_Id: selectedBooking_Id, Vehicle_Number: selectedSr.Vehicle_Number });
-  };
-
-  const handleVehicleNumberChange = (e) => {
-    const selectedVehicle_Number = e.target.value;
-    const selectedsr = Servicehistory.find((service) => service.Vehicle_Number === selectedVehicle_Number);
+    if (selectedServiceEntry) {
+      setVehicle_Number(selectedServiceEntry.Vehicle_Number);
+      setPackage(selectedServiceEntry.Package);
+      setSelectedServices(selectedServiceEntry.selectedServices);
+      setCusID(selectedServiceEntry.cusID);
     
-    setSelectedService({
-      ...selectedService,
-      Booking_Id: selectedsr.Booking_Id,
-      Vehicle_Number: selectedVehicle_Number,
-    });
-    setFormValues({ ...formValues, Booking_Id: selectedsr.Booking_Id, Vehicle_Number: selectedVehicle_Number });
+      setFormValues({
+        ...formValues,
+        Booking_Id: selectedBooking_Id,
+        Vehicle_Number: selectedServiceEntry.Vehicle_Number,
+        Package: selectedServiceEntry.Package,
+        selectedServices: selectedServiceEntry.selectedServices,
+        cusID: selectedServiceEntry.cusID
+      });
+    } else {
+      setBooking_Id(selectedBooking_Id);
+      setVehicle_Number(''); 
+      setPackage(''); 
+      setSelectedServices('');
+      setCusID('');
+      
+      setFormValues({
+        ...formValues,
+        Booking_Id: selectedBooking_Id,
+        Vehicle_Number: '',
+        Package: '',
+        selectedServices: '',
+        cusID: ''
+      });
+    }
   };
 
   return (
@@ -171,14 +187,20 @@ const CreatePayments = () => {
             {formErrors.PaymentId && <p className='text-red-500'>{formErrors.PaymentId}</p>}
           </div>
           <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Customer id</label>
-            <input
-              type='String'
+            <label className='text-xl mr-4 text-gray-500'>Customer ID</label>
+            <select
               name='cusID'
-              value={formValues.cusID}
-              onChange={handleChange}
               className='border-2 border-gray-500 px-4 py-2 w-full'
-            />
+              value={formValues.cusID}
+              onChange={handleServiceIdChange}
+            >
+              <option value=''>Select Customer ID</option>
+              {Servicehistory.map((service) => (
+                <option key={service._id} value={service.cusID}>
+                  {service.cusID}
+                </option>
+              ))}
+            </select>
             {formErrors.cusID && <p className='text-red-500'>{formErrors.cusID}</p>}
           </div>
           <div className='my-4'>
@@ -204,7 +226,7 @@ const CreatePayments = () => {
               name='Vehicle_Number'
               className='border-2 border-gray-500 px-4 py-2 w-full'
               value={formValues.Vehicle_Number}
-              onChange={handleVehicleNumberChange}
+              onChange={handleServiceIdChange}
             >
               <option value=''>Select Vehicle Number</option>
               {Servicehistory.map((service) => (
@@ -214,6 +236,40 @@ const CreatePayments = () => {
               ))}
             </select>
             {formErrors.Vehicle_Number && <p className='text-red-500'>{formErrors.Vehicle_Number}</p>}
+          </div>
+          <div className='my-4'>
+            <label className='text-xl mr-4 text-gray-500'>Package</label>
+            <select
+              name='Package'
+              className='border-2 border-gray-500 px-4 py-2 w-full'
+              value={formValues.Package}
+              onChange={handleServiceIdChange}
+            >
+              <option value=''>Select Package</option>
+              {Servicehistory.map((service) => (
+                <option key={service._id} value={service.Package}>
+                  {service.Package}
+                </option>
+              ))}
+            </select>
+            {formErrors.Package && <p className='text-red-500'>{formErrors.Package}</p>}
+          </div>
+          <div className='my-4'>
+            <label className='text-xl mr-4 text-gray-500'>Service</label>
+            <select
+              name='selectedServices'
+              className='border-2 border-gray-500 px-4 py-2 w-full'
+              value={formValues.selectedServices}
+              onChange={handleServiceIdChange}
+            >
+              <option value=''>Select Service</option>
+              {Servicehistory.map((service) => (
+                <option key={service._id} value={service.selectedServices}>
+                  {service.selectedServices}
+                </option>
+              ))}
+            </select>
+            {formErrors.selectedServices && <p className='text-red-500'>{formErrors.selectedServices}</p>}
           </div>
           <div className='my-4'>
             <label className='text-xl mr-4 text-gray-500'>Payment Date</label>
@@ -227,16 +283,41 @@ const CreatePayments = () => {
             {formErrors.PaymentDate && <p className='text-red-500'>{formErrors.PaymentDate}</p>}
           </div>
           <div className='my-4'>
+            <label className='text-xl mr-4 text-gray-500'>Package Amount</label>
+            <input
+              type='number'
+              name='Pamount'
+              value={formValues.Pamount}
+              onChange={handleChange}
+              className='border-2 border-gray-500 px-4 py-2 w-full'
+            />
+            {/* {formErrors.totalAmount && <p className='text-red-500'>{formErrors.totalAmount}</p>} */}
+          </div>
+          <div className='my-4'>
+            <label className='text-xl mr-4 text-gray-500'>Service Amount</label>
+            <input
+              type='number'
+              name='Samount'
+              value={formValues.Samount}
+              onChange={handleChange}
+              className='border-2 border-gray-500 px-4 py-2 w-full'
+            />
+            {/* {formErrors.totalAmount && <p className='text-red-500'>{formErrors.totalAmount}</p>} */}
+          </div>
+          <div className='my-4'>
             <label className='text-xl mr-4 text-gray-500'>totalAmount</label>
             <input
               type='number'
               name='totalAmount'
-              value={formValues.totalAmount}
-              onChange={handleChange}
+              value={totalAmount}
+              readOnly // Make the input field read-only to prevent direct user input
               className='border-2 border-gray-500 px-4 py-2 w-full'
             />
-            {formErrors.totalAmount && <p className='text-red-500'>{formErrors.totalAmount}</p>}
           </div>
+
+
+
+
           <div className='my-4'>
             <label className='text-xl mr-4 text-gray-500'>Payment Method</label>
             <select
