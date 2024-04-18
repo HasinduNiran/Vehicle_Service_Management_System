@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
+import Header from '../../components/Header'; 
 
 const ReadOneCustomer = () => {
   const [customer, setCustomer] = useState({});
@@ -132,14 +133,23 @@ const ReadOneCustomer = () => {
   };
 
   return (
+<div className="sb-nav-fixed">
+<nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <Header/>
+    </nav>
+   
+
+    
     
     <div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
       
+    <div id="layoutSidenav_nav">
+    
       
       <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div className="sb-sidenav-menu">
           <div className="nav-link">
+        
             <div className="sb-nav-link-icon">
               <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} />
               <button
@@ -400,6 +410,8 @@ const ReadOneCustomer = () => {
       )}
       </div>
     </div>
+    </div>
+    
   );
 };
 
