@@ -9,16 +9,6 @@ const router = express.Router();
 
 
 
-
-
-
-
-
-
-
-
-
-
 router.post('/', async (request, response) => {
 
 
@@ -34,7 +24,7 @@ try{
 
     const newLimit = {
   
-      BookingLimit : request.body.BookingLimit
+      BookingLimit: request.body.BookingLimit
     };
   
     const bookingLimit = await setLimit.create(newLimit);
@@ -51,14 +41,6 @@ try{
 
 
   });
-
-
-
-
-
-
-
-
 
 
   export default router;

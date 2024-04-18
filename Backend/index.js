@@ -82,7 +82,7 @@ app.use('/PaymentInvoice',PaymentInvoice_Route);
 
 app.use('/Home',ReadOneHome_Route);
 app.use('/EmployeeSalary',EmployeeSalary_Route);
-app.use(('/bookingLimits',BookingLimitRoute));
+app.use('/bookingLimits',BookingLimitRoute);
 
 
 // Connecting to the MongoDB database

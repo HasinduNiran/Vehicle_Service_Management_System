@@ -8,6 +8,43 @@ import { createVehicle } from '../Models/Booking.js';
 
 const router = express.Router();
 
+/*router.post('/',async (request, response) => {
+   try{
+      if(
+    !request.body.Customer_Name ||
+    !request.body.Vehicle_Type || 
+    !request.body.Vehicle_Number||
+    !request.body.Contact_Number ||
+    !request.body.Email
+      ){
+    return response.status(400).send({
+      message: 'Send all required field'
+    });
+      }
+    const newVehicle = {
+      cusID: request.body.cusID,
+      Booking_Date: request.body.Booking_Date,
+      Customer_Name: request.body.Customer_Name,
+      Vehicle_Type: request.body.Vehicle_Type,
+      Vehicle_Number: request.body.Vehicle_Number,
+      Contact_Number: request.body.Contact_Number,
+      Email: request.body.Email,
+      selectedPackage: request.body.selectedPackage,
+      selectedServices: request.body.selectedServices
+    };
+    
+    const vehicle = await createVehicle.create(newVehicle);
+    return response.status(201).send(vehicle);
+    
+      
+    }catch(error){
+    
+    console.log(error.message);
+    response.status(500).send({message: error.message});
+    
+    }
+    
+    });    */
 
 
 router.post('/', async (request, response) => {

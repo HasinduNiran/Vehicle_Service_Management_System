@@ -14,7 +14,8 @@ export default function ShowAllBooking() {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const componentRef = useRef();
-  const [DAILY_BOOKING_LIMIT, setDAILY_BOOKING_LIMIT] = useState("");
+  const [DAILY_BOOKING_LIMIT, setDAILY_BOOKING_LIMIT] = useState('');
+  const [lastSetBookingLimit, setLastSetBookingLimit] = useState('');
 
   //search query
   const handleSearch = async () => {
@@ -47,12 +48,49 @@ export default function ShowAllBooking() {
   }, []);
 
 
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get('http://localhost:8076/bookingLimits/')
+      .then((response) => {
+        // Set the last set booking limit
+        setLastSetBookingLimit(response.data.BookingLimit);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  }, []);
 
-  /*const handleSetDailyBookingLimit = () => {
-    // Example function body; adapt as necessary
-    console.log("Setting daily booking limit to:", dailyBookingLimit);
-    // You might want to save this limit somewhere (e.g., in your database or state)
-  };  */
+
+  const handleSetDailyBookingLimit = () => {
+
+
+    
+    
+    const data = {
+      BookingLimit
+  };
+
+  setLoading(true);
+  axios
+      .post('http://localhost:8076/bookingLimits', data)
+      .then(() => {
+          setLoading(false);
+          navigate('/show-all');
+
+      })
+      .catch((error) => {
+           
+          setLoading(false);
+          alert('An error happened. Please Check Console for more informationnnn');
+          console.log(error);
+
+      });
+
+
+  }; 
 
 
 
@@ -121,12 +159,12 @@ const filteredBooking = bookings.filter(applySearchFilter);
           onChange={(e) => setDAILY_BOOKING_LIMIT(e.target.value)}
           className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
         />
-        {/*<button
+        <button
           onClick={handleSetDailyBookingLimit}
           className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Set Limit
-  </button>  */}
+  </button>
   </div> 
       
 

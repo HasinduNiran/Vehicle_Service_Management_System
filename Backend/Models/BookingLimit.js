@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 
-const vehiclSchema = mongoose.Schema({
+const vehicleSchema = mongoose.Schema({
     
     
     
@@ -13,4 +13,4 @@ const vehiclSchema = mongoose.Schema({
 });
 
 
-export const setLimit = mongoose.model('bookingLimits',vehiclSchema);
+export const setLimit = mongoose.model('bookingLimits',vehicleSchema);
