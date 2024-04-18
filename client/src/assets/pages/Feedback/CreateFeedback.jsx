@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom"; // Add useParams to the import
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const CreateFeedback = () => {
   // State variables for form inputs and loading state
-  const [cusID, setCustomerID] = useState("");
-  const [name, setName] = useState("");
+  const [cussID, setCustomerID] = useState("");
+  const [name, setCustomer_Name] = useState(""); // Changed variable name to match state setter
   const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setContact_Number] = useState(""); // Changed variable name to match state setter
   const [employee, setEmployee] = useState("");
   const [starRating, setStarRating] = useState(1);
   const [dateOfService, setDateOfService] = useState(new Date());
@@ -17,6 +17,7 @@ const CreateFeedback = () => {
   const [loading, setLoading] = useState(false);
   const [employees, setEmployees] = useState([]); // State for storing employees data
   const navigate = useNavigate(); // Hook for navigation
+  const { cusID } = useParams(); // Access cusID from URL params using useParams
 
   // Function to handle saving feedback
   const handleSaveFeedback = async () => {
@@ -33,7 +34,7 @@ const CreateFeedback = () => {
     }
 
     // Check if all fields are filled
-    if (!cusID || !name || !email || !phoneNumber || !employee || !message) {
+    if (!cussID || !name || !email || !phoneNumber || !employee || !message) {
       alert("Please fill in all fields before submitting.");
       return;
     }
@@ -42,7 +43,7 @@ const CreateFeedback = () => {
     const formattedDate = formatDate(dateOfService);
 
     const data = {
-      cusID: cusID,
+      cusID: cussID,
       name: name,
       email: email,
       phone_number: phoneNumber,
@@ -67,6 +68,26 @@ const CreateFeedback = () => {
       );
     }
   };
+
+  // Fetch customer details on component mount
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`http://localhost:8076/customer/${cusID}`)
+      .then((response) => {
+        const data = response.data;
+        setCustomerID(data.cusID);
+        setContact_Number(data.phone);
+        setEmail(data.email);
+        setCustomer_Name(`${data.firstName} ${data.lastName}`);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert(`An error happened. Please check console`);
+        console.log(error);
+      });
+  }, [cusID]);
 
   // Function to format date
   const formatDate = (date) => {
@@ -94,7 +115,7 @@ const CreateFeedback = () => {
     };
 
     fetchEmployeesData();
-  }, [axios]); // Add axios dependency here
+  }, []); // Remove axios from dependencies array
 
   return (
     <div className="p-4">
@@ -108,7 +129,7 @@ const CreateFeedback = () => {
           <label className="text-xl mr-4 text-gray-500">Customer ID</label>
           <input
             type="text"
-            value={cusID}
+            value={cussID}
             onChange={(e) => setCustomerID(e.target.value)}
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
@@ -118,7 +139,7 @@ const CreateFeedback = () => {
           <input
             type="text"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setCustomer_Name(e.target.value)}
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
@@ -136,7 +157,7 @@ const CreateFeedback = () => {
           <input
             type="tel"
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={(e) => setContact_Number(e.target.value)}
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
