@@ -26,7 +26,7 @@ const ReadOneEmployee = () => {
 
   return (
     <div style={styles.container}>
-      <BackButton destination='/employees/allEmployee' /> 
+      <BackButton destination='/employees/EmployeeDashboard' /> 
       <h1 style={styles.heading}>Show Employee</h1>
       {loading ? (
         <Spinner />

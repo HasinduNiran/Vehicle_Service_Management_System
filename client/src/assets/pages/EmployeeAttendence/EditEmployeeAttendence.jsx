@@ -53,7 +53,7 @@ const EditEmployeeAttendence = () => {
       .put(`http://localhost:8076/EmployeeAttendence/${id}`, data)
       .then(() => {
         setLoading(false);
-        navigate('/EmployeeAttendence/allEmployeeAttendence');
+        navigate('/EmployeeAttendence/EmpADashboard');
       })
       .catch((error) => {
         setLoading(false);
@@ -131,7 +131,7 @@ const EditEmployeeAttendence = () => {
 
   return (
     <div style={styles.container}>
-      <BackButton destination='/EmployeeAttendence/allEmployeeAttendence' /> 
+      <BackButton destination='/EmployeeAttendence/EmpADashboard' /> 
       <h1 style={styles.heading}>Edit Employee Attendance</h1>
       {loading ? <Spinner /> : ''}
       <div style={styles.formContainer}>

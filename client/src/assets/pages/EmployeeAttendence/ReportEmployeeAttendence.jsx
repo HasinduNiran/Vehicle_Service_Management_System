@@ -79,28 +79,18 @@ export default function ReportfilteredEmployeesAttendence({ filteredEmployeesAtt
 
   return (
     <div>
-      <div style={styles.button}>
+      <div className="grid md:grid-cols-1 gap-1 ">
         <button
           onClick={() => {
             generatePDF(filteredEmployeesAttendence);
           }}
           className="btn2"
         >
-          Generate report
+          Attendance Report
         </button>
       </div>
     </div>
   );
 }
 
-const styles = {
-  button: {
-    backgroundColor: '#dc3545',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '0.25rem',
-    padding: '0.5rem 1rem',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
-  },
-};
+

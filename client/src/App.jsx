@@ -106,6 +106,10 @@ import Dashboard from './assets/pages/dashboard/dashboard';
 import CusDashboard from './assets/pages/customerDashBoard/cusDashboard'; 
 import VDashboard from './assets/pages/Vehicle/VehicleDashboard';
 
+import EmpDashboard from './assets/pages/Employee/EmployeeDashboard';
+import EmpADashboard from './assets/pages/EmployeeAttendence/EmpAttendenceDashboard';
+import EmpSDashboard from './assets/pages/EmployeeSalary/EmpSalaryDashboard';
+
 import CLogin from './assets/components/cLogin';
 
 
@@ -138,12 +142,21 @@ const App = () => {
         <Route path='/employees/edit/:id' element={<EditEmployee />}></Route>
         <Route path='/employees/details/:id' element={<ReadOneEmployee />}></Route>
         <Route path='/employees/reportEmployee' element={<ReportEmployee />}></Route>
+        <Route path='/employees/EmployeeDashboard' element={<EmpDashboard />}></Route>
 
         <Route path='/EmployeeAttendence/allEmployeeAttendence' element={<ShowEmployeeAttendence />}></Route>
         <Route path='/EmployeeAttendence/create' element={<CreateEmployeeAttendence />}></Route>
         <Route path='/EmployeeAttendence/edit/:id' element={<EditEmployeeAttendence />}></Route>
         <Route path='/EmployeeAttendence/delete/:id' element={<DeleteEmployeeAttendence />}></Route>
         <Route path='/EmployeeAttendence/reportEmployeeAttendence' element={<ReportEmployeeAttendence />}></Route>
+        <Route path='/EmployeeAttendence/EmpADashboard' element={<EmpADashboard />}></Route>
+
+        <Route path='/EmployeeSalary/allEmployeeSalary' element={<ShowEmployeeSalary />}></Route>
+        <Route path='/EmployeeSalary/create' element={<CreateEmployeeSalary />}></Route>
+        <Route path='/EmployeeSalary/edit/:id' element={<EditEmployeeSalary />}></Route>
+        <Route path='/EmployeeSalary/delete/:id' element={<DeleteEmployeeSalary />}></Route>
+        <Route path='/EmployeeSalary/reportEmployeeSalary' element={<ReportEmployeeSalary />}></Route>
+        <Route path='/EmployeeSalary/EmpSDashboard' element={<EmpSDashboard />}></Route>
 
         <Route path='/payments/show' element={<ShowPayment />}></Route>
         <Route path='/payments/detail/:id' element={<ReadOnePayment />}></Route>
@@ -165,10 +178,10 @@ const App = () => {
         <Route path='/inventory/get/:id' element={<ReadOneInventory />}></Route>
 
         <Route path='/package' element={<ShowPackage />} />
-<Route path='/package/create' element={<CreatePackage />} />
-<Route path='/package/edit/:id' element={<EditPackage />} />
-<Route path='/package/:id' element={<ReadOnePackage />} />
-<Route path='/package/delete/:id' element={<DeletePackage />} />
+        <Route path='/package/create' element={<CreatePackage />} />
+        <Route path='/package/edit/:id' element={<EditPackage />} />
+        <Route path='/package/:id' element={<ReadOnePackage />} />
+        <Route path='/package/delete/:id' element={<DeletePackage />} />
 
 
 
@@ -234,24 +247,9 @@ const App = () => {
       <Route path='/vehicle/delete/:id' element={<DeleteVehicle />} />
 
 
-      <Route path='/employees/allEmployee' element={<ShowEmployee />}></Route>
-      <Route path='/employees/create' element={<CreateEmployee />}></Route>
-      <Route path='/employees/delete/:id' element={<DeleteEmployee />}></Route>
-      <Route path='/employees/edit/:id' element={<EditEmployee />}></Route>
-      <Route path='/employees/details/:id' element={<ReadOneEmployee />}></Route>
-      <Route path='/employees/reportEmployee' element={<ReportEmployee />}></Route>
+      
 
-      <Route path='/EmployeeAttendence/allEmployeeAttendence' element={<ShowEmployeeAttendence />}></Route>
-      <Route path='/EmployeeAttendence/create' element={<CreateEmployeeAttendence />}></Route>
-      <Route path='/EmployeeAttendence/edit/:id' element={<EditEmployeeAttendence />}></Route>
-      <Route path='/EmployeeAttendence/delete/:id' element={<DeleteEmployeeAttendence />}></Route>
-      <Route path='/EmployeeAttendence/reportEmployeeAttendence' element={<ReportEmployeeAttendence />}></Route>
-
-      <Route path='/EmployeeSalary/allEmployeeSalary' element={<ShowEmployeeSalary />}></Route>
-      <Route path='/EmployeeSalary/create' element={<CreateEmployeeSalary />}></Route>
-      <Route path='/EmployeeSalary/edit/:id' element={<EditEmployeeSalary />}></Route>
-      <Route path='/EmployeeSalary/delete/:id' element={<DeleteEmployeeSalary />}></Route>
-      <Route path='/EmployeeSalary/reportEmployeeSalary' element={<ReportEmployeeSalary />}></Route>
+      
 
       <Route path='/payments/show' element={<ShowPayment />}></Route>
       <Route path='/payments/detail/:id' element={<ReadOnePayment />}></Route>

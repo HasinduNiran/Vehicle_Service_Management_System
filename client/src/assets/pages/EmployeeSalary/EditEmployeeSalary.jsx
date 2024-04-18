@@ -122,7 +122,7 @@ const EditEmployeeSalary = () => {
       .then(() => {
         setLoading(false);
         //enqueueSnackbar('EmployeeSalary Edited successfully', { variant: 'success' });
-        navigate('/EmployeeSalary/allEmployeeSalary');
+        navigate('/EmployeeSalary/EmpSDashboard');
       })
       .catch((error) => {
         setLoading(false);
@@ -148,7 +148,7 @@ const EditEmployeeSalary = () => {
 
   return (
     <div style={styles.container}>
-      <BackButton destination='/EmployeeSalary/allEmployeeSalary' />
+      <BackButton destination='/EmployeeSalary/EmpSDashboard' />
       <h1 style={styles.heading}>Edit Employee Salary</h1>
       {loading ? <Spinner /> : ''}
       <div style={styles.formContainer}>
