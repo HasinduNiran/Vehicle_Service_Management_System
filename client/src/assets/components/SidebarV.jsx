@@ -49,7 +49,7 @@ function SidebarV() {
                 Add History
               </button>
               <button
-                onClick={() => { window.location.href = '/ServiceHistory' }}
+                onClick={() => { window.location.href = '/ServiceHistory/dashboard' }}
                 style={styles.navButton}
               >
                 View History

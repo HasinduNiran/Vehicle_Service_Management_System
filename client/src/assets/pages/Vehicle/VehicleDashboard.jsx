@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import logo from '../../images/logo.jpg';
+import VehicleReport from './VehicleReport'; // Adjust the path accordingly
 
 import backgroundImage from '../../images/t.jpg';
 import SidebarV from '../../components/SidebarV';
@@ -194,7 +195,7 @@ const VDashboard = () => {
                       Add History
                     </button>
                     <button
-                      onClick={() => { window.location.href = '/ServiceHistory' }}
+                      onClick={() => { window.location.href = '/ServiceHistory/dashboard' }}
                       style={styles.navButton}
                     >
                       View History
