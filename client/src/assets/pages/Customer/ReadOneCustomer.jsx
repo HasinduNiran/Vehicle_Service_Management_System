@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
+import logo from '../../images/logo.jpg';
+import backgroundImage from '../../images/t.jpg';
 
 const ReadOneCustomer = () => {
   const [customer, setCustomer] = useState({});
@@ -47,8 +49,138 @@ const ReadOneCustomer = () => {
     fetchData();
   }, [cusID]);
 
+
+  
+  const styles = {
+    container: {
+      color: 'black',
+      border: '3px solid white',
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    },
+    navButton: {
+      backgroundColor: 'red',
+      color: 'white',
+      padding: '0.8rem 3rem',
+      borderRadius: '5px',
+      width: '220px',
+      textDecoration: 'none',
+      height: '50px',
+      marginTop: '15px'
+    },
+    logo: {
+      width: '100%',
+      height: '200px',
+      border: '2px solid red'
+    },
+    table: {
+      width: '300px',
+      margin: '0 auto',
+      padding: '20px',
+      background: 'lightgray',
+      borderRadius: '10px',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',
+      fontFamily: 'Arial, sans-serif',
+      color: '#fff',
+      background: '#1f1f1f'
+    }, table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+    },
+    tableHead: {
+      background: '#333',
+      color: 'red',
+      textAlign: 'center',
+      // border: '1px solid red',
+
+
+    },
+    tableHeader: {
+      padding: '10px',
+      textAlign: 'left',
+      color: 'red',
+      border: '1px solid red',
+    },
+    tableRowEven: {
+      background: '#2f2f2f',
+    },
+    tableRowOdd: {
+      background: '#1f1f1f',
+    },
+    tableCell: {
+      padding: '10px',
+      textAlign: 'left',
+      borderLeft: '1px solid red', // Adding left border
+      borderRight: '1px solid red',
+      background: '#1f1f1f',
+      color: 'white',
+    },
+    subHeading: {
+     
+      marginTop: '20px',
+      fontSize: '2 rem',
+      fontWeight: 'bold',
+      marginBottom: '20px',
+ 
+      color: '#fff',
+      textAlign: 'center',
+     
+    
+      textTransform: 'uppercase',
+    },
+  };
+
   return (
-    <div className='p-4'>
+    
+    <div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+      
+      
+      <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div className="sb-sidenav-menu">
+          <div className="nav-link">
+            <div className="sb-nav-link-icon">
+              <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} />
+              <button
+                onClick={() => { window.location.href = '/vehicle/create' }}
+                style={styles.navButton}
+              >
+                Add Vehicle
+              </button>
+              <button
+                onClick={() => { window.location.href = '/vehicle/dashboard' }}
+                style={styles.navButton}
+              >
+                All Vehicles
+              </button>
+              <button
+                onClick={() => { window.location.href = '/ServiceHistory/create' }}
+                style={styles.navButton}
+              >
+                Add History
+              </button>
+              <button
+                onClick={() => { window.location.href = '/ServiceHistory' }}
+                style={styles.navButton}
+              >
+                View History
+              </button>
+              <div
+                style={styles.navButton}
+              >
+                {/* <VehicleReport filteredVehicles={filteredVehicles} /> */}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="sb-sidenav-footer">
+          <div className="small">Logged in as:</div>
+          Operation manager
+        </div>
+      </nav>
+    </div>
+    <div id="layoutSidenav_content">
       <h1 className='text-3xl my-4'>Show Customer</h1>
       {loading ? (
         <Spinner />
@@ -266,6 +398,7 @@ const ReadOneCustomer = () => {
 
         </div>
       )}
+      </div>
     </div>
   );
 };
