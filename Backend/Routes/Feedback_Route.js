@@ -153,7 +153,7 @@ router.get("/", async (req, res) => {
   }
 });*/
 
-   // Route for retrieving a specific Vehicle by ID
+   // Route for retrieving a specific Feedback by ID
    router.get('/:identifier', async (request, response) => {
     try {
         // Extracting the identifier from the request parameters
@@ -161,10 +161,10 @@ router.get("/", async (req, res) => {
   
         // Checking if the provided identifier is a valid MongoDB ObjectId
         if (mongoose.Types.ObjectId.isValid(identifier)) {
-            // Fetching a vehicle from the database based on the ID
+            // Fetching a Feedback from the database based on the ID
             const FeedbackByID = await Feedback.findById(identifier);
             if (FeedbackByID) {
-                // Sending the fetched vehicle as a JSON response if found by ID
+                // Sending the fetched Feedback as a JSON response if found by ID
                 return response.status(200).json(FeedbackByID);
             }
         }
@@ -172,7 +172,7 @@ router.get("/", async (req, res) => {
         // If the provided identifier is not a valid ObjectId, try searching by register number
         const FeedbackByCUSID = await Feedback.find({ cusID: identifier });
         if (FeedbackByCUSID) {
-            // Sending the fetched vehicle as a JSON response if found by register number
+            // Sending the fetched Feedback as a JSON response if found by register number
             return response.status(200).json(FeedbackByCUSID);
         }
   
