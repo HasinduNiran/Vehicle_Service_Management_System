@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import backgroundImage from '../../images/t.jpg';
 
 const EditFeedback = () => {
   const [name, setName] = useState("");
@@ -209,6 +210,95 @@ const EditFeedback = () => {
       </div>
     </div>
   );
+};
+const Styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+
+  formContainer: {
+    width: '50%',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+    padding: '20px',
+    border: '2px solid red', // Add a red border
+    borderColor: 'red',
+    margin: '10px',
+    textAlign: 'center',
+    position: 'relative', // Add this line for absolute positioning of the line
+  },
+
+  heading: {
+    fontSize: '3rem',
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
+  formGroup: {
+    marginBottom: '1.5rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '10px',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    borderRadius: '5px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    color: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+  },
+
+  label: {
+    fontWeight: 'bold',
+    marginBottom: '0.5rem',
+    fontSize: '1.2rem',
+    color: 'red',
+    textAlign: 'center',
+    width: '100%',
+    padding: '10px',
+    textTransform: 'uppercase',
+  },
+
+  input: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    backgroundColor: 'black',
+    color: 'white',
+    fontSize: '1.2rem',
+    marginBottom: '10px',
+    textAlign: 'left',
+  },
+
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+
+  button: {
+    backgroundColor: '#ff0000',
+    color: '#ffffff',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'background-color 0.8s',
+  },
 };
 
 export default EditFeedback;
