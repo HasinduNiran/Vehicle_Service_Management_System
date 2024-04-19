@@ -214,8 +214,7 @@ const ReadOneCustomer = () => {
         </nav>
 
         <div id="layoutSidenav_content">
-          <h1 className='text-3xl my-4'>Show Customer</h1>
-          {loading ? (
+           {loading ? (
             <Spinner />
           ) : (
             <div className='flex flex-col border-2 border-red-400 rounded-xl w-fit p-4'>
@@ -230,7 +229,7 @@ const ReadOneCustomer = () => {
 
               <div className='my-4' style={styles.vehicleInfo}>
                 <span className='text-xl mr-4 text-gray-500' style={styles.label}>Customer Number</span>
-                <span style={styles.value}>{customer._id}</span>
+                <span style={styles.value}>{customer.cusID}</span>
               </div>
               <div className='my-4' style={styles.vehicleInfo}>
                 <span className='text-xl mr-4 text-gray-500' style={styles.label}>First Name</span>
