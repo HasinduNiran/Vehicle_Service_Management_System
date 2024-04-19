@@ -53,11 +53,11 @@ const ReadOneCustomer = () => {
   const styles = {
     container: {
       color: 'black',
-    border: '3px solid white',
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    
+      border: '3px solid white',
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+
     },
     navButton: {
       backgroundColor: 'red',
@@ -123,7 +123,7 @@ const ReadOneCustomer = () => {
       margin: '0 auto', /* Center the vehicle info */
       padding: '20px', /* Add padding */
       width: '80%', /* Set width to 80% of container */
-      
+
     },
     label: {
       fontWeight: 'bold',
@@ -131,7 +131,7 @@ const ReadOneCustomer = () => {
       width: '100%',
       padding: '1px',
       textTransform: 'uppercase',
-      
+
     },
     value: {
       color: 'white',
@@ -236,8 +236,9 @@ const ReadOneCustomer = () => {
 
 
 
-<img src={logo} alt="Nadeeka Auto Service" className="logo" style={{ width: '100px', marginLeft: '480px' }} /> {/* Adjust marginLeft to change position */}
-
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
+                <img src={customer.image} alt="Vehicle" style={{ maxWidth: '300px', height: '200px', borderRadius: '100%',display: 'flex', justifyContent: 'center', alignItems: 'center', border: '4px solid red', borderRadius: '100px', padding: '10px' }} />
+              </div>
 
 
               <div className='my-4' style={styles.vehicleInfo}>

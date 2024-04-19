@@ -8,6 +8,7 @@ const router = express.Router();
 router.post('/', async (request, response) => {
     try {
         const newCustomer = {
+            image:request.body.image,
             cusID:request.body.cusID,
             firstName: request.body.firstName,
             lastName: request.body.lastName,
