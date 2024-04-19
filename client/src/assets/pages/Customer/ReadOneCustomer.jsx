@@ -53,10 +53,11 @@ const ReadOneCustomer = () => {
   const styles = {
     container: {
       color: 'black',
-      border: '3px solid white',
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
+    border: '3px solid white',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    
     },
     navButton: {
       backgroundColor: 'red',
@@ -111,11 +112,29 @@ const ReadOneCustomer = () => {
       color: '#fff',
       textAlign: 'center',
       textTransform: 'uppercase',
+      filter: 'blur(5px)' // Adding blur effect
     },
     logo: {
       width: '100%',
       height: '200px',
       border: '2px solid red'
+    },
+    vehicleInfo: {
+      margin: '0 auto', /* Center the vehicle info */
+      padding: '20px', /* Add padding */
+      width: '80%', /* Set width to 80% of container */
+      
+    },
+    label: {
+      fontWeight: 'bold',
+      color: 'red',
+      width: '100%',
+      padding: '1px',
+      textTransform: 'uppercase',
+      
+    },
+    value: {
+      color: 'white',
     },
   };
 
@@ -212,46 +231,54 @@ const ReadOneCustomer = () => {
           {loading ? (
             <Spinner />
           ) : (
-            <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
-              <div className='my-4'>
-                <span className='text-xl mr-4 text-gray-500'>Customer Number</span>
-                <span>{customer._id}</span>
+            <div className='flex flex-col border-2 border-red-400 rounded-xl w-fit p-4'>
+
+
+
+
+<img src={logo} alt="Nadeeka Auto Service" className="logo" style={{ width: '100px', marginLeft: '480px' }} /> {/* Adjust marginLeft to change position */}
+
+
+
+              <div className='my-4' style={styles.vehicleInfo}>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Customer Number</span>
+                <span style={styles.value}>{customer._id}</span>
               </div>
-              <div className='my-4'>
-                <span className='text-xl mr-4 text-gray-500'>First Name</span>
-                <span>{customer.firstName}</span>
+              <div className='my-4' style={styles.vehicleInfo}>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>First Name</span>
+                <span style={styles.value}>{customer.firstName}</span>
               </div>
-              <div className='my-4'>
-                <span className='text-xl mr-4 text-gray-500'>Last Name</span>
-                <span>{customer.lastName}</span>
+              <div className='my-4' style={styles.vehicleInfo}>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Last Name</span>
+                <span style={styles.value}>{customer.lastName}</span>
               </div>
-              <div className='my-4'>
-                <span className='text-xl mr-4 text-gray-500'>NIC</span>
-                <span>{customer.NIC}</span>
+              <div className='my-4' style={styles.vehicleInfo}>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>NIC</span>
+                <span style={styles.value}>{customer.NIC}</span>
               </div>
-              <div className='my-4'>
-                <span className='text-xl mr-4 text-gray-500'>Phone</span>
-                <span>{customer.phone}</span>
+              <div className='my-4' style={styles.vehicleInfo}>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Phone</span>
+                <span style={styles.value}>{customer.phone}</span>
               </div>
-              <div className='my-4'>
-                <span className='text-xl mr-4 text-gray-500'>Email</span>
-                <span>{customer.email}</span>
+              <div className='my-4' style={styles.vehicleInfo}>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Email</span>
+                <span style={styles.value}>{customer.email}</span>
               </div>
-              <div className='my-4'>
-                <span className='text-xl mr-4 text-gray-500'>Username</span>
-                <span>{customer.username}</span>
+              <div className='my-4' style={styles.vehicleInfo}>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Username</span>
+                <span style={styles.value}>{customer.username}</span>
               </div>
-              <div className='my-4'>
-                <span className='text-xl mr-4 text-gray-500'>Password</span>
-                <span>{customer.password}</span>
+              <div className='my-4' style={styles.vehicleInfo}>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Password</span>
+                <span style={styles.value}>{customer.password}</span>
               </div>
-              <div className='my-4'>
-                <span className='text-xl mr-4 text-gray-500'>Create Time</span>
-                <span>{new Date(customer.createdAt).toString()}</span>
+              <div className='my-4' style={styles.vehicleInfo}>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Create Time</span>
+                <span style={styles.value}>{new Date(customer.createdAt).toString()}</span>
               </div>
-              <div className='my-4'>
-                <span className='text-xl mr-4 text-gray-500'>Last Update Time</span>
-                <span>{new Date(customer.updatedAt).toString()}</span>
+              <div className='my-4' style={styles.vehicleInfo}>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Last Update Time</span>
+                <span style={styles.value}>{new Date(customer.updatedAt).toString()}</span>
               </div>
 
               {bookings.length > 0 ? (
