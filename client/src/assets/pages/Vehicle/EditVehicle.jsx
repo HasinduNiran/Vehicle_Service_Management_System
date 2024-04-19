@@ -5,6 +5,7 @@ import backgroundImage from '../../images/t.jpg';
 
 const EditVehicle = () => {
   const [Register_Number, setRegister_Number] = useState('');
+  const [image, setImage] = useState(null); 
   const [Make, setMake] = useState('');
   const [Model, setModel] = useState('');
   const [Year, setYear] = useState('');
@@ -34,6 +35,7 @@ const EditVehicle = () => {
         setVehicle_Features(data.Vehicle_Features);
         setCondition_Assessment(data.Condition_Assessment);
         setOwner(data.Owner);
+        setImage(data.image); // Set the image URL
         setLoading(false);
       })
       .catch((error) => {
@@ -43,12 +45,23 @@ const EditVehicle = () => {
       });
   }, [id]);
 
+  const handleImageChange = (e) => {
+    // Handle image upload and set it to the state
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+  };
+
   const handleEditVehicle = async (e) => {
     e.preventDefault();
 
     // Perform validation here if needed
 
     const data = {
+      image, // Use the image state
       Register_Number,
       Make,
       Model,
@@ -78,6 +91,15 @@ const EditVehicle = () => {
       <div style={styles.formContainer}>
         <h1 style={styles.heading}>Edit Vehicle</h1>
         <form onSubmit={handleEditVehicle} style={styles.form}>
+          <div style={styles.formGroup}>
+            <label htmlFor="image" style={styles.label}>
+              Vehicle image
+            </label>
+            <input type="file" id="image" style={styles.input} onChange={handleImageChange} />
+            {image && (
+              <img src={image} alt="Vehicle" style={{ maxWidth: '200px', marginTop: '10px' }} />
+            )}
+          </div>
           <div style={styles.formGroup}>
             <label htmlFor="register_number" style={styles.label}>Vehicle Number</label>
             <input
@@ -224,7 +246,6 @@ const styles = {
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    
   },
   formContainer: {
     width: '50%',
@@ -289,9 +310,6 @@ const styles = {
     display: 'block',
     
   },
-
-
-  
   buttonContainer: {
     display: 'flex',
     justifyContent: 'center',
