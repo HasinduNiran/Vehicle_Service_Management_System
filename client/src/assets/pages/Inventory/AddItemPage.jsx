@@ -1,14 +1,12 @@
-// Importing necessary dependencies
 import React, { useState, useEffect } from "react";
 import Spinner from "../../components/Spinner";
 import BackButton from '../../components/BackButton';
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2"; // Import SweetAlert2
+import backgroundImage from '../../images/t.jpg';
 
-// Functional component for AddExistingInventory
 const AddExistingInventory = () => {
-  // State variables for managing form data and loading state
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [newStock, setNewStock] = useState(0); // New state variable for adding stock
@@ -36,41 +34,37 @@ const AddExistingInventory = () => {
       });
   }, [id]);
 
- // Event handler for editing the inventory
- const handleEditInventory = () => {
-  const data = {
-    Quantity: quantity,
+  const handleEditInventory = () => {
+    const data = {
+      Quantity: quantity,
+    };
+
+    setLoading(true);
+
+    axios
+      .put(`http://localhost:8076/inventory/${id}`, data)
+      .then(() => {
+        setLoading(false);
+        navigate(`/inventory/get/${id}`);
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert('An error happened. Please check console');
+        console.log(error);
+      });
   };
 
-  setLoading(true);
-
-  axios
-    .put(`http://localhost:8076/inventory/${id}`, data)
-    .then(() => {
-      setLoading(false);
-      // Navigate to read-one page with updated stock
-      navigate(`/inventory/get/${id}`);
-    })
-    .catch((error) => {
-      setLoading(false);
-      alert('An error happened. Please check console');
-      console.log(error);
-    });
-};
-
-  // Event handler for adding stock to the inventory
   const handleAddStock = () => {
-    if (newStock > 0) { // Check if new stock quantity is positive
+    if (newStock > 0) {
       const updatedQuantity = parseInt(quantity) + newStock;
-      setQuantity(updatedQuantity); // Update quantity with new stock
+      setQuantity(updatedQuantity);
       const data = {
         Quantity: updatedQuantity
       };
       axios
         .put(`http://localhost:8076/inventory/${id}`, data)
         .then(() => {
-          setNewStock(0); // Reset new stock quantity
-          // Display SweetAlert2 when item is added
+          setNewStock(0);
           Swal.fire("Success!", "Stock added successfully!", "success");
         })
         .catch((error) => {
@@ -78,54 +72,143 @@ const AddExistingInventory = () => {
           console.log(error);
         });
     } else {
-      alert('Please enter a valid quantity.'); // Alert if new stock quantity is not positive
+      alert('Please enter a valid quantity.');
     }
   };
 
-  // JSX for rendering the edit inventory form
   return (
-    <div className="p-4">
+    <div style={styles.container}>
       <BackButton destination={`/inventory/get/${id}`} />
-      <h1 className="text-3xl my-4">Edit Inventory</h1>
+      
       {loading ? <Spinner /> : ''}
-      <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Name</label>
+      <div style={styles.formContainer}>
+      <h1 style={styles.heading}>Add Inventory</h1>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Name</label>
           <input
             type="text"
             value={name}
             readOnly
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Current Quantity</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Current Quantity</label>
           <input
             type="number"
             value={quantity}
             readOnly
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Add Stock</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Add Stock</label>
           <input
             type="number"
             value={newStock}
             onChange={(e) => setNewStock(parseInt(e.target.value))}
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <button className='p-2 bg-sky-300 m-2' onClick={handleAddStock}>
-          Add Stock
-        </button>
-        <button className='p-2 bg-sky-300 m-2' onClick={handleEditInventory}>
-          Save
-        </button>
+        <div style={styles.buttonContainer}>
+          <button style={styles.button} onClick={handleAddStock}>
+            Add Stock
+          </button>
+          <button style={styles.button} onClick={handleEditInventory}>
+            Save
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-// Exporting the AddExistingInventory component
+const styles = {
+
+  
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  formContainer: {
+    width: '50%',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+    padding: '20px',
+    border: '2px solid red', // Add a red border
+    borderColor: 'red',
+    margin: '10px',
+    textAlign: 'center',
+    position: 'relative', // Add this line for absolute positioning of the line
+  },
+  heading: {
+    fontSize: '3rem',
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: '20px' // Add margin bottom to create space between heading and form
+  },
+  formGroup: {
+    marginBottom: '1.5rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '10px',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    borderRadius: '5px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    color: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+  },
+  label: {
+    fontWeight: 'bold',
+    marginBottom: '0.5rem',
+    flexDirection: 'column',
+    fontSize: '1.2rem',
+    color: 'red',
+    textAlign: 'center',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center', 
+    padding: '10px',
+    display: 'block',
+    textTransform: 'uppercase',
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    backgroundColor: 'black',
+    color: 'white',
+    fontSize: '1.2rem',
+    marginBottom: '10px',
+    textAlign: 'left',
+    display: 'block',
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '20px' // Add margin top to create space between buttons and form
+  },
+  button: {
+    backgroundColor: '#ff0000',
+    color: '#ffffff',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'background-color 0.8s',
+    marginRight: '10px' // Add margin right to create space between buttons
+  },
+};
+
 export default AddExistingInventory;
