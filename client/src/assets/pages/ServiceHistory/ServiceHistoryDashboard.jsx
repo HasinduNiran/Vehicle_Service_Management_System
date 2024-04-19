@@ -9,7 +9,7 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import SidebarS from '../../components/SidebarS';
-import ServiceHistoryReport from './ServiceHistoryReport'; 
+import ServiceHistoryReport from './ServiceHistoryReport';
 
 const ServiceHistoryDashboard = () => {
     const [serviceHistories, setServiceHistory] = useState([]);
@@ -266,9 +266,11 @@ const ServiceHistoryDashboard = () => {
                                                         <td style={styles.tableCell}>{history.Service_Date}</td>
                                                         <td style={styles.tableCell}>
                                                             <div className='flex justify-center gap-x-4'>
-                                                                <Link to={`/ServiceHistory/edit/${history._id}`} > <BsInfoCircle className='text-2x1 text-green-800' /></Link>
-                                                                <Link to={`/ServiceHistory/delete/${history._id}`}><AiOutlineEdit className='text-2x1 text-yellow-600' /></Link>
-                                                                <Link to={`/ServiceHistory/get/${history._id}`}><MdOutlineDelete className='text-2x1 text-red-600' /></Link>
+                                                                <Link to={`/ServiceHistory/get/${history._id}`} > <BsInfoCircle className='text-2x1 text-green-800' /></Link>
+
+                                                                <Link to={`/ServiceHistory/edit/${history._id}`}><AiOutlineEdit className='text-2x1 text-yellow-600' /></Link>
+
+                                                                <Link to={`/ServiceHistory/delete/${history._id}`}><MdOutlineDelete className='text-2x1 text-red-600' /></Link>
                                                             </div>
                                                         </td>
                                                     </tr>

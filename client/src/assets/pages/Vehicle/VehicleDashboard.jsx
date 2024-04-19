@@ -235,7 +235,7 @@ const VDashboard = () => {
                           <th style={styles.tableHeader}>Model</th>
                           <th style={styles.tableHeader}>Year</th>
                           <th style={styles.tableHeader}>Engine details</th>
-                          <th style={styles.tableHeader}>Fuel Type</th>
+                          {/* <th style={styles.tableHeader}>Fuel Type</th> */}
                           <th style={styles.tableHeader}>Transmission</th>
                           <th style={styles.tableHeader}>Color</th>
                           <th style={styles.tableHeader}>Features</th>
@@ -252,7 +252,7 @@ const VDashboard = () => {
                             <td style={styles.tableCell}>{vehicle.Model}</td>
                             <td style={styles.tableCell}>{vehicle.Year}</td>
                             <td style={styles.tableCell}>{vehicle.Engine_Details}</td>
-                            <td style={styles.tableCell}>{vehicle.Fuel_Type}</td>
+                            {/* <td style={styles.tableCell}>{vehicle.Fuel_Type}</td> */}
                             <td style={styles.tableCell}>{vehicle.Transmission_Details}</td>
                             <td style={styles.tableCell}>{vehicle.Vehicle_Color}</td>
                             <td style={styles.tableCell}>{vehicle.Vehicle_Features}</td>
