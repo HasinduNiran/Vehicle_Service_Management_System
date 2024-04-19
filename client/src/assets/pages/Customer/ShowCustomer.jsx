@@ -62,8 +62,8 @@ const ShowCustomer = () => {
   return (
 
     <div className='p-4'>
-    <div className='flex justify-between items-center'>
-        <h1 className='text-3xl my-8'>customer List</h1>
+      <div className='flex justify-between items-center'>
+        <h1 className='text-3xl my-8'>Customer List</h1>
         
         <div className="mb-4">
           <input
@@ -81,18 +81,17 @@ const ShowCustomer = () => {
             Search
           </button>
       </div>
-     
         
-      <div className="flex justify-center items-center mt-8">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/customer/create'}>
-                        Add Customer
-                    </button>
-                    <div style={{ marginLeft: '10px' }}></div> {/* Space between buttons */}
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/customer/ReportCustomer'}>
-                        Report
-                    </button>
-                </div>
-                </div>
+        <div className="flex justify-center items-center mt-8">
+          <Link to='/customer/create' className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Add Customer
+          </Link>
+          <div style={{ marginLeft: '10px' }}></div> {/* Space between buttons */}
+          <Link to='/customer/ReportCustomer' className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Report
+          </Link>
+        </div>
+      </div>
 
       {/* Display loading spinner or inventory table */}
       {loading ? (
@@ -102,16 +101,16 @@ const ShowCustomer = () => {
           <thead>
             <tr>
               {/* Table headers */}
+              <th className='border border-slate-600 rounded-md'>Profile Pic</th>
               <th className='border border-slate-600 rounded-md'>Customer ID</th>
-              <th className='border border-slate-600 rounded-md'>first Name</th>
-              <th className='border border-slate-600 rounded-md'>last ame</th>
+              <th className='border border-slate-600 rounded-md'>First Name</th>
+              <th className='border border-slate-600 rounded-md'>Last Name</th>
               <th className='border border-slate-600 rounded-md max-md:hidden'>NIC</th>
-              <th className='border border-slate-600 rounded-md max-md:hidden'>phone</th>
-              <th className='border border-slate-600 rounded-md max-md:hidden'>email</th>
+              <th className='border border-slate-600 rounded-md max-md:hidden'>Phone</th>
+              <th className='border border-slate-600 rounded-md max-md:hidden'>Email</th>
               <th className='border border-slate-600 rounded-md'>Username</th>
-              <th className='border border-slate-600 rounded-md'>password</th>
-              <th className='border border-slate-600 rounded-md'>operations</th>
-     
+              <th className='border border-slate-600 rounded-md'>Password</th>
+              <th className='border border-slate-600 rounded-md'>Operations</th>
             </tr>
           </thead>
           <tbody>
@@ -119,34 +118,37 @@ const ShowCustomer = () => {
             {filteredCustomer.map((customerItem, index) => (
               <tr key={customerItem._id} className='h-8'>
                 {/* Table cells for each inventory item */}
+                <td className='border border-slate-700 rounded-md text-center'>
+                  {customerItem.image && (
+                    <img src={customerItem.image} alt="Profile Pic" className="w-15 h-10 rounded-half" />
+                  )}
+                </td>
                 <td className='border border-slate-700 rounded-md text-center'>{customerItem.cusID}</td>
-
                 <td className='border border-slate-700 rounded-md text-center'>{customerItem.firstName}</td>
-                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.lastName}</td>
-                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.NIC}</td>
-                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.phone}</td>
-                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.email}</td>
-                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.username}</td>
-                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{ customerItem.password}</td>
+                <td className='border border-slate-700 rounded-md text-center'>{customerItem.lastName}</td>
+                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{customerItem.NIC}</td>
+                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{customerItem.phone}</td>
+                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{customerItem.email}</td>
+                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{customerItem.username}</td>
+                <td className='border border-slate-700 rounded-md text-center max-md:hidden'>{customerItem.password}</td>
                 <td className='border border-slate-700 rounded-md text-center'>
                   {/* Operations (Info, Edit, Delete) for each inventory item */}
                   <div className='flex justify-center gap-x-4'>
-                  <Link to={`/customer/get/${customerItem._id}`}>
+                    <Link to={`/customer/get/${customerItem._id}`}>
                       <BsInfoCircle className='text-2x1 text-yellow-600' />
                     </Link>
-                    <Link to={`/customer/edit/${ customerItem._id}`}>
+                    <Link to={`/customer/edit/${customerItem._id}`}>
                       <AiOutlineEdit className='text-2x1 text-yellow-600' />
                     </Link>
-                    <Link to={`/customer/delete/${ customerItem._id}`}>
+                    <Link to={`/customer/delete/${customerItem._id}`}>
                       <MdOutlineDelete className='text-2x1 text-red-600' />
                     </Link>
-                    <Link to={`/create/${ customerItem.cusID}`}>
-                    <button>Booking</button>
+                    <Link to={`/create/${customerItem.cusID}`}>
+                      <button>Booking</button>
                     </Link>
-                    <Link to={`/feedback/create/${ customerItem.cusID}`}>
-                      <button>feedback</button>
+                    <Link to={`/feedback/create/${customerItem.cusID}`}>
+                      <button>Feedback</button>
                     </Link>
-
                   </div>
                 </td>
               </tr>
@@ -158,4 +160,4 @@ const ShowCustomer = () => {
   );
 };
 
-export default ShowCustomer
+export default ShowCustomer;
