@@ -118,6 +118,8 @@ const ShowPayment=()=> {
                                     <Link to={`/payments/delete/${payment._id}`}>
                                     <MdOutlineDelete className='text-2x1 text-red-600' />
                                     </Link>
+                                    {/* <Link to={`/PaymentInvoice/create/${payment._id}`}>
+                                        Invoice</Link> */}
                                 </div>
                             </td>
                         </tr>
