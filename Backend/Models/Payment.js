@@ -18,10 +18,10 @@ const paymentSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    totalAmount:{
-        type:Number,
-        required:true
-    },
+    // totalAmount:{
+    //     type:Number,
+        
+    // },
     PaymentMethod: {
         type: String,
         required:true
@@ -29,7 +29,31 @@ const paymentSchema = mongoose.Schema({
     Booking_Id: {
         type: String,
         required: true,
-    }
+    },
+    Package: {type:String}
+    , // Removed 'required: true' since it's optional
+     selectedServices: {
+        type: [String],
+        required: true
+    },
+    Pamount: {type:Number}
+    ,totalAmount: {type:Number},
+     Samount:{
+        type:[Number],
+        required:true
+     }
+    // Package:{
+    //     type:String,
+    //     required:true,
+    // },
+    // selectedServices: {
+    //     type: String,
+    //     required: true
+    // }
+    // ServiceName: {
+    //     type: String,
+    //     required: true,
+    // }
 
 });
 
