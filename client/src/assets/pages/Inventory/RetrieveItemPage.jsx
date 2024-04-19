@@ -4,6 +4,7 @@ import BackButton from '../../components/BackButton';
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2"; // Import SweetAlert2
+import backgroundImage from '../../images/t.jpg';
 
 const RetrieveExistingInventory = () => {
   const [name, setName] = useState('');
@@ -65,43 +66,136 @@ const RetrieveExistingInventory = () => {
   };
 
   return (
-    <div className="p-4">
-        <BackButton destination={`/inventory/get/${id}`} />
-      <h1 className="text-3xl my-4">View Inventory</h1>
+    <div style={styles.container}>
+      <BackButton destination={`/inventory/get/${id}`} />
+      
       {loading ? <Spinner /> : ''}
-      <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Name</label>
+      <div style={styles.formContainer}>
+      <h1 style={styles.heading}>View Inventory</h1>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Name</label>
           <input
             type="text"
             value={name}
             readOnly
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Quantity</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Quantity</label>
           <input
             type="number"
             value={quantity}
             readOnly
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Retrieve Amount</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Retrieve Amount</label>
           <input
             type="number"
             value={retrieveAmount}
             onChange={(e) => setRetrieveAmount(parseInt(e.target.value))}
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <button onClick={handleRetrieve} className="bg-blue-500 text-white px-4 py-2 rounded-md">Retrieve</button>
-        <button onClick={handleSave} className="bg-green-500 text-white px-4 py-2 rounded-md mt-2">Save</button>
+        <div style={styles.buttonContainer}>
+          <button style={styles.button} onClick={handleRetrieve}>
+            Retrieve
+          </button>
+          <button style={styles.button} onClick={handleSave}>
+            Save
+          </button>
+        </div>
       </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  formContainer: {
+    width: '50%',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+    padding: '20px',
+    border: '2px solid red', // Add a red border
+    borderColor: 'red',
+    margin: '10px',
+    textAlign: 'center',
+    position: 'relative', // Add this line for absolute positioning of the line
+  },
+  heading: {
+    fontSize: '3rem',
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: '20px' // Add margin bottom to create space between heading and form
+  },
+  formGroup: {
+    marginBottom: '1.5rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '10px',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    borderRadius: '5px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    color: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+  },
+  label: {
+    fontWeight: 'bold',
+    marginBottom: '0.5rem',
+    flexDirection: 'column',
+    fontSize: '1.2rem',
+    color: 'red',
+    textAlign: 'center',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center', 
+    padding: '10px',
+    display: 'block',
+    textTransform: 'uppercase',
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    backgroundColor: 'black',
+    color: 'white',
+    fontSize: '1.2rem',
+    marginBottom: '10px',
+    textAlign: 'left',
+    display: 'block',
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '20px' // Add margin top to create space between buttons and form
+  },
+  button: {
+    backgroundColor: '#ff0000',
+    color: '#ffffff',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'background-color 0.8s',
+    marginRight: '10px' // Add margin right to create space between buttons
+  },
 };
 
 export default RetrieveExistingInventory;
