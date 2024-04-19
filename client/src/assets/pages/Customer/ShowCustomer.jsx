@@ -116,7 +116,7 @@ const ShowCustomer = () => {
           <tbody>
             {/* Display inventory items */}
             {filteredCustomer.map((customerItem, index) => (
-              <tr key={customerItem._id} className='h-8'>
+              <tr key={customerItem.cusID} className='h-8'>
                 {/* Table cells for each inventory item */}
                 <td className='border border-slate-700 rounded-md text-center'>
                   {customerItem.image && (
@@ -134,13 +134,13 @@ const ShowCustomer = () => {
                 <td className='border border-slate-700 rounded-md text-center'>
                   {/* Operations (Info, Edit, Delete) for each inventory item */}
                   <div className='flex justify-center gap-x-4'>
-                    <Link to={`/customer/get/${customerItem._id}`}>
+                    <Link to={`/customer/get/${customerItem.cusID}`}>
                       <BsInfoCircle className='text-2x1 text-yellow-600' />
                     </Link>
-                    <Link to={`/customer/edit/${customerItem._id}`}>
+                    <Link to={`/customer/edit/${customerItem.cusID}`}>
                       <AiOutlineEdit className='text-2x1 text-yellow-600' />
                     </Link>
-                    <Link to={`/customer/delete/${customerItem._id}`}>
+                    <Link to={`/customer/delete/${customerItem.cusID}`}>
                       <MdOutlineDelete className='text-2x1 text-red-600' />
                     </Link>
                     <Link to={`/create/${customerItem.cusID}`}>

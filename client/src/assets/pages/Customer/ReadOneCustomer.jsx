@@ -187,35 +187,22 @@ const ReadOneCustomer = () => {
               <div className="nav-link">
                 <div className="sb-nav-link-icon">
                   {/* <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} /> */}
+                  
+                   
+                  
                   <button
-                    onClick={() => { window.location.href = '/vehicle/create' }}
+                    onClick={() => { window.location.href = `/customer/edit/${customer.cusID}` }}
                     style={styles.navButton}
                   >
-                    Add Vehicle
-                  </button>
-                  <button
-                    onClick={() => { window.location.href = '/vehicle/dashboard' }}
-                    style={styles.navButton}
-                  >
-                    All Vehicles
-                  </button>
-                  <button
-                    onClick={() => { window.location.href = '/ServiceHistory/create' }}
-                    style={styles.navButton}
-                  >
-                    Add History
+                  Edit Profile
                   </button>
                   <button
                     onClick={() => { window.location.href = '/ServiceHistory' }}
                     style={styles.navButton}
                   >
-                    View History
+                    Delete Account
                   </button>
-                  <div
-                    style={styles.navButton}
-                  >
-                    {/* <VehicleReport filteredVehicles={filteredVehicles} /> */}
-                  </div>
+                   
                 </div>
               </div>
             </div>

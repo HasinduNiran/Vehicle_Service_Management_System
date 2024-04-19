@@ -1,8 +1,9 @@
 // Import necessary dependencies
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import Spinner from '../../components/Spinner';
+ 
 import axios from 'axios';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+
 
 // Define the DeleteMenu component
 const DeleteCustomer = () => {
@@ -35,28 +36,32 @@ const DeleteCustomer = () => {
 
   // JSX for rendering the DeleteMenu component
   return (
-    <div className='p-4'>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#1f2937' }}>
 
       {/* Heading for the delete menu page */}
-      <h1 className='text-3xl my-4'>Delete Customer</h1>
+      <div style={{ padding: '2rem', maxWidth: '600px', backgroundColor: '#2d3748', borderRadius: '10px', color: '#fff' }}>
 
       {/* Display a spinner while the delete operation is in progress */}
-      {loading ? <Spinner /> : ''}
+      <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem' }}>Delete Customer</h1>
 
       {/* Container for the deletion confirmation message and button */}
-      <div className='flex flex-col items-center border-2 border-sky-400 rounded-xl w-[600px] p-8 mx-auto'>
+      <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>Are you sure you want to delete this vehicle?</p>
         {/* Message asking for confirmation */}
         <h3 className='text-2xl'>Are you sure you want to delete this customer?</h3>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
         {/* Button to initiate the Menu deletion */}
         <button
-          className='p-4 bg-red-600 text-white m-8 w-full'
-          onClick={handleDeleteCustomer}
-          disabled={loading}>
-          {loading ? 'Deleting...' : 'Delete'}
+           onClick={handleDeleteCustomer}style={{ backgroundColor: '#dc3545', color: 'white', padding: '0.8rem 2rem', borderRadius: '5px', cursor: 'pointer', border: 'none', marginRight: '1rem' }}>
+           {loading ? 'Deleting...' : 'Delete'}
         </button>
+        <Link to={'/customer/allCustomer'} style={{ backgroundColor: '#007bff', color: 'white', padding: '0.8rem 2rem', borderRadius: '5px', textDecoration: 'none' }}>
+            Cancel
+          </Link>
       </div>
     </div>
+    </div>
+
   );
 };
 
