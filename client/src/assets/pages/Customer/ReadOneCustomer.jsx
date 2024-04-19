@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
-
 import { Link } from 'react-router-dom';
 
 const ReadOneCustomer = () => {
@@ -136,6 +135,15 @@ const ReadOneCustomer = () => {
     value: {
       color: 'white',
     },
+
+    heading: {
+      fontSize: '2rem',
+      fontWeight: 'bold',
+      marginBottom: '20px',
+      color: '#fff', // Change color to white
+      textAlign: 'center',
+      textTransform: 'uppercase',
+     },
   };
 
   return (
@@ -197,7 +205,7 @@ const ReadOneCustomer = () => {
                   Edit Profile
                   </button>
                   <button
-                    onClick={() => { window.location.href = '/ServiceHistory' }}
+                    onClick={() => { window.location.href = `/customer/delete/${customer.cusID}` }}
                     style={styles.navButton}
                   >
                     Delete Account
@@ -270,7 +278,7 @@ const ReadOneCustomer = () => {
 
               {bookings.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Bookings</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>Bookings</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
@@ -304,7 +312,7 @@ const ReadOneCustomer = () => {
 
               {payments.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Payments</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>PAYMENTS</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
@@ -332,7 +340,7 @@ const ReadOneCustomer = () => {
 
               {vehicles.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Vehicles</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>VEHICLES</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
@@ -372,7 +380,7 @@ const ReadOneCustomer = () => {
 
               {serviceHistories.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Service Histories</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>SERVICE HISTORIES</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
@@ -402,7 +410,7 @@ const ReadOneCustomer = () => {
 
               {feedback.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Feedback</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>FEEDBACKS</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
