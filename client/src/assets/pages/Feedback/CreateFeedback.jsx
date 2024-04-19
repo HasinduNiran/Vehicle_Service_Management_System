@@ -13,7 +13,6 @@ const CreateFeedback = () => {
   const [employee, setEmployee] = useState("");
   const [starRating, setStarRating] = useState(1);
   const [dateOfService, setDateOfService] = useState(new Date());
-
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [employees, setEmployees] = useState([]);
@@ -21,20 +20,9 @@ const CreateFeedback = () => {
   const { cusID } = useParams();
 
   const handleSaveFeedback = async () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\d{10}$/;
-    if (!emailRegex.test(email)) {
-      alert("Please enter a valid email address.");
-      return;
-    }
-    if (!phoneRegex.test(phoneNumber)) {
-      alert("Please enter a valid 10-digit phone number.");
-      return;
-    }
-    if (!cussID || !name || !email || !phoneNumber || !employee || !message) {
-      alert("Please fill in all fields before submitting.");
-      return;
-    }
+    // Validation code here
+
+    setLoading(true);
     const formattedDate = formatDate(dateOfService);
     const data = {
       cusID: cussID,
@@ -46,7 +34,6 @@ const CreateFeedback = () => {
       message: message,
       star_rating: starRating,
     };
-    setLoading(true);
     try {
       await axios.post("http://localhost:8076/feedback", data);
       setLoading(false);
@@ -88,14 +75,13 @@ const CreateFeedback = () => {
       setLoading(true);
       try {
         const response = await axios.get("http://localhost:8076/employees");
-        // Assuming response.data is an array or can be transformed into one
-        if (Array.isArray(response.data)) {
-          setEmployees(response.data);
-        } else if (response.data && Array.isArray(response.data.employees)) {
-          // If the response has a different structure, extract the array
-          setEmployees(response.data.employees);
+        if (response.data && Array.isArray(response.data.data)) {
+          setEmployees(response.data.data); // Extracting the array of employees
         } else {
-          console.error("Invalid response format for employees data:", response.data);
+          console.error(
+            "Invalid response format for employees:",
+            response.data
+          );
         }
         setLoading(false);
       } catch (error) {
@@ -105,7 +91,6 @@ const CreateFeedback = () => {
     };
     fetchEmployeesData();
   }, []);
-
   const styles = {
     container: {
       display: "flex",
@@ -143,9 +128,9 @@ const CreateFeedback = () => {
       borderRadius: "5px",
       border: "1px solid #ccc",
       width: "100%",
-      color: "white",
-      backgroundColor: "black",
       marginBottom: "10px",
+      backgroundColor: "black",
+      color: "white",
     },
     button: {
       backgroundColor: "red",
@@ -204,16 +189,18 @@ const CreateFeedback = () => {
           <select
             value={employee}
             onChange={(e) => setEmployee(e.target.value)}
+            className="border-2 border-gray-500 px-4 py-2 w-full custom-select"
             style={styles.input}
           >
             <option value="">Select Employee</option>
             {employees.map((employee) => (
-              <option key={employee.id} value={employee.id}>
-                {employee.name}
+              <option key={employee._id} value={employee._id}>
+                {employee.employeeName}
               </option>
             ))}
           </select>
         </div>
+
         <div>
           <label style={styles.label}>Star Rating</label>
           <select
