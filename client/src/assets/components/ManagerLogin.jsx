@@ -40,7 +40,7 @@ function Login() {
             break;
           case "vehicle":
             message = "Welcome back! Hasindu";
-            navigate("/vehicle");
+            navigate("/vehicle/dashboard");
             break;
           case "inventory":
             message = "Welcome back! Lasal";
