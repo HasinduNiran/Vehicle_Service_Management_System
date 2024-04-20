@@ -13,7 +13,7 @@ import CreateBooking from './assets/pages/Booking/CreateBooking';
 import EditBooking from './assets/pages/Booking/EditBooking';
 import DeleteBooking from './assets/pages/Booking/DeleteBooking';
 import ReadOneBooking from './assets/pages/Booking/ReadOneBooking';
-
+import BookingDashBoard from './assets/pages/Booking/BookingDashBoard';
 
 import ShowPayment from './assets/pages/Payment/ShowPayment';
 import CreatePayments from './assets/pages/Payment/CreatePayments';
@@ -77,6 +77,8 @@ import ReadOneInventory from './assets/pages/Inventory/ReadOneInventory'
 import DeleteInventory from './assets/pages/Inventory/DeleteInventory'
 import AddExistingInventory  from './assets/pages/Inventory/AddItemPage';
 import RetrieveExistingInventory from './assets/pages/Inventory/RetrieveItemPage';
+import InventoryDashboard  from './assets/pages/Inventory/InventoryDashboard';
+import InventoryReport from './assets/pages/Inventory/InventoryReport';
 
 import ShowAllFeedback from './assets/pages/Feedback/ShowAllFeedback';
 import CreateFeedback from './assets/pages/Feedback//CreateFeedback';
@@ -171,6 +173,7 @@ const App = () => {
         <Route path='/edit/:id' element={<EditBooking />} />
         <Route path='booking/delete/:id' element={<DeleteBooking />} />
         <Route path='booking/read/:id' element={<ReadOneBooking />} />
+        <Route path='booking/dashboard' element={<BookingDashBoard />} />
 
         <Route path='/inventory/allInventory' element={<ShowInventory />}></Route>
         <Route path='/inventory/create' element={<CreateInventory />}></Route>
@@ -289,7 +292,8 @@ const App = () => {
       <Route path='/inventory/get/:id' element={<ReadOneInventory />}></Route>
       <Route path='/inventory/addItem/:id' element={<AddExistingInventory />}></Route>
       <Route path='/inventory/retrieveItem/:id' element={<RetrieveExistingInventory />}></Route>
-
+      <Route path='/inventory/InventoryDashboard' element={<InventoryDashboard />}></Route>
+      <Route path='/inventory/InventoryReport' element={<InventoryReport/>}></Route>
 
     
 

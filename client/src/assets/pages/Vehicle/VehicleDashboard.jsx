@@ -7,6 +7,9 @@ import logo from '../../images/logo.jpg';
 import VehicleReport from './VehicleReport'; // Adjust the path accordingly
 
 import backgroundImage from '../../images/t.jpg';
+import { AiOutlineEdit } from 'react-icons/ai';
+import { BsInfoCircle } from 'react-icons/bs';
+import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import SidebarV from '../../components/SidebarV';
 
 const VDashboard = () => {
@@ -232,7 +235,7 @@ const VDashboard = () => {
                           <th style={styles.tableHeader}>Model</th>
                           <th style={styles.tableHeader}>Year</th>
                           <th style={styles.tableHeader}>Engine details</th>
-                          <th style={styles.tableHeader}>Fuel Type</th>
+                          {/* <th style={styles.tableHeader}>Fuel Type</th> */}
                           <th style={styles.tableHeader}>Transmission</th>
                           <th style={styles.tableHeader}>Color</th>
                           <th style={styles.tableHeader}>Features</th>
@@ -249,16 +252,18 @@ const VDashboard = () => {
                             <td style={styles.tableCell}>{vehicle.Model}</td>
                             <td style={styles.tableCell}>{vehicle.Year}</td>
                             <td style={styles.tableCell}>{vehicle.Engine_Details}</td>
-                            <td style={styles.tableCell}>{vehicle.Fuel_Type}</td>
+                            {/* <td style={styles.tableCell}>{vehicle.Fuel_Type}</td> */}
                             <td style={styles.tableCell}>{vehicle.Transmission_Details}</td>
                             <td style={styles.tableCell}>{vehicle.Vehicle_Color}</td>
                             <td style={styles.tableCell}>{vehicle.Vehicle_Features}</td>
                             <td style={styles.tableCell}>{vehicle.Condition_Assessment}</td>
                             <td style={styles.tableCell}>{vehicle.Owner}</td>
                             <td style={styles.tableCell}>
-                              <Link to={`/vehicle/edit/${vehicle._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Edit</Link>
-                              <Link to={`/vehicle/get/${vehicle.Register_Number}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>View</Link>
-                              <Link to={`/vehicle/delete/${vehicle._id}`} className='bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded'>Delete</Link>
+                              <div className='flex justify-center gap-x-4'>
+                                <Link to={`/vehicle/get/${vehicle.Register_Number}`} > <BsInfoCircle className='text-2x1 text-green-800' /></Link>
+                                <Link to={`/vehicle/edit/${vehicle._id}`}><AiOutlineEdit className='text-2x1 text-yellow-600' /></Link>
+                                <Link to={`/vehicle/delete/${vehicle._id}`} ><MdOutlineDelete className='text-2x1 text-red-600' /></Link>
+                              </div>
                             </td>
                           </tr>
                         ))}

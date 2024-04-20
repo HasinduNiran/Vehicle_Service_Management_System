@@ -51,8 +51,24 @@ const ReadOnePayment=()=> {
           <span>{payment.Vehicle_Number}</span>
         </div>
         <div className='my-4'>
+          <span className='text-xl mr-4 text-gray-500'>Package</span>
+          <span>{payment.Package}</span>
+        </div>
+        <div className='my-4'>
+          <span className='text-xl mr-4 text-gray-500'>Service name</span>
+          <span>{payment.selectedServices}</span>
+        </div>
+        <div className='my-4'>
           <span className='text-xl mr-4 text-gray-500'>Date</span>
           <span>{payment.PaymentDate}</span>
+        </div>
+        <div className='my-4'>
+          <span className='text-xl mr-4 text-gray-500'>Package Amount</span>
+          <span>{payment.Pamount}</span>
+        </div>
+        <div className='my-4'>
+          <span className='text-xl mr-4 text-gray-500'>Service Amount</span>
+          <span>{payment.Samount}</span>
         </div>
         <div className='my-4'>
           <span className='text-xl mr-4 text-gray-500'>Amount</span>

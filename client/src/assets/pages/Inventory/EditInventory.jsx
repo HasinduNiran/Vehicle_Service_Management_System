@@ -1,14 +1,13 @@
-// Importing necessary dependencies
 import { useState, useEffect } from "react";
 import React from 'react';
 import Spinner from "../../components/Spinner"
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2"; // Import SweetAlert2
+import backgroundImage from '../../images/t.jpg';
+import BackButton from '../../components/BackButton';
 
-// Functional component for EditInventory
 const EditInventory = () => {
-  // State variables for managing form data and loading state
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -41,9 +40,7 @@ const EditInventory = () => {
       });
   }, [id]);
 
-  // Event handler for editing the inventory
   const handleEditInventory = () => {
-    // Creating data object from form inputs
     const data = {
       Name: name,
       Location: location,
@@ -56,102 +53,186 @@ const EditInventory = () => {
 
     setLoading(true);
 
-    // Making a PUT request to edit the inventory data
     axios
       .put(`http://localhost:8076/inventory/${id}`, data)
       .then(() => {
-        // Resetting loading state
         setLoading(false);
-        // Display SweetAlert2 when data is successfully edited
         Swal.fire("Success!", "Inventory data updated successfully!", "success").then(() => {
-          // After user clicks OK, navigate to the home page
           navigate('/inventory/allInventory');
         });
       })
       .catch((error) => {
-        // Handling errors by resetting loading state, showing an alert, and logging the error
         setLoading(false);
         alert('An error happened. Please check console');
         console.log(error);
       });
   };
 
-  // JSX for rendering the edit inventory form
   return (
-    <div className="p-4">
-      <h1 className="text-3xl my-4">Edit inventory</h1>
+    <div style={styles.container}>
+      <BackButton destination={`/inventory/allInventory`} />
       {loading ? <Spinner /> : ''}
-      <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Name</label>
+      <div style={styles.formContainer}>
+      <h1 style={styles.heading}>Edit inventory</h1>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Name</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Location</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Location</label>
           <input
             type="text"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Quantity</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Quantity</label>
           <input
             type="number"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">PurchasedPrice</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Purchased Price</label>
           <input
             type="number"
             value={purchasedPrice}
             onChange={(e) => setPurchasedPrice(e.target.value)}
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">SellPrice</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Sell Price</label>
           <input
             type="number"
             value={sellPrice}
             onChange={(e) => setSellPrice(e.target.value)}
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">SupplierName</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Supplier Name</label>
           <input
             type="text"
             value={supplierName}
             onChange={(e) => setSupplierName(e.target.value)}
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">SupplierPhone</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Supplier Phone</label>
           <input
             type="text"
             value={supplierPhone}
             onChange={(e) => setSupplierPhone(e.target.value)}
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <button className='p-2 bg-sky-300 m-8' onClick={handleEditInventory}>
-          Save
-        </button>
+        <div style={styles.buttonContainer}>
+          <button style={styles.button} onClick={handleEditInventory}>
+            Save
+          </button>
+        </div>
       </div>
     </div>
   );
 };
-
-// Exporting the EditInventory component
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    
+  },
+  formContainer: {
+    width: '50%',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+    padding: '20px',
+    border: '2px solid red', // Add a red border
+    borderColor: 'red',
+    margin: '10px',
+    textAlign: 'center',
+    position: 'relative', // Add this line for absolute positioning of the line
+  },
+  heading: {
+    fontSize: '3rem',
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: '20px' // Add margin bottom to create space between heading and form
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  formGroup: {
+    marginBottom: '1.5rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '10px',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    borderRadius: '5px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    color: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+  },
+  label: {
+    fontWeight: 'bold',
+    marginBottom: '0.5rem',
+    flexDirection: 'column',
+    fontSize: '1.2rem',
+    color: 'red',
+    textAlign: 'center',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center', 
+    padding: '10px',
+    display: 'block',
+    textTransform: 'uppercase',
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    backgroundColor: 'black',
+    color: 'white',
+    fontSize: '1.2rem',
+    marginBottom: '10px',
+    textAlign: 'left',
+    display: 'block',
+    
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: '#ff0000',
+    color: '#ffffff',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'background-color 0.8s',
+  },
+};
 export default EditInventory;

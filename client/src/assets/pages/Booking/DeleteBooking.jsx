@@ -17,7 +17,7 @@ const DeleteBooking = () => {
       .then(() => {
         setLoading(false);
         alert('Successfully deleted');
-        navigate('/show-all');
+        navigate('/booking/dashboard');
       })
       .catch((error) => {
         setLoading(false);

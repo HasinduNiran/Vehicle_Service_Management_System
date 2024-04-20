@@ -5,6 +5,11 @@ import { useReactToPrint } from 'react-to-print';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
 import SidebarV from '../../components/SidebarV';
+import { AiOutlineEdit } from 'react-icons/ai';
+import { BsInfoCircle } from 'react-icons/bs';
+import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
+import SidebarS from '../../components/SidebarS';
+import ServiceHistoryReport from './ServiceHistoryReport';
 
 const ServiceHistoryDashboard = () => {
     const [serviceHistories, setServiceHistory] = useState([]);
@@ -48,28 +53,28 @@ const ServiceHistoryDashboard = () => {
         onAfterPrint: () => alert('Data saved in PDF'),
     });
 
-    const applyServiceHistoryFilter = (service) => {
+    const applyServiceHistoryFilter = (history) => {
         const textQuery = textSearchQuery.toLowerCase();
         const dateQuery = dateSearchQuery;
 
         const textFilter = (
-            (service.Customer_Name && service.Customer_Name.toLowerCase().includes(textQuery)) ||
-            (service.Allocated_Employee && service.Allocated_Employee.toLowerCase().includes(textQuery)) ||
-            (service.Vehicle_Number && service.Vehicle_Number.toLowerCase().includes(textQuery)) ||
-            (service.Service_History && service.Service_History.toLowerCase().includes(textQuery)) ||
-            (typeof service.Milage === 'string' && service.Milage.toLowerCase().includes(textQuery)) ||
-            (service.Package && service.Package.toLowerCase().includes(textQuery)) ||
-            (service.Booking_Id && service.Booking_Id.toLowerCase().includes(textQuery)) ||
-            (service.Service_Date && service.Service_Date.toLowerCase().includes(textQuery)) ||
-            (service.nextService && service.nextService.toLowerCase().includes(textQuery)) ||
-            (service.Servicename && service.Servicename.toLowerCase().includes(textQuery)) ||
-            (service.Month && service.Month.toLowerCase().includes(textQuery))
+            (history.Customer_Name && history.Customer_Name.toLowerCase().includes(textQuery)) ||
+            (history.Allocated_Employee && history.Allocated_Employee.toLowerCase().includes(textQuery)) ||
+            (history.Vehicle_Number && history.Vehicle_Number.toLowerCase().includes(textQuery)) ||
+            (history.Service_History && history.Service_History.toLowerCase().includes(textQuery)) ||
+            (typeof history.Milage === 'string' && history.Milage.toLowerCase().includes(textQuery)) ||
+            (history.Package && history.Package.toLowerCase().includes(textQuery)) ||
+            (history.Booking_Id && history.Booking_Id.toLowerCase().includes(textQuery)) ||
+            (history.Service_Date && history.Service_Date.toLowerCase().includes(textQuery)) ||
+            (history.nextService && history.nextService.toLowerCase().includes(textQuery)) ||
+            (history.Servicename && history.Servicename.toLowerCase().includes(textQuery)) ||
+            (history.Month && history.Month.toLowerCase().includes(textQuery))
         );
 
         let dateFilter = true;
         if (dateQuery) {
             const [queryYear, queryMonth, queryDate] = dateQuery.split('-');
-            const [serviceYear, serviceMonth, serviceDate] = service.Service_Date.split('-');
+            const [serviceYear, serviceMonth, serviceDate] = history.Service_Date.split('-');
 
             if (queryYear) {
                 dateFilter = dateFilter && (serviceYear === queryYear);
@@ -85,7 +90,7 @@ const ServiceHistoryDashboard = () => {
         return textFilter && dateFilter;
     };
 
-    const filteredServiceHistories = serviceHistories.filter(applyServiceHistoryFilter);
+    const filteredServiceHistories = serviceHistories.filter(history => applyServiceHistoryFilter(history));
 
     const styles = {
         container: {
@@ -93,7 +98,7 @@ const ServiceHistoryDashboard = () => {
             border: '3px solid white',
             backgroundImage: `url(${backgroundImage})`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            backgroundPosition: 'center',
         },
         navButton: {
             backgroundColor: 'red',
@@ -160,16 +165,11 @@ const ServiceHistoryDashboard = () => {
                         <div className="input-group gap-4 ">
                             <div>
                                 <input className="form-control " type="text" value={textSearchQuery} placeholder="Search for..." aria-label="Search for..." onChange={(e) => setTextSearchQuery(e.target.value)} aria-describedby="btnNavbarSearch" />
-                                {/* <button className="btn btn-primary" id="btnNavbarSearch" onClick={handleSearch} type="button"><i className="fas fa-search"></i></button> */}
                             </div>
                             <div className='ml-10'>
                                 <input className="form-control " type="date" value={dateSearchQuery} placeholder="Search for..." aria-label="Search for..." onChange={(e) => setDateSearchQuery(e.target.value)} aria-describedby="btnNavbarSearch" />
-                                {/* <button className="btn btn-primary" id="btnNavbarSearch" onClick={handleSearch} type="button"><i className="fas fa-search"></i></button> */}
                             </div>
-                            
-                            
                         </div>
-                       
                     </form>
                     <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                         <li className="nav-item dropdown">
@@ -184,11 +184,53 @@ const ServiceHistoryDashboard = () => {
                     </ul>
                 </nav>
                 <div id="layoutSidenav">
-                    <SidebarV />
+                    <div id="layoutSidenav_nav">
+                        <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                            <div className="sb-sidenav-menu">
+                                <div className="nav-link">
+                                    <div className="sb-nav-link-icon">
+                                        <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} />
+                                        <button
+                                            onClick={() => { window.location.href = '/vehicle/create' }}
+                                            style={styles.navButton}
+                                        >
+                                            Add Vehicle
+                                        </button>
+                                        <button
+                                            onClick={() => { window.location.href = '/vehicle/dashboard' }}
+                                            style={styles.navButton}
+                                        >
+                                            All Vehicles
+                                        </button>
+                                        <button
+                                            onClick={() => { window.location.href = '/servicehistory/create' }}
+                                            style={styles.navButton}
+                                        >
+                                            Add History
+                                        </button>
+                                        <button
+                                            onClick={() => { window.location.href = '/servicehistory/dashboard' }}
+                                            style={styles.navButton}
+                                        >
+                                            View History
+                                        </button>
+                                        <div style={styles.navButton}>
+                                            {/* Pass appropriate props to ServiceHistoryReport */}
+                                            <ServiceHistoryReport filteredServiceHistories={filteredServiceHistories} />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="sb-sidenav-footer">
+                                <div className="small">Logged in as:</div>
+                                Operation manager
+                            </div>
+                        </nav>
+                    </div>
                     <div id="layoutSidenav_content">
                         <main>
                             <div className="">
-                                <h1 style={styles.subHeading}>Service History Dashboard</h1>
+                                <h1 style={styles.subHeading}>Service Histories Dashboard</h1>
                                 <div className="">
                                     <div className='' ref={componentRef}>
                                         <table className='' style={styles.table}>
@@ -209,23 +251,27 @@ const ServiceHistoryDashboard = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {filteredServiceHistories.map((service, index) => (
-                                                    <tr key={service._id}>
-                                                        <td style={styles.tableCell}>{service.cusID}</td>
-                                                        <td style={styles.tableCell}>{service.Customer_Name}</td>
-                                                        <td style={styles.tableCell}>{service.Allocated_Employee}</td>
-                                                        <td style={styles.tableCell}>{service.Vehicle_Number}</td>
-                                                        <td style={styles.tableCell}>{service.Milage}</td>
-                                                        <td style={styles.tableCell}>{service.Package}</td>
-                                                        <td style={styles.tableCell}>{service.selectedServices}</td>
-                                                        <td style={styles.tableCell}>{service.Booking_Id}</td>
-                                                        <td style={styles.tableCell}>{service.nextService}</td>
-                                                        <td style={styles.tableCell}>{service.Service_History}</td>
-                                                        <td style={styles.tableCell}>{service.Service_Date}</td>
+                                                {filteredServiceHistories.map((history, index) => (
+                                                    <tr key={history._id}>
+                                                        <td style={styles.tableCell}>{history.cusID}</td>
+                                                        <td style={styles.tableCell}>{history.Customer_Name}</td>
+                                                        <td style={styles.tableCell}>{history.Allocated_Employee}</td>
+                                                        <td style={styles.tableCell}>{history.Vehicle_Number}</td>
+                                                        <td style={styles.tableCell}>{history.Milage}</td>
+                                                        <td style={styles.tableCell}>{history.Package}</td>
+                                                        <td style={styles.tableCell}>{history.selectedServices}</td>
+                                                        <td style={styles.tableCell}>{history.Booking_Id}</td>
+                                                        <td style={styles.tableCell}>{history.nextService}</td>
+                                                        <td style={styles.tableCell}>{history.Service_History}</td>
+                                                        <td style={styles.tableCell}>{history.Service_Date}</td>
                                                         <td style={styles.tableCell}>
-                                                            <Link to={`/ServiceHistory/edit/${service._id}`} className='text-green-600 mr-2 hover:text-green-800'>Edit</Link>
-                                                            <Link to={`/ServiceHistory/delete/${service._id}`} className='text-red-600 mr-2 hover:text-red-800'>Delete</Link>
-                                                            <Link to={`/ServiceHistory/get/${service._id}`} className='text-blue-600 hover:text-blue-800'>Show</Link>
+                                                            <div className='flex justify-center gap-x-4'>
+                                                                <Link to={`/ServiceHistory/get/${history._id}`} > <BsInfoCircle className='text-2x1 text-green-800' /></Link>
+
+                                                                <Link to={`/ServiceHistory/edit/${history._id}`}><AiOutlineEdit className='text-2x1 text-yellow-600' /></Link>
+
+                                                                <Link to={`/ServiceHistory/delete/${history._id}`}><MdOutlineDelete className='text-2x1 text-red-600' /></Link>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -236,9 +282,15 @@ const ServiceHistoryDashboard = () => {
                                 </div>
                             </div>
                         </main>
-                        <footer className="py-4 bg-light mt-auto">
+                        <footer className="py-4 bg-dark mt-auto">
                             <div className="container-fluid px-4">
-                                <div className="d-flex align-items-center justify-content-between small">
+                                <div className="d-flex align-items-center justify-content-between small text-white">
+                                    <div>
+                                        &copy; {new Date().getFullYear()} Nadeeka Auto Care
+                                    </div>
+                                    <div>
+                                        <a href="#">Privacy Policy</a> &middot; <a href="#">Terms &amp; Conditions</a>
+                                    </div>
                                 </div>
                             </div>
                         </footer>
