@@ -13,7 +13,7 @@ import CreateBooking from './assets/pages/Booking/CreateBooking';
 import EditBooking from './assets/pages/Booking/EditBooking';
 import DeleteBooking from './assets/pages/Booking/DeleteBooking';
 import ReadOneBooking from './assets/pages/Booking/ReadOneBooking';
-
+import BookingDashBoard from './assets/pages/Booking/BookingDashBoard';
 
 import ShowPayment from './assets/pages/Payment/ShowPayment';
 import CreatePayments from './assets/pages/Payment/CreatePayments';
@@ -171,6 +171,7 @@ const App = () => {
         <Route path='/edit/:id' element={<EditBooking />} />
         <Route path='booking/delete/:id' element={<DeleteBooking />} />
         <Route path='booking/read/:id' element={<ReadOneBooking />} />
+        <Route path='booking/dashboard' element={<BookingDashBoard />} />
 
         <Route path='/inventory/allInventory' element={<ShowInventory />}></Route>
         <Route path='/inventory/create' element={<CreateInventory />}></Route>

@@ -36,7 +36,7 @@ function Login() {
             break;
           case "booking":
             message = "Welcome back! Isuru";
-            navigate("/show-all");
+            navigate("/booking/dashboard");
             break;
           case "vehicle":
             message = "Welcome back! Hasindu";
