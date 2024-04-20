@@ -4,6 +4,8 @@ import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+import backgroundImage from '../../images/Pback3.jpg'; // background image
+
 const CreatePayments = () => {
   const [PaymentId, setPaymentId] = useState('');
   const [cusID, setCusID] = useState('');
@@ -111,7 +113,7 @@ const CreatePayments = () => {
       .post(`http://localhost:8076/payments`, data)
       .then(() => {
         setLoading(false);
-        navigate('/payments/show');
+        navigate('/payments/pdashboard');
       })
       .catch((error) => {
         setLoading(false);
@@ -169,28 +171,31 @@ const CreatePayments = () => {
   };
 
   return (
-    <div className='p-4'>
-      <BackButton destination='/payments/show' />
-      <h1 className='text-3xl my-4'>Create Payment</h1>
+   
+       
+    <div style={styles.container}>
+      <div style={styles.formContainer}> 
+      <h1 style={styles.heading}><BackButton destination='/payments/pdashboard' />Create Payment</h1>
       {loading ? <Spinner /> : ''}
       <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
-        <form onSubmit={handleSubmit}>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>PaymentId</label>
+        <form onSubmit={handleSubmit} style={styles.form}>
+        <div style={styles.formGroup}>
+            <label htmlFor="PaymentId"style={styles.label}>PaymentId</label>
             <input
               type='text'
               name='PaymentId'
+              style={styles.input} 
               value={formValues.PaymentId}
               onChange={handleChange}
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              // className='border-2 border-gray-500 px-4 py-2 w-full'
             />
             {formErrors.PaymentId && <p className='text-red-500'>{formErrors.PaymentId}</p>}
           </div>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Customer ID</label>
+          <div style={styles.formGroup}>
+            <label htmlFor='cusID'style={styles.label}>Customer ID</label>
             <select
               name='cusID'
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.select}
               value={formValues.cusID}
               onChange={handleServiceIdChange}
             >
@@ -203,11 +208,11 @@ const CreatePayments = () => {
             </select>
             {formErrors.cusID && <p className='text-red-500'>{formErrors.cusID}</p>}
           </div>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Service ID</label>
+          <div style={styles.formGroup}>
+            <label htmlFor='Booking_Id'style={styles.label}>Service ID</label>
             <select
               name='Booking_Id'
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.select}
               value={formValues.Booking_Id}
               onChange={handleServiceIdChange}
             >
@@ -220,11 +225,11 @@ const CreatePayments = () => {
             </select>
             {formErrors.Booking_Id && <p className='text-red-500'>{formErrors.Booking_Id}</p>}
           </div>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Vehicle No</label>
+          <div style={styles.formGroup}>
+            <label htmlFor="Vehicle_Number"style={styles.label}>Vehicle No</label>
             <select
               name='Vehicle_Number'
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.select}
               value={formValues.Vehicle_Number}
               onChange={handleServiceIdChange}
             >
@@ -237,11 +242,11 @@ const CreatePayments = () => {
             </select>
             {formErrors.Vehicle_Number && <p className='text-red-500'>{formErrors.Vehicle_Number}</p>}
           </div>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Package</label>
+          <div style={styles.formGroup}>
+            <label htmlFor='Package'style={styles.label}>Package</label>
             <select
               name='Package'
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.select}
               value={formValues.Package}
               onChange={handleServiceIdChange}
             >
@@ -254,11 +259,11 @@ const CreatePayments = () => {
             </select>
             {formErrors.Package && <p className='text-red-500'>{formErrors.Package}</p>}
           </div>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Service</label>
+          <div style={styles.formGroup}>
+            <label htmlFor='selectedServices'style={styles.label}>Service</label>
             <select
               name='selectedServices'
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.select}
               value={formValues.selectedServices}
               onChange={handleServiceIdChange}
             >
@@ -271,58 +276,54 @@ const CreatePayments = () => {
             </select>
             {formErrors.selectedServices && <p className='text-red-500'>{formErrors.selectedServices}</p>}
           </div>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Payment Date</label>
+          <div style={styles.formGroup}>
+            <label htmlFor='PaymentDate'style={styles.label}>Payment Date</label>
             <input
               type='Date'
               name='PaymentDate'
               value={formValues.PaymentDate}
               onChange={handleChange}
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.input} 
             />
             {formErrors.PaymentDate && <p className='text-red-500'>{formErrors.PaymentDate}</p>}
           </div>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Package Amount</label>
+          <div style={styles.formGroup}>
+            <label htmlFor='Pamount'style={styles.label}>Package Amount</label>
             <input
               type='number'
               name='Pamount'
               value={formValues.Pamount}
               onChange={handleChange}
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.input} 
             />
             {/* {formErrors.totalAmount && <p className='text-red-500'>{formErrors.totalAmount}</p>} */}
           </div>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Service Amount</label>
+          <div style={styles.formGroup}>
+            <label htmlFor='Samount'style={styles.label}>Service Amount</label>
             <input
               type='number'
               name='Samount'
               value={formValues.Samount}
               onChange={handleChange}
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.input} 
             />
             {/* {formErrors.totalAmount && <p className='text-red-500'>{formErrors.totalAmount}</p>} */}
           </div>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>totalAmount</label>
+          <div style={styles.formGroup}>
+            <label htmlFor='totalAmount'style={styles.label}>totalAmount</label>
             <input
               type='number'
               name='totalAmount'
               value={totalAmount}
               readOnly // Make the input field read-only to prevent direct user input
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.input} 
             />
           </div>
-
-
-
-
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Payment Method</label>
+          <div style={styles.formGroup}>
+            <label htmlFor='PaymentMethod'style={styles.label}>Payment Method</label>
             <select
               name='PaymentMethod'
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.select}
               value={formValues.PaymentMethod}
               onChange={handleChange}
             >
@@ -332,13 +333,118 @@ const CreatePayments = () => {
             </select>
             {formErrors.PaymentMethod && <p className='text-red-500'>{formErrors.PaymentMethod}</p>}
           </div>
-          <button className='p-2 bg-sky-300 m-8' type='submit'>
+          <button className='p-3 bg-red-400 m-8' type='submit'>
             Save
           </button>
         </form>
       </div>
     </div>
+    </div>
   );
+};
+const styles = {
+  select: {
+      width: '100%',
+      padding: '10px',
+      margin: '10px 0',
+      border: '1px solid #ccc',
+      borderRadius: '5px',
+      backgroundColor: 'black',
+
+      outline: 'none'
+
+
+  },
+  container: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+},
+formContainer: {
+  width: '50%',
+  backgroundColor: 'rgba(5, 4, 2, 0.8)',
+  borderRadius: '10px',
+  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+  padding: '20px',
+  border: '2px solid red', // Add a red border
+  borderColor: 'red',
+  margin: '10px',
+  textAlign: 'center',
+  position: 'relative', // Add this line for absolute positioning of the line
+},
+
+heading: {
+  fontSize: '2rem',
+  color: 'white',
+  textAlign: 'center',
+  fontWeight: 'bold',
+
+  marginBottom: '1.5rem',
+},
+form: {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  maxWidth: '500px',
+  padding: '20px',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
+  borderRadius: '10px',
+},
+formGroup: {
+  marginBottom: '1.5rem',
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '10px',
+  border: '1px solid rgba(255, 255, 255, 0.8)',
+  borderRadius: '5px',
+  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+  color: 'rgba(255, 255, 255, 0.8)',
+  backgroundColor: 'rgba(5, 4, 2, 0.8)',
+},
+label: {
+  fontWeight: 'bold',
+  marginBottom: '0.5rem',
+  flexDirection: 'column',
+  fontSize: '1.2rem',
+  color: 'white',
+  textAlign: 'center',
+  width: '100%',
+  alignItems: 'center',
+  justifyContent: 'center', 
+  padding: '10px',
+  display: 'block',
+  textTransform: 'uppercase',
+  backgroundColor: 'black',
+},
+input: {
+  width: '100%',
+  padding: '10px',
+  borderRadius: '5px',
+  border: '1px solid #ccc',
+  backgroundColor: 'grey',
+  color: 'black',
+},
+buttonContainer: {
+  display: 'flex',
+  justifyContent: 'center',
+},
+button: {
+  backgroundColor: 'red',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '0.25rem',
+  padding: '0.5rem 1rem',
+  cursor: 'pointer',
+  transition: 'background-color 0.3s ease',
+},
 };
 
 export default CreatePayments;

@@ -106,6 +106,7 @@ import ServiceHistoryDashboard from './assets/pages/ServiceHistory/ServiceHistor
 
 import CusDashboard from './assets/pages/customerDashBoard/cusDashboard'; 
 import VDashboard from './assets/pages/Vehicle/VehicleDashboard';
+import PaymentDashboard from './assets/pages/Payment/PaymentDashboard';
 
 import EmpDashboard from './assets/pages/Employee/EmployeeDashboard';
 import EmpADashboard from './assets/pages/EmployeeAttendence/EmpAttendenceDashboard';
@@ -158,7 +159,8 @@ const App = () => {
         <Route path='/EmployeeSalary/delete/:id' element={<DeleteEmployeeSalary />}></Route>
         <Route path='/EmployeeSalary/reportEmployeeSalary' element={<ReportEmployeeSalary />}></Route>
         <Route path='/EmployeeSalary/EmpSDashboard' element={<EmpSDashboard />}></Route>
-
+        
+        <Route path='/payments/pdashboard' element={<PaymentDashboard />}></Route>
         <Route path='/payments/show' element={<ShowPayment />}></Route>
         <Route path='/payments/detail/:id' element={<ReadOnePayment />}></Route>
         <Route path='/payments/create' element={<CreatePayments />}></Route>

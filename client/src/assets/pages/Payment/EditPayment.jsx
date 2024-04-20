@@ -66,7 +66,7 @@ const EditPayment = () => {
       .put(`http://localhost:8076/payments/${id}`, data)
       .then(() => {
         setLoading(false);
-        navigate("/payments/show");
+        navigate("/payments/pdashboard");
       })
       .catch((err) => {
         setLoading(false);
@@ -77,7 +77,7 @@ const EditPayment = () => {
 
   return (
     <div className="p-4">
-      <BackButton destination="/payments/show" />{" "}
+      <BackButton destination="/payments/pdashboard" />{" "}
       {/* Pass the destination URL here */}
       <h1 className="text-3xl my-4">Create Payment</h1>
       {loading ? <Spinner /> : ""}

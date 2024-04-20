@@ -24,7 +24,7 @@ const ReadOnePayment=()=> {
 
   return (
     <div className='p-4'>
-      <BackButton destination='/payments/show' /> {/* Pass the destination URL here */}
+      <BackButton destination='/payments/pdashboard' /> {/* Pass the destination URL here */}
     <h1 className='text-3xl my-4'>Payment</h1>
     {loading ? (
       <Spinner />
