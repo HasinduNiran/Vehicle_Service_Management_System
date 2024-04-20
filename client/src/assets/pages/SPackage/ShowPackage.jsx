@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Spinner from '../../components/Spinner';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const ShowPackages = () => {
   const [packages, setPackages] = useState([]);
@@ -20,15 +21,46 @@ const ShowPackages = () => {
       });
   }, []);
 
-  const handleDeletePackage = async (id) => {
-    try {
-      await axios.delete(`http://localhost:8076/Package/${id}`);
-      // Update state after successful deletion
-      setPackages(packages.filter(pkg => pkg._id !== id));
-    } catch (error) {
-      console.error('Error deleting package:', error);
-      // Handle error if deletion fails
-    }
+  const handleDeletePackage = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`http://localhost:8076/Package/${id}`)
+          .then(response => {
+            if (response.status === 200) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your package has been deleted.",
+                icon: "success"
+              }).then(() => {
+                // Refresh the package list after successful deletion
+                window.location.reload();
+              });
+            } else {
+              Swal.fire({
+                title: "Error!",
+                text: "Failed to delete package.",
+                icon: "error"
+              });
+            }
+          })
+          .catch(error => {
+            console.error("Error deleting package:", error);
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to delete package.",
+              icon: "error"
+            });
+          });
+      }
+    });
   };
 
   return (
