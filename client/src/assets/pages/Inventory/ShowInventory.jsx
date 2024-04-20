@@ -282,15 +282,15 @@ const ShowInventory = () => {
           <tbody>
             {filteredInventory.map((inventoryItem, index) => (
               <tr key={inventoryItem._id} className="h-8" style={index % 2 === 0 ? styles.tableRowEven : styles.tableRowOdd}>
-                <td style={styles.tableCell} className="border border-slate-700 rounded-md text-center">{index + 1}</td>
-                <td style={styles.tableCell} className="border border-slate-700 rounded-md text-center">{inventoryItem.Name}</td>
-                <td style={styles.tableCell} className="border border-slate-700 rounded-md text-center">{inventoryItem.Location}</td>
-                <td style={styles.tableCell} className={`border border-slate-700 rounded-md text-center max-md:hidden ${inventoryItem.Quantity <= 15 ? 'text-red-500' : ''}`}>{inventoryItem.Quantity}</td>
-                <td style={styles.tableCell} className="border border-slate-700 rounded-md text-center max-md:hidden">{inventoryItem.PurchasedPrice}</td>
-                <td style={styles.tableCell} className="border border-slate-700 rounded-md text-center">{inventoryItem.SellPrice}</td>
-                <td style={styles.tableCell} className="border border-slate-700 rounded-md text-center">{inventoryItem.SupplierName}</td>
-                <td style={styles.tableCell} className="border border-slate-700 rounded-md text-center">{inventoryItem.SupplierPhone}</td>
-                <td style={styles.tableCell} className="border border-slate-700 rounded-md text-center">
+                <td style={styles.tableCell}>{index + 1}</td>
+                <td style={styles.tableCell}>{inventoryItem.Name}</td>
+                <td style={styles.tableCell}>{inventoryItem.Location}</td>
+                <td style={styles.tableCell}> ${inventoryItem.Quantity <= 15 ? 'text-red-500' : ''}`}>{inventoryItem.Quantity}</td>
+                <td style={styles.tableCell} >{inventoryItem.PurchasedPrice}</td>
+                <td style={styles.tableCell}>{inventoryItem.SellPrice}</td>
+                <td style={styles.tableCell}>{inventoryItem.SupplierName}</td>
+                <td style={styles.tableCell}>{inventoryItem.SupplierPhone}</td>
+                <td style={styles.tableCell}>
                   <div className="flex justify-center gap-x-4">
                     <Link to={`/inventory/get/${inventoryItem._id}`}>
                       <BsInfoCircle className="text-2xl text-green-800" />
