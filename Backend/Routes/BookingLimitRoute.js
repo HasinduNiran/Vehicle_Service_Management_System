@@ -24,7 +24,8 @@ try{
 
     const newLimit = {
   
-      BookingLimit: request.body.BookingLimit
+      BookingLimit: request.body.BookingLimit,
+      Booking_Date: request.body.Booking_Date,
     };
   
     const bookingLimit = await setLimit.create(newLimit);
@@ -41,6 +42,20 @@ try{
 
 
   });
+
+  router.get('/', async (request, response) => {
+    try {
+      const bookings = await setLimit.find({});
+  
+      return response.status(200).json(bookings);
+    } catch (error) {
+  
+      console.log(error.message);
+      response.status(500).send({ message: error.message });
+  
+    }
+  
+  }); 
 
 
   export default router;

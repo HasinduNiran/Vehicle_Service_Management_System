@@ -5,6 +5,10 @@ const vehicleSchema = mongoose.Schema({
     
     
     
+    Booking_Date: {
+        type: Date,
+        required: true
+    },
     BookingLimit: {
         type: Number,
         required: true
