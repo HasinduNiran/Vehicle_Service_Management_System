@@ -373,7 +373,6 @@ const styles = {
     fontSize: '1.2rem',
     color: 'black',
     textAlign: 'center',
-    width: '100%',
     display: 'block',
   },
   serviceButtonsContainer: {

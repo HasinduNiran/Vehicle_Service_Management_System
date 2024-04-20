@@ -87,7 +87,6 @@ function EmployeeDashboard() {
       border: '2px solid red'
     },
     table: {
-        width: '300px',
         margin: '0 auto',
         padding: '20px',
         background: 'lightgray',
@@ -95,7 +94,6 @@ function EmployeeDashboard() {
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',
         fontFamily: 'Arial, sans-serif',
         color: '#fff',
-        background: '#1f1f1f',  
         width: '100%',
         borderCollapse: 'collapse',
     },

@@ -172,7 +172,7 @@ const ShowInventory = () => {
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',
       fontFamily: 'Arial, sans-serif',
       color: '#fff',
-      background: '#1f1f1f'
+      border: '1px solid red',
     },
     tableHead: {
       background: '#333',
@@ -285,7 +285,7 @@ const ShowInventory = () => {
                 <td style={styles.tableCell}>{index + 1}</td>
                 <td style={styles.tableCell}>{inventoryItem.Name}</td>
                 <td style={styles.tableCell}>{inventoryItem.Location}</td>
-                <td style={styles.tableCell}> ${inventoryItem.Quantity <= 15 ? 'text-red-500' : ''}`}>{inventoryItem.Quantity}</td>
+                <td style={styles.tableCell}> ${inventoryItem.Quantity <= 15 ? 'text-red-500' : ''}{inventoryItem.Quantity}</td>
                 <td style={styles.tableCell} >{inventoryItem.PurchasedPrice}</td>
                 <td style={styles.tableCell}>{inventoryItem.SellPrice}</td>
                 <td style={styles.tableCell}>{inventoryItem.SupplierName}</td>

@@ -114,11 +114,6 @@ const ReadOneCustomer = () => {
       textTransform: 'uppercase',
       filter: 'blur(5px)' // Adding blur effect
     },
-    logo: {
-      width: '100%',
-      height: '200px',
-      border: '2px solid red'
-    },
     vehicleInfo: {
       margin: '0 auto', /* Center the vehicle info */
       padding: '20px', /* Add padding */

@@ -320,7 +320,6 @@ formContainer: {
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '80%',
-    padding: '20px',
 },
 
 heading: {
