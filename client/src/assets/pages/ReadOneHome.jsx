@@ -59,36 +59,42 @@ const ReadOneHome = () => {
       flex-direction: row;
     }
   `}</style>
-  <div className="container">
+  <div className="container ml-80 pl-80" style={{ paddingLeft:"10px" }} >
     
-    <nav className="navbar navbar-expand-lg navbar-light">
+  <nav className="navbar navbar-expand-lg navbar-light"  >
+  <Link className="navbar-brand" to="/">
+    <img src={logo2} alt="Nadeeka Auto Service" className="logo" />
+    <h1 style={{ color: 'red', marginTop: '-10px' }}>Nadeeka Auto Service</h1>
+  </Link>
+  
+  <ul className="navbar-nav ml-auto" style={{ paddingLeft:"150px", marginRight:
+"50px" }}>
+    <li className="nav-item active">
+      <Link className="nav-link" to="/">Home</Link>
+    </li>
+    <li className="nav-item">
+      <Link className="nav-link" to="/cLogin">Login</Link>
+    </li>
+    <li className="nav-item">
+      <Link className="nav-link" to="/package">Package</Link>
+    </li>
     
-      <Link className="navbar-brand" to="/">
-        <img src={logo2} alt="Nadeeka Auto Service" className="logo" />
-        <h1 style={{ color: 'red', marginTop: '-10px' }}>Nadeeka Auto Service</h1>
-      </Link>
-      
-      <ul className="navbar-nav ml-auto">
-        <li className="nav-item active">
-          <Link className="nav-link" to="/">Home</Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/cLogin">Login</Link>
-        </li>
-        <li className="nav-item">
-          {/* Link to Package page */}
-          <Link className="nav-link" to="/package">Package</Link>
-          
-          {/* Display welcome message if userData.firstName exists */}
-          {userData.firstName && (
-            <p className="text-right" style={{ color: 'red', margin: '0 10px', marginLeft: '-100px', marginTop: '-20px' }}>
-              <img src="./../images/logo2.png" alt="Welcome" style={{ marginRight: '10px' }} />
-              Welcome, {userData.firstName}!
-            </p>
-          )}
-        </li>
-      </ul>
-    </nav>
+      {/* Display welcome message if userData.firstName exists */}
+      {userData.firstName && (
+        <div className="d-flex" style={{ display:"flex", flexDirection:"column", position:"absolute", marginLeft:"300px"}} >
+          <li className="nav-item">
+          <img src={userData.image} alt="Welcome" style={{ width: '50px', height: '50px', borderRadius: '10%',  }} />
+          </li>
+            <p className="mb-0" style={{ color: 'red', top:'20px' }}>{userData.firstName}!</p>
+            {/* You can add more information here if needed */}
+        
+        </div>
+      )}
+    
+  </ul>
+</nav>
+
+
   </div>
 </header>
 
