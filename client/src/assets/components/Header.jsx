@@ -46,36 +46,10 @@ const Header = () => {
                         <li className="nav-item">
                             <Link className="nav-link" to="/cLogin">Login</Link>
                         </li>
-                        {/* <li className="nav-item">
-                            <Link to="/service" className="nav-link text-blue-500 hover:underline">Services</Link>
-                        </li> */}
+                        
                         <li className="nav-item">
                             <Link className="nav-link" to="/package">Package</Link>
                         </li>
-                        {/* <li className="nav-item">
-                            <Link className="nav-link" to="/customer/allCustomer">Customer</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/show-all">Booking</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/servicehistory">Service History</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/feedback">Feedback</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/inventory/allInventory">Inventory</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/vehicle">Vehicle</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/employees/allEmployee">Employee</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/payments/show">Payment</Link>
-                        </li> */}
                     </ul>
                 </nav>
             </div>
