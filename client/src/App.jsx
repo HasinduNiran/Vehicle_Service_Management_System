@@ -63,6 +63,7 @@ import CreatePackage from './assets/pages/SPackage/CreatePackage'
 import EditPackage from './assets/pages/SPackage/EditPackage'
 import ReadOnePackage from './assets/pages/SPackage/ReadOnePackage'
 import DeletePackage from './assets/pages/SPackage/DeletePAckage'
+import PackageDashboard from './assets/pages/SPackage/PackageDashboard';
 
 import ShowService from './assets/pages/Service/Showservices';
 import CreateService from './assets/pages/Service/CreateService';
@@ -103,7 +104,7 @@ import ReadOneServiceHistory from './assets/pages/ServiceHistory/ReadOneServiceH
 
 import Dashboard from './assets/pages/dashboard/dashboard';
 import ServiceHistoryDashboard from './assets/pages/ServiceHistory/ServiceHistoryDashboard';
-
+import ServiceDashboard from './assets/pages/Service/ServiceDashboard'; 
 import CusDashboard from './assets/pages/customerDashBoard/cusDashboard'; 
 import VDashboard from './assets/pages/Vehicle/VehicleDashboard';
 
@@ -184,6 +185,7 @@ const App = () => {
         <Route path='/package/edit/:id' element={<EditPackage />} />
         <Route path='/package/:id' element={<ReadOnePackage />} />
         <Route path='/package/delete/:id' element={<DeletePackage />} />
+        <Route path='/package/dashboard' element={<PackageDashboard />} />
 
 
 
@@ -192,6 +194,7 @@ const App = () => {
         <Route path='/service/edit/:id' element={<EditService />} />
         <Route path='/service/get/:id' element={<ReadOneService />} />
         <Route path='/service/delete/:id' element={<DeleteService />} />
+        <Route path='/service/dashboard' element={<ServiceDashboard />} />
 
         <Route path='/show-all' element={<ShowAllBooking />} />
         <Route path='/create' element={<CreateBooking />} />
