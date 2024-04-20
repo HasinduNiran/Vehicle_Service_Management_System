@@ -73,7 +73,7 @@ const ReadOneHome = () => {
       <Link className="nav-link" to="/">Home</Link>
     </li>
     <li className="nav-item">
-      <Link className="nav-link" to="/cLogin">Login</Link>
+      <Link className="nav-link" to={`/create/${userData.cusID}`}>Booking</Link>
     </li>
     <li className="nav-item">
       <Link className="nav-link" to="/package">Package</Link>
@@ -118,16 +118,16 @@ const ReadOneHome = () => {
       <Testimonial />
       
       {/* Render Booking button if userData exists */}
-      {userData && (
+      {/* {userData && (
         <Link to={`/create/${userData.cusID}`}>
           <button className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 text-xl">Booking</button>
         </Link>
-      )}
+      )} */}
 
       {/* Link to Feedback page */}
-      <Link to={`/feedback/create/${userData.cusID}`}>
+      {/* <Link to={`/feedback/create/${userData.cusID}`}>
         <button className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 text-xl">Feedback</button>
-      </Link>
+      </Link> */}
 
       {/* Footer */}
       <Footer />
