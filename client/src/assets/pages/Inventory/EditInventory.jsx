@@ -58,7 +58,7 @@ const EditInventory = () => {
       .then(() => {
         setLoading(false);
         Swal.fire("Success!", "Inventory data updated successfully!", "success").then(() => {
-          navigate('/inventory/allInventory');
+          navigate('/inventory/InventoryDashboard');
         });
       })
       .catch((error) => {

@@ -244,17 +244,10 @@ const InventoryDashboard = () => {
                                             style={styles.navButton}>
                                             Add New Items
                                         </button>
-                                       
-
-
                                         <div
-                                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
-                                            style={styles.navButton}
-                                        >
+                                            style={styles.navButton}>
                                             <InventoryReport filteredInventory={filteredInventory} />
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -314,18 +307,8 @@ const InventoryDashboard = () => {
                                 </div>
                             </main>
                         )}
-                        <footer className="py-3 bg-dark mt-auto px-1">
-                            <div className="container-fluid px-5">
-                                <div className="d-flex align-items-center justify-content-between small text-white">
-                                    <div>
-                                        &copy; {new Date().getFullYear()} Nadeeka Auto Care
-                                    </div>
-                                    <div>
-                                        <a href="#">Privacy Policy</a> &middot; <a href="#">Terms &amp; Conditions</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </footer>
+
+
 
                     </div>
                 </div>
