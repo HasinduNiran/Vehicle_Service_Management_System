@@ -120,7 +120,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: `url(${backgroundImage})`,
+    height: '100vh',
+    backgroundImage: `url(${backgroundImage})`, // Fixed backgroundImage syntax
     backgroundSize: 'cover',
     backgroundPosition: 'center',
 },
