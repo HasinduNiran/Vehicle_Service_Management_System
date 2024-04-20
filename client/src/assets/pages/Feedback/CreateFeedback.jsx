@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import backgroundImage from "../../images/t.jpg";
+import { FaStar } from "react-icons/fa";
 
 const CreateFeedback = () => {
   const [cussID, setCustomerID] = useState("");
@@ -18,31 +19,6 @@ const CreateFeedback = () => {
   const [employees, setEmployees] = useState([]);
   const navigate = useNavigate();
   const { cusID } = useParams();
-
-  const handleSaveFeedback = async () => {
-    // Validation code here
-
-    setLoading(true);
-    const formattedDate = formatDate(dateOfService);
-    const data = {
-      cusID: cussID,
-      name: name,
-      email: email,
-      phone_number: phoneNumber,
-      employee: employee,
-      date_of_service: formattedDate,
-      message: message,
-      star_rating: starRating,
-    };
-    try {
-      await axios.post("http://localhost:8076/feedback", data);
-      setLoading(false);
-      navigate("/feedback");
-    } catch (error) {
-      setLoading(false);
-      console.error("Error creating feedback:", error);
-    }
-  };
 
   useEffect(() => {
     setLoading(true);
@@ -62,13 +38,6 @@ const CreateFeedback = () => {
         console.log(error);
       });
   }, [cusID]);
-
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
 
   useEffect(() => {
     const fetchEmployeesData = async () => {
@@ -91,6 +60,84 @@ const CreateFeedback = () => {
     };
     fetchEmployeesData();
   }, []);
+
+  const handleSaveFeedback = async () => {
+    // Validation code here
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\d{10}$/;
+
+    // Check if all required fields are filled
+    if (!name || !email || !phoneNumber || !employee || !message || !dateOfService) {
+      alert("Please fill in all fields before submitting.");
+      return;
+    }
+
+    // Validate email format
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Validate phone number format
+    if (!phoneRegex.test(phoneNumber)) {
+      alert("Please enter a valid phone number.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const formattedDate = formatDate(dateOfService);
+      const data = {
+        cusID: cussID,
+        name: name,
+        email: email,
+        phone_number: phoneNumber,
+        employee: employee,
+        date_of_service: formattedDate,
+        message: message,
+        star_rating: starRating,
+      };
+      await axios.post("http://localhost:8076/feedback", data);
+      setLoading(false);
+      navigate("/feedback");
+    } catch (error) {
+      setLoading(false);
+      console.error("Error creating feedback:", error);
+    }
+  };
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const handleStarClick = (index) => {
+    setStarRating(index + 1);
+  };
+
+  const handleStarHover = (index) => {
+    setStarRating(index + 1); // Update star rating based on hover index
+  };
+
+  const renderStars = () => {
+    return (
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        {[...Array(5)].map((_, index) => (
+          <FaStar
+            key={index}
+            className={index < starRating ? "star-filled" : "star-empty"}
+            onMouseOver={() => handleStarHover(index)}
+            onClick={() => handleStarClick(index)}
+            style={{ ...styles.star, color: index < starRating ? "red" : "gray" }}
+          />
+        ))}
+      </div>
+    );
+  };
+
   const styles = {
     container: {
       display: "flex",
@@ -141,6 +188,17 @@ const CreateFeedback = () => {
       padding: "0.5rem 1rem",
       cursor: "pointer",
       transition: "background-color 0.3s ease",
+    },
+    star: {
+      margin: "0 0.5rem",
+      transition: "color 0.3s ease",
+      fontSize: "2rem",
+      cursor: "pointer",
+      color: "black",
+      Align: "center",
+      selected: {
+        color: "red",
+      }
     },
   };
 
@@ -203,17 +261,7 @@ const CreateFeedback = () => {
 
         <div>
           <label style={styles.label}>Star Rating</label>
-          <select
-            value={starRating}
-            onChange={(e) => setStarRating(parseInt(e.target.value))}
-            style={styles.input}
-          >
-            {[1, 2, 3, 4, 5].map((rating) => (
-              <option key={rating} value={rating}>
-                {rating}
-              </option>
-            ))}
-          </select>
+          <div>{renderStars()}</div>
         </div>
         <div>
           <label style={styles.label}>Date of Service</label>
