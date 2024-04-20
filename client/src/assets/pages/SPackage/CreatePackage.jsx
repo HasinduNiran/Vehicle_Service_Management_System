@@ -137,6 +137,7 @@ const styles = {
     borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
     padding: '20px',
+    border: '2px solid red', // Add a red border
     margin: '10px',
     textAlign: 'center',
   },

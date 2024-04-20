@@ -50,7 +50,7 @@ const ShowVehicle = () => {
     const model = vehicle.Model ? vehicle.Model.toLowerCase() : '';
     const selectedYear = vehicle.selectedYear ? vehicle.selectedYear.toLowerCase() : '';
     const owner = vehicle.Owner ? vehicle.Owner.toLowerCase() : '';
-  
+
     return (
       registerNumber.includes(searchQuery.toLowerCase()) ||
       make.includes(searchQuery.toLowerCase()) ||
@@ -59,14 +59,14 @@ const ShowVehicle = () => {
       owner.includes(searchQuery.toLowerCase())
     );
   };
-  
+
   const filteredVehicles = vehicles.filter(applySearchFilter);
 
   return (
-    <div style={{ padding: '1rem', display: 'flex', alignItems: 'center', minHeight: '100vh', width:'80%', alignSelf:'auto'}}>
+    <div style={{ padding: '1rem', display: 'flex', alignItems: 'center', minHeight: '100vh', width: '80%', alignSelf: 'auto' }}>
       <div style={{ maxWidth: '800px', width: '100%' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold' , alignItems: 'center'}}>Vehicles List</h1>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', alignItems: 'center' }}>Vehicles List</h1>
           <Link to={'/vehicle/create'} style={{ backgroundColor: '#4CAF50', color: 'white', padding: '0.5rem 1rem', borderRadius: '5px', textDecoration: 'none' }}>Add Vehicle</Link>
 
           <div style={{ marginBottom: '0.5rem' }}></div>
@@ -90,7 +90,7 @@ const ShowVehicle = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem', backgroundColor: '#f5f5f5' }} ref={componentRef}>
             <thead>
               <tr>
-              <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle imager</th>
+                <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle imager</th>
                 <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Number</th>
                 <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Make</th>
                 <th style={{ border: '1px solid #008000', borderRadius: '5px', padding: '0.5rem' }}>Vehicle Model</th>
@@ -107,7 +107,7 @@ const ShowVehicle = () => {
             <tbody>
               {filteredVehicles.map((vehicle) => (
                 <tr key={vehicle._id}>
-                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}><img src={vehicle.image}/></td>
+                  <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}><img src={vehicle.image} /></td>
                   <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Register_Number}</td>
                   <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Make}</td>
                   <td style={{ border: '1px solid #666', borderRadius: '5px', padding: '0.5rem' }}>{vehicle.Model}</td>
@@ -130,9 +130,9 @@ const ShowVehicle = () => {
         )}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '1rem' }}>
           <div style={{ backgroundColor: '#007bff', color: 'white', padding: '0.5rem 1rem', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>
-          <VehicleReport  filteredVehicles= {filteredVehicles}/>
+            <VehicleReport filteredVehicles={filteredVehicles} />
           </div>
-          
+
         </div>
       </div>
     </div>
