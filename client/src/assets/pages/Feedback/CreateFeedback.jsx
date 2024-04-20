@@ -247,7 +247,7 @@ const CreateFeedback = () => {
           >
             <option value="" style={styles.input}>Select Employee</option>
             {employees.map((employee) => (
-              <option key={employee._id} value={employee._id}>
+              <option key={employee._id} value={employee.employeeName}>
                 {employee.employeeName}
               </option>
             ))}
