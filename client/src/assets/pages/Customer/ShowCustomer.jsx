@@ -46,9 +46,11 @@ const ShowCustomer = () => {
 
   const applySearchFilter = (customer) => {
     if (!customer) return false;
-    const { firstName, lastName, NIC, phone, email, username, password } = customer;
+    const { cusID,firstName, lastName, NIC, phone, email, username, password } = customer;
     const searchLowerCase = searchQuery.toLowerCase();
     return (
+      (cusID && cusID.toLowerCase().includes(searchLowerCase)) ||
+
       (firstName && firstName.toLowerCase().includes(searchLowerCase)) ||
       (lastName && lastName.toLowerCase().includes(searchLowerCase)) ||
       (NIC && NIC.toLowerCase().includes(searchLowerCase)) ||
