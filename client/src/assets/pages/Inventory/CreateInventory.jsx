@@ -137,7 +137,7 @@ const CreateInventory = () => {
 
         setTimeout(() => {
           setLoading(false);
-          navigate('/inventory/allInventory');
+          navigate('/inventory/InventoryDashboard');
         }, 1500);
       })
       .catch((error) => {
