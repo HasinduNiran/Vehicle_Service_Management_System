@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
-import backgroundImage from '../../images/t.jpg';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import backgroundImage from "../../images/t.jpg";
 
 const EditVehicle = () => {
-  const [Register_Number, setRegister_Number] = useState('');
-  const [Make, setMake] = useState('');
-  const [Model, setModel] = useState('');
-  const [Year, setYear] = useState('');
-  const [Engine_Details, setEngine_Details] = useState('');
-  const [Transmission_Details, setTransmission_Details] = useState('');
-  const [Vehicle_Color, setVehicle_Color] = useState('');
-  const [Vehicle_Features, setVehicle_Features] = useState('');
-  const [Condition_Assessment, setCondition_Assessment] = useState('');
-  const [Owner, setOwner] = useState('');
+  const [Register_Number, setRegister_Number] = useState("");
+  const [Make, setMake] = useState("");
+  const [Model, setModel] = useState("");
+  const [Year, setYear] = useState("");
+  const [Engine_Details, setEngine_Details] = useState("");
+  const [Transmission_Details, setTransmission_Details] = useState("");
+  const [Vehicle_Color, setVehicle_Color] = useState("");
+  const [Vehicle_Features, setVehicle_Features] = useState("");
+  const [Condition_Assessment, setCondition_Assessment] = useState("");
+  const [Owner, setOwner] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -39,7 +39,7 @@ const EditVehicle = () => {
       .catch((error) => {
         setLoading(false);
         console.log(error);
-        alert('Error fetching vehicle. Please try again.');
+        alert("Error fetching vehicle. Please try again.");
       });
   }, [id]);
 
@@ -65,11 +65,11 @@ const EditVehicle = () => {
     try {
       await axios.put(`http://localhost:8076/vehicles/${id}`, data);
       setLoading(false);
-      navigate('/vehicle');
+      navigate("/vehicle");
     } catch (error) {
       setLoading(false);
-      console.error('Error updating vehicle:', error);
-      alert('Error updating vehicle. Please try again.');
+      console.error("Error updating vehicle:", error);
+      alert("Error updating vehicle. Please try again.");
     }
   };
 
@@ -79,7 +79,9 @@ const EditVehicle = () => {
         <h1 style={styles.heading}>Edit Vehicle</h1>
         <form onSubmit={handleEditVehicle} style={styles.form}>
           <div style={styles.formGroup}>
-            <label htmlFor="register_number" style={styles.label}>Vehicle Number</label>
+            <label htmlFor="register_number" style={styles.label}>
+              Vehicle Number
+            </label>
             <input
               type="text"
               id="register_number"
@@ -92,7 +94,9 @@ const EditVehicle = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label htmlFor="make" style={styles.label}>Make</label>
+            <label htmlFor="make" style={styles.label}>
+              Make
+            </label>
             <input
               type="text"
               id="make"
@@ -104,7 +108,9 @@ const EditVehicle = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label htmlFor="model" style={styles.label}>Model</label>
+            <label htmlFor="model" style={styles.label}>
+              Model
+            </label>
             <input
               type="text"
               id="model"
@@ -116,7 +122,9 @@ const EditVehicle = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label htmlFor="year" style={styles.label}>Select Year</label>
+            <label htmlFor="year" style={styles.label}>
+              Select Year
+            </label>
             <select
               id="year"
               style={styles.input}
@@ -124,13 +132,19 @@ const EditVehicle = () => {
               onChange={(e) => setYear(e.target.value)}
               required
             >
-              <option value=''>Select Year</option>
-              {[...Array(40)].map((_, i) => <option key={i} value={new Date().getFullYear() - i}>{new Date().getFullYear() - i}</option>)}
+              <option value="">Select Year</option>
+              {[...Array(40)].map((_, i) => (
+                <option key={i} value={new Date().getFullYear() - i}>
+                  {new Date().getFullYear() - i}
+                </option>
+              ))}
             </select>
           </div>
 
           <div style={styles.formGroup}>
-            <label htmlFor="engine_details" style={styles.label}>Engine Details</label>
+            <label htmlFor="engine_details" style={styles.label}>
+              Engine Details
+            </label>
             <input
               type="text"
               id="engine_details"
@@ -142,7 +156,9 @@ const EditVehicle = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label htmlFor="transmission_details" style={styles.label}>Transmission Details</label>
+            <label htmlFor="transmission_details" style={styles.label}>
+              Transmission Details
+            </label>
             <select
               id="transmission_details"
               style={styles.input}
@@ -150,14 +166,16 @@ const EditVehicle = () => {
               onChange={(e) => setTransmission_Details(e.target.value)}
               required
             >
-              <option value=''>Select Transmission</option>
-              <option value='Automatic'>Automatic</option>
-              <option value='Manual'>Manual</option>
+              <option value="">Select Transmission</option>
+              <option value="Automatic">Automatic</option>
+              <option value="Manual">Manual</option>
             </select>
           </div>
 
           <div style={styles.formGroup}>
-            <label htmlFor="vehicle_color" style={styles.label}>Vehicle Color</label>
+            <label htmlFor="vehicle_color" style={styles.label}>
+              Vehicle Color
+            </label>
             <input
               type="text"
               id="vehicle_color"
@@ -169,7 +187,9 @@ const EditVehicle = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label htmlFor="vehicle_features" style={styles.label}>Vehicle Features</label>
+            <label htmlFor="vehicle_features" style={styles.label}>
+              Vehicle Features
+            </label>
             <input
               type="text"
               id="vehicle_features"
@@ -181,7 +201,9 @@ const EditVehicle = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label htmlFor="condition_assessment" style={styles.label}>Condition Assessment</label>
+            <label htmlFor="condition_assessment" style={styles.label}>
+              Condition Assessment
+            </label>
             <input
               type="text"
               id="condition_assessment"
@@ -193,7 +215,9 @@ const EditVehicle = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label htmlFor="owner" style={styles.label}>Vehicle Owner</label>
+            <label htmlFor="owner" style={styles.label}>
+              Vehicle Owner
+            </label>
             <input
               type="text"
               id="owner"
@@ -206,7 +230,7 @@ const EditVehicle = () => {
 
           <div style={styles.buttonContainer}>
             <button type="submit" style={styles.button} disabled={loading}>
-              {loading ? 'Editing...' : 'Edit Vehicle'}
+              {loading ? "Editing..." : "Edit Vehicle"}
             </button>
           </div>
         </form>
@@ -217,93 +241,84 @@ const EditVehicle = () => {
 
 const styles = {
   container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
     backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    
+    backgroundSize: "cover",
+    backgroundPosition: "center",
   },
   formContainer: {
-    width: '50%',
-    backgroundColor: 'rgba(5, 4, 2, 0.8)',
-    borderRadius: '10px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
-    padding: '20px',
-    border: '2px solid red', // Add a red border
-    borderColor: 'red',
-    margin: '10px',
-    textAlign: 'center',
-    position: 'relative', // Add this line for absolute positioning of the line
+    width: "50%",
+    backgroundColor: "rgba(5, 4, 2, 0.8)",
+    borderRadius: "10px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.8)",
+    padding: "20px",
+    border: "2px solid red", // Add a red border
+    borderColor: "red",
+    margin: "10px",
+    textAlign: "center",
+    position: "relative", // Add this line for absolute positioning of the line
   },
-  heading: {
-    fontSize: '3rem',
-    color: 'white',
-    textAlign: 'center',
-    fontWeight: 'bold'
-  },
+
   form: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
   },
   formGroup: {
-    marginBottom: '1.5rem',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '10px',
-    border: '1px solid rgba(255, 255, 255, 0.8)',
-    borderRadius: '5px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
-    color: 'rgba(255, 255, 255, 0.8)',
-    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    marginBottom: "1.5rem",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "10px",
+    border: "1px solid rgba(255, 255, 255, 0.8)",
+    borderRadius: "5px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.4)",
+    color: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: "rgba(5, 4, 2, 0.8)",
   },
   label: {
-    fontWeight: 'bold',
-    marginBottom: '0.5rem',
-    flexDirection: 'column',
-    fontSize: '1.2rem',
-    color: 'red',
-    textAlign: 'center',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center', 
-    padding: '10px',
-    display: 'block',
-    textTransform: 'uppercase',
+    fontWeight: "bold",
+    marginBottom: "0.5rem",
+    flexDirection: "column",
+    fontSize: "1.2rem",
+    color: "red",
+    textAlign: "center",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "10px",
+    display: "block",
+    textTransform: "uppercase",
   },
   input: {
-    width: '100%',
-    padding: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    backgroundColor: 'black',
-    color: 'white',
-    fontSize: '1.2rem',
-    marginBottom: '10px',
-    textAlign: 'left',
-    display: 'block',
-    
+    width: "100%",
+    padding: "10px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+    backgroundColor: "black",
+    color: "white",
+    fontSize: "1.2rem",
+    marginBottom: "10px",
+    textAlign: "left",
+    display: "block",
   },
 
-
-  
   buttonContainer: {
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
   },
   button: {
-    backgroundColor: '#ff0000',
-    color: '#ffffff',
-    padding: '10px 20px',
-    borderRadius: '5px',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'background-color 0.8s',
+    backgroundColor: "#ff0000",
+    color: "#ffffff",
+    padding: "10px 20px",
+    borderRadius: "5px",
+    border: "none",
+    cursor: "pointer",
+    transition: "background-color 0.8s",
   },
 };
 
