@@ -2,14 +2,45 @@ import React,{ useEffect, useState} from 'react';
 import axios from 'axios';
 import Spinner from '../../components/Spinner';
 import {Link} from 'react-router-dom';
-import { AiOutlineEdit } from 'react-icons/ai';
-import {BsInfoCircle} from 'react-icons/bs';
-import {MdOutlineAddBox , MdOutlineDelete} from 'react-icons/md';
 
+import logo from "../../images/logo.jpg";
+import backgroundImage from "../../images/Pback21.jpg";
+import SidebarV from "../../components/SidebarV";
 const ShowInvoice=()=> {
 
   const [paymentInvoices,setPaymentInvoices] = useState([]); 
   const [loading,setLoading] = useState(false);
+//   const [error, setError] = useState(null);
+//   const [searchQuery, setSearchQuery] = useState("");
+
+//   //search
+//   const handleSearch = async () => {
+//     setLoading(true);
+//     try {
+//       const response = await axios.get(`http://localhost:8076/payments?search=${searchQuery}`
+//       );
+//       setPayments(response.data.data);
+//       setLoading(false);
+//       setError(null);
+//     } catch (error) {
+//       console.error("Error fetching payment:", error);
+//       setError(
+//         "An error occurred while fetching the payment for the search query."
+//       );
+//       setLoading(false);
+//     }
+//   };
+
+  const tableContainerStyle = {
+    margin: "5px auto", // Adjust margin as needed
+    padding: "20px",
+    borderRadius: "10px",
+    background: "rgba(0, 0, 0, 0.0)", // Semi-transparent black background for blur effect
+    backdropFilter: "blur(50px)", // Apply blur effect
+    maxWidth: "99%",
+    overflowX: "auto",
+  };
+
   useEffect(()=>{
     setLoading(true);
     axios
@@ -22,128 +53,317 @@ const ShowInvoice=()=> {
       console.log(error);
     });
   },[]);
-  return (
-    <div className='p-4'>
-        <div className='flex justify-between items-center'>
-            <h1 className='text-3xl my-8'>Invoices </h1>
-            
+  const styles = {
+    container: {
+      color: "black",
+      border: "3px solid white",
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    },
+    navButton: {
+      backgroundColor: "red",
+      color: "white",
+      padding: "0.5rem 2rem",
+      borderRadius: "5px",
+      width: "220px",
+      textDecoration: "none",
+      height: "50px",
+      marginTop: "15px",
+    },
+    logo: {
+      width: "100%",
+      height: "200px",
+      border: "2px solid red",
+    },
 
-            <div className="flex justify-center items-center mt-8">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/PaymentInvoice/create'}>
-                    Add Payment Invoice
+    table: {
+      width: "100%",
+      margin: "0px", // Add margin
+      padding: "20px",
+      background: "transparent",
+      borderRadius: "10px",
+      boxShadow:
+        "10px 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+      fontFamily: "Arial, sans-serif",
+      color: "white",
+      borderCollapse: "collapse",
+    },
+    tableHead: {
+      background: "black",
+      color: "white",
+      textAlign: "center",
+      border: "1px solid white",
+      //border: '1px solid red',
+    },
+
+    tableRowEven: {
+      background: "#2f2f2f",
+
+      // border: '1px solid red',
+    },
+    tableRowOdd: {
+      background: "#1f1f1f",
+    },
+    tableHeader: {
+      padding: "10px",
+      textAlign: "center", // Center align content
+      color: "red",
+      border: "1px solid white",
+    },
+    tableCell: {
+      padding: "10px",
+      textAlign: "center", // Center align content
+      borderLeft: "1px solid white",
+      border: "1px solid white",
+      borderRight: "1px solid white",
+      borderBottom: "1px solid white",
+      background: "transparent",
+      color: "white",
+    },
+    subHeading: {
+      marginTop: "50px",
+      fontSize: "25px",
+      font: "Serif",
+      fontWeight: "bold",
+      marginBottom: "20px",
+      color: "#fff",
+      textAlign: "center",
+      textTransform: "uppercase",
+    },
+  };
+  return (
+    <div style={styles.container}>
+    <div className="sb-nav-fixed">
+      <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a className="navbar-brand ps-3" href="/">
+          Nadeeka Auto Care
+        </a>
+        {/* <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+          <div className="input-group">
+            <input
+              className="form-control"
+              type="text"
+              value={searchQuery}
+              placeholder="Search for..."
+              aria-label="Search for..."
+              onChange={(e) => setSearchQuery(e.target.value)}
+              aria-describedby="btnNavbarSearch"
+            />
+            <button
+              className="btn btn-primary"
+              id="btnNavbarSearch"
+              onClick={handleSearch}
+              type="button"
+            >
+              <i className="fas fa-search"></i>
+            </button>
+          </div>
+        </form> */}
+        <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+          <li className="nav-item dropdown">
+            <a
+              className="nav-link dropdown-toggle"
+              id="navbarDropdown"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i className="fas fa-user fa-fw"></i>
+            </a>
+            <ul
+              className="dropdown-menu dropdown-menu-end"
+              aria-labelledby="navbarDropdown"
+            >
+              <li>
+                <hr className="dropdown-divider" />
+              </li>
+              <li>
+                <a className="dropdown-item" href="/">
+                  Logout
+                </a>
+              </li>
+              {/* after logout navigate to home */}
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <div id="layoutSidenav">
+          <div id="layoutSidenav_nav">
+            <nav
+              className="sb-sidenav accordion sb-sidenav-dark"
+              id="sidenavAccordion"
+            >
+              <div className="sb-sidenav-menu">
+                <div className="nav-link">
+                  <div className="sb-nav-link-icon">
+                    <img
+                      src={logo}
+                      alt="Nadeeka Auto Logo"
+                      style={styles.logo}
+                    />
+                    <button
+                      onClick={() => {
+                        window.location.href = "/payments/create";
+                      }}
+                      style={styles.navButton}
+                    >
+                      Add Payment
                     </button>
-                    <div style={{ marginLeft: '10px' }}></div> {/* Space between buttons */}
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href='/payments/report'}>
-                        Report
+                    <button
+                      onClick={() => {
+                        window.location.href = "/payments/pdashboard";
+                      }}
+                      style={styles.navButton}
+                    >
+                      All Payments
                     </button>
+                    <button
+                      onClick={() => {
+                        window.location.href = "/PaymentInvoice/create";
+                      }}
+                      style={styles.navButton}
+                    >
+                      Add Invoice
+                    </button>
+                    <button
+                      onClick={() => {
+                        window.location.href = "/PaymentInvoice/show";
+                      }}
+                      style={styles.navButton}
+                    >
+                      View Invoices
+                    </button>
+                    <div style={styles.navButton}>
+                      {/* <PaymentReport filteredPayments={filteredPaymentsf} /> */}
+                    </div>
+                  </div>
                 </div>
-        </div>
-        {loading ? (
-            <div className='flex justify-center items-center'>
-                <Spinner />
-            </div>
-        ) : (
-            <table className='w-full border-separate border-spacing-2'>
-                <thead>
-                    <tr>
-                    <th className='border border-slate-600 rounded-md'>No</th>
-                        <th className='border border-slate-600 rounded-md'>Invoice ID</th>
-                        <th className='border border-slate-600 rounded-md'>Customer Name</th>
-                        <th className='border border-slate-600 rounded-md '>Customer ID</th>
-                        <th className='border border-slate-600 rounded-md '>Vehicle No</th>
-                        <th className='border border-slate-600 rounded-md'>Payment ID</th>
-                        <th className='border border-slate-600 rounded-md '>Package</th>
-                        <th className='border border-slate-600 rounded-md'>Service</th>
-                        <th className='border border-slate-600 rounded-md '>Color</th>
-                        <th className='border border-slate-600 rounded-md'>Model</th>
-                        <th className='border border-slate-600 rounded-md max-md:hidden'>Year</th>
-                        <th className='border border-slate-600 rounded-md max-md:hidden'>Engine</th>
-                        <th className='border border-slate-600 rounded-md max-md:hidden'>Date</th>
-                        <th className='border border-slate-600 rounded-md max-md:hidden'>Package Amount</th>
-                        <th className='border border-slate-600 rounded-md max-md:hidden'>Service Amount</th>
-                        <th className='border border-slate-600 rounded-md max-md:hidden'>Amount</th>
-                        <th className='border border-slate-600 rounded-md max-md:hidden'>Service ID</th>
-                        <th className='border border-slate-600 rounded-md'>Operations</th>
+              </div>
+              <div className="sb-sidenav-footer">
+                <div className="small">Logged in as:</div>
+                Payment Manager
+              </div>
+            </nav>
+          </div>
+          <div id="layoutSidenav_content">
+            <main>
+              <div className="">
+                <h1 style={styles.subHeading}>Invoice Dashboard</h1>
+                <div className="">
+                  <div className="" style={tableContainerStyle}>
+                    <table className="" style={styles.table}>
+                    <thead style={styles.tableHead}>
+                        <tr>
+                        <th className={styles.tableHeader}>No</th>
+                        <th className={styles.tableHeader}>Invoice ID</th>
+                        <th className={styles.tableHeader}>Customer Name</th>
+                        <th className={styles.tableHeader}>Customer ID</th>
+                        <th className={styles.tableHeader}>Vehicle No</th>
+                        <th className={styles.tableHeader}>Payment ID</th>
+                        <th className={styles.tableHeader}>Package</th>
+                        <th className={styles.tableHeader}>Service</th>
+                        <th className={styles.tableHeader}>Color</th>
+                        <th className={styles.tableHeader}>Model</th>
+                        <th className={styles.tableHeader}>Year</th>
+                        <th className={styles.tableHeader}>Engine</th>
+                        <th className={styles.tableHeader}>Date</th>
+                        <th className={styles.tableHeader}>Package Amount</th>
+                        <th className={styles.tableHeader}>Service Amount</th>
+                        <th className={styles.tableHeader}>Amount</th>
+                        <th className={styles.tableHeader}>Service ID</th>
+                        <th className={styles.tableHeader}>Operations</th>
                     </tr>
                 </thead>
                 <tbody>
                     {paymentInvoices.map((paymentInvoice, index) => (
 
-                        <tr key={paymentInvoice._id} className='h-8'>
-
-                            <td className='border border-slate-700 rounded-md text-center'>
+                        <tr key={paymentInvoice._id}>
+                             <td style={styles.tableCell}>
                                 {index + 1}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.InvoiceId}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.customerName}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.cusID}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.Vehicle_Number}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.PaymentId}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.Package}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.Servicename}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.Vehicle_Color}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.Model}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.Year}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.Engine_Details}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.PaymentDate}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.Pamount}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.Samount}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.totalAmount}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
+                             <td style={styles.tableCell}>
                                 {paymentInvoice.Booking_Id}
                             </td>
-                            <td className='border border-slate-700 rounded-md text-center'>
-                                <div className='flex justify-center gap-x-4'>
-                                    <Link to={`/PaymentInvoice/read/${paymentInvoice._id}`}>
-                                    <BsInfoCircle className='text-2x1 text-green-800' />
-                                    </Link>
-                                    <Link to={`/PaymentInvoice/edit/${paymentInvoice._id}`}>
-                                    <AiOutlineEdit className='text-2x1 text-yellow-600' />
-                                    </Link>
-                                    <Link to={`/PaymentInvoice/delete/${paymentInvoice._id}`}>
-                                    <MdOutlineDelete className='text-2x1 text-red-600' />
-                                    </Link>
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
+                             <td style={styles.tableCell}>  
+                                    <Link to={`/PaymentInvoice/read/${paymentInvoice._id}`}
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">   
+                                    View</Link>
+                                    <Link to={`/PaymentInvoice/edit/${paymentInvoice._id}`}
+                                    className="bg-blue-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">
+                                    Edit</Link>
+                                    <Link to={`/PaymentInvoice/delete/${paymentInvoice._id}`}
+                                    className="bg-blue-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
+                                    Delete</Link>
+                                    </td>
+                          </tr>
+                        ))}
                 </tbody>
             </table>
-        )}
+        </div>
+       </div>
     </div>
-)
-                    
-
-                    }
-
-export default ShowInvoice
+   </main> <footer className="py-4 bg-dark mt-auto">
+              <div className="container-fluid px-4">
+                <div className="d-flex align-items-center justify-content-between small text-white">
+                  <div>&copy; {new Date().getFullYear()} Nadeeka Auto Care</div>
+                  <div>
+                    <a href="#">Privacy Policy</a> &middot;{" "}
+                    <a href="#">Terms &amp; Conditions</a>
+                  </div>
+                </div>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default ShowInvoice;

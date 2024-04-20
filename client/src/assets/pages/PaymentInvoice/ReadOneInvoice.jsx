@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import "../../css/Invoice.css";
 
+import logo from "../../images/logo.jpg";
+
 const ReadOneInvoice = () => {
   const [paymentInvoice, setPaymentInvoice] = useState({});
   const [loading, setLoading] = useState(false);
@@ -29,16 +31,18 @@ const ReadOneInvoice = () => {
   });
 
   return (
+   
     <div className="page-content container">
       <div className="col-md-10 offset-md-1">
-        <div
+      <div style={styles.container}>
+        {/* <div
           ref={componentRef}
           style={{
             margin: "20px", // Set margin to 20px
             border: "1px solid black", // Add border for visibility
             padding: "20px", // Add padding for content spacing
           }}
-        >
+        > */}
           <div className="page-header text-blue-d2">
             <h1 className="page-title text-secondary-d1">
               Invoice ID
@@ -54,7 +58,7 @@ const ReadOneInvoice = () => {
                 <div className="row">
                   <div className="col-12">
                     <div className="text-center text-150">
-                      <i className="fa fa-book fa-2x text-success-m2 mr-1"></i>
+                      <div className="logo"></div>                 
                       <span className="text-default-d3">
                         Nadeeka Auto Service
                       </span>
@@ -223,8 +227,13 @@ const ReadOneInvoice = () => {
           </div>
         </div>
       </div>
-    
+    // </div>
   );
 };
 
+const styles = {
+  container: {
+    backgroundColor:'#E6E3D3',
+  }
+}
 export default ReadOneInvoice;

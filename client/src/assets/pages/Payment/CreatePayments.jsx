@@ -4,7 +4,7 @@ import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import backgroundImage from '../../images/Pback3.jpg'; // background image
+import backgroundImage from '../../images/Pback21.jpg'; // background image
 
 const CreatePayments = () => {
   const [PaymentId, setPaymentId] = useState('');
@@ -186,27 +186,11 @@ const CreatePayments = () => {
               name='PaymentId'
               style={styles.input} 
               value={formValues.PaymentId}
+             // placeholder='Payment Id'
               onChange={handleChange}
               // className='border-2 border-gray-500 px-4 py-2 w-full'
             />
             {formErrors.PaymentId && <p className='text-red-500'>{formErrors.PaymentId}</p>}
-          </div>
-          <div style={styles.formGroup}>
-            <label htmlFor='cusID'style={styles.label}>Customer ID</label>
-            <select
-              name='cusID'
-              style={styles.select}
-              value={formValues.cusID}
-              onChange={handleServiceIdChange}
-            >
-              <option value=''>Select Customer ID</option>
-              {Servicehistory.map((service) => (
-                <option key={service._id} value={service.cusID}>
-                  {service.cusID}
-                </option>
-              ))}
-            </select>
-            {formErrors.cusID && <p className='text-red-500'>{formErrors.cusID}</p>}
           </div>
           <div style={styles.formGroup}>
             <label htmlFor='Booking_Id'style={styles.label}>Service ID</label>
@@ -225,56 +209,45 @@ const CreatePayments = () => {
             </select>
             {formErrors.Booking_Id && <p className='text-red-500'>{formErrors.Booking_Id}</p>}
           </div>
-          <div style={styles.formGroup}>
-            <label htmlFor="Vehicle_Number"style={styles.label}>Vehicle No</label>
-            <select
-              name='Vehicle_Number'
+            <div style={styles.formGroup}>
+            <label  htmlFor="Vehicle_Number"style={styles.label}>Vehicle Number</label>
+           < input
               style={styles.select}
-              value={formValues.Vehicle_Number}
-              onChange={handleServiceIdChange}
-            >
-              <option value=''>Select Vehicle Number</option>
-              {Servicehistory.map((service) => (
-                <option key={service._id} value={service.Vehicle_Number}>
-                  {service.Vehicle_Number}
-                </option>
-              ))}
-            </select>
-            {formErrors.Vehicle_Number && <p className='text-red-500'>{formErrors.Vehicle_Number}</p>}
+              value={Vehicle_Number}
+              placeholder='Vehicle Number'
+              disabled
+            />
+          {formErrors.Vehicle_Number && <p className='text-red-500'>{formErrors.Vehicle_Number}</p>}
           </div>
           <div style={styles.formGroup}>
-            <label htmlFor='Package'style={styles.label}>Package</label>
-            <select
-              name='Package'
+            <label  htmlFor="cusID"style={styles.label}>Customer ID</label>
+            <input
               style={styles.select}
-              value={formValues.Package}
-              onChange={handleServiceIdChange}
-            >
-              <option value=''>Select Package</option>
-              {Servicehistory.map((service) => (
-                <option key={service._id} value={service.Package}>
-                  {service.Package}
-                </option>
-              ))}
-            </select>
-            {formErrors.Package && <p className='text-red-500'>{formErrors.Package}</p>}
+              value={cusID}
+              placeholder='Customer ID'
+              disabled
+            />
+          {formErrors.cusID && <p className='text-red-500'>{formErrors.cusID}</p>}
+            </div>
+          <div style={styles.formGroup}>
+          <label htmlFor='Package'style={styles.label}>Package</label>
+            <input
+              style={styles.select}
+              value={Package}
+              placeholder='Package'
+              disabled
+            />
+           {formErrors.Package && <p className='text-red-500'>{formErrors.Package}</p>}
           </div>
           <div style={styles.formGroup}>
-            <label htmlFor='selectedServices'style={styles.label}>Service</label>
-            <select
-              name='selectedServices'
+          <label htmlFor='selectedServices'style={styles.label}>Service</label>
+            <input
               style={styles.select}
-              value={formValues.selectedServices}
-              onChange={handleServiceIdChange}
-            >
-              <option value=''>Select Service</option>
-              {Servicehistory.map((service) => (
-                <option key={service._id} value={service.selectedServices}>
-                  {service.selectedServices}
-                </option>
-              ))}
-            </select>
-            {formErrors.selectedServices && <p className='text-red-500'>{formErrors.selectedServices}</p>}
+              value={selectedServices}
+              placeholder='Service'
+              disabled
+            />
+           {formErrors.Package && <p className='text-red-500'>{formErrors.Package}</p>}
           </div>
           <div style={styles.formGroup}>
             <label htmlFor='PaymentDate'style={styles.label}>Payment Date</label>
@@ -294,6 +267,7 @@ const CreatePayments = () => {
               name='Pamount'
               value={formValues.Pamount}
               onChange={handleChange}
+              placeholder='Package Amount'
               style={styles.input} 
             />
             {/* {formErrors.totalAmount && <p className='text-red-500'>{formErrors.totalAmount}</p>} */}
@@ -305,6 +279,7 @@ const CreatePayments = () => {
               name='Samount'
               value={formValues.Samount}
               onChange={handleChange}
+              placeholder='Service Amount'
               style={styles.input} 
             />
             {/* {formErrors.totalAmount && <p className='text-red-500'>{formErrors.totalAmount}</p>} */}
@@ -315,6 +290,7 @@ const CreatePayments = () => {
               type='number'
               name='totalAmount'
               value={totalAmount}
+              placeholder='totalAmount'
               readOnly // Make the input field read-only to prevent direct user input
               style={styles.input} 
             />
@@ -429,8 +405,8 @@ input: {
   padding: '10px',
   borderRadius: '5px',
   border: '1px solid #ccc',
-  backgroundColor: 'grey',
-  color: 'black',
+  backgroundColor: '#4A0404',
+  color: 'white',
 },
 buttonContainer: {
   display: 'flex',
