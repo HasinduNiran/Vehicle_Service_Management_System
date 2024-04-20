@@ -12,7 +12,7 @@ const CreateFeedback = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [employee, setEmployee] = useState("");
-  const [starRating, setStarRating] = useState(1);
+  const [starRating, setStarRating] = useState("");
   const [dateOfService, setDateOfService] = useState(new Date());
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -131,81 +131,21 @@ const CreateFeedback = () => {
             className={index < starRating ? "star-filled" : "star-empty"}
             onMouseOver={() => handleStarHover(index)}
             onClick={() => handleStarClick(index)}
-            style={{ ...styles.star, color: index < starRating ? "red" : "gray" }}
+            style={{ ...styles.star, color: index < starRating ? "red" : "gray" ,
+            height: "50px",width:"50px",
+          }}
           />
         ))}
       </div>
     );
   };
 
-  const styles = {
-    container: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "100vh",
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    },
-    formContainer: {
-      width: "50%",
-      backgroundColor: "rgba(5, 4, 2, 0.8)",
-      borderRadius: "10px",
-      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.8)",
-      padding: "20px",
-      border: "2px solid red",
-      borderColor: "red",
-      margin: "10px",
-      textAlign: "center",
-      position: "relative",
-    },
-    label: {
-      fontWeight: "bold",
-      marginBottom: "0.5rem",
-      fontSize: "1.2rem",
-      color: "red",
-      textAlign: "center",
-      width: "100%",
-      display: "block",
-      textTransform: "uppercase",
-    },
-    input: {
-      padding: "8px",
-      borderRadius: "5px",
-      border: "1px solid #ccc",
-      width: "100%",
-      marginBottom: "10px",
-      backgroundColor: "black",
-      color: "white",
-    },
-    button: {
-      backgroundColor: "red",
-      color: "#fff",
-      border: "none",
-      borderRadius: "0.25rem",
-      fontWeight: "bold",
-      padding: "0.5rem 1rem",
-      cursor: "pointer",
-      transition: "background-color 0.3s ease",
-    },
-    star: {
-      margin: "0 0.5rem",
-      transition: "color 0.3s ease",
-      fontSize: "2rem",
-      cursor: "pointer",
-      color: "black",
-      Align: "center",
-      selected: {
-        color: "red",
-      }
-    },
-  };
+  
 
   return (
     <div style={styles.container}>
       <div style={styles.formContainer}>
-        <h1>Create Feedback</h1>
+        <h1 style={styles.heading}>Create Feedback</h1>
         <div>
           <label style={styles.label}>Customer ID</label>
           <input
@@ -286,6 +226,82 @@ const CreateFeedback = () => {
       </div>
     </div>
   );
+};
+const styles = {
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  },
+  heading: {
+    fontSize: '3rem',
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold'
+  },
+  formContainer: {
+    width: "80%",
+    backgroundColor: "rgba(5, 4, 2, 0.8)",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.8)",
+    padding: "20px",
+    border: "2px solid red",
+    borderColor: "red",
+    margin: "10px",
+    textAlign: "center",
+    position: "relative",
+    alignItems: "center",
+  },
+  label: {
+    fontWeight: "bold",
+    marginBottom: "0.5rem",
+    fontSize: "1.2rem",
+    color: "red",
+    textAlign: "center",
+    width: "100%",
+    padding: "10px",
+    textTransform: "uppercase",
+  },
+  input: {
+    width: "60%",
+    padding: "10px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+    backgroundColor: "black",
+    color: "white",
+    fontSize: "1.2rem",
+    marginBottom: "10px",
+    textAlign: "left",
+  },
+  text: {
+    width: "65%",
+    height: "100px",
+    padding: "10px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+    backgroundColor: "black",
+    color: "white",
+    fontSize: "1.2rem",
+    marginBottom: "10px",
+    textAlign: "left",
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  button: {
+    backgroundColor: "#ff0000",
+    color: "black",
+    FaBolt: "true",
+    padding: "10px 20px",
+    borderRadius: "5px",
+    border: "none",
+    cursor: "pointer",
+    transition: "background-color 0.8s",
+  },
 };
 
 export default CreateFeedback;
