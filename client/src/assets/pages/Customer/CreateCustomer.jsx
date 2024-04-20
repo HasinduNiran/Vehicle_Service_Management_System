@@ -3,9 +3,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { app } from '../../../firebase';
+
 
 const CreateCustomer = () => {
   const [firstName, setFirstName] = useState('');
+  const [image, setImage] = useState(null);
   const [lastName, setLastName] = useState('');
   const [NIC, setNIC] = useState('');
   const [phone, setPhone] = useState('');
@@ -15,35 +19,54 @@ const CreateCustomer = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Event handler for saving the customer
-  const handleSaveCustomer = () => {
-    // Creating data object from form inputs
-    const data = {
-      firstName,
-      lastName,
-      NIC,
-      phone,
-      email,
-      username,
-      password,
-    };
+  const storage = getStorage(app);
 
+  const handleSaveCustomer = () => {
     setLoading(true);
 
-    // Making a POST request to save the customer data
-    axios
-      .post('http://localhost:8076/customer', data)
-      .then(() => {
-        // Resetting loading state and navigating to the home page
-        setLoading(false);
-        navigate('/customer/allCustomer');
-      })
-      .catch((error) => {
-        // Handling errors by resetting loading state and showing a specific error message
-        setLoading(false);
-        alert(`An error occurred: ${error.response.data.message}`);
-        console.log(error);
-      });
+    // Upload image to Firebase Storage
+    const storageRef = ref(storage, `images/${image.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, image);
+
+    uploadTask.on('state_changed', 
+      (snapshot) => {
+        // Progress
+      },
+      (error) => {
+        // Error
+        console.error(error);
+      },
+      () => {
+        // Complete
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          // Creating data object from form inputs including the download URL
+          const data = {
+            image: downloadURL,
+            firstName,
+            lastName,
+            NIC,
+            phone,
+            email,
+            username,
+            password,
+          };
+
+          // Making a POST request to save the customer data
+          axios.post('http://localhost:8076/customer', data)
+            .then(() => {
+              // Resetting loading state and navigating to the home page
+              setLoading(false);
+              navigate('/customer/allCustomer');
+            })
+            .catch((error) => {
+              // Handling errors by resetting loading state and showing a specific error message
+              setLoading(false);
+              alert(`An error occurred: ${error.response.data.message}`);
+              console.log(error);
+            });
+        });
+      }
+    );
   };
 
   // JSX for rendering the create customer form
@@ -51,7 +74,18 @@ const CreateCustomer = () => {
     <div className="p-4">
       <h1 className="text-3xl my-4">Create menu</h1>
       {loading ? <Spinner /> : ''}
+      
       <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
+        {/* Input fields for customer information */}
+        {/* Assuming you want to upload an image */}
+        <div className="my-4">
+          <label className='text-xl mr-4 text-gray-500'>Image</label>
+          <input
+            type="file"
+            onChange={(e) => setImage(e.target.files[0])}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          />
+        </div>
         <div className="my-4">
           <label className='text-xl mr-4 text-gray-500'>First Name</label>
           <input

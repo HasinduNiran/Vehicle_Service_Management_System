@@ -9,6 +9,7 @@ router.post('/', async (request, response) => {
       if (
         !request.body.InvoiceId ||
         !request.body.customerName ||
+        !request.body.cusID||
         !request.body.PaymentId ||
         !request.body.Vehicle_Number ||
         !request.body.Vehicle_Color ||
@@ -16,17 +17,22 @@ router.post('/', async (request, response) => {
         !request.body.Year ||
         !request.body.Engine_Details ||
         !request.body.PaymentDate ||
-        !request.body.totalAmount ||
+        !request.body.Package||
+        !request.body.selectedServices||
+        !request.body.Pamount||
+        !request.body.Samount||
+        !request.body.totalAmount||
         !request.body.Booking_Id
       ) {
         return response.status(400).send({
-          message: 'Send all required fields:InvoiceId,customerName,PaymentId,Vehicle_Number,Vehicle_Color,Model,Year,Engine_Details,PaymentDate,totalAmount,Booking_Id',
+          message: 'Send all required fields:InvoiceId,customerName,PaymentId,Vehicle_Number,Pamount,Samount,Vehicle_Color,Model,Year,Engine_Details,PaymentDate,totalAmount,Booking_Id',
         });
       }
       
       const newPaymentInvoice = {
         InvoiceId: request.body.InvoiceId,
         customerName:request.body.customerName,
+        cusID:request.body.cusID,
         PaymentId: request.body.PaymentId,
         Vehicle_Number: request.body.Vehicle_Number,
         Vehicle_Color: request.body.Vehicle_Color,
@@ -34,7 +40,11 @@ router.post('/', async (request, response) => {
         Year: request.body.Year,
         Engine_Details: request.body.Engine_Details,
         PaymentDate: request.body.PaymentDate,
-        totalAmount: request.body.totalAmount,
+        totalAmount: request.body.Pamount,
+        Package: request.body.Package,
+        selectedServices: request.body.selectedServices,
+        Pamount: request.body.Pamount,
+        Samount: request.body.Samount,
         Booking_Id: request.body.Booking_Id
       };
       const paymentinvoice = await PaymentInvoice.create(newPaymentInvoice);
@@ -80,6 +90,7 @@ router.get('/', async (request, response) => {
       if (
         !request.body.InvoiceId ||
         !request.body.customerName||
+        !request.body.cusID||
         !request.body.PaymentId||
         !request.body.Vehicle_Number ||
         !request.body.Vehicle_Color ||
@@ -87,6 +98,10 @@ router.get('/', async (request, response) => {
         !request.body.Year||
         !request.body.Engine_Details||
         !request.body.PaymentDate||
+        !request.body.Package||
+        !request.body.selectedServices||
+        !request.body.Pamount||
+        !request.body.Samount||
         !request.body.totalAmount||
         !request.body.Booking_Id
       ) {

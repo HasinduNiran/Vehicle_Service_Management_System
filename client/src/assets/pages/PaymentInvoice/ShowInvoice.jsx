@@ -49,13 +49,18 @@ const ShowInvoice=()=> {
                     <th className='border border-slate-600 rounded-md'>No</th>
                         <th className='border border-slate-600 rounded-md'>Invoice ID</th>
                         <th className='border border-slate-600 rounded-md'>Customer Name</th>
+                        <th className='border border-slate-600 rounded-md '>Customer ID</th>
                         <th className='border border-slate-600 rounded-md '>Vehicle No</th>
                         <th className='border border-slate-600 rounded-md'>Payment ID</th>
+                        <th className='border border-slate-600 rounded-md '>Package</th>
+                        <th className='border border-slate-600 rounded-md'>Service</th>
                         <th className='border border-slate-600 rounded-md '>Color</th>
                         <th className='border border-slate-600 rounded-md'>Model</th>
                         <th className='border border-slate-600 rounded-md max-md:hidden'>Year</th>
                         <th className='border border-slate-600 rounded-md max-md:hidden'>Engine</th>
                         <th className='border border-slate-600 rounded-md max-md:hidden'>Date</th>
+                        <th className='border border-slate-600 rounded-md max-md:hidden'>Package Amount</th>
+                        <th className='border border-slate-600 rounded-md max-md:hidden'>Service Amount</th>
                         <th className='border border-slate-600 rounded-md max-md:hidden'>Amount</th>
                         <th className='border border-slate-600 rounded-md max-md:hidden'>Service ID</th>
                         <th className='border border-slate-600 rounded-md'>Operations</th>
@@ -76,10 +81,19 @@ const ShowInvoice=()=> {
                                 {paymentInvoice.customerName}
                             </td>
                             <td className='border border-slate-700 rounded-md text-center'>
+                                {paymentInvoice.cusID}
+                            </td>
+                            <td className='border border-slate-700 rounded-md text-center'>
                                 {paymentInvoice.Vehicle_Number}
                             </td>
                             <td className='border border-slate-700 rounded-md text-center'>
                                 {paymentInvoice.PaymentId}
+                            </td>
+                            <td className='border border-slate-700 rounded-md text-center'>
+                                {paymentInvoice.Package}
+                            </td>
+                            <td className='border border-slate-700 rounded-md text-center'>
+                                {paymentInvoice.Servicename}
                             </td>
                             <td className='border border-slate-700 rounded-md text-center'>
                                 {paymentInvoice.Vehicle_Color}
@@ -95,6 +109,12 @@ const ShowInvoice=()=> {
                             </td>
                             <td className='border border-slate-700 rounded-md text-center'>
                                 {paymentInvoice.PaymentDate}
+                            </td>
+                            <td className='border border-slate-700 rounded-md text-center'>
+                                {paymentInvoice.Pamount}
+                            </td>
+                            <td className='border border-slate-700 rounded-md text-center'>
+                                {paymentInvoice.Samount}
                             </td>
                             <td className='border border-slate-700 rounded-md text-center'>
                                 {paymentInvoice.totalAmount}
