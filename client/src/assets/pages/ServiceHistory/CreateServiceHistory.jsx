@@ -135,7 +135,7 @@ const CreateServiceHistory = () => {
       });
 
       // Perform navigation after successful login
-      navigate('/ServiceHistory');
+      navigate('/ServiceHistory/dashboard');
     } catch (error) {
       setLoading(false);
       console.error('Error creating service history:', error);
@@ -245,6 +245,7 @@ const CreateServiceHistory = () => {
               style={styles.input}
               value={milage}
               onChange={handleMilageChange}
+              min={0}
             />
           </div>
           <div style={styles.inputGroup}>

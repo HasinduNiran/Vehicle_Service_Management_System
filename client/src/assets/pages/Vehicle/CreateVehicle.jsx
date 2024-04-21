@@ -86,7 +86,7 @@ const CreateVehicle = () => {
               setLoading(false);
               if (response.status === 201) {
                 alert('Vehicle created successfully.'); // Show success message
-                navigate('/vehicle'); // Navigate to the vehicle page after successful creation
+                navigate('/vehicle/dashboard'); // Navigate to the vehicle page after successful creation
               } else {
                 throw new Error('Failed to create vehicle.'); // Throw error if response status is not 201
               }

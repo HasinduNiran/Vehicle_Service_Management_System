@@ -65,7 +65,7 @@ const EditVehicle = () => {
     try {
       await axios.put(`http://localhost:8076/vehicles/${id}`, data);
       setLoading(false);
-      navigate('/vehicle');
+      navigate('/vehicle/dashboard');
     } catch (error) {
       setLoading(false);
       console.error('Error updating vehicle:', error);
