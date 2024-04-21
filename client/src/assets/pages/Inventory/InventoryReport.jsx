@@ -92,8 +92,8 @@ export default function InventoryReport({ filteredInventory }) {
           onClick={() => {
             generatePDF(filteredInventory);
           }}
-          className="btn2"
-        >
+          className="btn2"  >
+       
           Generate report
         </button>
       </div>

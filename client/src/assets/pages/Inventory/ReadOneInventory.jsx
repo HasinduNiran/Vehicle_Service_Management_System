@@ -56,7 +56,7 @@ const ReadOneInventory = () => {
 
   return (
     <div style={styles.container}>
-      <BackButton destination={`/inventory/allInventory`} />
+      <BackButton destination={`/inventory/InventoryDashboard`} />
       <h1 style={styles.heading}>Show Inventory</h1>
       <div style={styles.vehicleContainer}>
         <div style={styles.vehicleInfo}>
