@@ -89,7 +89,17 @@ router.get('/:identifier', async (request, response) => {
 router.put('/:id', async (request, response) => {
     try {
         const { id } = request.params;
-        const result = await Customer.findByIdAndUpdate(id, request.body, { new: true });
+        const updateFields = {
+            firstName: request.body.firstName,
+            lastName: request.body.lastName,
+            NIC: request.body.NIC,
+            phone: request.body.phone,
+            email: request.body.email,
+            username: request.body.username,
+            password: request.body.password,
+            image: request.body.image // Include image if you want to update it
+        };
+        const result = await Customer.findByIdAndUpdate(id, updateFields, { new: true });
         if (!result) {
             return response.status(404).json({ message: 'Customer not found' });
         }
@@ -99,6 +109,7 @@ router.put('/:id', async (request, response) => {
         response.status(500).send({ message: error.message });
     }
 });
+
 
 router.delete('/:id', async (request, response) => {
     try {

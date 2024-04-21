@@ -89,7 +89,8 @@ import ShowCustomer from './assets/pages/Customer/ShowCustomer';
 import UpdateCustomer from './assets/pages/Customer/UpdateCustomer';
 import DeleteCustomer from './assets/pages/Customer/DeleteCustomer';
 import ReadOneCustomer from './assets/pages/Customer/ReadOneCustomer';
-import ReportCustomer from './assets/pages/Customer/ReportCustomer';
+import NewReportCustomer from './assets/pages/Customer/NewReportCustomer';
+import CustomerDashboard from './assets/pages/Customer/CustomerDashboard';
 
 import ShowAllServiceHistory from './assets/pages/ServiceHistory/ShowAllServiceHistory';
 import CreateServiceHistory from './assets/pages/ServiceHistory/CreateServiceHistory';
@@ -226,13 +227,15 @@ const App = () => {
         <Route path='/customer/edit/:id' element={<UpdateCustomer />}></Route>
         <Route path='/customer/delete/:id' element={<DeleteCustomer />}></Route>
         <Route path='/customer/get/:id' element={<ReadOneCustomer />}></Route>
-        <Route path='/customer/ReportCustomer' element={<ReportCustomer />}></Route>
+        <Route path='/customer/NewReportCustomer' element={<NewReportCustomer />}></Route>
+        <Route path='/customer/CustomerDashboard' element={<CustomerDashboard/>}></Route>
 
         <Route path='/ServiceHistory' element={<ShowAllServiceHistory />}></Route>
         <Route path='/ServiceHistory/create' element={<CreateServiceHistory />}></Route>
         <Route path='/ServiceHistory/edit/:id' element={<EditServiceHistory />}></Route>
         <Route path='/ServiceHistory/delete/:id' element={<DeleteServiceHistory />}></Route>
         <Route path='/ServiceHistory/get/:id' element={<ReadOneServiceHistory />}></Route>
+        
 
         <Route path='/cusDashboard' element={<CusDashboard />}></Route>
         <Route path='/cLogin' element={<CLogin />}></Route>'
@@ -387,7 +390,7 @@ const App = () => {
     <Route path='/customer/edit/:id' element={<UpdateCustomer/>}></Route>
     <Route path='/customer/delete/:id' element={<DeleteCustomer/>}></Route>
     <Route path='/customer/get/:id' element={<ReadOneCustomer/>}></Route>
-    <Route path='/customer/ReportCustomer' element={<ReportCustomer/>}></Route>
+    <Route path='/customer/NewReportCustomer' element={<NewReportCustomer/>}></Route>
 
     <Route path='/ServiceHistory' element={<ShowAllServiceHistory/>}></Route>
     <Route path='/ServiceHistory/create' element={<CreateServiceHistory/>}></Route>
