@@ -9,35 +9,48 @@ import { serviceHistory } from '../Models/ServiceHistory.js';
 const router = express.Router();
 
 // Route for save a new reservation
-
 router.post('/', async (request, response) => {
     try {
+        // Check if the provided booking ID already exists in the service history
+        const existingServiceHistory = await serviceHistory.findOne({ Booking_Id: request.body.Booking_Id });
+        if (existingServiceHistory) {
+            return response.status(400).send({
+                message: 'This booking ID already has a service history associated with it.'
+            });
+        }
+
+        // Validate other required fields
         if (
             !request.body.Customer_Name ||
             !request.body.Allocated_Employee ||
             !request.body.Vehicle_Number ||
             !request.body.Milage ||
-         
             !request.body.Booking_Id ||
             !request.body.nextService ||
             !request.body.Service_Date ||
             !request.body.Service_History
-           
         ) {
             return response.status(400).send({
-                message: 'Send all required field'
+                message: 'Send all required fields'
+            });
+        }
+
+        // Find the latest service history entry for the vehicle
+        const latestServiceHistory = await serviceHistory.findOne({ Vehicle_Number: request.body.Vehicle_Number }).sort({ Service_Date: -1 });
+
+        // Ensure that the provided mileage is greater than the previous service history entry's mileage
+        if (latestServiceHistory && request.body.Milage <= latestServiceHistory.Milage) {
+            return response.status(400).send({
+                message: 'The provided mileage must be greater than the previous service history entry\'s mileage.'
             });
         }
 
         // Convert selectedServices to an array if it's not already
-       // const selectedServices = Array.isArray(request.body.selectedServices) ? request.body.selectedServices : [request.body.selectedServices];
-
-
-        // Convert selectedServices to an array if it's not already
         const selectedServices = Array.isArray(request.body.selectedServices) ? request.body.selectedServices : [request.body.selectedServices];
 
+        // Create a new service history entry
         const newServiceHistory = new serviceHistory({
-            cusID: request.body.cusID,         
+            cusID: request.body.cusID,
             Customer_Name: request.body.Customer_Name,
             Allocated_Employee: request.body.Allocated_Employee,
             Vehicle_Number: request.body.Vehicle_Number,
@@ -47,11 +60,12 @@ router.post('/', async (request, response) => {
             nextService: request.body.nextService,
             Service_History: request.body.Service_History,
             Service_Date: request.body.Service_Date,
-            selectedServices: request.body.selectedServices // Ensure selectedServices is an array
+            selectedServices: selectedServices // Ensure selectedServices is an array
         });
+
+        // Save the new service history entry
         const result = await newServiceHistory.save();
         return response.status(201).send(result);
-
     } catch (error) {
         console.error(error.message);
         response.status(500).send({ message: error.message });
@@ -130,6 +144,13 @@ router.put('/:id', async (request, response) => {
         ) {
             return response.status(400).send({
                 message: 'Send all required field'
+            });
+        }
+        
+        // Validate Milage to ensure it's not negative
+        if (request.body.Milage < 0) {
+            return response.status(400).send({
+                message: 'Milage cannot be negative'
             });
         }
         const { id } = request.params;
