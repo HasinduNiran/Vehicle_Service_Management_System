@@ -74,6 +74,9 @@ const CreateServiceHistory = () => {
     }
 
     setBookingId(selectedBookingId);
+    // Fetch service history for the selected booking ID
+    // Here you should make a request to fetch service history based on the selected booking ID
+    // and update the `serviceHistory` state accordingly
   };
 
   const handleServiceSelect = (serviceName) => {
@@ -199,6 +202,13 @@ const CreateServiceHistory = () => {
               ))}
             </select>
           </div>
+          {/* Display message below booking ID select field */}
+          {serviceHistory && (
+            <div style={styles.message}>Service History Exists: {bookingId}</div>
+          )}
+          {/* {!serviceHistory && (
+            <div style={styles.message}>No Service History Found</div>
+          )} */}
           <div style={styles.inputGroup}>
             <label style={styles.label}>Customer ID</label>
             <input
@@ -331,7 +341,7 @@ const styles = {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
-    
+
   },
 
 
@@ -348,7 +358,7 @@ const styles = {
     textAlign: 'center',
     position: 'relative', // Add this line for absolute positioning of the line
   },
-  
+
   form: {
     display: 'flex',
     flexDirection: 'column',
@@ -370,7 +380,7 @@ const styles = {
   inputGroup: {
     marginTop: '20px',
     width: '100%'
-    
+
   },
   label: {
     fontWeight: 'bold',
@@ -400,7 +410,7 @@ const styles = {
 
     marginBottom: '10px',
 
-  
+
 
 
   },
@@ -420,8 +430,8 @@ const styles = {
     border: '1px solid #ccc',
     background: 'white',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
-    
-    
+
+
 
   },
   button: {
@@ -448,7 +458,7 @@ const styles = {
     marginRight: '0.5rem',
     marginBottom: '0.5rem',
     display: 'flex',
-    
+
 
 
   }, input1: {
@@ -471,6 +481,12 @@ const styles = {
 
 
 
+  },
+  message: {
+    color: 'white',
+    fontSize: '1rem',
+    textAlign: 'center',
+    marginTop: '10px',
   }
 };
 

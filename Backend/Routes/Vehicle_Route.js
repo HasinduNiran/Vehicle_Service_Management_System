@@ -12,6 +12,18 @@ const router = express.Router();
 // Route for creating a new vehicle
 router.post('/', async (request, response) => {
     try {
+
+        //checkin vehicle number if available
+
+        const vehiclenum = await Vehicle.findOne({
+            Register_Number: request.body.Register_Number
+        });
+        if (vehiclenum) {
+            return response.status(400).send({
+                message: 'Vehicle number already exists',
+            });
+        }
+
         // Checking if all required fields are present in the request body
         if (!request.body.Register_Number ||
             !request.body.Make ||
@@ -30,8 +42,8 @@ router.post('/', async (request, response) => {
 
         // Creating a new Vehicle item with the provided data
         const newVehicle = {
-            cusID:request.body.cusID,
-            image:request.body.image,
+            cusID: request.body.cusID,
+            image: request.body.image,
             Register_Number: request.body.Register_Number,
             Make: request.body.Make,
             Model: request.body.Model,
@@ -132,6 +144,16 @@ router.put('/:id', async (request, response) => {
                 message: 'Please provide all required fields'
             });
         }
+
+      //checkin vehicle number if available
+      const vehiclenum = await Vehicle.findOne({
+          Register_Number: request.body.Register_Number
+      });
+      if (vehiclenum) {
+          return response.status(400).send({
+              message: 'Vehicle number already exists',
+          });
+      }
 
         // Extracting the Vehicle item ID from the request parameters
         const { id } = request.params;
