@@ -45,6 +45,7 @@ const ReadOneHome = () => {
     <div className="bg-gray-100 min-h-screen">
       {/* Header section */}
       <header id="site-header" className="fixed-top">
+
         <style>{`
           #site-header {
             background-color: #000000;
@@ -106,7 +107,7 @@ const ReadOneHome = () => {
               
             </ul>
           </nav>
-        
+ 
         
         </div>
       </header>
