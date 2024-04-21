@@ -1,5 +1,6 @@
 // Importing the Express library
 import express from 'express';
+import Swal from 'sweetalert2'; // Import SweetAlert
 
 // Importing the Inventory model 
 import { Inventory } from '../Models/Inventory.js';
@@ -27,6 +28,12 @@ router.post('/', async (request, response) => {
         const phoneRegex = /^\d{10}$/; // Simple regex for 10-digit phone number
         if (!phoneRegex.test(SupplierPhone)) {
             return response.status(400).json({ message: 'SupplierPhone must be a valid 10-digit phone number.' });
+        }
+
+        // Check if an inventory item with the same name already exists
+        const existingItem = await Inventory.findOne({ Name });
+        if (existingItem) {
+            return response.status(400).json({ message: 'An inventory item with the same name already exists.' });
         }
 
         // Creating a new inventory item with the provided data
