@@ -5,6 +5,9 @@ body{
 .text-secondary-d1 {
     color: #728299!important;
 }
+.logo{
+    background-image: url('../images/logo.jpg');
+}
 .page-header {
     margin: 0 0 1rem;
     padding-bottom: 1rem;

@@ -4,7 +4,7 @@ import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
+import backgroundImage from '../../images/Pback21.jpg'; 
 const CreateInvoice = () => {
   const[InvoiceId,setInvoiceId] = useState('');
   const[customerName,setcustomerName] = useState('');
@@ -99,7 +99,7 @@ const handleSavePaymentInvoice = () => {
     .post(`http://localhost:8076/PaymentInvoice`, data)
     .then(() => {
       setLoading(false);
-      navigate('/PaymentInvoice/show');
+      navigate('/payments/pdashboard');
     })
     .catch((error) => {
       setLoading(false);
@@ -146,43 +146,35 @@ const handlePaymentIdChange = (e) => {
 
 
 return (
-  <div className='p-4'>
-    <BackButton destination='/PaymentInvoice/show' />
-    <h1 className='text-3xl my-4'>Create Invoice</h1>
-    {loading ? <Spinner /> : ''}
-    <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Invoice ID</label>
-        <input
+  <div style={styles.container}>
+      <div style={styles.formContainer}> 
+      <h1 style={styles.heading}><BackButton destination='/payments/pdashboard' />Create Invoice</h1>
+      {loading ? <Spinner /> : ''}
+      <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
+        <form  style={styles.form}>
+        <div style={styles.formGroup}>
+        <label htmlFor="InvoiceId"style={styles.label}>Invoice Id</label>
+         <input
           type='text'
           value={InvoiceId}
-          onChange={(e) => setInvoiceId(e.target.value)}
-          className='border-2 border-gray-500 px-4 py-2 w-full'
+          style={styles.input} 
+          onChange={(e) => setInvoiceId(e.target.value)}    
         />
       </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Customer Name</label>
-        <input
+      <div style={styles.formGroup}>
+        <label htmlFor="customerName"style={styles.label}>Customer Name</label>
+         <input
           type='String'
           value={customerName}
-          onChange={(e) => setcustomerName(e.target.value)}
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+          style={styles.input} 
+          onChange={(e) => setcustomerName(e.target.value)}    
         />
       </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Customer ID</label>
-        <input
-          type='String'
-          value={cusID}
-          onChange={(e) => setCusID(e.target.value)}
-          className='border-2 border-gray-500 px-4 py-2  w-full '
-        />
-      </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Payment ID</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+      <div style={styles.formGroup}>
+        <label htmlFor="PaymentId"style={styles.label}>Payment ID</label>
+        <select  
           value={PaymentId} 
+          style={styles.select}
           onChange={handlePaymentIdChange}
           //onChange={(e) => setPaymentId(e.target.value)}
           >
@@ -196,221 +188,236 @@ return (
           }
         </select>
       </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Vehicle No</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+      <div style={styles.formGroup}>
+      <label  htmlFor="cusID"style={styles.label}>Customer ID</label>
+      <input
+         style={styles.select}
+         value={cusID}
+         placeholder='Customer ID'
+        disabled
+     />
+    </div>
+    <div style={styles.formGroup}>
+      <label  htmlFor="Vehicle_Number"style={styles.label}>Vehicle Number</label>
+      <input
+          style={styles.select}
           value={Vehicle_Number} 
-          //onChange={handleVehicleNumberChange}
-          onChange={(e) => setVehicle_Number(e.target.value)}
-          >
-          <option value=''>Select Vehicle NO</option>
-          {
-            vehicles.map((vehicle) => (
-              <option key={vehicle._id} value={vehicle.Register_Number}>
-                {vehicle.Register_Number}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Service ID</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+          placeholder='Vehicle Number'
+          disabled
+          />
+         </div>
+         <div style={styles.formGroup}>
+      <label  htmlFor="Booking_Id"style={styles.label}>Booking ID</label>
+      <input
+          style={styles.select}
           value={Booking_Id} 
-         
-          onChange={(e) => setBooking_Id(e.target.value)}
-          >
-          <option value=''>Service id</option>
-          {
-            payments.map((payment) => (
-              <option key={payment._id} value={payment.Booking_Id}>
-                {payment.Booking_Id}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      <div className='my-4'> 
-        <label className='text-xl mr-4 text-gray-500'>Color</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+          placeholder='Vehicle Number'
+          disabled
+          />
+         </div>
+         <div style={styles.formGroup}>
+      <label  htmlFor="Vehicle_Color"style={styles.label}>Vehicle_Color</label>
+      <input
+          style={styles.select}
           value={Vehicle_Color} 
-          onChange={(e) => setVehicle_Color(e.target.value)}
-          >
-          <option value=''>Color</option>
-          {
-            vehicles.map((vehicle) => (
-              <option key={vehicle._id} value={vehicle.Vehicle_Color}>
-                {vehicle.Vehicle_Color}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Model</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+          placeholder='Color'
+          disabled
+          />
+         </div>
+         <div style={styles.formGroup}>
+      <label  htmlFor="Model"style={styles.label}>Model</label>
+      <input
+          style={styles.select}
           value={Model} 
-          onChange={(e) => setModel(e.target.value)}
-          >
-          <option value=''>Model</option>
-          {
-            vehicles.map((vehicle) => (
-              <option key={vehicle._id} value={vehicle.Model}>
-                {vehicle.Model}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Year</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+          placeholder='Model'
+          disabled
+          />
+          </div>
+      <div style={styles.formGroup}>
+      <label  htmlFor="Year"style={styles.label}>Year</label>
+      <input
+          style={styles.select}
           value={Year} 
-          onChange={(e) => setYear(e.target.value)}
-          >
-          <option value=''>Year</option>
-          {
-            vehicles.map((vehicle) => (
-              <option key={vehicle._id} value={vehicle.Year}>
-                {vehicle.Year}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Engine</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+          placeholder='Year'
+          disabled
+          />
+         </div>
+         <div style={styles.formGroup}>
+      <label  htmlFor="Engine_Details"style={styles.label}>Engine</label>
+      <input
+          style={styles.select}
           value={Engine_Details} 
-          onChange={(e) => setEngine_Details(e.target.value)}
-          >
-          <option value=''>Engine</option>
-          {
-            vehicles.map((vehicle) => (
-              <option key={vehicle._id} value={vehicle.Engine_Details}>
-                {vehicle.Engine_Details}
-              </option>
-            ))
-          }
-        </select>
-      </div>
+          placeholder='Engine '
+          disabled
+          />
+         </div>
       
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Date</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+         <div style={styles.formGroup}>
+      <label  htmlFor="PaymentDate"style={styles.label}>Date</label>
+      <input
+          style={styles.select}
           value={PaymentDate} 
-          onChange={(e) => setPaymentDate(e.target.value)}
-          >
-          <option value=''>Date</option>
-          {
-            payments.map((payment) => (
-              <option key={payment._id} value={payment.PaymentDate}>
-                {payment.PaymentDate}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Package</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+          placeholder='Payment Date'
+          disabled
+          />
+         </div>
+         <div style={styles.formGroup}>
+      <label  htmlFor="Package"style={styles.label}>Package</label>
+      <input
+          style={styles.select}
           value={Package} 
-          onChange={(e) => setPackage(e.target.value)}
-          >
-          <option value=''>Package</option>
-          {
-            payments.map((payment) => (
-              <option key={payment._id} value={payment.Package}>
-                {payment.Package}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Service Name</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+          placeholder='Package Name'
+          disabled
+          />
+         </div>
+         <div style={styles.formGroup}>
+      <label  htmlFor="selectedServices"style={styles.label}>Service Name</label>
+      <input
+          style={styles.select}
           value={selectedServices} 
-          onChange={(e) => setServicename(e.target.value)}
-          >
-          <option value=''>Service Name</option>
-          {
-            payments.map((payment) => (
-              <option key={payment._id} value={payment.selectedServices}>
-                {payment.selectedServices}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Package Amount</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+          placeholder='Service Name'
+          disabled
+          />
+         </div>
+         <div style={styles.formGroup}>
+      <label  htmlFor="Pamount"style={styles.label}>Package Amount</label>
+      <input
+          style={styles.select}
           value={Pamount} 
-          onChange={(e) => setPamount(e.target.value)}
-          >
-          <option value=''>Package Amount</option>
-          {
-            payments.map((payment) => (
-              <option key={payment._id} value={payment.Pamount}>
-                {payment.Pamount}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Service Amount</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+          placeholder='Package Amount'
+          disabled
+          />
+         </div>
+         <div style={styles.formGroup}>
+      <label  htmlFor="Samount"style={styles.label}>Service Amount</label>
+      <input
+          style={styles.select}
           value={Samount} 
-          onChange={(e) => setSamount(e.target.value)}
-          >
-          <option value=''>Service Amount</option>
-          {
-            payments.map((payment) => (
-              <option key={payment._id} value={payment.Samount}>
-                {payment.Samount}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      <div className='my-4'>
-        <label className='text-xl mr-4 text-gray-500'>Amount</label>
-        <select
-          className='border-2 border-gray-500 px-4 py-2  w-full '
+          placeholder='Service Amount'
+          disabled
+          />
+         </div>
+         <div style={styles.formGroup}>
+      <label  htmlFor="totalAmount"style={styles.label}>Total Amount</label>
+      <input
+          style={styles.select}
           value={totalAmount} 
-          onChange={(e) => settotalAmount(e.target.value)}
-          >
-          <option value=''>Amount</option>
-          {
-            payments.map((payment) => (
-              <option key={payment._id} value={payment.totalAmount}>
-                {payment.totalAmount}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      
-      <button className='p-2 bg-sky-300 m-8' onClick={handleSavePaymentInvoice}>
+          placeholder='Total Amount'
+          disabled
+          />
+         </div>
+      <button className='p-3 bg-red-400 m-8' onClick={handleSavePaymentInvoice}>
         Save
       </button>
+      </form>
+      </div>
     </div>
   </div>
 );
-}
+};
+const styles = {
+  select: {
+      width: '100%',
+      padding: '10px',
+      margin: '10px 0',
+      border: '1px solid #ccc',
+      borderRadius: '5px',
+      backgroundColor: 'black',
 
+      outline: 'none'
+
+
+  },
+  container: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+},
+formContainer: {
+  width: '50%',
+  backgroundColor: 'rgba(5, 4, 2, 0.8)',
+  borderRadius: '10px',
+  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+  padding: '20px',
+  border: '2px solid red', // Add a red border
+  borderColor: 'red',
+  margin: '10px',
+  textAlign: 'center',
+  position: 'relative', // Add this line for absolute positioning of the line
+},
+
+heading: {
+  fontSize: '2rem',
+  color: 'white',
+  textAlign: 'center',
+  fontWeight: 'bold',
+
+  marginBottom: '1.5rem',
+},
+form: {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  maxWidth: '500px',
+  padding: '20px',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
+  borderRadius: '10px',
+},
+formGroup: {
+  marginBottom: '1.5rem',
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '10px',
+  border: '1px solid rgba(255, 255, 255, 0.8)',
+  borderRadius: '5px',
+  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+  color: 'rgba(255, 255, 255, 0.8)',
+  backgroundColor: 'rgba(5, 4, 2, 0.8)',
+},
+label: {
+  fontWeight: 'bold',
+  marginBottom: '0.5rem',
+  flexDirection: 'column',
+  fontSize: '1.2rem',
+  color: 'white',
+  textAlign: 'center',
+  width: '100%',
+  alignItems: 'center',
+  justifyContent: 'center', 
+  padding: '10px',
+  display: 'block',
+  textTransform: 'uppercase',
+  backgroundColor: 'black',
+},
+input: {
+  width: '100%',
+  padding: '10px',
+  borderRadius: '5px',
+  border: '1px solid #ccc',
+  backgroundColor: '#4A0404',
+  color: 'white',
+},
+buttonContainer: {
+  display: 'flex',
+  justifyContent: 'center',
+},
+button: {
+  backgroundColor: 'red',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '0.25rem',
+  padding: '0.5rem 1rem',
+  cursor: 'pointer',
+  transition: 'background-color 0.3s ease',
+},
+};
 
 export default CreateInvoice

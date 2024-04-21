@@ -9,6 +9,7 @@ const EditInvoice= () => {
 
   const[InvoiceId,setInvoiceId] = useState('');
   const[customerName,setcustomerName] = useState('');
+  const [cusID,setcusID] = useState('');
   const[PaymentId,setPaymentId] = useState('');
   const[Package,setPackage] = useState('');
   const[selectedServices,setSelectedServices] = useState('');
@@ -34,6 +35,7 @@ const EditInvoice= () => {
       .then((response) => {
         setInvoiceId(response.data.InvoiceId);
         setcustomerName(response.data.customerName);
+        setcusID(response.data.cusID);
         setPaymentId(response.data.PaymentId);
         setPackage(response.data.Package);
         setSelectedServices(response.data.selectedServices);
@@ -60,6 +62,7 @@ const EditInvoice= () => {
       InvoiceId,
       customerName,
       PaymentId,
+      cusID,
       Package,
       selectedServices,
       Vehicle_Number,
