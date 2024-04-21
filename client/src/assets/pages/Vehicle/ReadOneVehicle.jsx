@@ -6,7 +6,6 @@ import backgroundImage from '../../images/t.jpg';
 
 const ReadOneVehicle = () => {
   const [vehicle, setVehicle] = useState({});
-  const [count, setCount] = useState();
   const [loading, setLoading] = useState(false);
   const [serviceHistory, setServiceHistory] = useState([]);
 
@@ -20,13 +19,7 @@ const ReadOneVehicle = () => {
         setVehicle(vehicleResponse.data);
 
         const serviceHistoryResponse = await axios.get(`http://localhost:8076/ServiceHistory/${Register_Number}`);
-        if (serviceHistoryResponse.data && serviceHistoryResponse.data.length > 0) {
-          setServiceHistory(serviceHistoryResponse.data);
-          setCount(serviceHistoryResponse.data.length);
-        } else {
-          setServiceHistory([]);
-          setCount(0);
-        }
+        setServiceHistory(serviceHistoryResponse.data || []);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -47,20 +40,21 @@ const ReadOneVehicle = () => {
           <div style={styles.vehicleInfo}>
             <h2 style={styles.subHeading}>Vehicle Information</h2>
             <div style={styles.infoGrid}>
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', border: '3px solid white', borderRadius: '20px', padding: '20px' }}>
-                <img src={vehicle.image} alt="Vehicle" style={{ maxWidth: '100%', height: 'auto', borderRadius: '20px' }} />
-              </div><br/>
-
-              <p><span style={styles.label}>Vehicle Number:</span> <span style={styles.value}>{vehicle.Register_Number}</span></p>
-              <p><span style={styles.label}>Vehicle Make:</span><span style={styles.value}> {vehicle.Make}</span></p>
-              <p><span style={styles.label}>Vehicle Model:</span><span style={styles.value}> {vehicle.Model}</span></p>
-              <p><span style={styles.label}>Vehicle Year:</span><span style={styles.value}> {vehicle.Year}</span></p>
-              <p><span style={styles.label}>Vehicle Engine Details:</span><span style={styles.value}> {vehicle.Engine_Details}</span></p>
-              <p><span style={styles.label}>Vehicle Transmission Details:</span><span style={styles.value}> {vehicle.Transmission_Details}</span></p>
-              <p><span style={styles.label}>Vehicle Color:</span><span style={styles.value}> {vehicle.Vehicle_Color}</span></p>
-              <p><span style={styles.label}>Vehicle Features:</span><span style={styles.value}> {vehicle.Vehicle_Features}</span></p>
-              <p><span style={styles.label}>Condition Assessment:</span><span style={styles.value}> {vehicle.Condition_Assessment}</span></p>
-              <p><span style={styles.label}>Vehicle Owner:</span><span style={styles.value}> {vehicle.Owner}</span></p>
+              <div style={styles.imageContainer}>
+                <img src={vehicle.image} alt="Vehicle" style={styles.vehicleImage} />
+              </div>
+              <div style={styles.vehicleDetails}>
+                <p><span style={styles.label}>Vehicle Number:</span> <span style={styles.value}>{vehicle.Register_Number}</span></p>
+                <p><span style={styles.label}>Vehicle Make:</span><span style={styles.value}> {vehicle.Make}</span></p>
+                <p><span style={styles.label}>Vehicle Model:</span><span style={styles.value}> {vehicle.Model}</span></p>
+                <p><span style={styles.label}>Vehicle Year:</span><span style={styles.value}> {vehicle.Year}</span></p>
+                <p><span style={styles.label}>Vehicle Engine Details:</span><span style={styles.value}> {vehicle.Engine_Details}</span></p>
+                <p><span style={styles.label}>Vehicle Transmission Details:</span><span style={styles.value}> {vehicle.Transmission_Details}</span></p>
+                <p><span style={styles.label}>Vehicle Color:</span><span style={styles.value}> {vehicle.Vehicle_Color}</span></p>
+                <p><span style={styles.label}>Vehicle Features:</span><span style={styles.value}> {vehicle.Vehicle_Features}</span></p>
+                <p><span style={styles.label}>Condition Assessment:</span><span style={styles.value}> {vehicle.Condition_Assessment}</span></p>
+                <p><span style={styles.label}>Vehicle Owner:</span><span style={styles.value}> {vehicle.Owner}</span></p>
+              </div>
             </div>
           </div>
           <div style={styles.serviceHistory}>
@@ -87,7 +81,7 @@ const ReadOneVehicle = () => {
                 </tbody>
               </table>
             ) : (
-              <p>No service history available for this vehicle.</p>
+              <p style={styles.noServiceHistory}>No service history available for this vehicle.</p>
             )}
           </div>
         </div>
@@ -110,17 +104,12 @@ const styles = {
     textAlign: 'center',
     fontSize: '2rem',
     marginBottom: '30px',
-    color: '#fff',
   },
   subHeading: {
     fontSize: '1.5rem',
     fontWeight: 'bold',
     marginBottom: '20px',
-    color: '#fff',
     textAlign: 'center',
-    width: '100%',
-    padding: '10px',
-    display: 'block',
     textTransform: 'uppercase',
   },
   vehicleContainer: {
@@ -130,27 +119,35 @@ const styles = {
     borderRadius: '10px',
     backgroundColor: 'rgba(5, 4, 2, 0.8)',
     padding: '20px',
-    border: '2px solid red', /* Add border here */
-    textAlign: 'left',
-    justifyContent: 'center', /* Add this line */
-    alignItems: 'center', /* Add this line */
-    height: '100vh', /* Adjust this as per your requirement */
   },
   vehicleInfo: {
-    margin: '0 auto', /* Center the vehicle info */
-    padding: '20px', /* Add padding */
-    width: '80%', /* Set width to 80% of container */
+    marginBottom: '30px',
   },
   infoGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
     gap: '20px',
   },
+  imageContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: '3px solid white',
+    borderRadius: '20px',
+    padding: '20px',
+  },
+  vehicleImage: {
+    maxWidth: '100%',
+    height: 'auto',
+    borderRadius: '20px',
+  },
+  vehicleDetails: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
   label: {
     fontWeight: 'bold',
     color: 'red',
-    width: '100%',
-    padding: '1px',
     textTransform: 'uppercase',
   },
   value: {
@@ -167,15 +164,11 @@ const styles = {
     background: '#333',
     color: 'red',
     textAlign: 'center',
-    border: '1px solid red',
-
-
   },
   tableHeader: {
     padding: '10px',
     textAlign: 'left',
     color: 'red',
-    border: '1px solid red',
   },
   tableRowEven: {
     background: '#2f2f2f',
@@ -186,7 +179,10 @@ const styles = {
   tableCell: {
     padding: '10px',
     textAlign: 'left',
-    border: '1px solid red',
+  },
+  noServiceHistory: {
+    textAlign: 'center',
+    color: 'white',
   },
 };
 
