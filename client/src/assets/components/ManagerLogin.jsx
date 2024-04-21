@@ -44,7 +44,7 @@ function Login() {
             break;
           case "inventory":
             message = "Welcome back! Lasal";
-            navigate("/inventory/allInventory");
+            navigate("/inventory/InventoryDashboard");
             break;
           case "payment":
             message = "Welcome back! Sithagi";

@@ -11,16 +11,15 @@ export default function InventoryReport({ filteredInventory }) {
     const doc = new jspdf();
     const tableColumn = [
       "No",
-      "Vehicle NO",
-      "Make",
-      "Model",
-      "Year",
-      "Engine_Details",
-      "Transmission..",
-      "Color",
-      "Features",
-      "Conditio",
-      "Owner",
+      "Name",
+      "Location",
+      "Quantity",
+      "Purchased Price",
+      "Sell Price",
+      "Supplier Name",
+      "Supplier Phone",
+      "Operations",
+      
     ];
     const tableRows = [];
 
@@ -93,8 +92,7 @@ export default function InventoryReport({ filteredInventory }) {
             generatePDF(filteredInventory);
           }}
           className="btn2"  >
-       
-          Generate report
+           Genarate Report
         </button>
       </div>
     </div>

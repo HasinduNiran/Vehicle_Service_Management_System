@@ -1,15 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'; // Add useState import
 import { Link, useParams } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Satisfaction from '../components/Satisfaction';
 import WhoWeAre from '../components/WhoWeAre';
 import Specification from '../components/Specification';
 import Testimonial from '../components/Testimoials'; // Corrected misspelling
-import logo2 from './../images/logo2.png';
+import './../Styles/style-starter.css';
+import axios from 'axios'; // Add axios import
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
+import { Navigation, Autoplay, Pagination } from "swiper/modules";
+import { EffectCards } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-cards";
+import "swiper/css/navigation";
+import "swiper/css/bundle";
+import img1 from "../images/swiper/1.jpg";
+import img2 from "../images/swiper/2.jpg";
+import img3 from "../images/swiper/3.png";
+import logo2 from "../images/logo2.png"; // Import the logo image
 
 const ReadOneHome = () => {
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({}); // Initialize userData state
   const { cusID } = useParams(); // Accessing URL parameters
   
   useEffect(() => {
@@ -27,76 +39,78 @@ const ReadOneHome = () => {
       console.error('Error fetching user data:', error);
     }
   };
-  
+  SwiperCore.use([Navigation, Autoplay, EffectCards, Pagination]);
+
   return (
     <div className="bg-gray-100 min-h-screen">
       {/* Header section */}
       <header id="site-header" className="fixed-top">
-  <style>{`
-    #site-header {
-      background-color: #000000;
-      height: 130px;
-    }
-    
-    .container {
-      width: 100%;
-      margin: 0 auto;
-      margin-left: 0%;
-    }
-    
-    .navbar-brand {
-      display: flex;
-      align-items: center;
-    }
-    
-    .logo {
-      width: 100px;
-      margin-right: 10px; /* Added margin */
-      margin-top: -10px; /* Adjusted margin to move the logo up */
-    }
-    
-    .navbar-nav {
-      flex-direction: row;
-    }
-  `}</style>
-  <div className="container ml-80 pl-80" style={{ paddingLeft:"10px" }} >
-    
-  <nav className="navbar navbar-expand-lg navbar-light"  >
-  <Link className="navbar-brand" to="/">
-    <img src={logo2} alt="Nadeeka Auto Service" className="logo" />
-    <h1 style={{ color: 'red', marginTop: '-10px' }}>Nadeeka Auto Service</h1>
-  </Link>
-  
-  <ul className="navbar-nav ml-auto" style={{ paddingLeft:"150px", marginRight:
-"50px" }}>
-    <li className="nav-item active">
-      <Link className="nav-link" to="/">Home</Link>
-    </li>
-    <li className="nav-item">
-      <Link className="nav-link" to={`/create/${userData.cusID}`}>Booking</Link>
-    </li>
-    <li className="nav-item">
-      <Link className="nav-link" to="/package">Package</Link>
-    </li>
-    
-      {/* Display welcome message if userData.firstName exists */}
-      {userData.firstName && (
-        <div className="d-flex" style={{ display:"flex", flexDirection:"column", position:"absolute", marginLeft:"400px"}} >
-          <li className="nav-item">
-          <img src={userData.image} alt="Welcome" style={{ width: '100%', height: '50px', borderRadius: '50%',  }} />
-          </li>
-            <p className="mb-0" style={{ color: 'red', top:'20px' }}>{userData.firstName}!</p>
-            {/* You can add more information here if needed */}
+
+        <style>{`
+          #site-header {
+            background-color: #000000;
+            height: 130px;
+          }
+          
+          .container {
+            width: 100%;
+            margin: 0 auto;
+            margin-left: 0%;
+          }
+          
+          .navbar-brand {
+            display: flex;
+            align-items: center;
+          }
+          
+          .logo {
+            width: 150px;
+            margin-right: 10px; /* Added margin */
+            margin-top: -10px; /* Adjusted margin to move the logo up */
+          }
+          
+          .navbar-nav {
+            flex-direction: row;
+          }
+        `}</style>
+        <div className="container ml-80 pl-80" style={{ paddingLeft:"10px" }} >
+          
+          <nav className="navbar navbar-expand-lg navbar-light"  >
+            <Link className="navbar-brand" to="/">
+              <img src={logo2} alt="Nadeeka Auto Service" className="logo" />
+              <h1 style={{ color: 'red', marginTop: '-10px' }}>Nadeeka Auto Service</h1>
+            </Link>
+            
+            <ul className="navbar-nav ml-auto" style={{ paddingLeft:"150px", marginRight:
+            "50px" }}>
+              <li className="nav-item active">
+                <Link className="nav-link" to="/">Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={`/create/${userData.cusID}`}>Booking</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/package">Package</Link>
+              </li>
+              
+                {/* Display welcome message if userData.firstName exists */}
+                {userData.firstName && (
+                  <div className="d-flex" style={{ display:"flex", flexDirection:"column", position:"absolute", marginLeft:"300px"}} >
+                    <li className="nav-item">
+                    <img src={userData.image} alt="Welcome" style={{ width: '50px', height: '50px', borderRadius: '10%',  }} />
+                    </li>
+                      <p className="mb-0" style={{ color: 'red', top:'20px' }}>{userData.firstName}!</p>
+                      {/* You can add more information here if needed */}
+                  
+                  </div>
+                )}
+              
+            </ul>
+          </nav>
+ 
         
         </div>
-      )}
-    
-  </ul>
-</nav>
-
-
-  </div>
-</header>
+      </header>
 
 
 
@@ -112,6 +126,16 @@ const ReadOneHome = () => {
       </div>
 
       {/* Other components */}
+
+
+      <Swiper autoplay={{ delay: 3000 }} navigation={true} modules={[Navigation]} className="mySwiper" >
+        <SwiperSlide><img src={img1} className='h-2/5'/></SwiperSlide>
+        <SwiperSlide><img src={img2}/></SwiperSlide>
+        <SwiperSlide><img src={img3}/></SwiperSlide>
+        
+      </Swiper>
+
+      
       <Satisfaction />
       <WhoWeAre />
       <Specification />
