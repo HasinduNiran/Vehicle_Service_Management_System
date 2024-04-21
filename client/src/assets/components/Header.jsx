@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo2 from './../images/logo2.png';
+import logo from './../images/logo2.png';
 
 const Header = () => {
     return (
@@ -23,7 +23,7 @@ const Header = () => {
                 }
                 
                 .logo {
-                    width: 150px; /* Adjust the width of the logo as needed */
+                    width: 120px; /* Adjust the width of the logo as needed */
                      /* Adjust the margin as needed */
                 }
                 
@@ -34,7 +34,7 @@ const Header = () => {
             <div className="container">
                 <nav className="navbar navbar-expand-lg navbar-light">
                     <Link className="navbar-brand" to="/">
-                        <img src={logo2} alt="Nadeeka Auto Service" className="logo" />
+                        <img src={logo} alt="Nadeeka Auto Service" className="logo" />
                         <h1 style={{ color: 'red' }}>N</h1>adeeka Auto Service
                         
                     </Link>

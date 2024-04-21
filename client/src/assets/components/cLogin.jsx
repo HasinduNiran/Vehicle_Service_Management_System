@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from '../images/t.jpg';
 import video1 from '../images/2.mp4';
+import Header from '../components/Header';
 
 function CLogin() {
   const [cusID, setCusID] = useState("");
@@ -69,6 +70,8 @@ function CLogin() {
   };
 
   return (
+    <div>
+    <Header/>
     <div style={styles.container}>
       <form onSubmit={onLogin} style={styles.form}>
         <div className="image-container" style={styles.imageContainer}>
@@ -104,6 +107,7 @@ function CLogin() {
         </div>
       </form>
     </div>
+    </div>
   );
 }
 
@@ -133,7 +137,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '500px',
+    height: '400px',
   },
   formContent: {
     flex: 1,

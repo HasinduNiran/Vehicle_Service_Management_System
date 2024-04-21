@@ -81,9 +81,9 @@ const ReadOneHome = () => {
     
       {/* Display welcome message if userData.firstName exists */}
       {userData.firstName && (
-        <div className="d-flex" style={{ display:"flex", flexDirection:"column", position:"absolute", marginLeft:"300px"}} >
+        <div className="d-flex" style={{ display:"flex", flexDirection:"column", position:"absolute", marginLeft:"400px"}} >
           <li className="nav-item">
-          <img src={userData.image} alt="Welcome" style={{ width: '50px', height: '50px', borderRadius: '10%',  }} />
+          <img src={userData.image} alt="Welcome" style={{ width: '100%', height: '50px', borderRadius: '50%',  }} />
           </li>
             <p className="mb-0" style={{ color: 'red', top:'20px' }}>{userData.firstName}!</p>
             {/* You can add more information here if needed */}
