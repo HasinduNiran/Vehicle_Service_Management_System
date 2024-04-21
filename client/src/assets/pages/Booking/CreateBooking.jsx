@@ -54,7 +54,7 @@ const CreateBooking = () => {
 
     const handlePackageChange = (e) => {
         setSelectedPackage(e.target.value);
-        // Make API call with selected value if needed
+        
     };
 
     useEffect(() => {

@@ -158,7 +158,7 @@ function BookingDashBoard() {
                                     <div className="sb-nav-link-icon">
                                         <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} />
                                         <button
-                                            onClick={() => { window.location.href = '/create' }}
+                                            onClick={() => { window.location.href = '/booking/adminbooking' }}
                                             style={styles.navButton}>
                                             Add Booking
                                         </button>
