@@ -2,21 +2,26 @@ import React, { useState, useEffect } from "react";
 import Spinner from "../../components/Spinner";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { app } from '../../../firebase';
 import backgroundImage from '../../images/t.jpg';
 
-const EditCustomer = () => {
+const UpdateCustomer = () => {
   const [customer, setCustomer] = useState({
+    cusID:'',
     firstName: '',
     lastName: '',
     NIC: '',
     phone: '',
     email: '',
     username: '',
-    password: ''
+    password: '',
+    image: null,
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+  const storage = getStorage(app);
 
   useEffect(() => {
     setLoading(true);
@@ -28,7 +33,7 @@ const EditCustomer = () => {
       })
       .catch((error) => {
         setLoading(false);
-        alert(`An error happened. Please check console`);
+        alert(`An error occurred. Please check console`);
         console.log(error);
       });
   }, [id]);
@@ -41,29 +46,69 @@ const EditCustomer = () => {
     }));
   };
 
-  const handleEditCustomer = () => {
+  const handleImageChange = (e) => {
+    if (e.target.files[0]) {
+      setCustomer({ ...customer, image: e.target.files[0] });
+    }
+  };
+
+  const handleUpdateCustomer = () => {
     setLoading(true);
 
+    if (customer.image) {
+      const storageRef = ref(storage, `images/${customer.image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, customer.image);
+
+      uploadTask.on('state_changed',
+        (snapshot) => {},
+        (error) => {
+          console.error(error);
+          setLoading(false);
+          alert('Image upload failed. Please try again.');
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            const updatedCustomer = { ...customer, image: downloadURL };
+            updateCustomer(updatedCustomer);
+          });
+        }
+      );
+    } else {
+      // If there's no image to upload, just update the customer data
+      updateCustomer(customer);
+    }
+  };
+
+  const updateCustomer = (updatedCustomer) => {
     axios
-      .put(`http://localhost:8076/customer/${id}`, customer)
+      .put(`http://localhost:8076/customer/${id}`, updatedCustomer)
       .then(() => {
         setLoading(false);
         navigate('/customer/allCustomer');
       })
       .catch((error) => {
         setLoading(false);
-        alert('An error happened. Please check console');
+        alert('An error occurred. Please check console');
         console.log(error);
       });
   };
 
   return (
     <div style={styles.container}>
-      {loading ? <Spinner /> : ''}
+      {loading ? <Spinner /> : null}
       <div style={styles.formContainer}>
         <h1 style={styles.heading}>EDIT PROFILE</h1>
 
         <div style={styles.form}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Image</label>
+            <input
+              type="file"
+              onChange={handleImageChange}
+              style={styles.input}
+            />
+            {customer.image && <img src={customer.image} alt="Customer" style={{ maxWidth: '100%', maxHeight: '200px' }} />}
+          </div>
           <div style={styles.formGroup}>
             <label style={styles.label}>First Name</label>
             <input
@@ -80,6 +125,16 @@ const EditCustomer = () => {
               type="text"
               name="lastName"
               value={customer.lastName}
+              onChange={handleChange}
+              style={styles.input}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>CusID</label>
+            <input
+              type="text"
+              name="cusID"
+              value={customer.cusID}
               onChange={handleChange}
               style={styles.input}
             />
@@ -135,7 +190,7 @@ const EditCustomer = () => {
             />
           </div>
           <div style={styles.buttonContainer}>
-            <button style={styles.button} onClick={handleEditCustomer}>
+            <button style={styles.button} onClick={handleUpdateCustomer}>
               Save
             </button>
           </div>
@@ -232,4 +287,4 @@ const styles = {
   },
 };
 
-export default EditCustomer;
+export default UpdateCustomer;
