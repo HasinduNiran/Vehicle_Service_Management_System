@@ -40,86 +40,65 @@ const CreateVehicle = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-  
+
     if (!validateVehicleNumber(Register_Number)) {
       alert('Please enter a valid vehicle number.'); // Display an error message if validation fails
       return; // Exit the function if validation fails
     }
-  
+
     setLoading(true);
     try {
-      // Check if the vehicle number already exists
-      const existingVehicle = await axios.get(`http://localhost:8076/vehicles/${Register_Number}`);
-      if (existingVehicle.data && Object.keys(existingVehicle.data).length !== 0) {
-        setLoading(false);
-        alert('Vehicle number already exists. Please enter a different vehicle number.');
-        return; // Exit the function if the vehicle number already exists
-      }
-  
-      // If an image is selected, proceed with uploading the image
-      if (image) {
-        const storageRef = ref(storage, `images/${image.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, image);
-  
-        uploadTask.on(
-          'state_changed',
-          (snapshot) => {
-            // Progress monitoring can be added here if needed
-          },
-          (error) => {
-            // Handle unsuccessful uploads
-            console.error('Error uploading image to Firebase:', error);
-            setLoading(false);
-            alert('Error uploading image to Firebase. Please try again.');
-          },
-          () => {
-            // Handle successful uploads on complete
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              // Once the image is uploaded, proceed to submit form data to the backend
-              submitVehicleData(downloadURL);
+      // Upload image to Firebase Storage
+      const storageRef = ref(storage, `images/${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          // Progress monitoring can be added here if needed
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+          console.error('Error uploading image to Firebase:', error);
+          setLoading(false);
+          alert('Error uploading image to Firebase. Please try again.');
+        },
+        () => {
+          // Handle successful uploads on complete
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            // Once image is uploaded, proceed to submit form data to backend
+            const data = {
+              Register_Number,
+              image: downloadURL, // Update image field with the download URL from Firebase Storage
+              Make,
+              Model,
+              Year: selectedYear,
+              Engine_Details,
+              Transmission_Details,
+              Vehicle_Color,
+              Vehicle_Features,
+              Condition_Assessment,
+              Owner,
+            };
+
+            // Submit form data to backend
+            axios.post('http://localhost:8076/vehicles', data).then((response) => {
+              setLoading(false);
+              if (response.status === 201) {
+                alert('Vehicle created successfully.'); // Show success message
+                navigate('/vehicle/dashboard'); // Navigate to the vehicle page after successful creation
+              } else {
+                throw new Error('Failed to create vehicle.'); // Throw error if response status is not 201
+              }
             });
-          }
-        );
-      } else {
-        // If no image is selected, proceed to submit form data without the image field
-        submitVehicleData(null);
-      }
+          });
+        }
+      );
     } catch (error) {
       setLoading(false);
       console.error('Error creating vehicle:', error);
       alert('Error creating vehicle. Please try again.'); // Display a generic error message
     }
-  };
-
-  const submitVehicleData = (imageURL) => {
-    const data = {
-      Register_Number,
-      image: imageURL, // Update image field with the download URL from Firebase Storage or null
-      Make,
-      Model,
-      Year: selectedYear,
-      Engine_Details,
-      Transmission_Details,
-      Vehicle_Color,
-      Vehicle_Features,
-      Condition_Assessment,
-      Owner,
-    };
-
-    // Submit form data to the backend
-    axios.post('http://localhost:8076/vehicles', data).then((response) => {
-      setLoading(false);
-      if (response.status === 201) {
-        alert('Vehicle created successfully.'); // Show success message
-        navigate('/vehicle/dashboard'); // Navigate to the vehicle page after successful creation
-      } else {
-        throw new Error('Failed to create vehicle.'); // Throw error if response status is not 201
-      }
-    }).catch((error) => {
-      setLoading(false);
-      console.error('Error creating vehicle:', error);
-      alert('Error creating vehicle. Please try again.'); // Display a generic error message
-    });
   };
 
   return (
@@ -131,7 +110,7 @@ const CreateVehicle = () => {
             <label htmlFor="image" style={styles.label}>
               Vehicle image
             </label>
-            <input type="file" id="image" style={styles.input} onChange={handleImageChange}  />
+            <input type="file" id="image" style={styles.input} onChange={handleImageChange} required />
           </div>
           <div style={styles.formGroup}>
             <label htmlFor="register_number" style={styles.label}>Vehicle Number</label>
@@ -195,22 +174,25 @@ const CreateVehicle = () => {
 };
 
 const styles = {
-  select: {
-    width: '100%',
-    padding: '10px',
-    margin: '10px 0',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    backgroundColor: 'black',
-    outline: 'none'
-  },
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    select: {
+        width: '100%',
+        padding: '10px',
+        margin: '10px 0',
+        border: '1px solid #ccc',
+        borderRadius: '5px',
+        backgroundColor: 'black',
+
+        outline: 'none'
+
+
+    },
+    container: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
   },
   formContainer: {
     width: '50%',
@@ -224,11 +206,13 @@ const styles = {
     textAlign: 'center',
     position: 'relative', // Add this line for absolute positioning of the line
   },
+  
   heading: {
     fontSize: '3rem',
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
+
     marginBottom: '1.5rem',
   },
   form: {
@@ -265,7 +249,7 @@ const styles = {
     textAlign: 'center',
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center', 
     padding: '10px',
     display: 'block',
     textTransform: 'uppercase',

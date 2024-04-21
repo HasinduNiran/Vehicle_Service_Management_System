@@ -135,45 +135,29 @@ router.put('/:id', async (request, response) => {
             !request.body.Allocated_Employee ||
             !request.body.Vehicle_Number ||
             !request.body.Milage ||
+           
             !request.body.Booking_Id ||
             !request.body.nextService ||
             !request.body.Service_Date ||
             !request.body.Service_History
+
         ) {
             return response.status(400).send({
-                message: 'Send all required fields'
+                message: 'Send all required field'
             });
         }
-
+        
         // Validate Milage to ensure it's not negative
         if (request.body.Milage < 0) {
             return response.status(400).send({
                 message: 'Milage cannot be negative'
             });
         }
-
-        // Find the existing service history entry by ID
-        const existingServiceHistory = await serviceHistory.findById(request.params.id);
-        if (!existingServiceHistory) {
-            return response.status(404).send({ message: 'Service history not found' });
-        }
-
-        // Find the latest service history entry for the vehicle
-        const latestServiceHistory = await serviceHistory.findOne({ Vehicle_Number: existingServiceHistory.Vehicle_Number }).sort({ Service_Date: -1 });
-
-        // Ensure that the provided mileage is greater than the previous service history entry's mileage
-        if (latestServiceHistory && request.body.Milage <= latestServiceHistory.Milage) {
-            return response.status(400).send({
-                message: 'The provided mileage must be greater than the previous service history entry\'s mileage.'
-            });
-        }
-
-        // Update the service history entry
-        const updatedServiceHistory = await serviceHistory.findByIdAndUpdate(request.params.id, request.body);
+        const { id } = request.params;
+        const updatedServiceHistory = await serviceHistory.findByIdAndUpdate(id, request.body);
         if (!updatedServiceHistory) {
             return response.status(404).send({ message: 'Service history not found' });
         }
-
         return response.status(200).send({ message: 'Service history updated' });
 
     } catch (error) {
