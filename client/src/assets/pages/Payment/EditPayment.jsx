@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import BackButton from "../../components/BackButton";
-import Spinner from "../../components/Spinner";
+//import Spinner from "../../components/Spinner";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-import backgroundImage from '../../images/Pback21.jpg';//background image
+import backgroundImage from '../../images/Pback21.jpg'; // background image
 
 const EditPayment = () => {
   const [PaymentId, setPaymentId] = useState("");
@@ -19,8 +19,6 @@ const EditPayment = () => {
   const [totalAmount, settotalAmount] = useState("");
   const [PaymentMethod, setPaymentMethod] = useState("");
   const [Booking_Id, setBooking_Id] = useState("");
- // const [Servicehistory, setServiceHistory] = useState([]);
-  //const [count, setCount] = useState();
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -31,17 +29,17 @@ const EditPayment = () => {
     axios
       .get(`http://localhost:8076/payments/${id}`)
       .then((response) => {
-        setPaymentId(response.data.PaymentId);
-        setCusID(response.data.cusID);
-        setVehicle_Number(response.data.Vehicle_Number);
-        setPackage(response.data.Package);
-        setSelectedServices(response.data.selectedServices);
-        setPaymentDate(response.data.PaymentDate);
-        setPamount(response.data.Pamount);
-        setSamount(response.data.Samount);
-        settotalAmount(response.data.totalAmount);
-        setPaymentMethod(response.data.PaymentMethod);
-        setBooking_Id(response.data.Booking_Id);
+        const data = response.data;
+        setPaymentId(data.PaymentId);
+        setCusID(data.cusID);
+        setVehicle_Number(data.Vehicle_Number);
+        setPackage(data.Package);
+        setSelectedServices(data.selectedServices);
+        setPaymentDate(data.PaymentDate);
+        setPamount(data.Pamount);
+        setSamount(data.Samount);
+        setPaymentMethod(data.PaymentMethod);
+        setBooking_Id(data.Booking_Id);
         setLoading(false);
       })
       .catch((error) => {
@@ -49,17 +47,15 @@ const EditPayment = () => {
         alert("An error occurred");
         console.log(error);
       });
-  }, []);
+  }, [id]);
+
   useEffect(() => {
     const total = (parseFloat(Pamount) || 0) + (parseFloat(Samount) || 0);
     settotalAmount(total);
   }, [Pamount, Samount]);
-  // const calculateTotalAmount = () => {
-  //   return (parseFloat(Pamount) || 0) + (parseFloat(Samount) || 0);
-  // };
-  // const totalAmount = calculateTotalAmount();
 
-  const handleEditPayment = () => {
+  const handleEditPayment = async (e) => {
+    e.preventDefault();
     const data = {
       PaymentId,
       cusID,
@@ -89,11 +85,15 @@ const EditPayment = () => {
 
   return (
     <div style={styles.container}>
-      <div style={styles.formContainer}> 
-      <h1 style={styles.heading}><BackButton destination='/payments/pdashboard'/>Edit Payment</h1>
-      {loading ? <Spinner /> : ''}
-      <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
-        <form style={styles.form}>
+      <div style={styles.formContainer}>
+      <form onSubmit={handleEditPayment} style={styles.form}>
+        <h1 style={styles.heading}>
+          {/* <BackButton destination='/payments/pdashboard' /> */}
+          Edit Payment
+        </h1>
+        {/* {loading ? <Spinner /> : ''} */}
+        {/* <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'> */}
+        
         <div style={styles.formGroup}>
             <label htmlFor="PaymentId"style={styles.label}>PaymentId</label>
            {PaymentId}
@@ -119,80 +119,56 @@ const EditPayment = () => {
            <div> {Vehicle_Number}</div>
           </div>
           <div style={styles.formGroup}>
-            <label htmlFor='PaymentDate'style={styles.label}>Payment Date</label>
-          <input
-            type="Date"
-            value={PaymentDate}
-            onChange={(e) => setPaymentDate(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-        <div style={styles.formGroup}>
-            <label htmlFor='Pamount'style={styles.label}>Package Amount</label>
-          <input
-            type="number"
-            value={Pamount}
-            onChange={(e) => setPamount(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-        <div style={styles.formGroup}>
-            <label htmlFor='Samount'style={styles.label}>Service Amount</label>
-          <input
-            type="number"
-            value={Samount}
-            onChange={(e) => setSamount(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-        <div style={styles.formGroup}>
-            <label htmlFor='totalAmount'style={styles.label}>totalAmount</label>
-          <input
-            type="number"
-            value={totalAmount}
-           // onChange={(e) => settotalAmount(e.target.value)}
-            readOnly 
-            style={styles.input}
-          />
-        </div>
-        {/* <div style={styles.formGroup}>
-          <label htmlFor='Pamount'style={styles.label}>Package</label>
-           <div>{Pamount} </div>
-          </div>
-          <div style={styles.formGroup}>
-          <label htmlFor='Samount'style={styles.label}>Service</label>
-           <div>{Samount} </div>
-          </div>
-          <div style={styles.formGroup}>
-          <label htmlFor='totalAmount'style={styles.label}>Total</label>
-           <div>{totalAmount} </div>
-          </div> */}
-        <div style={styles.formGroup}>
-            <label htmlFor='PaymentMethod'style={styles.label}>Payment Method</label>
-          <select
-            value={PaymentMethod}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-            style={styles.input}
-          >
-            <option value="">Select Payment Method</option>
-            <option value="cash">Cash</option>
-            <option value="card">Card</option>
-          </select>
-        </div>
-        {/* <div style={styles.formGroup}>
-            <button 
+              <label htmlFor="Pamount" style={styles.label}>Package Amount</label>
+              <input
+                type="number"
+                value={Pamount}
+                onChange={(e) => setPamount(e.target.value)}
+                style={styles.input}
+              />
+            </div>
+            <div style={styles.formGroup}>
+              <label htmlFor="Samount" style={styles.label}>Service Amount</label>
+              <input
+                type="number"
+                value={Samount}
+                onChange={(e) => setSamount(e.target.value)}
+                style={styles.input}
+              />
+            </div>
+            <div style={styles.formGroup}>
+              <label htmlFor="totalAmount" style={styles.label}>Total Amount</label>
+              <input
+                type="number"
+                value={totalAmount}
+                readOnly
+                style={styles.input}
+              />
+            </div>
+            <div style={styles.formGroup}>
+              <label htmlFor="PaymentMethod" style={styles.label}>Payment Method</label>
+              <select
+                value={PaymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+                style={styles.input}
+              >
+                <option value="">Select Payment Method</option>
+                <option value="cash">Cash</option>
+                <option value="card">Card</option>
+              </select>
+            </div>
+            <div style={styles.formGroup}>
+            <button
               type="submit"
               style={styles.submitButton}
             >
-              {loading ? 'Updating...' : 'Update Payment Record'}
+              {loading ? 'Updating...' : 'Update Payment record'}
             </button>
-          </div> */}<button className="p-2 bg-red-300 m-8" onClick={handleEditPayment}>
-          Save
-        </button>
-        </form>
+          </div>
+          </form>
+        </div>
       </div>
-      </div>
-    </div>
+    
   );
 };
 const styles = {
@@ -224,7 +200,7 @@ formContainer: {
   padding: '20px',
   border: '2px solid red', // Add a red border
   borderColor: 'red',
-  margin: '10px',
+  margin: '20px',
   textAlign: 'center',
   position: 'relative', // Add this line for absolute positioning of the line
 },
@@ -243,7 +219,7 @@ form: {
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  maxWidth: '500px',
+  maxWidth: '700px',
   padding: '20px',
   border: '1px solid rgba(255, 255, 255, 0.2)',
   borderRadius: '10px',

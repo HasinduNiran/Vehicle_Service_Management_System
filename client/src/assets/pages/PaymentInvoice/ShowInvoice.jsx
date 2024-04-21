@@ -203,6 +203,14 @@ const ShowInvoice=()=> {
                       alt="Nadeeka Auto Logo"
                       style={styles.logo}
                     />
+                     <button
+                      onClick={() => {
+                        window.location.href = "/payments/pdashboard";
+                      }}
+                      style={styles.navButton}
+                    >
+                      All Payments
+                    </button>
                     <button
                       onClick={() => {
                         window.location.href = "/payments/create";
@@ -213,11 +221,11 @@ const ShowInvoice=()=> {
                     </button>
                     <button
                       onClick={() => {
-                        window.location.href = "/payments/pdashboard";
+                        window.location.href = "/PaymentInvoice/show";
                       }}
                       style={styles.navButton}
                     >
-                      All Payments
+                      View Invoices
                     </button>
                     <button
                       onClick={() => {
@@ -226,14 +234,6 @@ const ShowInvoice=()=> {
                       style={styles.navButton}
                     >
                       Add Invoice
-                    </button>
-                    <button
-                      onClick={() => {
-                        window.location.href = "/PaymentInvoice/show";
-                      }}
-                      style={styles.navButton}
-                    >
-                      View Invoices
                     </button>
                     <div style={styles.navButton}>
                       {/* <PaymentReport filteredPayments={filteredPaymentsf} /> */}
@@ -333,13 +333,13 @@ const ShowInvoice=()=> {
                             </td>
                              <td style={styles.tableCell}>  
                                     <Link to={`/PaymentInvoice/read/${paymentInvoice._id}`}
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">   
+                                    className="text-green-600 mr-2 hover:text-green-800">   
                                     View</Link>
                                     <Link to={`/PaymentInvoice/edit/${paymentInvoice._id}`}
-                                    className="bg-blue-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">
+                                    className="text-red-600 mr-2 hover:text-red-800">
                                     Edit</Link>
                                     <Link to={`/PaymentInvoice/delete/${paymentInvoice._id}`}
-                                    className="bg-blue-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
+                                    className="text-blue-600 hover:text-blue-800">
                                     Delete</Link>
                                     </td>
                           </tr>
