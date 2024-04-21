@@ -167,7 +167,7 @@ const ServiceHistoryDashboard = () => {
                                 <input className="form-control " type="text" value={textSearchQuery} placeholder="Search for..." aria-label="Search for..." onChange={(e) => setTextSearchQuery(e.target.value)} aria-describedby="btnNavbarSearch" />
                             </div>
                             <div className='ml-10'>
-                                <input className="form-control " type="date" value={dateSearchQuery} placeholder="Search for..." aria-label="Search for..." onChange={(e) => setDateSearchQuery(e.target.value)} aria-describedby="btnNavbarSearch" />
+                                <input className="form-control " type="text" value={dateSearchQuery} placeholder="Search for..." aria-label="2024-03-02" onChange={(e) => setDateSearchQuery(e.target.value)} aria-describedby="btnNavbarSearch" />
                             </div>
                         </div>
                     </form>
