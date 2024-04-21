@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
-
 import { Link } from 'react-router-dom';
 
 const ReadOneCustomer = () => {
@@ -136,6 +135,15 @@ const ReadOneCustomer = () => {
     value: {
       color: 'white',
     },
+
+    heading: {
+      fontSize: '2rem',
+      fontWeight: 'bold',
+      marginBottom: '20px',
+      color: '#fff', // Change color to white
+      textAlign: 'center',
+      textTransform: 'uppercase',
+     },
   };
 
   return (
@@ -187,35 +195,22 @@ const ReadOneCustomer = () => {
               <div className="nav-link">
                 <div className="sb-nav-link-icon">
                   {/* <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} /> */}
+                  
+                   
+                  
                   <button
-                    onClick={() => { window.location.href = '/vehicle/create' }}
+                    onClick={() => { window.location.href = `/customer/edit/${customer.cusID}` }}
                     style={styles.navButton}
                   >
-                    Add Vehicle
+                  Edit Profile
                   </button>
                   <button
-                    onClick={() => { window.location.href = '/vehicle/dashboard' }}
+                    onClick={() => { window.location.href = `/customer/delete/${customer.cusID}` }}
                     style={styles.navButton}
                   >
-                    All Vehicles
+                    Delete Account
                   </button>
-                  <button
-                    onClick={() => { window.location.href = '/ServiceHistory/create' }}
-                    style={styles.navButton}
-                  >
-                    Add History
-                  </button>
-                  <button
-                    onClick={() => { window.location.href = '/ServiceHistory' }}
-                    style={styles.navButton}
-                  >
-                    View History
-                  </button>
-                  <div
-                    style={styles.navButton}
-                  >
-                    {/* <VehicleReport filteredVehicles={filteredVehicles} /> */}
-                  </div>
+                   
                 </div>
               </div>
             </div>
@@ -227,8 +222,7 @@ const ReadOneCustomer = () => {
         </nav>
 
         <div id="layoutSidenav_content">
-          <h1 className='text-3xl my-4'>Show Customer</h1>
-          {loading ? (
+           {loading ? (
             <Spinner />
           ) : (
             <div className='flex flex-col border-2 border-red-400 rounded-xl w-fit p-4'>
@@ -243,7 +237,7 @@ const ReadOneCustomer = () => {
 
               <div className='my-4' style={styles.vehicleInfo}>
                 <span className='text-xl mr-4 text-gray-500' style={styles.label}>Customer Number</span>
-                <span style={styles.value}>{customer._id}</span>
+                <span style={styles.value}>{customer.cusID}</span>
               </div>
               <div className='my-4' style={styles.vehicleInfo}>
                 <span className='text-xl mr-4 text-gray-500' style={styles.label}>First Name</span>
@@ -284,7 +278,7 @@ const ReadOneCustomer = () => {
 
               {bookings.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Bookings</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>Bookings</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
@@ -318,7 +312,7 @@ const ReadOneCustomer = () => {
 
               {payments.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Payments</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>PAYMENTS</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
@@ -346,7 +340,7 @@ const ReadOneCustomer = () => {
 
               {vehicles.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Vehicles</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>VEHICLES</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
@@ -386,7 +380,7 @@ const ReadOneCustomer = () => {
 
               {serviceHistories.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Service Histories</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>SERVICE HISTORIES</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
@@ -416,7 +410,7 @@ const ReadOneCustomer = () => {
 
               {feedback.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Feedback</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>FEEDBACKS</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
