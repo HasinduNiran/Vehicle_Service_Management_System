@@ -75,7 +75,7 @@ const CreateInventory = () => {
   const checkInventoryItem = async () => {
     try {
       const response = await axios.get(`http://localhost:8076/inventory?Name=${name}`);
-      return response.data.length == name.length ;
+      return response.data.length === name.length;
     } catch (error) {
       console.error('Error checking inventory:', error);
       return false;
@@ -145,6 +145,11 @@ const CreateInventory = () => {
         alert('An error happened. Please check console');
         console.error(error);
       });
+  };
+
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, 10); // Remove non-digit characters and limit to 10 digits
+    setSupplierPhone(value);
   };
 
   return (
@@ -218,7 +223,7 @@ const CreateInventory = () => {
           <input
             type="text"
             value={supplierPhone}
-            onChange={(e) => setSupplierPhone(e.target.value)}
+            onChange={handlePhoneChange}
             style={styles.input}
           />
           {errors.supplierPhone && <p style={styles.error}>{errors.supplierPhone}</p>}

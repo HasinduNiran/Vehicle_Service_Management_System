@@ -154,7 +154,7 @@ const InventoryDashboard = () => {
             borderRadius: '5px',
             width: '220px',
             textDecoration: 'none',
-            height: '50px',
+            height: '53px',
             marginTop: '15px'
         },
         logo: {
@@ -248,6 +248,11 @@ const InventoryDashboard = () => {
                                             style={styles.navButton}>
                                             <InventoryReport filteredInventory={filteredInventory} />
                                         </div>
+                                        <button
+                                            onClick={() => { window.location.href = '/inventory/create' }}
+                                            style={styles.navButton}>
+                                           View Transaction History
+                                        </button>
                                     </div>
                                 </div>
                             </div>
