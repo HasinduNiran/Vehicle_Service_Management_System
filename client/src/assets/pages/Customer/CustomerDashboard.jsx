@@ -175,7 +175,7 @@ const CustomerDashboard = () => {
                                         <button
                                             onClick={() => { window.location.href = '/customer/create' }}
                                             style={styles.navButton}>
-                                            Add Cutomer
+                                            Add Customer
                                         </button>
                                         <div
                                             style={styles.navButton}>
@@ -187,7 +187,7 @@ const CustomerDashboard = () => {
                             </div>
                             <div className="sb-sidenav-footer">
                                 <div className="small">Logged in as:</div>
-                                Employee manager
+                                Customer Profile Administrator
                             </div>
                         </nav>
                     </div>
@@ -195,7 +195,7 @@ const CustomerDashboard = () => {
                         {loading ? (<Spinner />) : (
                             <main>
                                 <div className="">
-                                    <h1 style={styles.subHeading}>Employee Dashboard</h1>
+                                    <h1 style={styles.subHeading}>Customer Dashboard</h1>
                                     <div className="">
                                         <div className='' ref={componentRef}>
                                             <table className='' style={styles.table}>
@@ -208,8 +208,7 @@ const CustomerDashboard = () => {
                                                         <th style={styles.tableHeader}>NIC</th>
                                                         <th style={styles.tableHeader}>Phone</th>
                                                         <th style={styles.tableHeader}>Email</th>
-                                                        <th style={styles.tableHeader}>Username</th>
-                                                        <th style={styles.tableHeader}>Password</th>
+                                                         <th style={styles.tableHeader}>Password</th>
                                                         <th style={styles.tableHeader}>Operations</th>
                                                     </tr>
                                                 </thead>
@@ -227,8 +226,7 @@ const CustomerDashboard = () => {
                                                             <td style={styles.tableCell}>{customerItem.NIC}</td>
                                                             <td style={styles.tableCell}>{customerItem.phone}</td>
                                                             <td style={styles.tableCell}>{customerItem.email}</td>
-                                                            <td style={styles.tableCell}>{customerItem.username}</td>
-                                                            <td style={styles.tableCell}>{customerItem.password}</td>
+                                                             <td style={styles.tableCell}>{customerItem.password}</td>
                                                             <td style={styles.tableCell}>
                                                                 <div className='flex justify-center gap-x-4'>
                                                                     <Link to={`/customer/get/${customerItem.cusID}`}>
