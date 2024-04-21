@@ -210,6 +210,12 @@ const ReadOneCustomer = () => {
                   >
                     Delete Account
                   </button>
+                  <button
+                    onClick={() => { window.location.href = `/feedback/create/${customer.cusID}` }}
+                    style={styles.navButton}
+                  >
+                   Feedback
+                  </button>
                    
                 </div>
               </div>

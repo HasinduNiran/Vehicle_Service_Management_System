@@ -105,7 +105,7 @@ const UpdateCustomer = () => {
   const validateInputs = () => {
     const { cusID, firstName, lastName, NIC, phone, email, username, password } = customer;
     
-    if (!cusID || !firstName || !lastName || !NIC || !phone || !email || !username || !password) {
+    if (!cusID || !firstName || !lastName || !NIC || !phone || !email || !password) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -229,16 +229,7 @@ const UpdateCustomer = () => {
               style={styles.input}
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Username</label>
-            <input
-              type="text"
-              name="username"
-              value={customer.username}
-              onChange={handleChange}
-              style={styles.input}
-            />
-          </div>
+           
           <div style={styles.formGroup}>
             <label style={styles.label}>Password</label>
             <input

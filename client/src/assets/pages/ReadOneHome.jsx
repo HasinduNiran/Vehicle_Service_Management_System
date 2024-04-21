@@ -92,6 +92,9 @@ const ReadOneHome = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/package">Package</Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={`/customer/get/${userData.cusID}`}>Dashborad</Link>
+              </li>
               
                 {/* Display welcome message if userData.firstName exists */}
                 {userData.firstName && (
