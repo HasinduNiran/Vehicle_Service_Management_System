@@ -114,7 +114,7 @@ export default function PackageReport({ filteredServiceHistories }) {
                     }}
                     className="ml-3"
                 >
-                    Service History Report
+                    Service Report
                 </button>
             </div>
         </div>

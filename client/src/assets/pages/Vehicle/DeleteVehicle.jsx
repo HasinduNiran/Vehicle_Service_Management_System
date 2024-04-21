@@ -13,7 +13,7 @@ const DeleteVehicle = () => {
     axios.delete(`http://localhost:8076/vehicles/${id}`)
       .then(() => {
         setLoading(false);
-        navigate('/vehicle');
+        navigate('/vehicle/dashboard');
       })
       .catch((error) => {
         setLoading(false);
@@ -32,7 +32,7 @@ const DeleteVehicle = () => {
           <button onClick={handleDelete} style={styles.deleteButton}>
             {loading ? 'Deleting...' : 'Delete'}
           </button>
-          <Link to={'/vehicle'} style={styles.cancelButton}>
+          <Link to={'/vehicle/dashboard'} style={styles.cancelButton}>
             Cancel
           </Link>
         </div>

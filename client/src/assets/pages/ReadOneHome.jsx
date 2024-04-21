@@ -50,7 +50,7 @@ const ReadOneHome = () => {
     }
     
     .logo {
-      width: 150px;
+      width: 100px;
       margin-right: 10px; /* Added margin */
       margin-top: -10px; /* Adjusted margin to move the logo up */
     }
