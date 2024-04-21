@@ -32,13 +32,13 @@ const ReadOneVehicle = () => {
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.heading}>Vehicle Details</h1>
+      <h1 style={styles.heading}>Vehicle Details {vehicle.Register_Number}</h1>
       {loading ? (
         <Spinner />
       ) : (
         <div style={styles.vehicleContainer}>
           <div style={styles.vehicleInfo}>
-            <h2 style={styles.subHeading}>Vehicle Information</h2>
+            <h2 style={styles.subHeading}>Vehicle Information </h2>
             <div style={styles.infoGrid}>
               <div style={styles.imageContainer}>
                 <img src={vehicle.image} alt="Vehicle" style={styles.vehicleImage} />
@@ -104,11 +104,15 @@ const styles = {
     textAlign: 'center',
     fontSize: '2rem',
     marginBottom: '30px',
+    color: '#fff',
   },
   subHeading: {
     fontSize: '1.5rem',
     fontWeight: 'bold',
     marginBottom: '20px',
+    color: '#fff',
+    textAlign: 'center',
+    width: '100%',
     textAlign: 'center',
     textTransform: 'uppercase',
   },
