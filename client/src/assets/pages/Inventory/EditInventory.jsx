@@ -94,20 +94,25 @@ const EditInventory = () => {
       });
       return;
     }
-  
-    // Phone number validation
-    if (!supplierPhone.startsWith('0')) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Phone number must start with 0.',
-      });
+
+
+
+     // Phone number validation
+  if (!supplierPhone.startsWith('0') || supplierPhone.length !== 10 || !/^\d+$/.test(supplierPhone)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Phone number must start with 0 and have exactly 10 digits.',
+    });
       return;
     }
+
+    // Convert name to uppercase
+    const uppercaseName = name.toUpperCase();
   
     // Proceed with editing inventory
     const data = {
-      Name: name,
+      Name: uppercaseName,
       Location: location,
       Quantity: quantity,
       PurchasedPrice: purchasedPrice,
@@ -144,7 +149,7 @@ const EditInventory = () => {
 
   return (
     <div style={styles.container}>
-      <BackButton destination={`/inventory/allInventory`} />
+      <BackButton destination={`/inventory/InventoryDashboard`} />
       {loading ? <Spinner /> : ''}
       <div style={styles.formContainer}>
         <h1 style={styles.heading}>Edit inventory</h1>
