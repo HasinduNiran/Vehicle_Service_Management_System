@@ -14,6 +14,7 @@ const ReadOneCustomer = () => {
   const [vehicles, setVehicles] = useState([]);
   const [serviceHistories, setServiceHistory] = useState([]);
   const [feedback, setFeedback] = useState({});
+  
 
   const { id: cusID } = useParams();
 
@@ -53,7 +54,7 @@ const ReadOneCustomer = () => {
     container: {
       color: 'black',
       border: '3px solid white',
-      backgroundImage: `url(${backgroundImage})`,
+       
       backgroundSize: 'cover',
       backgroundPosition: 'center',
 
@@ -133,14 +134,15 @@ const ReadOneCustomer = () => {
 
     },
     value: {
-      color: 'white',
+      color: 'black',
+      fontWeight: 'bold',
     },
 
     heading: {
       fontSize: '2rem',
       fontWeight: 'bold',
       marginBottom: '20px',
-      color: '#fff', // Change color to white
+      color: 'black',
       textAlign: 'center',
       textTransform: 'uppercase',
      },
@@ -163,8 +165,8 @@ const ReadOneCustomer = () => {
             <Link className="nav-link" to="/" style={{ color: 'white' }}>Home</Link> {/* Set font color to white */}
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/cLogin" style={{ color: 'white' }}>Login</Link> {/* Set font color to white */}
-          </li>
+                <Link className="nav-link" to={`/create/${customer.cusID}`} style={{ color: 'white' }}>Booking</Link>
+              </li>
           {/* <li className="nav-item">
             <Link to="/service" className="nav-link text-blue-500 hover:underline">Services</Link>
           </li> */}
@@ -188,9 +190,9 @@ const ReadOneCustomer = () => {
       </nav>
 
       <div id="layoutSidenav">
-        <nav id="layoutSidenav_nav">
+        <nav id="layoutSidenav_nav" >
 
-          <div className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+          <div className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style={{ backgroundColor: 'gray' }}>
             <div className="sb-sidenav-menu">
               <div className="nav-link">
                 <div className="sb-nav-link-icon">
@@ -222,7 +224,7 @@ const ReadOneCustomer = () => {
             </div>
             <div className="sb-sidenav-footer">
               <div className="small">Logged in as:</div>
-              Operation manager
+               Customer
             </div>
           </div>
         </nav>
@@ -231,18 +233,18 @@ const ReadOneCustomer = () => {
            {loading ? (
             <Spinner />
           ) : (
-            <div className='flex flex-col border-2 border-red-400 rounded-xl w-fit p-4'>
+            <div className='flex flex-col border-2 border-red-400 rounded-xl w-fit p-4' >
 
 
 
 
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
-                <img src={customer.image} alt="Vehicle" style={{ maxWidth: '300px', height: '200px', borderRadius: '100%',display: 'flex', justifyContent: 'center', alignItems: 'center', border: '4px solid red', borderRadius: '100px', padding: '10px' }} />
+                <img src={customer.image} alt="Vehicle" style={{maxWidth: '300px', height: '300px', borderRadius: '50%', border: '4px solid red',  padding: '10px' }} />
               </div>
 
 
               <div className='my-4' style={styles.vehicleInfo}>
-                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Customer Number</span>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Customer ID</span>
                 <span style={styles.value}>{customer.cusID}</span>
               </div>
               <div className='my-4' style={styles.vehicleInfo}>
@@ -265,14 +267,7 @@ const ReadOneCustomer = () => {
                 <span className='text-xl mr-4 text-gray-500' style={styles.label}>Email</span>
                 <span style={styles.value}>{customer.email}</span>
               </div>
-              <div className='my-4' style={styles.vehicleInfo}>
-                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Username</span>
-                <span style={styles.value}>{customer.username}</span>
-              </div>
-              <div className='my-4' style={styles.vehicleInfo}>
-                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Password</span>
-                <span style={styles.value}>{customer.password}</span>
-              </div>
+              
               <div className='my-4' style={styles.vehicleInfo}>
                 <span className='text-xl mr-4 text-gray-500' style={styles.label}>Create Time</span>
                 <span style={styles.value}>{new Date(customer.createdAt).toString()}</span>

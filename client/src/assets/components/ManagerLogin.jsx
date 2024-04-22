@@ -28,7 +28,7 @@ function Login() {
         switch (userData.Musername) {
           case "customer":
             message = "Welcome back! Kasuni";
-            navigate("/customer/allCustomer");
+            navigate("/customer/customerDashboard");
             break;
           case "package":
             message = "Welcome back! Ravindu";

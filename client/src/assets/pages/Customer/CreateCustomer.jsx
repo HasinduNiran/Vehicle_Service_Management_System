@@ -50,6 +50,20 @@ const CreateCustomer = () => {
       setLoading(false);
       return;
     }
+
+    // Check if email is unique
+    const isEmailUnique = checkEmailUnique();
+    if (!isEmailUnique) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Email must be unique!',
+      });
+      setLoading(false);
+      return;
+    }
+
+
     const storageRef = ref(storage, `images/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
@@ -147,6 +161,12 @@ const CreateCustomer = () => {
     return true;
   };
 
+  const checkEmailUnique = () => {
+    // Assume an API call to check uniqueness
+    // For now, let's just return true to simulate uniqueness
+    return true;
+  };
+
   return (
     <div style={styles.container}>
       {loading ? <Spinner /> : ''}
@@ -170,6 +190,8 @@ const CreateCustomer = () => {
               value={cusID}
               onChange={(e) => setCusID(e.target.value)}
               style={styles.input}
+              maxLength={10}
+              required={true}
             />
           </div>
 
@@ -207,6 +229,8 @@ const CreateCustomer = () => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               style={styles.input}
+              maxLength={10}
+        
             />
           </div>
           <div style={styles.formGroup}>

@@ -46,7 +46,7 @@ const ShowCustomer = () => {
 
   const applySearchFilter = (customer) => {
     if (!customer) return false;
-    const { cusID,firstName, lastName, NIC, phone, email, username, password } = customer;
+    const { cusID,firstName, lastName, NIC, phone, email, password } = customer;
     const searchLowerCase = searchQuery.toLowerCase();
     return (
       (cusID && cusID.toLowerCase().includes(searchLowerCase)) ||
@@ -56,8 +56,7 @@ const ShowCustomer = () => {
       (NIC && NIC.toLowerCase().includes(searchLowerCase)) ||
       (phone && phone.toLowerCase().includes(searchLowerCase)) ||
       (email && email.toLowerCase().includes(searchLowerCase)) ||
-      (username && username.toLowerCase().includes(searchLowerCase)) ||
-      (password && password.toLowerCase().includes(searchLowerCase))
+        (password && password.toLowerCase().includes(searchLowerCase))
     );
   };
 
@@ -149,8 +148,7 @@ const ShowCustomer = () => {
                       <th style={styles.tableHead}>NIC</th>
                       <th style={styles.tableHead}>Phone</th>
                       <th style={styles.tableHead}>Email</th>
-                      <th style={styles.tableHead}>Username</th>
-                      <th style={styles.tableHead}>Password</th>
+                       <th style={styles.tableHead}>Password</th>
                       <th style={styles.tableHead}>Operations</th>
                     </tr>
                   </thead>
@@ -168,8 +166,7 @@ const ShowCustomer = () => {
                         <td style={styles.tableCell}>{customerItem.NIC}</td>
                         <td style={styles.tableCell}>{customerItem.phone}</td>
                         <td style={styles.tableCell}>{customerItem.email}</td>
-                        <td style={styles.tableCell}>{customerItem.username}</td>
-                        <td style={styles.tableCell}>{customerItem.password}</td>
+                         <td style={styles.tableCell}>{customerItem.password}</td>
                         <td style={styles.tableCell}>
                           <div className='flex justify-center gap-x-4'>
                             <Link to={`/customer/get/${customerItem.cusID}`}>

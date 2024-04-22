@@ -9,17 +9,17 @@ import Swal from 'sweetalert2';
 
 const UpdateCustomer = () => {
   const [customer, setCustomer] = useState({
-    cusID:'',
+    cusID: '',
     firstName: '',
     lastName: '',
     NIC: '',
     phone: '',
     email: '',
-    username: '',
     password: '',
     image: null,
   });
   const [loading, setLoading] = useState(false);
+  const [validInputs, setValidInputs] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const storage = getStorage(app);
@@ -34,10 +34,18 @@ const UpdateCustomer = () => {
       })
       .catch((error) => {
         setLoading(false);
-        alert(`An error occurred. Please check console`);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'An error occurred. Please try again later.',
+        });
         console.log(error);
       });
   }, [id]);
+
+  useEffect(() => {
+    setValidInputs(validateInputs());
+  }, [customer]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,7 +62,7 @@ const UpdateCustomer = () => {
   };
 
   const handleUpdateCustomer = () => {
-    if (!validateInputs()) {
+    if (!validInputs) {
       return;
     }
 
@@ -93,17 +101,21 @@ const UpdateCustomer = () => {
       .put(`http://localhost:8076/customer/${id}`, updatedCustomer)
       .then(() => {
         setLoading(false);
-        navigate('/customer/allCustomer');
+        navigate('/customer/customerDashboard');
       })
       .catch((error) => {
         setLoading(false);
-        alert('An error occurred. Please check console');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'An error occurred. Please try again later.',
+        });
         console.log(error);
       });
   };
 
   const validateInputs = () => {
-    const { cusID, firstName, lastName, NIC, phone, email, username, password } = customer;
+    const { cusID, firstName, lastName, NIC, phone, email, password } = customer;
     
     if (!cusID || !firstName || !lastName || !NIC || !phone || !email || !password) {
       Swal.fire({
@@ -151,7 +163,7 @@ const UpdateCustomer = () => {
 
   return (
     <div style={styles.container}>
-      {loading ? <Spinner /> : null}
+      {loading && <Spinner />}
       <div style={styles.formContainer}>
         <h1 style={styles.heading}>EDIT PROFILE</h1>
 
@@ -241,7 +253,7 @@ const UpdateCustomer = () => {
             />
           </div>
           <div style={styles.buttonContainer}>
-            <button style={styles.button} onClick={handleUpdateCustomer}>
+            <button style={{ ...styles.button, opacity: validInputs ? 1 : 0.5 }} onClick={handleUpdateCustomer} disabled={!validInputs}>
               Save
             </button>
           </div>

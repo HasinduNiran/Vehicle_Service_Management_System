@@ -172,11 +172,7 @@ const CustomerDashboard = () => {
                                 <div className="nav-link">
                                     <div className="sb-nav-link-icon">
                                         <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} />
-                                        <button
-                                            onClick={() => { window.location.href = '/customer/create' }}
-                                            style={styles.navButton}>
-                                            Add Customer
-                                        </button>
+                                         
                                         <div
                                             style={styles.navButton}>
                                             <NewReportCustomer filteredCustomer={filteredCustomer} />
@@ -208,8 +204,7 @@ const CustomerDashboard = () => {
                                                         <th style={styles.tableHeader}>NIC</th>
                                                         <th style={styles.tableHeader}>Phone</th>
                                                         <th style={styles.tableHeader}>Email</th>
-                                                         <th style={styles.tableHeader}>Password</th>
-                                                        <th style={styles.tableHeader}>Operations</th>
+                                                         <th style={styles.tableHeader}>Operations</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -226,8 +221,7 @@ const CustomerDashboard = () => {
                                                             <td style={styles.tableCell}>{customerItem.NIC}</td>
                                                             <td style={styles.tableCell}>{customerItem.phone}</td>
                                                             <td style={styles.tableCell}>{customerItem.email}</td>
-                                                             <td style={styles.tableCell}>{customerItem.password}</td>
-                                                            <td style={styles.tableCell}>
+                                                             <td style={styles.tableCell}>
                                                                 <div className='flex justify-center gap-x-4'>
                                                                     <Link to={`/customer/get/${customerItem.cusID}`}>
                                                                         <BsInfoCircle className='text-2x1 text-yellow-600' />
@@ -238,12 +232,12 @@ const CustomerDashboard = () => {
                                                                     <Link to={`/customer/delete/${customerItem.cusID}`}>
                                                                         <MdOutlineDelete className='text-2x1 text-red-600' />
                                                                     </Link>
-                                                                    <Link to={`/create/${customerItem.cusID}`}>
+                                                                    {/* <Link to={`/create/${customerItem.cusID}`}>
                                                                         <button>Booking</button>
                                                                     </Link>
                                                                     <Link to={`/feedback/create/${customerItem.cusID}`}>
                                                                         <button>Feedback</button>
-                                                                    </Link>
+                                                                    </Link> */}
                                                                 </div>
                                                             </td>
                                                         </tr>
