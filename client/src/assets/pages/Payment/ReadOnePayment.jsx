@@ -24,7 +24,6 @@ const ReadOnePayment=()=> {
   });
 },[])
 
-  
 return (
   <div style={styles.container}>
     <div className="sb-nav-fixed">
@@ -49,14 +48,6 @@ return (
                   />
                   <button
                     onClick={() => {
-                      window.location.href = "/payments/create";
-                    }}
-                    style={styles.navButton}
-                  >
-                    Add Payment
-                  </button>
-                  <button
-                    onClick={() => {
                       window.location.href = "/payments/pdashboard";
                     }}
                     style={styles.navButton}
@@ -65,11 +56,11 @@ return (
                   </button>
                   <button
                     onClick={() => {
-                      window.location.href = "/PaymentInvoice/create";
+                      window.location.href = "/payments/create";
                     }}
                     style={styles.navButton}
                   >
-                    Add Invoice
+                    Add Payment
                   </button>
                   <button
                     onClick={() => {
@@ -78,6 +69,14 @@ return (
                     style={styles.navButton}
                   >
                     View Invoices
+                  </button>
+                  <button
+                    onClick={() => {
+                      window.location.href = "/PaymentInvoice/create";
+                    }}
+                    style={styles.navButton}
+                  >
+                    Add Invoice
                   </button>
                   <div style={styles.navButton}>
                     {/* <PaymentReport filteredPayments={filteredPaymentsf} /> */}

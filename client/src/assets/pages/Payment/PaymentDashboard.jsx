@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import axios from "axios";
 import Spinner from "../../components/Spinner";
 import { Link } from "react-router-dom";
 // import { AiOutlineEdit } from 'react-icons/ai';
 // import {BsInfoCircle} from 'react-icons/bs';
 // import {MdOutlineAddBox , MdOutlineDelete} from 'react-icons/md';
-
+import ReportPayment from "./ReportPayment";
 import logo from "../../images/logo.jpg";
 import backgroundImage from "../../images/Pback21.jpg";
-import SidebarV from "../../components/SidebarV";
+//import SidebarV from "../../components/SidebarV";
 
 const PaymentDashboard = () => {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const componentRef = useRef();
 
   //search
   const handleSearch = async () => {
@@ -229,6 +231,14 @@ const PaymentDashboard = () => {
                       alt="Nadeeka Auto Logo"
                       style={styles.logo}
                     />
+                     <button
+                      onClick={() => {
+                        window.location.href = "/payments/pdashboard";
+                      }}
+                      style={styles.navButton}
+                    >
+                      All Payments
+                    </button>
                     <button
                       onClick={() => {
                         window.location.href = "/payments/create";
@@ -239,11 +249,11 @@ const PaymentDashboard = () => {
                     </button>
                     <button
                       onClick={() => {
-                        window.location.href = "/payments/pdashboard";
+                        window.location.href = "/PaymentInvoice/show";
                       }}
                       style={styles.navButton}
                     >
-                      All Payments
+                      View Invoices
                     </button>
                     <button
                       onClick={() => {
@@ -253,16 +263,8 @@ const PaymentDashboard = () => {
                     >
                       Add Invoice
                     </button>
-                    <button
-                      onClick={() => {
-                        window.location.href = "/PaymentInvoice/show";
-                      }}
-                      style={styles.navButton}
-                    >
-                      View Invoices
-                    </button>
                     <div style={styles.navButton}>
-                      {/* <PaymentReport filteredPayments={filteredPaymentsf} /> */}
+                      <ReportPayment filteredPayments={filteredPayments} />
                     </div>
                   </div>
                 </div>
@@ -327,19 +329,19 @@ const PaymentDashboard = () => {
                             <td style={styles.tableCell}>
                               <Link
                                 to={`/payments/detail/${payment._id}`}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                                className="text-green-600 mr-2 hover:text-green-800"
                               >
                                 View
                               </Link>
                               <Link
                                 to={`/payments/edit/${payment._id}`}
-                                className="bg-green-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                                className="text-red-600 mr-2 hover:text-red-800"
                               >
                                 Edit
                               </Link>
                               <Link
                                 to={`/payments/delete/${payment._id}`}
-                                className="bg-red-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                                className="text-blue-600 hover:text-blue-800"
                               >
                                 Delete
                               </Link>
