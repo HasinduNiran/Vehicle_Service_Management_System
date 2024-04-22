@@ -4,7 +4,7 @@ import Spinner from '../../components/Spinner';
 import { Link } from 'react-router-dom';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
-import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
+import { MdOutlineDelete } from 'react-icons/md';
 import ReportBookings from '../Booking/ReportBookings';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
@@ -49,6 +49,7 @@ function BookingDashBoard() {
         return (
             booking.Customer_Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             booking.Vehicle_Number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            booking.Booking_Id.toLowerCase().includes(searchQuery.toLowerCase()) ||
             booking.Email.toLowerCase().includes(searchQuery.toLowerCase())
         );
     };
@@ -215,7 +216,7 @@ function BookingDashBoard() {
                                                             <td style={styles.tableCell}>{booking.Vehicle_Number}</td>
                                                             <td style={styles.tableCell}>{booking.Contact_Number}</td>
                                                             <td style={styles.tableCell}>{booking.Email}</td>
-                                                            <td style={styles.tableCell}>{booking.Booking_Date}</td>
+                                                            <td style={styles.tableCell}>{booking.Booking_Date.slice(0, 10)}</td>
                                                             <td style={styles.tableCell}>
                                                                 <div className='flex justify-center gap-x-4'>
                                                                     <Link to={`/booking/read/${booking._id}`}>
