@@ -41,6 +41,27 @@ const EditEmployee = () => {
   }, [])
   
   const handleEditEmployee = () => {
+
+    // Basic validations
+    if (!EmpID || !employeeName || !DOB || !NIC || !Address || !Position || !ContactNo || !Email) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    // Validating Contact No
+    const contactNoPattern = /^\d{10}$/;
+    if (!contactNoPattern.test(ContactNo)) {
+      alert('Please enter a valid Contact No (10 digits).');
+      return;
+    }
+
+    // Validating Email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(Email)) {
+      alert('Please enter a valid Email.');
+      return;
+    }
+    
     const data = {
       EmpID,
       employeeName,
