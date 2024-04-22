@@ -96,8 +96,7 @@ const ReportCustomer = React.forwardRef((props, ref) => {
                                     <th className='border border-slate-600 rounded-md'>NIC</th>
                                     <th className='border border-slate-600 rounded-md'>Phone</th>
                                     <th className='border border-slate-600 rounded-md'>Email</th>
-                                    <th className='border border-slate-600 rounded-md'>Username</th>
-                                </tr>
+                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredCustomer.map((customerItem, index) => (
@@ -108,8 +107,7 @@ const ReportCustomer = React.forwardRef((props, ref) => {
                                         <td className="border border-slate-700 rounded-md text-center">{customerItem.NIC}</td>
                                         <td className="border border-slate-700 rounded-md text-center">{customerItem.phone}</td>
                                         <td className="border border-slate-700 rounded-md text-center">{customerItem.email}</td>
-                                        <td className="border border-slate-700 rounded-md text-center">{customerItem.Username}</td>
-                                    </tr>
+                                     </tr>
                                 ))}
                             </tbody>
                         </table>

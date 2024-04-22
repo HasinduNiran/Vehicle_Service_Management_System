@@ -14,8 +14,7 @@ export default function NewReportCustomer({ filteredCustomer }) {
       "NIC",
       "Phone",
       "Email",
-      "Username",
-      
+       
     ];
     const tableRows = [];
 
@@ -30,8 +29,7 @@ export default function NewReportCustomer({ filteredCustomer }) {
         customerItem.NIC,
         customerItem.phone,
         customerItem.email,
-        customerItem.Username,
-        
+         
       ];
       tableRows.push(data);
     });
@@ -90,7 +88,7 @@ export default function NewReportCustomer({ filteredCustomer }) {
           }}
           className="btn2"
         >
-          Employee Report
+          Customers Report
         </button>
       </div>
     </div>

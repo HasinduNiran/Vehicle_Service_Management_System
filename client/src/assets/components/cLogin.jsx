@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import backgroundImage from '../images/t.jpg';
 import video1 from '../images/2.mp4';
 import Header from '../components/Header';
@@ -104,6 +104,7 @@ function CLogin() {
             />
           </div>
           <button type="submit" style={styles.button}>Login</button>
+          <Link to="/customer/create" style={styles.registerLink}>Don't you have an account? Sign Up Here.</Link>
         </div>
       </form>
     </div>
@@ -182,6 +183,13 @@ const styles = {
     color: '#fff',
     cursor: 'pointer',
     background: 'red',
+  },
+  registerLink: {
+    color: 'white',
+    textDecoration: 'none',
+    marginTop: '10px',
+    display: 'block',
+    fontSize: '16px',
   },
   imageContainer: {
     marginRight: '20px',

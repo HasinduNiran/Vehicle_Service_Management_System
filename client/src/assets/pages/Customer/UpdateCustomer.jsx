@@ -5,20 +5,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { app } from '../../../firebase';
 import backgroundImage from '../../images/t.jpg';
+import Swal from 'sweetalert2';
 
 const UpdateCustomer = () => {
   const [customer, setCustomer] = useState({
-    cusID:'',
+    cusID: '',
     firstName: '',
     lastName: '',
     NIC: '',
     phone: '',
     email: '',
-    username: '',
     password: '',
     image: null,
   });
   const [loading, setLoading] = useState(false);
+  const [validInputs, setValidInputs] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const storage = getStorage(app);
@@ -33,10 +34,18 @@ const UpdateCustomer = () => {
       })
       .catch((error) => {
         setLoading(false);
-        alert(`An error occurred. Please check console`);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'An error occurred. Please try again later.',
+        });
         console.log(error);
       });
   }, [id]);
+
+  useEffect(() => {
+    setValidInputs(validateInputs());
+  }, [customer]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,6 +62,10 @@ const UpdateCustomer = () => {
   };
 
   const handleUpdateCustomer = () => {
+    if (!validInputs) {
+      return;
+    }
+
     setLoading(true);
 
     if (customer.image) {
@@ -64,7 +77,11 @@ const UpdateCustomer = () => {
         (error) => {
           console.error(error);
           setLoading(false);
-          alert('Image upload failed. Please try again.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Image upload failed. Please try again.',
+          });
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -84,18 +101,69 @@ const UpdateCustomer = () => {
       .put(`http://localhost:8076/customer/${id}`, updatedCustomer)
       .then(() => {
         setLoading(false);
-        navigate('/customer/allCustomer');
+        navigate('/customer/customerDashboard');
       })
       .catch((error) => {
         setLoading(false);
-        alert('An error occurred. Please check console');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'An error occurred. Please try again later.',
+        });
         console.log(error);
       });
   };
 
+  const validateInputs = () => {
+    const { cusID, firstName, lastName, NIC, phone, email, password } = customer;
+    
+    if (!cusID || !firstName || !lastName || !NIC || !phone || !email || !password) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please fill in all fields',
+      });
+      return false;
+    }
+
+    if (!isValidEmail(email)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter a valid email address',
+      });
+      return false;
+    }
+
+    if (NIC.length > 12) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Invalid NIC. Please Enter a valid NIC Number',
+      });
+      return false;
+    }
+
+    if (phone.length !== 10) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Phone number must have 10 digits',
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const isValidEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
   return (
     <div style={styles.container}>
-      {loading ? <Spinner /> : null}
+      {loading && <Spinner />}
       <div style={styles.formContainer}>
         <h1 style={styles.heading}>EDIT PROFILE</h1>
 
@@ -109,6 +177,18 @@ const UpdateCustomer = () => {
             />
             {customer.image && <img src={customer.image} alt="Customer" style={{ maxWidth: '100%', maxHeight: '200px' }} />}
           </div>
+
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Customer ID</label>
+            <input
+              type="text"
+              name="cusID"
+              value={customer.cusID}
+              onChange={handleChange}
+              style={styles.input}
+            />
+          </div>
+
           <div style={styles.formGroup}>
             <label style={styles.label}>First Name</label>
             <input
@@ -119,6 +199,7 @@ const UpdateCustomer = () => {
               style={styles.input}
             />
           </div>
+
           <div style={styles.formGroup}>
             <label style={styles.label}>Last Name</label>
             <input
@@ -129,16 +210,7 @@ const UpdateCustomer = () => {
               style={styles.input}
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>CusID</label>
-            <input
-              type="text"
-              name="cusID"
-              value={customer.cusID}
-              onChange={handleChange}
-              style={styles.input}
-            />
-          </div>
+           
           <div style={styles.formGroup}>
             <label style={styles.label}>NIC</label>
             <input
@@ -169,16 +241,7 @@ const UpdateCustomer = () => {
               style={styles.input}
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Username</label>
-            <input
-              type="text"
-              name="username"
-              value={customer.username}
-              onChange={handleChange}
-              style={styles.input}
-            />
-          </div>
+           
           <div style={styles.formGroup}>
             <label style={styles.label}>Password</label>
             <input
@@ -190,7 +253,7 @@ const UpdateCustomer = () => {
             />
           </div>
           <div style={styles.buttonContainer}>
-            <button style={styles.button} onClick={handleUpdateCustomer}>
+            <button style={{ ...styles.button, opacity: validInputs ? 1 : 0.5 }} onClick={handleUpdateCustomer} disabled={!validInputs}>
               Save
             </button>
           </div>

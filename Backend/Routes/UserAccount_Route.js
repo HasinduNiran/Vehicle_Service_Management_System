@@ -15,8 +15,7 @@ router.post('/', async (request, response) => {
             NIC: request.body.NIC,
             phone: request.body.phone,
             email: request.body.email,
-            username: request.body.username,
-            password: request.body.password,
+             password: request.body.password,
         };
 
         const customer = await Customer.create(newCustomer);
@@ -95,8 +94,7 @@ router.put('/:id', async (request, response) => {
             NIC: request.body.NIC,
             phone: request.body.phone,
             email: request.body.email,
-            username: request.body.username,
-            password: request.body.password,
+             password: request.body.password,
             image: request.body.image // Include image if you want to update it
         };
         const result = await Customer.findByIdAndUpdate(id, updateFields, { new: true });
@@ -137,8 +135,7 @@ router.get("/searchCustomer", async (req, res) => {
                 { NIC: { $regex: new RegExp(search, 'i') } },
                 { phone: { $regex: new RegExp(search, 'i') } },
                 { email: { $regex: new RegExp(search, 'i') } },
-                { username: { $regex: new RegExp(search, 'i') } },
-                { password: { $regex: new RegExp(search, 'i') } },
+                 { password: { $regex: new RegExp(search, 'i') } },
             ],
         };
         const customers = await Customer.find(query)
