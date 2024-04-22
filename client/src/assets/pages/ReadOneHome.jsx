@@ -23,13 +23,13 @@ import logo2 from "../images/logo2.png"; // Import the logo image
 const ReadOneHome = () => {
   const [userData, setUserData] = useState({}); // Initialize userData state
   const { cusID } = useParams(); // Accessing URL parameters
-  
+
   useEffect(() => {
     if (cusID) {
       fetchData(); // Fetch user data when cusID changes
     }
   }, [cusID]);
-  
+
   // Function to fetch user data
   const fetchData = async () => {
     try {
@@ -50,6 +50,7 @@ const ReadOneHome = () => {
           #site-header {
             background-color: #000000;
             height: 130px;
+            width: 100%;
           }
           
           .container {
@@ -73,16 +74,15 @@ const ReadOneHome = () => {
             flex-direction: row;
           }
         `}</style>
-        <div className="container ml-80 pl-80" style={{ paddingLeft:"10px" }} >
-          
-          <nav className="navbar navbar-expand-lg navbar-light"  >
+        <div className="container ml-80 pl-80" style={{ paddingLeft: "10px" }} >
+
+          <nav className="navbar navbar-expand-lg navbar-light" style={{ position: 'relative' }}>
             <Link className="navbar-brand" to="/">
               <img src={logo2} alt="Nadeeka Auto Service" className="logo" />
-              <h1 style={{ color: 'red', marginTop: '-10px' }}>Nadeeka Auto Service</h1>
+              <h1 style={{ color: 'white', marginTop: '-10px' }}>Nadeeka Auto Service</h1>
             </Link>
-            
-            <ul className="navbar-nav ml-auto" style={{ paddingLeft:"150px", marginRight:
-            "50px" }}>
+
+            <ul className="navbar-nav ml-auto" style={{ marginRight: "-150px" }}>
               <li className="nav-item active">
                 <Link className="nav-link" to="/">Home</Link>
               </li>
@@ -92,58 +92,44 @@ const ReadOneHome = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/package">Package</Link>
               </li>
+              
               <li className="nav-item">
                 <Link className="nav-link" to={`/customer/get/${userData.cusID}`}>Dashborad</Link>
               </li>
-              
-                {/* Display welcome message if userData.firstName exists */}
+
+              <li className="nav-item">
+                {/* Display welcome message and user image */}
                 {userData.firstName && (
-                  <div className="d-flex" style={{ display:"flex", flexDirection:"column", position:"absolute", marginLeft:"300px"}} >
-                    <li className="nav-item">
-                    <img src={userData.image} alt="Welcome" style={{ width: '50px', height: '50px', borderRadius: '10%',  }} />
-                    </li>
-                      <p className="mb-0" style={{ color: 'red', top:'20px' }}>{userData.firstName}!</p>
-                      {/* You can add more information here if needed */}
-                  
+                  <div style={{ position: 'absolute', right: '-35px', top: '50%', transform: 'translateY(-50%)' }}>
+                    <img src={userData.image} alt="Welcome" style={{ width: '55px', height: '55px', borderRadius: '100%', marginRight: '2px' }} />
+                    <p className="mb-0" style={{ color: 'red' }}>Welcome {userData.firstName}!</p>
                   </div>
                 )}
-              
+              </li>
             </ul>
           </nav>
- 
-        
+
+
+
         </div>
       </header>
-
-
-
-
-      {/* Content section */}
-      <div className="mt-4 max-w-lg float-right">
-        {/* Display welcome message if userData exists */}
-        {userData ? (
-          <p className="text-right" style={{ color: 'red' }}>Welcome, {userData.firstName}!</p>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </div>
 
       {/* Other components */}
 
 
       <Swiper autoplay={{ delay: 3000 }} navigation={true} modules={[Navigation]} className="mySwiper" >
-        <SwiperSlide><img src={img1} className='h-2/5'/></SwiperSlide>
-        <SwiperSlide><img src={img2}/></SwiperSlide>
-        <SwiperSlide><img src={img3}/></SwiperSlide>
-        
+        <SwiperSlide><img src={img1} className='h-2/5' /></SwiperSlide>
+        <SwiperSlide><img src={img2} /></SwiperSlide>
+        <SwiperSlide><img src={img3} /></SwiperSlide>
+
       </Swiper>
 
-      
+
       <Satisfaction />
       <WhoWeAre />
       <Specification />
       <Testimonial />
-      
+
       {/* Render Booking button if userData exists */}
       {/* {userData && (
         <Link to={`/create/${userData.cusID}`}>
