@@ -5,7 +5,6 @@ import backgroundImage from '../../images/t.jpg';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { app } from '../../../firebase';
 
-
 const EditVehicle = () => {
   const [Register_Number, setRegister_Number] = useState('');
   const [image, setImage] = useState(null); 
@@ -21,22 +20,23 @@ const EditVehicle = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+
   useEffect(() => {
     setLoading(true);
     axios
       .get(`http://localhost:8076/vehicles/${id}`)
       .then((response) => {
         const data = response.data;
-        setRegister_Number(data.Register_Number);
-        setMake(data.Make);
-        setModel(data.Model);
-        setYear(data.Year);
-        setEngine_Details(data.Engine_Details);
-        setTransmission_Details(data.Transmission_Details);
-        setVehicle_Color(data.Vehicle_Color);
-        setVehicle_Features(data.Vehicle_Features);
-        setCondition_Assessment(data.Condition_Assessment);
-        setOwner(data.Owner);
+        setRegister_Number(data.Register_Number || '');
+        setMake(data.Make || '');
+        setModel(data.Model || '');
+        setYear(data.Year || '');
+        setEngine_Details(data.Engine_Details || '');
+        setTransmission_Details(data.Transmission_Details || '');
+        setVehicle_Color(data.Vehicle_Color || '');
+        setVehicle_Features(data.Vehicle_Features || '');
+        setCondition_Assessment(data.Condition_Assessment || '');
+        setOwner(data.Owner || '');
         if (data.image) {
           setImage(data.image); // Set the image URL
         }
@@ -44,23 +44,22 @@ const EditVehicle = () => {
       })
       .catch((error) => {
         setLoading(false);
-        console.log(error);
+        console.error('Error fetching vehicle:', error);
         alert('Error fetching vehicle. Please try again.');
       });
   }, [id]);
-  
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0]; // Access the first file in the array
-    
+
     // Create a reference to the Firebase Storage bucket
     const storage = getStorage(app);
     const storageRef = ref(storage, `vehicleImages/${file.name}`);
-    
+
     try {
       // Upload file to Firebase Storage
       const uploadTask = uploadBytesResumable(storageRef, file);
-      
+
       // Get the download URL of the uploaded file
       uploadTask.on('state_changed', 
         (snapshot) => {
@@ -81,18 +80,11 @@ const EditVehicle = () => {
       alert('Error uploading image. Please try again.');
     }
   };
-  
-  
-  
-  
-  
   const handleEditVehicle = async (e) => {
     e.preventDefault();
-
-    // Perform validation here if needed
-
+  
     const data = {
-      image, // Use the image state
+      image,
       Register_Number,
       Make,
       Model,
@@ -104,18 +96,31 @@ const EditVehicle = () => {
       Condition_Assessment,
       Owner,
     };
-
+  
     setLoading(true);
     try {
-      await axios.put(`http://localhost:8076/vehicles/${id}`, data);
+      const response = await axios.put(`http://localhost:8076/vehicles/${id}`, data);
       setLoading(false);
-      navigate('/vehicle');
+      // Check response status
+      if (response.status === 200) {
+        // Success: Navigate to vehicle list or show success message
+        navigate('/vehicle');
+      } else {
+        // Handle other status codes (if needed)
+        console.error('Unexpected response status:', response.status);
+      }
     } catch (error) {
       setLoading(false);
+      // Log detailed error message
       console.error('Error updating vehicle:', error);
+      // Log response data (if available)
+      console.log('Response data:', error.response?.data);
+      // Display error message to the user
       alert('Error updating vehicle. Please try again.');
     }
   };
+  
+
 
   return (
     <div style={styles.container}>
