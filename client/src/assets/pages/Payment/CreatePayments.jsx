@@ -17,6 +17,7 @@ const CreatePayments = () => {
   const [selectedServices, setSelectedServices] = useState('');
   const [Pamount, setPamount] = useState('');
   const [Samount, setSamount] = useState('');
+  const [email, setEmail] = useState('');
   const [Servicehistory, setServiceHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -31,7 +32,8 @@ const CreatePayments = () => {
     Package: '',
     selectedServices: '',
     Pamount: '',
-    Samount: ''
+    Samount: '',
+    email: ''
   };
 
   const [formValues, setFormValues] = useState(initialValues);
@@ -105,7 +107,8 @@ const CreatePayments = () => {
       Package: formValues.Package,
       selectedServices: formValues.selectedServices,
       Pamount: formValues.Pamount,
-      Samount: formValues.Samount
+      Samount: formValues.Samount,
+      email: formValues.email,
     };
 
     setLoading(true);
@@ -191,6 +194,17 @@ const CreatePayments = () => {
               // className='border-2 border-gray-500 px-4 py-2 w-full'
             />
             {formErrors.PaymentId && <p className='text-red-500'>{formErrors.PaymentId}</p>}
+          </div> 
+           <div style={styles.formGroup}>
+            <label htmlFor='email'style={styles.label}>Email</label>
+            <input
+              type='email'
+              name='email'
+              value={email}
+              placeholder='email'
+              readOnly // Make the input field read-only to prevent direct user input
+              style={styles.input} 
+            />
           </div>
           <div style={styles.formGroup}>
             <label htmlFor='Booking_Id'style={styles.label}>Service ID</label>

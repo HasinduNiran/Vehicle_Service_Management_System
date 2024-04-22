@@ -80,6 +80,16 @@ const PaymentDashboard = () => {
   // Filter payments based on search query
   const filteredPayments = payments.filter(applySearchFilter);
 
+  
+
+  const openEmailClient = (payment) => {
+    const emailSubject = 'Payment Details';
+    const emailBody = `Payment Id: ${payment.PaymentId}\nPayment Date: ${payment.PaymentDate}\nTotal Amount: ${payment.totalAmount}\nPayment Method: ${payment.PaymentMethod}\nMessage: "Payment is successfull"`;
+    window.location.href = `mailto:${payment.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+  };
+  
+  
+
   const styles = {
     container: {
       color: "black",
@@ -286,6 +296,7 @@ const PaymentDashboard = () => {
                         <tr>
                           <th className={styles.tableHeader}>Payment ID</th>
                           <th className={styles.tableHeader}>Customer Id</th>
+                          <th className={styles.tableHeader}>Email</th>
                           <th className={styles.tableHeader}>Service ID</th>
                           <th className={styles.tableHeader}>Vehicle NO</th>
                           <th className={styles.tableHeader}>Package</th>
@@ -305,6 +316,7 @@ const PaymentDashboard = () => {
                               {payment.PaymentId}
                             </td>
                             <td style={styles.tableCell}>{payment.cusID}</td>
+                            <td style={styles.tableCell}>{payment.email}</td>
                             <td style={styles.tableCell}>
                               {payment.Booking_Id}
                             </td>
@@ -345,6 +357,12 @@ const PaymentDashboard = () => {
                               >
                                 Delete
                               </Link>
+                               <div className='flex justify-center gap-x-4'>
+                  {/* Send Email button */}
+                  <button onClick={() => openEmailClient(payment)}>
+                    Send Email
+                  </button>
+</div>
                             </td>
                           </tr>
                         ))}
