@@ -230,6 +230,7 @@ const VDashboard = () => {
                     <table className='' style={styles.table}>
                       <thead style={styles.tableHead}>
                         <tr>
+                          <th style={styles.tableHeader}>Vehicle </th>
                           <th style={styles.tableHeader}>Register Number</th>
                           <th style={styles.tableHeader}>Brand</th>
                           <th style={styles.tableHeader}>Model</th>
@@ -247,6 +248,10 @@ const VDashboard = () => {
                       <tbody>
                         {filteredVehicles.map((vehicle) => (
                           <tr key={vehicle._id}>
+                            <td style={{ ...styles.tableCell, overflow: 'hidden' }}>
+                              <img src={vehicle.image} style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '50%' }} />
+                            </td>
+
                             <td style={styles.tableCell}>{vehicle.Register_Number}</td>
                             <td style={styles.tableCell}>{vehicle.Make}</td>
                             <td style={styles.tableCell}>{vehicle.Model}</td>

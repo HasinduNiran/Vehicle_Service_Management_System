@@ -64,7 +64,7 @@ const CreateCustomer = () => {
     }
 
 
-    const storageRef = ref(storage, `images/${image.name}`);
+    const storageRef = ref(storage, `customer_images/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
     uploadTask.on('state_changed', 

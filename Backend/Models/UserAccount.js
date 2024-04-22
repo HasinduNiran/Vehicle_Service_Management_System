@@ -4,10 +4,10 @@ const customerSchema = mongoose.Schema(
     {
         cusID: {
             type: String, // Changed to String type for custom format
-            unique: true
+           
         },
         image: { type: String,
-            required: true
+           
     
         },
         firstName: {

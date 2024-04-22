@@ -50,7 +50,7 @@ const CreateVehicle = () => {
 
     setLoading(true);
     try {
-      const storageRef = ref(storage, `images/${image.name}`);
+      const storageRef = ref(storage, `vehicleImages/${image.name}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
 
       uploadTask.on(
