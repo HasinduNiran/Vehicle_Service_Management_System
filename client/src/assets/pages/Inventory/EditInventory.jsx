@@ -55,7 +55,7 @@ const EditInventory = () => {
       });
       return;
     }
-
+  
     if (isNaN(quantity) || isNaN(purchasedPrice) || isNaN(sellPrice)) {
       Swal.fire({
         icon: 'error',
@@ -64,19 +64,28 @@ const EditInventory = () => {
       });
       return;
     }
-
+  
     if (quantity < 0) {
       negativeFields.push('Quantity');
     }
-
+  
     if (purchasedPrice < 0) {
       negativeFields.push('Purchased Price');
     }
-
+  
     if (sellPrice < 0) {
       negativeFields.push('Sell Price');
     }
-
+  
+    if (sellPrice < purchasedPrice) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Sell price must be equal to or greater than the purchased price.',
+      });
+      return;
+    }
+  
     if (negativeFields.length > 0) {
       Swal.fire({
         icon: 'error',
@@ -85,7 +94,17 @@ const EditInventory = () => {
       });
       return;
     }
-
+  
+    // Phone number validation
+    if (!supplierPhone.startsWith('0')) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Phone number must start with 0.',
+      });
+      return;
+    }
+  
     // Proceed with editing inventory
     const data = {
       Name: name,
@@ -96,9 +115,9 @@ const EditInventory = () => {
       SupplierName: supplierName,
       SupplierPhone: supplierPhone,
     };
-
+  
     setLoading(true);
-
+  
     axios
       .put(`http://localhost:8076/inventory/${id}`, data)
       .then(() => {
@@ -121,6 +140,7 @@ const EditInventory = () => {
         console.log(error);
       });
   };
+  
 
   return (
     <div style={styles.container}>

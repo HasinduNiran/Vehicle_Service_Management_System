@@ -84,10 +84,9 @@ const CreateInventory = () => {
     return isValid;
   };
   
-  
-  const checkInventoryItem = async () => {
+  const checkInventoryItem = async (itemNameUpperCase) => {
     try {
-      const response = await axios.get(`http://localhost:8076/inventory?Name=${name}`);
+      const response = await axios.get(`http://localhost:8076/inventory?Name=${itemNameUpperCase}`);
       return response.data.length > 0;
     } catch (error) {
       console.error('Error checking inventory:', error);
@@ -101,7 +100,9 @@ const CreateInventory = () => {
     }
 
     setLoading(true);
-    const itemExists = await checkInventoryItem();
+    const itemNameUpperCase = name.toUpperCase(); // Convert item name to uppercase
+
+    const itemExists = await checkInventoryItem(itemNameUpperCase); // Pass the uppercase name to check for duplicates
 
     if (itemExists) {
       // Display SweetAlert for existing item
@@ -115,7 +116,7 @@ const CreateInventory = () => {
     }
   
     const data = {
-      Name: name,
+      Name: itemNameUpperCase, // Save item name in uppercase
       Location: location,
       Quantity: quantity,
       PurchasedPrice: purchasedPrice,
