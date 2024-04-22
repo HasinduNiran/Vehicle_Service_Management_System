@@ -226,7 +226,7 @@ const CustomerDashboard = () => {
                                                                     <Link to={`/customer/get/${customerItem.cusID}`}>
                                                                         <BsInfoCircle className='text-2x1 text-yellow-600' />
                                                                     </Link>
-                                                                    <Link to={`/customer/edit/${customerItem.cusID}`}>
+                                                                    <Link to={`/customer/edit/${customerItem._id}`}>
                                                                         <AiOutlineEdit className='text-2x1 text-yellow-600' />
                                                                     </Link>
                                                                     <Link to={`/customer/delete/${customerItem.cusID}`}>
