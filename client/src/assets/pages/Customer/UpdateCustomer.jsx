@@ -96,24 +96,7 @@ const UpdateCustomer = () => {
     }
   };
 
-  const updateCustomer = (updatedCustomer) => {
-    axios
-      .put(`http://localhost:8076/customer/${id}`, updatedCustomer)
-      .then(() => {
-        setLoading(false);
-        navigate('/customer/customerDashboard');
-      })
-      .catch((error) => {
-        setLoading(false);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'An error occurred. Please try again later.',
-        });
-        console.log(error);
-      });
-  };
-
+  
   const validateInputs = () => {
     const { cusID, firstName, lastName, NIC, phone, email, password } = customer;
     
