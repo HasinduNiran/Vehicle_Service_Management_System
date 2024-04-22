@@ -102,7 +102,7 @@ const ReadOneHome = () => {
                 {userData.firstName && (
                   <div style={{ position: 'absolute', right: '-35px', top: '50%', transform: 'translateY(-50%)' }}>
                     <img src={userData.image} alt="Welcome" style={{ width: '55px', height: '55px', borderRadius: '100%', marginRight: '2px' }} />
-                    <p className="mb-0" style={{ color: 'red' }}>Welcome {userData.firstName}!</p>
+                    <p className="mb-0" style={{ color: 'red' }}>Welcome</p><p className="mb-0" style={{ color: 'yellow' }}> {userData.firstName}!</p>
                   </div>
                 )}
               </li>
