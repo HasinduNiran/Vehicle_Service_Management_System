@@ -51,16 +51,16 @@ const EditVehicle = () => {
   
 
   const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-  
+    const file = e.target.files[0]; // Access the first file in the array
+    
     // Create a reference to the Firebase Storage bucket
     const storage = getStorage(app);
     const storageRef = ref(storage, `vehicleImages/${file.name}`);
-  
+    
     try {
       // Upload file to Firebase Storage
-      const uploadTask = await uploadBytesResumable(storageRef, file);
-  
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      
       // Get the download URL of the uploaded file
       uploadTask.on('state_changed', 
         (snapshot) => {
@@ -70,16 +70,10 @@ const EditVehicle = () => {
           console.error('Error uploading image:', error);
           alert('Error uploading image. Please try again.');
         }, 
-        () => {
+        async () => {
           // Upload completed successfully, get download URL
-          getDownloadURL(uploadTask.snapshot.ref)
-            .then((downloadURL) => {
-              setImage(downloadURL);
-            })
-            .catch((error) => {
-              console.error('Error getting download URL:', error);
-              alert('Error getting download URL. Please try again.');
-            });
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setImage(downloadURL);
         }
       );
     } catch (error) {
@@ -87,6 +81,9 @@ const EditVehicle = () => {
       alert('Error uploading image. Please try again.');
     }
   };
+  
+  
+  
   
   
   const handleEditVehicle = async (e) => {
