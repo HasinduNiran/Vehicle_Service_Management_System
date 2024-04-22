@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../../images/t.jpg';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { app } from '../../../firebase';
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const CreateVehicle = () => {
   const [Register_Number, setRegister_Number] = useState('');
-  const [image, setImage] = useState(null); // Modified to store image file instead of image URL
+  const [image, setImage] = useState(null);
   const [Make, setMake] = useState('');
   const [Model, setModel] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
@@ -22,53 +23,53 @@ const CreateVehicle = () => {
 
   const storage = getStorage(app);
 
-  // Validation function for Vehicle Number
   const validateVehicleNumber = (value) => {
-    // Regular expression for alphanumeric with hyphen and space
     const regex = /^[a-zA-Z0-9\s-]{0,4}[0-9]{4}$/;
-    // Check if the value matches the pattern
     if (!value.match(regex)) {
-      return false; // Return false if validation fails
+      return false;
     }
-    return true; // Return true if validation passes
+    return true;
   };
 
   const handleImageChange = (e) => {
-    // Update the image state with the selected file
     setImage(e.target.files[0]);
   };
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+    e.preventDefault();
 
     if (!validateVehicleNumber(Register_Number)) {
-      alert('Please enter a valid vehicle number.'); // Display an error message if validation fails
-      return; // Exit the function if validation fails
+      // Display SweetAlert for invalid vehicle number
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Vehicle Number',
+        text: 'Please enter a valid vehicle number.',
+      });
+      return;
     }
 
     setLoading(true);
     try {
-      // Upload image to Firebase Storage
       const storageRef = ref(storage, `images/${image.name}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
 
       uploadTask.on(
         'state_changed',
-        (snapshot) => {
-          // Progress monitoring can be added here if needed
-        },
+        (snapshot) => {},
         (error) => {
-          // Handle unsuccessful uploads
           console.error('Error uploading image to Firebase:', error);
           setLoading(false);
-          alert('Error uploading image to Firebase. Please try again.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error uploading image to Firebase. Please try again.',
+          });
         },
         () => {
-          // Handle successful uploads on complete
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            // Once image is uploaded, proceed to submit form data to backend
             const data = {
               Register_Number,
-              image: downloadURL, // Update image field with the download URL from Firebase Storage
+              image: downloadURL,
               Make,
               Model,
               Year: selectedYear,
@@ -80,19 +81,26 @@ const CreateVehicle = () => {
               Owner,
             };
 
-            // Submit form data to backend
             axios.post('http://localhost:8076/vehicles', data).then((response) => {
               setLoading(false);
               if (response.status === 201) {
-                alert('Vehicle created successfully.'); // Show success message
-                navigate('/vehicle/dashboard'); // Navigate to the vehicle page after successful creation
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: 'Vehicle created successfully.',
+                });
+                navigate('/vehicle/dashboard');
               } else {
-                throw new Error('Failed to create vehicle.'); // Throw error if response status is not 201
+                throw new Error('Failed to create vehicle.');
               }
             }).catch((error) => {
               setLoading(false);
               console.error('Error creating vehicle:', error);
-              alert('Error creating vehicle. Please check validation.'); // Display a generic error message
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error creating vehicle. Please check validation.',
+              });
             });
           });
         }
@@ -100,10 +108,13 @@ const CreateVehicle = () => {
     } catch (error) {
       setLoading(false);
       console.error('Error creating vehicle:', error);
-      alert('Error creating vehicle. Please try again.'); // Display a generic error message
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error creating vehicle. Please try again.',
+      });
     }
   };
-
 
   return (
     <div style={styles.container}>
@@ -123,12 +134,11 @@ const CreateVehicle = () => {
               id="register_number"
               style={styles.input}
               value={Register_Number}
-              onChange={(e) => setRegister_Number(e.target.value.toUpperCase())} // Convert input value to uppercase
+              onChange={(e) => setRegister_Number(e.target.value.toUpperCase())}
               maxLength={8}
               required
             />
           </div>
-
           <div style={styles.formGroup}>
             <label htmlFor="make" style={styles.label}>Make</label>
             <input type="text" id="make" style={styles.input} value={Make} onChange={(e) => setMake(e.target.value)} required />
@@ -194,10 +204,7 @@ const styles = {
     border: '1px solid #ccc',
     borderRadius: '5px',
     backgroundColor: 'black',
-
-    outline: 'none'
-
-
+    outline: 'none',
   },
   container: {
     display: 'flex',
@@ -213,19 +220,17 @@ const styles = {
     borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
     padding: '20px',
-    border: '2px solid red', // Add a red border
+    border: '2px solid red',
     borderColor: 'red',
     margin: '10px',
     textAlign: 'center',
-    position: 'relative', // Add this line for absolute positioning of the line
+    position: 'relative',
   },
-
   heading: {
     fontSize: '3rem',
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
-
     marginBottom: '1.5rem',
   },
   form: {
