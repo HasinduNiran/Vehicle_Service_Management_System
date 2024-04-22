@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Spinner from "../../components/Spinner";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 import { app } from '../../../firebase';
 import backgroundImage from '../../images/t.jpg';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import Swal from 'sweetalert2';
 
 const UpdateCustomer = () => {
@@ -57,66 +56,89 @@ const UpdateCustomer = () => {
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
-      setCustomer({ ...customer, image: e.target.files[0] });
+      const imageFile = e.target.files[0];
+      setCustomer(prevState => ({
+        ...prevState,
+        image: imageFile,
+      }));
     }
   };
 
-  const handleUpdateCustomer = () => {
+  const handleUpdateCustomer = async () => {
     if (!validInputs) {
       return;
     }
 
     setLoading(true);
 
-    if (customer.image) {
-      const storageRef = ref(storage, `images/${customer.image.name}`);
+    try {
+      const storageRef = ref(storage, `customer_images/${id}`);
       const uploadTask = uploadBytesResumable(storageRef, customer.image);
 
       uploadTask.on('state_changed',
-        (snapshot) => {},
+        (snapshot) => {
+          // Handle progress
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+        },
         (error) => {
-          console.error(error);
+          // Handle unsuccessful uploads
           setLoading(false);
+          console.error('Error uploading image:', error);
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Image upload failed. Please try again.',
+            text: 'An error occurred while uploading the image. Please try again later.',
           });
         },
         () => {
+          // Handle successful uploads on complete
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            // Update customer data with image URL
             const updatedCustomer = { ...customer, image: downloadURL };
-            updateCustomer(updatedCustomer);
+
+            // Make the PUT request to update the customer
+            axios.put(`http://localhost:8076/customer/${id}`, updatedCustomer)
+              .then((response) => {
+                setLoading(false);
+                if (response.status === 200) {
+                  navigate('/customer/customerDashboard');
+                } else {
+                  console.error('Unexpected response status:', response.status);
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Unexpected response status. Please try again later.',
+                  });
+                }
+              })
+              .catch((error) => {
+                setLoading(false);
+                console.error('Error updating customer:', error);
+                console.log('Response data:', error.response?.data);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'An error occurred while updating the customer. Please try again later.',
+                });
+              });
           });
         }
       );
-    } else {
-      // If there's no image to upload, just update the customer data
-      updateCustomer(customer);
-    }
-  };
-
-  const updateCustomer = (updatedCustomer) => {
-    axios
-      .put(`http://localhost:8076/customer/${id}`, updatedCustomer)
-      .then(() => {
-        setLoading(false);
-        navigate('/customer/customerDashboard');
-      })
-      .catch((error) => {
-        setLoading(false);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'An error occurred. Please try again later.',
-        });
-        console.log(error);
+    } catch (error) {
+      setLoading(false);
+      console.error('Error updating customer:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred while updating the customer. Please try again later.',
       });
+    }
   };
 
   const validateInputs = () => {
     const { cusID, firstName, lastName, NIC, phone, email, password } = customer;
-    
+
     if (!cusID || !firstName || !lastName || !NIC || !phone || !email || !password) {
       Swal.fire({
         icon: 'error',
@@ -163,7 +185,6 @@ const UpdateCustomer = () => {
 
   return (
     <div style={styles.container}>
-      {loading && <Spinner />}
       <div style={styles.formContainer}>
         <h1 style={styles.heading}>EDIT PROFILE</h1>
 
@@ -210,7 +231,7 @@ const UpdateCustomer = () => {
               style={styles.input}
             />
           </div>
-           
+
           <div style={styles.formGroup}>
             <label style={styles.label}>NIC</label>
             <input
@@ -241,7 +262,7 @@ const UpdateCustomer = () => {
               style={styles.input}
             />
           </div>
-           
+
           <div style={styles.formGroup}>
             <label style={styles.label}>Password</label>
             <input
@@ -318,7 +339,7 @@ const styles = {
     textAlign: 'center',
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center', 
+    justifyContent: 'center',
     padding: '10px',
     display: 'block',
     textTransform: 'uppercase',
