@@ -48,7 +48,7 @@ function Login() {
             break;
           case "payment":
             message = "Welcome back! Sithagi";
-            navigate("/payments/show");
+            navigate("/payments/pdashboard");
             break;
           case "employee":
             message = "Welcome back! Kavindi";
