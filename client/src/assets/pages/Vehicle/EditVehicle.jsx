@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import backgroundImage from '../../images/t.jpg';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { app } from '../../../firebase';
+
 
 const EditVehicle = () => {
   const [Register_Number, setRegister_Number] = useState('');
+  const [image, setImage] = useState(null); 
   const [Make, setMake] = useState('');
   const [Model, setModel] = useState('');
   const [Year, setYear] = useState('');
@@ -17,7 +21,6 @@ const EditVehicle = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
-
   useEffect(() => {
     setLoading(true);
     axios
@@ -34,6 +37,9 @@ const EditVehicle = () => {
         setVehicle_Features(data.Vehicle_Features);
         setCondition_Assessment(data.Condition_Assessment);
         setOwner(data.Owner);
+        if (data.image) {
+          setImage(data.image); // Set the image URL
+        }
         setLoading(false);
       })
       .catch((error) => {
@@ -42,13 +48,51 @@ const EditVehicle = () => {
         alert('Error fetching vehicle. Please try again.');
       });
   }, [id]);
+  
 
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0]; // Access the first file in the array
+    
+    // Create a reference to the Firebase Storage bucket
+    const storage = getStorage(app);
+    const storageRef = ref(storage, `vehicleImages/${file.name}`);
+    
+    try {
+      // Upload file to Firebase Storage
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      
+      // Get the download URL of the uploaded file
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          // Progress tracking
+        }, 
+        (error) => {
+          console.error('Error uploading image:', error);
+          alert('Error uploading image. Please try again.');
+        }, 
+        async () => {
+          // Upload completed successfully, get download URL
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setImage(downloadURL);
+        }
+      );
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Error uploading image. Please try again.');
+    }
+  };
+  
+  
+  
+  
+  
   const handleEditVehicle = async (e) => {
     e.preventDefault();
 
     // Perform validation here if needed
 
     const data = {
+      image, // Use the image state
       Register_Number,
       Make,
       Model,
@@ -65,7 +109,7 @@ const EditVehicle = () => {
     try {
       await axios.put(`http://localhost:8076/vehicles/${id}`, data);
       setLoading(false);
-      navigate('/vehicle/dashboard');
+      navigate('/vehicle');
     } catch (error) {
       setLoading(false);
       console.error('Error updating vehicle:', error);
@@ -78,6 +122,16 @@ const EditVehicle = () => {
       <div style={styles.formContainer}>
         <h1 style={styles.heading}>Edit Vehicle</h1>
         <form onSubmit={handleEditVehicle} style={styles.form}>
+          <div style={styles.formGroup}>
+            <label htmlFor="image" style={styles.label}>
+              Vehicle image
+            </label>
+            <input type="file" id="image" style={styles.input} onChange={handleImageChange} />
+            {image && (
+              <img src={image} alt="Vehicle" style={{ maxWidth: '200px', marginTop: '10px' }} />
+            )}
+          </div>
+          
           <div style={styles.formGroup}>
             <label htmlFor="register_number" style={styles.label}>Vehicle Number</label>
             <input
@@ -193,7 +247,7 @@ const EditVehicle = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label htmlFor="owner" style={styles.label}>Vehicle Owner</label>
+            <label htmlFor="owner" style={styles.label}>Owner</label>
             <input
               type="text"
               id="owner"
@@ -224,7 +278,6 @@ const styles = {
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    
   },
   formContainer: {
     width: '50%',
@@ -289,9 +342,6 @@ const styles = {
     display: 'block',
     
   },
-
-
-  
   buttonContainer: {
     display: 'flex',
     justifyContent: 'center',
