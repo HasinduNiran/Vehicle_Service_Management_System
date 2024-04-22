@@ -19,6 +19,18 @@ const CreateBooking = () => {
     const [services, setServices] = useState([]);
     const [selectedServices, setSelectedServices] = useState([]);
     const [selectedPackage, setSelectedPackage] = useState('');
+    
+
+    // Validation function for Vehicle Number
+  const validateVehicleNumber = (value) => {
+    // Regular expression for alphanumeric with hyphen and space
+    const regex = /^[a-zA-Z0-9\s-]{0,4}[0-9]{4}$/;
+    // Check if the value matches the pattern
+    if (!value.match(regex)) {
+      return false; // Return false if validation fails
+    }
+    return true; // Return true if validation passes
+  };
 
     useEffect(() => {
         setLoading(true);
@@ -83,7 +95,10 @@ const CreateBooking = () => {
             alert("All fields are required.");
             return;
         }
-
+        if (!validateVehicleNumber(Vehicle_Number)) {
+            alert('Please enter a valid vehicle number.'); // Display an error message if validation fails
+            return; // Exit the function if validation fails
+          }
         const data = {
             Booking_Date,
             cusID,

@@ -6,16 +6,16 @@ export default function ReportBookings({ filteredBooking }) {
   function generatePDF(filteredBooking) {
     const doc = new jspdf();
     const tableColumn = [
-      "No",
-      "Booking_ID",
-      "Package Name",
+      "Number",
+      "BookingID",
+      "PackageName",
       "Services",
-      "Customer_Name",
-      "Vehicle_Type",
-      "Vehicle_Number",
-      "Contact_Number",
+      "CustomerName",
+      "VehicleType",
+      "VehicleNumber",
+      "ContactNumber",
       "Email",
-      "Booking_Date",
+      "BookingDate",
     ];
     const tableRows = [];
 
@@ -23,6 +23,7 @@ export default function ReportBookings({ filteredBooking }) {
     .slice(0)
     .reverse()
     .map((booking, index) => {
+      const bookingDate = new Date(booking.Booking_Date).toLocaleDateString();
       const data = [
         index + 1,
         booking.Booking_Id,
@@ -33,7 +34,7 @@ export default function ReportBookings({ filteredBooking }) {
         booking.Vehicle_Number,
         booking.Contact_Number,
         booking.Email,
-        booking.Booking_Date
+        bookingDate
       ];
       tableRows.push(data);
     });
@@ -72,7 +73,7 @@ export default function ReportBookings({ filteredBooking }) {
       head: [tableColumn],
       body: tableRows,
       startY: 50,
-      styles: { fontSize: 9 },
+      styles: { fontSize: 5 },
       headStyles: {
         fillColor: [31, 41, 55],
         textColor: [255, 255, 255],
