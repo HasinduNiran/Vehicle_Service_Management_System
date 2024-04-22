@@ -19,6 +19,7 @@ const EditPayment = () => {
   const [totalAmount, settotalAmount] = useState("");
   const [PaymentMethod, setPaymentMethod] = useState("");
   const [Booking_Id, setBooking_Id] = useState("");
+  const [email, setEmail]=useState("");
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ const EditPayment = () => {
         setSamount(data.Samount);
         setPaymentMethod(data.PaymentMethod);
         setBooking_Id(data.Booking_Id);
+        setEmail(data.Email);
         setLoading(false);
       })
       .catch((error) => {
@@ -68,6 +70,7 @@ const EditPayment = () => {
       Samount,
       totalAmount,
       PaymentMethod,
+      email,
     };
     setLoading(true);
     axios
@@ -98,6 +101,15 @@ const EditPayment = () => {
             <label htmlFor="PaymentId"style={styles.label}>PaymentId</label>
            {PaymentId}
           </div>
+          <div style={styles.formGroup}>
+              <label htmlFor="email" style={styles.label}>Email</label>
+              <input
+                type="String"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={styles.input}
+              />
+            </div>
           <div style={styles.formGroup}>
           <label  htmlFor='Booking_Id'style={styles.label}>Service ID</label>
             <div>{Booking_Id}</div>
