@@ -37,7 +37,6 @@ const CreateVehicle = () => {
     // Update the image state with the selected file
     setImage(e.target.files[0]);
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
@@ -90,6 +89,10 @@ const CreateVehicle = () => {
               } else {
                 throw new Error('Failed to create vehicle.'); // Throw error if response status is not 201
               }
+            }).catch((error) => {
+              setLoading(false);
+              console.error('Error creating vehicle:', error);
+              alert('Error creating vehicle. Please check validation.'); // Display a generic error message
             });
           });
         }
@@ -100,6 +103,7 @@ const CreateVehicle = () => {
       alert('Error creating vehicle. Please try again.'); // Display a generic error message
     }
   };
+
 
   return (
     <div style={styles.container}>
@@ -114,8 +118,17 @@ const CreateVehicle = () => {
           </div>
           <div style={styles.formGroup}>
             <label htmlFor="register_number" style={styles.label}>Vehicle Number</label>
-            <input type="text" id="register_number" style={styles.input} value={Register_Number} onChange={(e) => setRegister_Number(e.target.value)} maxLength={8} required />
+            <input
+              type="text"
+              id="register_number"
+              style={styles.input}
+              value={Register_Number}
+              onChange={(e) => setRegister_Number(e.target.value.toUpperCase())} // Convert input value to uppercase
+              maxLength={8}
+              required
+            />
           </div>
+
           <div style={styles.formGroup}>
             <label htmlFor="make" style={styles.label}>Make</label>
             <input type="text" id="make" style={styles.input} value={Make} onChange={(e) => setMake(e.target.value)} required />
@@ -174,25 +187,25 @@ const CreateVehicle = () => {
 };
 
 const styles = {
-    select: {
-        width: '100%',
-        padding: '10px',
-        margin: '10px 0',
-        border: '1px solid #ccc',
-        borderRadius: '5px',
-        backgroundColor: 'black',
+  select: {
+    width: '100%',
+    padding: '10px',
+    margin: '10px 0',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    backgroundColor: 'black',
 
-        outline: 'none'
+    outline: 'none'
 
 
-    },
-    container: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+  },
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
   },
   formContainer: {
     width: '50%',
@@ -206,7 +219,7 @@ const styles = {
     textAlign: 'center',
     position: 'relative', // Add this line for absolute positioning of the line
   },
-  
+
   heading: {
     fontSize: '3rem',
     color: 'white',
@@ -249,7 +262,7 @@ const styles = {
     textAlign: 'center',
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center', 
+    justifyContent: 'center',
     padding: '10px',
     display: 'block',
     textTransform: 'uppercase',

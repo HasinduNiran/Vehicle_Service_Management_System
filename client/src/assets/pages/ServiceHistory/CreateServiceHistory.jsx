@@ -137,7 +137,7 @@ const CreateServiceHistory = () => {
         // timer: 2000,
       });
 
-      // Perform navigation after successful login
+      // Perform navigation after successful 
       navigate('/ServiceHistory/dashboard');
     } catch (error) {
       setLoading(false);
@@ -145,7 +145,7 @@ const CreateServiceHistory = () => {
       if (error.response) {
         console.error('Server responded with:', error.response.data);
       }
-      alert('Error creating service history. Please try again.', error);
+      alert('Error creating service history. check booking id or milage.', error);
     }
   };
 
@@ -203,9 +203,9 @@ const CreateServiceHistory = () => {
             </select>
           </div>
           {/* Display message below booking ID select field */}
-          {serviceHistory && (
+          {/* {serviceHistory && (
             <div style={styles.message}>Service History Exists: {bookingId}</div>
-          )}
+          )} */}
           {/* {!serviceHistory && (
             <div style={styles.message}>No Service History Found</div>
           )} */}
