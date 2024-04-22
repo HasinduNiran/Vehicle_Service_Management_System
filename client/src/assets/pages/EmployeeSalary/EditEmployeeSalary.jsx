@@ -105,6 +105,33 @@ const EditEmployeeSalary = () => {
   };
 
   const handleEditEmployeeSalary = () => {
+
+    // Check if essential fields are empty
+    if (!EmpID || !employeeName  || !fromDate || !toDate || !totalOThours || !totalWorkedhours ||!totalOTpay || !totalWorkedpay) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    
+    // Check if toDate is before fromDate
+    if (toDate < fromDate) {
+      alert('The "toDate" must be after the "fromDate".');
+      return;
+    }
+
+    // Check if totalOThours and totalWorkedhours are numeric
+    if (isNaN(totalOThours) || isNaN(totalWorkedhours)) {
+      alert('Please enter valid numeric values for total OT hours and total worked hours.');
+      return;
+    }  
+
+    const MAX_WHOURS = 195; // Example maximum hours
+    const MAX_OHOURS = 48;
+    // Check if totalOThours and totalWorkedhours are within a valid range
+    if (totalOThours < 0 || totalOThours > MAX_OHOURS || totalWorkedhours < 0 || totalWorkedhours > MAX_WHOURS) {
+      alert('Total OT hours and total worked hours must be between 0 and 24 hours.');
+      return;
+    }
+
     const data = {
       EmpID,
       employeeName,

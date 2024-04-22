@@ -96,8 +96,9 @@ function EmployeeDashboard() {
         fontFamily: 'Arial, sans-serif',
         color: '#fff',
         background: '#1f1f1f',  
-        width: '100%',
+        width: '95%',
         borderCollapse: 'collapse',
+        borderBottom: '1px solid red',
     },
     tableHead: {
       background: '#333',
