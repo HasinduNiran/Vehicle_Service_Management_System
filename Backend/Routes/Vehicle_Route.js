@@ -145,15 +145,15 @@ router.put('/:id', async (request, response) => {
             });
         }
 
-      //checkin vehicle number if available
-      const vehiclenum = await Vehicle.findOne({
-          Register_Number: request.body.Register_Number
-      });
-      if (vehiclenum) {
-          return response.status(400).send({
-              message: 'Vehicle number already exists',
-          });
-      }
+    //   //checkin vehicle number if available
+    //   const vehiclenum = await Vehicle.findOne({
+    //       Register_Number: request.body.Register_Number
+    //   });
+    //   if (vehiclenum) {
+    //       return response.status(400).send({
+    //           message: 'Vehicle number already exists',
+    //       });
+    //   }
 
         // Extracting the Vehicle item ID from the request parameters
         const { id } = request.params;
