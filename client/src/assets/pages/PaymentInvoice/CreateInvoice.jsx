@@ -22,6 +22,7 @@ const CreateInvoice = () => {
   const[selectedServices,setSelectedServices] = useState('');
   const[Pamount,setPamount] = useState('');
   const[Samount,setSamount] = useState('');
+  const[email,setEmail] = useState('');
   
   //to connect other components
   const [vehicles,setVehicles]= useState([]); 
@@ -92,6 +93,7 @@ const handleSavePaymentInvoice = () => {
     Samount,
     totalAmount,
     Booking_Id,
+    email,
   };
 
   setLoading(true);
@@ -195,6 +197,15 @@ return (
          value={cusID}
          placeholder='Customer ID'
         disabled
+     />
+    </div>
+    <div style={styles.formGroup}>
+      <label  htmlFor="email"style={styles.label}>Email</label>
+      <input
+         style={styles.select}
+         value={email}
+         placeholder='Email address'
+         onChange={(e) => setEmail(e.target.value)}  
      />
     </div>
     <div style={styles.formGroup}>

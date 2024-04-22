@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import BackButton from "../../components/BackButton";
-import Spinner from "../../components/Spinner";
+//import Spinner from "../../components/Spinner";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -25,6 +25,7 @@ const EditInvoice= () => {
   const[Samount,setSamount] = useState('');
   const[totalAmount,settotalAmount] = useState('');
   const[Booking_Id,setBooking_Id] = useState('');
+  const[email,setEmail] = useState('');
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -35,22 +36,24 @@ const EditInvoice= () => {
     axios
       .get(`http://localhost:8076/PaymentInvoice/${id}`)
       .then((response) => {
-        setInvoiceId(response.data.InvoiceId);
-        setcustomerName(response.data.customerName);
-        setcusID(response.data.cusID);
-        setPaymentId(response.data.PaymentId);
-        setPackage(response.data.Package);
-        setSelectedServices(response.data.selectedServices);
-        setVehicle_Number(response.data.Vehicle_Number);
-        setVehicle_Color(response.data.Vehicle_Color);
-        setModel(response.data.Model);
-        setYear(response.data.Year);
-        setEngine_Details(response.data.Engine_Details);
-        setPaymentDate(response.data.PaymentDate);
-        setPamount(response.data.Pamount);
-        setSamount(response.data.Samount);
-        settotalAmount(response.data.totalAmount);
-        setBooking_Id(response.data.Booking_Id);
+        const data = response.data;
+        setInvoiceId(data.InvoiceId);
+        setcustomerName(data.customerName);
+        setcusID(data.cusID);
+        setPaymentId(data.PaymentId);
+        setPackage(data.Package);
+        setSelectedServices(data.selectedServices);
+        setVehicle_Number(data.Vehicle_Number);
+        setVehicle_Color(data.Vehicle_Color);
+        setModel(data.Model);
+        setYear(data.Year);
+        setEngine_Details(data.Engine_Details);
+        setPaymentDate(data.PaymentDate);
+        setPamount(data.Pamount);
+        setSamount(data.Samount);
+        settotalAmount(data.totalAmount);
+        setBooking_Id(data.Booking_Id);
+        setEmail(data.email);
         setLoading(false);
       })
       .catch((error) => {
@@ -59,7 +62,8 @@ const EditInvoice= () => {
         console.log(error);
       });
   }, []);
-  const handleEditPaymentInvoice = () => {
+  const handleEditPaymentInvoice = (e) => {
+    e.preventDefault();
     const data = {
       InvoiceId,
       customerName,
@@ -77,6 +81,7 @@ const EditInvoice= () => {
       Samount,
       totalAmount,
       Booking_Id,
+      email,
       
     };
     setLoading(true);
@@ -119,6 +124,14 @@ const EditInvoice= () => {
         <div style={styles.formGroup}>
           <label htmlFor="cusID" style={styles.label}>Customer ID</label>
           <div>{cusID}</div>
+        </div>
+        <div style={styles.formGroup}>
+          <label htmlFor="email" style={styles.label}>Customer Email</label>
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={styles.input} />
         </div>
     <div style={styles.formGroup}>
         <label htmlFor="PaymentId" style={styles.label}>PaymentId</label>
