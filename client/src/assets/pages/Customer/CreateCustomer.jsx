@@ -97,7 +97,7 @@ const CreateCustomer = () => {
                 Swal.fire({
                   icon: 'error',
                   title: 'Oops...',
-                  text: 'Customer ID should be unique!',
+                  text: 'email should be unique!',
                 });
               } else {
                 Swal.fire({
@@ -245,15 +245,27 @@ const CreateCustomer = () => {
 
           {/* Phone Input */}
           <div style={styles.formGroup}>
-            <label style={styles.label}>Phone</label>
-            <input
-              type="text"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              style={styles.input}
-              maxLength={10}
-            />
-          </div>
+  <label style={styles.label}>Phone</label>
+  <input
+    type="text"
+    value={phone}
+    onChange={(e) => {
+      const inputValue = e.target.value;
+      if (inputValue.length === 0 || (inputValue.length > 0 && inputValue[0] === '0')) {
+        setPhone(inputValue);
+      } else {
+        // Show SweetAlert error message
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Phone number must start with 0',
+        });
+      }
+    }}
+    style={styles.input}
+    maxLength={10}
+  />
+</div>
 
           {/* Email Input */}
           <div style={styles.formGroup}>
