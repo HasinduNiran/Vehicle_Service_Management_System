@@ -81,8 +81,8 @@ const Specification = () => {
                         </div>
                         <div className="row t-in" >
                             {packages.map((pkg) => (
-                                <div className="col-lg-4 col-md-6 price-main-info" style={{height: "500px"}}>
-                                    <div className="price-inner card box-shadow" style={{height: "450px"}}>
+                                <div className="col-lg-4 col-md-6 price-main-info" style={{height: "550px"}}>
+                                    <div className="price-inner card box-shadow" style={{height: "520px"}}>
                                         <div className="card-body">
                                             <h4 className="text-uppercase text-center mb-3">{pkg.pakgname}</h4>
                                             
