@@ -40,7 +40,7 @@ const Header = () => {
                     </Link>
 
                     <ul className="navbar-nav ml-auto">
-                        <li className="nav-item active">
+                        <li className="nav-item ">
                             <Link className="nav-link" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
