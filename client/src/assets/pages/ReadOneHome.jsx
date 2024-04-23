@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; // Add useState import
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Satisfaction from '../components/Satisfaction';
@@ -6,46 +6,34 @@ import WhoWeAre from '../components/WhoWeAre';
 import Specification from '../components/Specification';
 import Testimonial from '../components/Testimoials'; // Corrected misspelling
 import './../Styles/style-starter.css';
-import axios from 'axios'; // Add axios import
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
-import { Navigation, Autoplay, Pagination } from "swiper/modules";
-import { EffectCards } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/effect-cards";
-import "swiper/css/navigation";
-import "swiper/css/bundle";
-import img1 from "../images/swiper/1.jpg";
-import img2 from "../images/swiper/2.jpg";
-import img3 from "../images/swiper/3.png";
-import logo2 from "../images/logo2.png"; // Import the logo image
+import axios from 'axios'
+import logo2 from "../images/logo2.png";
+import getready from './../images/getready.mp4';
 
 const ReadOneHome = () => {
-  const [userData, setUserData] = useState({}); // Initialize userData state
-  const { cusID } = useParams(); // Accessing URL parameters
+  const [userData, setUserData] = useState({});
+  const { cusID } = useParams();
 
   useEffect(() => {
     if (cusID) {
-      fetchData(); // Fetch user data when cusID changes
+      fetchData();
     }
   }, [cusID]);
 
-  // Function to fetch user data
   const fetchData = async () => {
     try {
       const response = await axios.get(`http://localhost:8076/customer/${cusID}`);
-      setUserData(response.data); // Update userData state with fetched data
+      setUserData(response.data);
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
   };
-  SwiperCore.use([Navigation, Autoplay, EffectCards, Pagination]);
+
+ 
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      {/* Header section */}
       <header id="site-header" className="fixed-top">
-
         <style>{`
           #site-header {
             background-color: #000000;
@@ -66,16 +54,15 @@ const ReadOneHome = () => {
           
           .logo {
             width: 150px;
-            margin-right: 10px; /* Added margin */
-            margin-top: -10px; /* Adjusted margin to move the logo up */
+            margin-right: 10px;
+            margin-top: -10px;
           }
-          
+
           .navbar-nav {
             flex-direction: row;
           }
         `}</style>
         <div className="container ml-80 pl-80" style={{ paddingLeft: "10px" }} >
-
           <nav className="navbar navbar-expand-lg navbar-light" style={{ position: 'relative' }}>
             <Link className="navbar-brand" to="/">
               <img src={logo2} alt="Nadeeka Auto Service" className="logo" />
@@ -92,13 +79,10 @@ const ReadOneHome = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/package">Package</Link>
               </li>
-              
               <li className="nav-item">
                 <Link className="nav-link" to={`/customer/get/${userData.cusID}`}>My Profile</Link>
               </li>
-
               <li className="nav-item">
-                {/* Display welcome message and user image */}
                 {userData.firstName && (
                   <div style={{ position: 'absolute', right: '-35px', top: '50%', transform: 'translateY(-50%)' }}>
                     <img src={userData.image} alt="Welcome" style={{ width: '55px', height: '55px', borderRadius: '100%', marginRight: '2px' }} />
@@ -108,41 +92,18 @@ const ReadOneHome = () => {
               </li>
             </ul>
           </nav>
-
-
-
         </div>
       </header>
 
-      {/* Other components */}
-
-
-      <Swiper autoplay={{ delay: 3000 }} navigation={true} modules={[Navigation]} className="mySwiper" >
-        <SwiperSlide><img src={img1} className='h-2/5' /></SwiperSlide>
-        <SwiperSlide><img src={img2} /></SwiperSlide>
-        <SwiperSlide><img src={img3} /></SwiperSlide>
-
-      </Swiper>
-
+      <video autoPlay loop muted style={{ width: '100%', height: 'auto', borderRadius: '10px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.9)' }}>
+        <source src={getready} type="video/mp4" />
+      </video>
 
       <Satisfaction />
       <WhoWeAre />
       <Specification />
       <Testimonial />
 
-      {/* Render Booking button if userData exists */}
-      {/* {userData && (
-        <Link to={`/create/${userData.cusID}`}>
-          <button className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 text-xl">Booking</button>
-        </Link>
-      )} */}
-
-      {/* Link to Feedback page */}
-      {/* <Link to={`/feedback/create/${userData.cusID}`}>
-        <button className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 text-xl">Feedback</button>
-      </Link> */}
-
-      {/* Footer */}
       <Footer />
     </div>
   );
