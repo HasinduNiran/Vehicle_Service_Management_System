@@ -314,6 +314,7 @@ const styles = {
         borderRadius: '5px',
         border: '1px solid #ccc',
         width: '100%',
+        color: 'black',
     },
     servicesContainer: {
         display: 'flex',

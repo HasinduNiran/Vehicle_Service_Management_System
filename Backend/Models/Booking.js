@@ -28,7 +28,7 @@ const vehicleSchema = mongoose.Schema({
         required: true
     },
     Contact_Number: {
-        type: Number,
+        type: String,
         required: true
     },
     Email: {
