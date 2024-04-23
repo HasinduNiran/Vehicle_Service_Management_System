@@ -197,6 +197,7 @@ const CustomerDashboard = () => {
                                             <table className='' style={styles.table}>
                                                 <thead style={styles.tableHead}>
                                                     <tr>
+                                                    <th style={styles.tableHeader}>No</th>
                                                         <th style={styles.tableHeader}>Profile Pic</th>
                                                         <th style={styles.tableHeader}>Customer ID</th>
                                                         <th style={styles.tableHeader}>First Name</th>
@@ -210,11 +211,14 @@ const CustomerDashboard = () => {
                                                 <tbody>
                                                     {filteredCustomer.map((customerItem, index) => (
                                                         <tr key={customerItem.cusID} className={`h-8 ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                                            <td style={styles.tableCell}>{index + 1}</td>
                                                             <td style={styles.tableCell}>
+                                                                
                                                                 {customerItem.image && (
                                                                     <img src={customerItem.image} alt="Profile Pic" style={styles.logo} />
                                                                 )}
                                                             </td>
+                                                            
                                                             <td style={styles.tableCell}>{customerItem.cusID}</td>
                                                             <td style={styles.tableCell}>{customerItem.firstName}</td>
                                                             <td style={styles.tableCell}>{customerItem.lastName}</td>
@@ -226,10 +230,10 @@ const CustomerDashboard = () => {
                                                                     <Link to={`/customer/get/${customerItem.cusID}`}>
                                                                         <BsInfoCircle className='text-2x1 text-yellow-600' />
                                                                     </Link>
-                                                                    <Link to={`/customer/edit/${customerItem._id}`}>
+                                                                    {/* <Link to={`/customer/edit/${customerItem._id}`}>
                                                                         <AiOutlineEdit className='text-2x1 text-yellow-600' />
-                                                                    </Link>
-                                                                    <Link to={`/customer/delete/${customerItem.cusID}`}>
+                                                                    </Link> */}
+                                                                    <Link to={`/customer/delete/${customerItem._id}`}>
                                                                         <MdOutlineDelete className='text-2x1 text-red-600' />
                                                                     </Link>
                                                                     {/* <Link to={`/create/${customerItem.cusID}`}>
