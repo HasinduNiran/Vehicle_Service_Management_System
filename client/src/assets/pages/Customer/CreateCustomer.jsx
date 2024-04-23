@@ -19,7 +19,6 @@ const CreateCustomer = () => {
   const [reEnteredPassword, setReEnteredPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [index, setIndex] = useState(0); // State for auto-generating index
   const navigate = useNavigate();
 
   const storage = getStorage(app);
@@ -64,7 +63,7 @@ const CreateCustomer = () => {
       return;
     }
 
- 
+
     const storageRef = ref(storage, `customer_images/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
@@ -128,24 +127,14 @@ const CreateCustomer = () => {
       return false;
     }
 
-    
-  if (NIC.length < 10 || NIC.length > 12) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'NIC must be between 10 and 12 characters long',
-    });
-    return false;
-  }
-
-  if (password.length < 10) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'password must contains at least 10 characters',
-    });
-    return false;
-  }
+    if (NIC.length > 12) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Invalid NIC. Please Enter a valid NIC Number',
+      });
+      return false;
+    }
 
     if (phone.length !== 10) {
       Swal.fire({
@@ -185,8 +174,6 @@ const CreateCustomer = () => {
         <h1 style={styles.heading}>REGISTER</h1>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <div style={styles.form}>
-
-          {/* Image Input */}
           <div style={styles.formGroup}>
             <label style={styles.label}>Image</label>
             <input
@@ -196,9 +183,8 @@ const CreateCustomer = () => {
             />
           </div>
 
-          {/* Customer ID Input */}
           <div style={styles.formGroup}>
-            <label style={styles.label}>Username</label>
+            <label style={styles.label}>Customer ID</label>
             <input
               type="text"
               value={cusID}
@@ -209,7 +195,6 @@ const CreateCustomer = () => {
             />
           </div>
 
-          {/* First Name Input */}
           <div style={styles.formGroup}>
             <label style={styles.label}>First Name</label>
             <input
@@ -219,8 +204,6 @@ const CreateCustomer = () => {
               style={styles.input}
             />
           </div>
-
-          {/* Last Name Input */}
           <div style={styles.formGroup}>
             <label style={styles.label}>Last Name</label>
             <input
@@ -230,8 +213,6 @@ const CreateCustomer = () => {
               style={styles.input}
             />
           </div>
-
-          {/* NIC Input */}
           <div style={styles.formGroup}>
             <label style={styles.label}>NIC</label>
             <input
@@ -239,11 +220,8 @@ const CreateCustomer = () => {
               value={NIC}
               onChange={(e) => setNIC(e.target.value)}
               style={styles.input}
-              maxLength={12}
             />
           </div>
-
-          {/* Phone Input */}
           <div style={styles.formGroup}>
             <label style={styles.label}>Phone</label>
             <input
@@ -252,10 +230,9 @@ const CreateCustomer = () => {
               onChange={(e) => setPhone(e.target.value)}
               style={styles.input}
               maxLength={10}
+        
             />
           </div>
-
-          {/* Email Input */}
           <div style={styles.formGroup}>
             <label style={styles.label}>Email</label>
             <input
@@ -265,8 +242,6 @@ const CreateCustomer = () => {
               style={styles.input}
             />
           </div>
-
-          {/* Password Input */}
           <div style={styles.formGroup}>
             <label style={styles.label}>Password</label>
             <input
@@ -277,7 +252,6 @@ const CreateCustomer = () => {
             />
           </div>
 
-          {/* Re-enter Password Input */}
           <div style={styles.formGroup}>
             <label style={styles.label}>Re-enter Password</label>
             <input
@@ -288,7 +262,6 @@ const CreateCustomer = () => {
             />
           </div>
 
-          {/* Save Button */}
           <div style={styles.buttonContainer}>
             <button style={styles.button} onClick={handleSaveCustomer}>
               Save
@@ -301,6 +274,15 @@ const CreateCustomer = () => {
 };
 
 const styles = {
+  select: {
+    width: '100%',
+    padding: '10px',
+    margin: '10px 0',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    backgroundColor: 'black',
+    outline: 'none'
+  },
   container: {
     display: 'flex',
     justifyContent: 'center',

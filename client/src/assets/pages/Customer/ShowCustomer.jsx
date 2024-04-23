@@ -141,7 +141,6 @@ const ShowCustomer = () => {
                 <table className='w-full border-separate border-spacing-2' style={styles.table}>
                   <thead>
                     <tr>
-                      <th style={styles.tableHead}>Username</th>
                       <th style={styles.tableHead}>Profile Pic</th>
                       <th style={styles.tableHead}>Customer ID</th>
                       <th style={styles.tableHead}>First Name</th>
