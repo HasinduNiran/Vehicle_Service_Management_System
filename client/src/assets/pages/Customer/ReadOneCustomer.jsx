@@ -53,7 +53,7 @@ const ReadOneCustomer = () => {
 
   const styles = {
     container: {
-      color: 'black',
+      //color: 'black',
       border: '3px solid white',
        
       backgroundSize: 'cover',

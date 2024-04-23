@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 
 import React from 'react'
 import { Route, Routes } from 'react-router-dom';
+import CustomerDashboard from'./assets/pages/Customer/CustomerDashboard';
+import PaymentDashboard from './assets/pages/Payment/PaymentDashboard';
 
 import Home from './assets/pages/Home';
 import ReadOneHome from './assets/pages/ReadOneHome';
@@ -136,6 +138,8 @@ const App = () => {
         <Route path='/Mlogin' element={<ManagerLogin />}></Route>
         <Route path='/service/dashboard' element={<ServiceDashboard />}></Route>
         <Route path='/package/dashboard' element={<PackageDashboard />}></Route>
+        <Route path='/customer/customerdashboard' element={<CustomerDashboard />}></Route>
+        <Route path='/payments/pdashboard' element={<PaymentDashboard />}></Route>
 
         <Route path='/vehicle' element={<ShowVehicle />} />
         <Route path='/vehicle/create' element={<CreateVehicle />} />
