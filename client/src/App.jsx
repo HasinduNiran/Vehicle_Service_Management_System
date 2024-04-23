@@ -15,6 +15,7 @@ import DeleteBooking from './assets/pages/Booking/DeleteBooking';
 import ReadOneBooking from './assets/pages/Booking/ReadOneBooking';
 import BookingDashBoard from './assets/pages/Booking/BookingDashBoard';
 
+
 import ShowPayment from './assets/pages/Payment/ShowPayment';
 import CreatePayments from './assets/pages/Payment/CreatePayments';
 import ReadOnePayment from './assets/pages/Payment/ReadOnePayment';
@@ -115,7 +116,8 @@ import EmpADashboard from './assets/pages/EmployeeAttendence/EmpAttendenceDashbo
 import EmpSDashboard from './assets/pages/EmployeeSalary/EmpSalaryDashboard';
 
 import CLogin from './assets/components/cLogin';
-
+import ServiceDashboard from './assets/pages/Service/ServiceDashboard';
+import PackageDashboard from './assets/pages/SPackage/PackageDashboard';
 
 
 import ManagerLogin from './assets/components/ManagerLogin';
@@ -132,6 +134,8 @@ const App = () => {
 
         <Route path='/' element={<Home />}></Route>
         <Route path='/Mlogin' element={<ManagerLogin />}></Route>
+        <Route path='/service/dashboard' element={<ServiceDashboard />}></Route>
+        <Route path='/package/dashboard' element={<PackageDashboard />}></Route>
 
         <Route path='/vehicle' element={<ShowVehicle />} />
         <Route path='/vehicle/create' element={<CreateVehicle />} />
