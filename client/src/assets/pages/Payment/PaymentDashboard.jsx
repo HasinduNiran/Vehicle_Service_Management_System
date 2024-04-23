@@ -61,21 +61,23 @@ const PaymentDashboard = () => {
   }, []);
 
   // Filter function to apply search query filter
-  const applySearchFilter = (payment) => {
-    const { PaymentId, PaymentDate, totalAmount, PaymentMethod } = payment;
-    if (!PaymentId || !PaymentDate || !totalAmount || !PaymentMethod) {
-      return false; // If any required property is undefined or null, return false
-    }
-    return (
-      PaymentId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      PaymentDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      totalAmount
-        .toString()
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase()) ||
-      PaymentMethod.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  };
+  // Filter function to apply search query filter
+const applySearchFilter = (payment) => {
+  const { PaymentId, PaymentDate, totalAmount, PaymentMethod, Booking_Id, Package, selectedServices } = payment;
+  if (!PaymentId || !PaymentDate || !totalAmount || !PaymentMethod || !Booking_Id || !Package || !selectedServices) {
+    return false; // If any required property is undefined or null, return false
+  }
+  return (
+    PaymentId.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+    PaymentDate.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+    totalAmount.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+    PaymentMethod.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+    Booking_Id.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+    Package.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+    selectedServices.toString().toLowerCase().includes(searchQuery.toLowerCase())
+  );
+};
+
 
   // Filter payments based on search query
   const filteredPayments = payments.filter(applySearchFilter);

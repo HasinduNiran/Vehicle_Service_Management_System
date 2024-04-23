@@ -1,9 +1,8 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import "../../css/Invoice.css";
+//import "../../css/Invoice.css";
 import logo from '../../images/logo.jpg';
-//import backgroundImage from '../../images/b2.jpg'; 
 
 const ReadOneInvoice = () => {
   const [paymentInvoice, setPaymentInvoice] = useState({});
@@ -25,15 +24,28 @@ const ReadOneInvoice = () => {
       });
   }, [id]);
 
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const tableHeaderStyle = {
+    backgroundColor: 'red', // Set the background color to blue
+    color: 'white', // Set text color to white for better visibility
+    fontWeight: 'bold', // Make the text bold
+    fontSize: '15px', // Set the font size
+  };
+
   return (
-    <div style={{ borderTop: '20px solid #7533FA' }}>  
-    <div style={{ borderBottom: '20px solid #7533FA' }}>  
-    <div style={styles.container}>
+    <div style={{ borderTop: '20px solid #FFCCCC' }}>  
+    <div style={{ borderBottom: '20px solid #FFCCCC' }}>  
+    
+    <div ref={componentRef} style={styles.container}>
+
         <div style={styles.b1}>
         {/* <div className="container my-5 py-5"> */}
           <div className="pattern d-md-flex justify-content-between align-items-center border-top border-bottom mb-5 py-5 py-md-3 ">
             <div className="d-none d-md-flex pattern-overlay pattern-right">
-              <img src="images/pattern-blur-right.png" alt="../images/pattern-blur-right.png" />
+              <img src="images/pattern-blur-right.png" />
             </div>
             <div>
               <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} />
@@ -78,23 +90,22 @@ const ReadOneInvoice = () => {
         <div style={styles.b3}>
         <table className="table border my-5">
           <thead>
-          <tr style={{ backgroundColor: 'red' }} className="bg-primary">
-         
-              <th scope="col">Package</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th scope="col">Total</th>
+          <tr style={{ backgroundColor: '#FFCCCC' }} className="bg-primary">
+              <th style={{ color: 'black', fontWeight: 'bold', fontSize: '15px' ,backgroundColor: '#FFCCCC'}}>Package</th>
+              <th style={{ backgroundColor: '#FFCCCC' }} ></th>
+              <th style={{ backgroundColor: '#FFCCCC' }} ></th>
+              <th style={{ backgroundColor: '#FFCCCC' }} ></th>
+              <th style={{ backgroundColor: '#FFCCCC' }} ></th>
+              <th style={{ backgroundColor: '#FFCCCC' }} ></th>
+              <th style={{ backgroundColor: '#FFCCCC' }} ></th>
+              <th style={{ backgroundColor: '#FFCCCC' }} ></th>
+              <th style={{ backgroundColor: '#FFCCCC' }} ></th>
+              <th style={{ color: 'black', fontWeight: 'bold', fontSize: '15px',backgroundColor: '#FFCCCC' }}>Total</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><span>{paymentInvoice.Package}</span></td>
+              <td  style={{ color: 'white', fontWeight: 'bold', fontSize: '15px' }}><span>{paymentInvoice.Package}</span></td>
               <td></td>
               <td></td>
               <td></td>
@@ -103,28 +114,28 @@ const ReadOneInvoice = () => {
               <td></td>
               <td></td>
               <td></td>
-              <td><span>{paymentInvoice.Pamount}</span></td>
+              <td  style={{ color: 'white', fontWeight: 'bold', fontSize: '15px' }}><span>{paymentInvoice.Pamount}</span></td>
             </tr>
           </tbody>
         </table>
         {/* <br /> */}
         <table className="table border my-4">
           <thead>
-            <tr className="bg-primary">
-              <th scope="col">Service</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th scope="col">Total</th>
+            <tr style={{ backgroundColor: '#FFCCCC' }} className="bg-primary">
+              <th style={{ color: 'black', fontWeight: 'bold', fontSize: '15px',background:'#FFCCCC' }}>Service</th>
+              <th  style={{ backgroundColor: '#FFCCCC' }}></th>
+              <th  style={{ backgroundColor: '#FFCCCC' }}></th>
+              <th  style={{ backgroundColor: '#FFCCCC' }}></th>
+              <th  style={{ backgroundColor: '#FFCCCC' }}></th>
+              <th  style={{ backgroundColor: '#FFCCCC' }}></th>
+              <th  style={{ backgroundColor: '#FFCCCC' }}></th>
+              <th  style={{ backgroundColor: '#FFCCCC' }}></th>
+              <th  style={{ color: 'black', fontWeight: 'bold', fontSize: '15px',background:'#FFCCCC' }}>Total</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><span>{paymentInvoice.selcetedServices}</span></td>
+              <td  style={{ color: 'white', fontWeight: 'bold', fontSize: '15px' }}><span>{paymentInvoice.selcetedServices}</span></td>
               <td></td>
               <td></td>
               <td></td>
@@ -132,7 +143,7 @@ const ReadOneInvoice = () => {
               <td></td>
               <td></td>
               <td></td>
-              <td><span>{paymentInvoice.Samount}</span></td>
+              <td  style={{ color: 'white', fontWeight: 'bold', fontSize: '15px' }}><span>{paymentInvoice.Samount}</span></td>
             </tr>
 
           </tbody>
@@ -150,8 +161,8 @@ const ReadOneInvoice = () => {
               <td></td>
               <td></td>
               <td></td>
-              <td className="fw-bold">Package Amount:</td>
-              <td className="fw-bold"><span>{paymentInvoice.Pamount}</span></td>
+              <td  style={{ color: 'white', fontWeight: 'bold', fontSize: '15px' }}>Package Amount:</td>
+              <td  style={{ color: 'white', fontWeight: 'bold', fontSize: '15px' }}><span>{paymentInvoice.Pamount}</span></td>
             </tr>
             <tr>
               <th></th>
@@ -164,9 +175,10 @@ const ReadOneInvoice = () => {
               <td></td>
               <td></td>
               <td></td>
-              <td className="fw-bold">Service Amount:</td>
-              <td className="fw-bold"><span>{paymentInvoice.Samount}</span></td>
+              <td  style={{ color: 'white', fontWeight: 'bold', fontSize: '15px' }}>Service Amount:</td>
+              <td style={{ color: 'white', fontWeight: 'bold', fontSize: '15px' }}><span>{paymentInvoice.Samount}</span></td>
             </tr>
+            
             <tr>
               <th></th>
               <td></td>
@@ -197,9 +209,11 @@ const ReadOneInvoice = () => {
             <li>Nadeeka Auto care</li>
                 <li>1 ela, Moraketiya Road</li>
                 <li>Embilipitiya</li>
-              <span className="fw-semibold">Account No: </span> 102 3345 56938
+              {/* <span className="fw-semibold">Account No: </span> 102 3345 56938 */}
             </li>
-            {/* Add similar payment info */}
+            <li style={{position:'relative',left:'1400px'}}>
+            <button onClick={handlePrint} style={{color:'white'}}>Print</button>
+            </li>
           </ul>
         </div>
         </div>
@@ -235,15 +249,16 @@ const ReadOneInvoice = () => {
           </div>
         </div>
       </div>
+      
       </div>
     </div>
     </div>
-    // </div>
+    </div>
   );
 };
 const styles = {
   container: {
-    color: 'black',
+    color: 'white',
     //backgroundImage: `url(${backgroundImage})`,
     backgroundColor: 'black',
     backgroundSize: 'cover',
@@ -270,7 +285,10 @@ const styles = {
     left: '33px',
     width: '100%',
     height: '100%',
-    color:'black'
+    color:'white',
+    // backgroundColor: 'red',
+    // backgroundSize: 'cover',
+    // backgroundPosition: 'center'
    },
   invoice:{
     color:'black',
@@ -289,7 +307,7 @@ const styles = {
   logo: {
     width: '100%',
     height: '200px',
-    border: '2px solid #A020F0',
+    border: '2px solid #FFCCCC',
     position:'relative',
     top: '10px',
     left: '40px'
