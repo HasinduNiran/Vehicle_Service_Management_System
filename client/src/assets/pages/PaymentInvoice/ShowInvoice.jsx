@@ -295,7 +295,7 @@ const ShowInvoice = () => {
                                 {paymentInvoice.Package}
                             </td>
                              <td style={styles.tableCell}>
-                                {paymentInvoice.Servicename}
+                                {paymentInvoice.selectedServices}
                             </td>
                              <td style={styles.tableCell}>
                                 {paymentInvoice.Vehicle_Color}

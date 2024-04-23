@@ -17,8 +17,6 @@ router.post('/', async (request, response) => {
         !request.body.Year ||
         !request.body.Engine_Details ||
         !request.body.PaymentDate ||
-        !request.body.Package||
-        !request.body.selectedServices||
         !request.body.Pamount||
         !request.body.Samount||
         !request.body.totalAmount||
@@ -100,8 +98,6 @@ router.get('/', async (request, response) => {
         !request.body.Year||
         !request.body.Engine_Details||
         !request.body.PaymentDate||
-        !request.body.Package||
-        !request.body.selectedServices||
         !request.body.Pamount||
         !request.body.Samount||
         !request.body.totalAmount||
