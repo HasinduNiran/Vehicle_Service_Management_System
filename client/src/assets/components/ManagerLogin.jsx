@@ -32,7 +32,7 @@ function Login() {
             break;
           case "package":
             message = "Welcome back! Ravindu";
-            navigate("/package");
+            navigate("/package/dashboard");
             break;
           case "booking":
             message = "Welcome back! Isuru";
@@ -56,7 +56,7 @@ function Login() {
             break;
           case "feedback":
             message = "Welcome back! Yenura";
-            navigate("/feedback");
+            navigate("/feedback/dashboard");
             break;
           default:
             break;

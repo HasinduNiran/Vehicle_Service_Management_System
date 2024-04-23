@@ -8,7 +8,9 @@ const paymentSchema = mongoose.Schema({
     },
     cusID: {
         type: String, // connect to the customer
+
         required:true
+
     },
     Vehicle_Number:{
         type: String,
@@ -34,7 +36,7 @@ const paymentSchema = mongoose.Schema({
     , // Removed 'required: true' since it's optional
      selectedServices: {
         type: [String],
-        
+        required: true
     },
     Pamount: {type:Number}
     ,totalAmount: {type:Number},

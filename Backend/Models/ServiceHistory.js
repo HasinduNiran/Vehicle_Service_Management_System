@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const serviceSchema = mongoose.Schema({
     cusID: {
         type: String,
-        unique: true
+        
     },
     Customer_Name: {
         type: String,

@@ -22,7 +22,6 @@ const CreateInvoice = () => {
   const[selectedServices,setSelectedServices] = useState('');
   const[Pamount,setPamount] = useState('');
   const[Samount,setSamount] = useState('');
-  const[email,setEmail] = useState('');
   
   //to connect other components
   const [vehicles,setVehicles]= useState([]); 
@@ -93,7 +92,6 @@ const handleSavePaymentInvoice = () => {
     Samount,
     totalAmount,
     Booking_Id,
-    email,
   };
 
   setLoading(true);
@@ -201,6 +199,7 @@ return (
      />
     </div>
     <div style={styles.formGroup}>
+
       <label  htmlFor="email"style={styles.label}>Email</label>
       <input
          style={styles.select}
@@ -210,6 +209,7 @@ return (
      />
     </div>
     <div style={styles.formGroup}>
+
       <label  htmlFor="Vehicle_Number"style={styles.label}>Vehicle Number</label>
       <input
           style={styles.select}

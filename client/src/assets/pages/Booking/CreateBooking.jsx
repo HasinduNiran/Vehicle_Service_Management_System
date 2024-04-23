@@ -116,7 +116,7 @@ const CreateBooking = () => {
             .post('http://localhost:8076/bookings', data)
             .then(() => {
                 setLoading(false);
-                navigate('/show-all');
+                navigate('/booking/dashboard');
             })
             .catch((error) => {
                 setLoading(false);

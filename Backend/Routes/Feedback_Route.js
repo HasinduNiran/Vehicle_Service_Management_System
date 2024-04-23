@@ -98,30 +98,27 @@ router.get("/employees/names", async (req, res) => {
   }
 });
 
-// GET route for retrieving feedback based on search criteria, pagination, and sorting
+// GET route for retrieving feedback based on search criteria
 router.get("/feedback", async (req, res) => {
   try {
-    const { page = 1, limit = 5, search = "", sort = "name" } = req.query;
-    const skip = (parseInt(page) - 1) * parseInt(limit);
-    const query = {
-      $or: [
-        { CustomerID:{$regex: search,$options: "i"}},
-        { name: { $regex: search, $options: "i" } },
-        { email: { $regex: search, $options: "i" } },
-        { phone_number: { $regex: search, $options: "i" } },
-        { employee: { $regex: search, $options: "i" } },
-        { date_of_service: { $regex: search, $options: "i" } },
-        { star_rating: { $regex: search, $options: "i" } },
-      ],
-    };
-    const feedback = await Feedback.find(query)
-      .sort({ [sort]: 1 })
-      .skip(skip)
-      .limit(parseInt(limit));
-    res.status(200).json({ count: feedback.length, data: feedback });
+      const { search = "" } = req.query;
+      const query = {
+          $or: [
+              { cusID: { $regex: search, $options: "i" } },
+              { name: { $regex: search, $options: "i" } },
+              { email: { $regex: search, $options: "i" } },
+              { phone_number: { $regex: search, $options: "i" } },
+              { employee: { $regex: search, $options: "i" } },
+              { date_of_service: { $regex: search, $options: "i" } },
+              { message: { $regex: search, $options: "i" } },
+              { star_rating: { $regex: search, $options: "i" } },
+          ],
+      };
+      const feedback = await Feedback.find(query);
+      res.status(200).json({ count: feedback.length, data: feedback });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: true, message: "Internal Server Error" });
+      console.error(err.message);
+      res.status(500).json({ error: true, message: "Internal Server Error" });
   }
 });
 

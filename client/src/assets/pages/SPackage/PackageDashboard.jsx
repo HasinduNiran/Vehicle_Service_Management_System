@@ -223,7 +223,7 @@ function PackageDashboard() {
                                             Add Service
                                         </button>
                                         <button
-                                            onClick={() => { window.location.href = '/service' }}
+                                            onClick={() => { window.location.href = '/service/dashboard' }}
                                             style={styles.navButton}>
                                             View Services
                                         </button>

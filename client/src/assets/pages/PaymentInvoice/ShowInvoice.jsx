@@ -1,47 +1,58 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React,{ useEffect, useState} from 'react';
 import axios from 'axios';
 import Spinner from '../../components/Spinner';
-import { Link } from 'react-router-dom';
-import ReportInvoice from './ReportInvoice';
+import {Link} from 'react-router-dom';
 
 import logo from "../../images/logo.jpg";
 import backgroundImage from "../../images/Pback21.jpg";
 import SidebarV from "../../components/SidebarV";
+const ShowInvoice=()=> {
 
-const ShowInvoice = () => {
-  const [paymentInvoices, setPaymentInvoices] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [paymentInvoices,setPaymentInvoices] = useState([]); 
+  const [loading,setLoading] = useState(false);
+//   const [error, setError] = useState(null);
+//   const [searchQuery, setSearchQuery] = useState("");
 
-  const componentRef = useRef();
+//   //search
+//   const handleSearch = async () => {
+//     setLoading(true);
+//     try {
+//       const response = await axios.get(`http://localhost:8076/payments?search=${searchQuery}`
+//       );
+//       setPayments(response.data.data);
+//       setLoading(false);
+//       setError(null);
+//     } catch (error) {
+//       console.error("Error fetching payment:", error);
+//       setError(
+//         "An error occurred while fetching the payment for the search query."
+//       );
+//       setLoading(false);
+//     }
+//   };
 
   const tableContainerStyle = {
-    margin: "5px auto",
+    margin: "5px auto", // Adjust margin as needed
     padding: "20px",
     borderRadius: "10px",
-    background: "rgba(0, 0, 0, 0.0)",
-    backdropFilter: "blur(50px)",
+    background: "rgba(0, 0, 0, 0.0)", // Semi-transparent black background for blur effect
+    backdropFilter: "blur(50px)", // Apply blur effect
     maxWidth: "99%",
     overflowX: "auto",
   };
 
-  useEffect(() => {
+  useEffect(()=>{
     setLoading(true);
     axios
-      .get('http://localhost:8076/PaymentInvoice')
-      .then((response) => {
-        setPaymentInvoices(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  const openEmailClient = (paymentInvoice) => {
-    const emailSubject = 'Invoice Details';
-    const emailBody = `Invoice ID: ${paymentInvoice.InvoiceId}\nCustomer Name: ${paymentInvoice.customerName}\nCustomer Email: ${paymentInvoice.email}`; 
-    window.location.href = `mailto:${paymentInvoice.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-  };
+    .get('http://localhost:8076/PaymentInvoice')
+    .then((response)=>{
+      setPaymentInvoices(response.data.data);
+     setLoading(false);
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  },[]);
   const styles = {
     container: {
       color: "black",
@@ -225,7 +236,7 @@ const ShowInvoice = () => {
                       Add Invoice
                     </button>
                     <div style={styles.navButton}>
-                    <ReportInvoice paymentInvoice={paymentInvoices} />
+                      {/* <PaymentReport filteredPayments={filteredPaymentsf} /> */}
                     </div>
                   </div>
                 </div>
@@ -249,7 +260,6 @@ const ShowInvoice = () => {
                         <th className={styles.tableHeader}>Invoice ID</th>
                         <th className={styles.tableHeader}>Customer Name</th>
                         <th className={styles.tableHeader}>Customer ID</th>
-                        <th className={styles.tableHeader}>Customer Email</th>
                         <th className={styles.tableHeader}>Vehicle No</th>
                         <th className={styles.tableHeader}>Payment ID</th>
                         <th className={styles.tableHeader}>Package</th>
@@ -281,9 +291,6 @@ const ShowInvoice = () => {
                             </td>
                              <td style={styles.tableCell}>
                                 {paymentInvoice.cusID}
-                            </td>
-                            <td style={styles.tableCell}>
-                                {paymentInvoice.email}
                             </td>
                              <td style={styles.tableCell}>
                                 {paymentInvoice.Vehicle_Number}
@@ -334,12 +341,6 @@ const ShowInvoice = () => {
                                     <Link to={`/PaymentInvoice/delete/${paymentInvoice._id}`}
                                     className="text-blue-600 hover:text-blue-800">
                                     Delete</Link>
-                                    <div className='flex justify-center gap-x-4'>
-                  {/* Send Email button */}
-                  <button onClick={() => openEmailClient(paymentInvoice)}>
-                    Send Email
-                  </button>
-</div>
                                     </td>
                           </tr>
                         ))}

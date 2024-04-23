@@ -20,7 +20,6 @@ router.post('/', async (request, response) => {
         !request.body.Pamount||
         !request.body.Samount||
         !request.body.totalAmount||
-        !request.body.email||
         !request.body.Booking_Id
       ) {
         return response.status(400).send({
@@ -44,8 +43,7 @@ router.post('/', async (request, response) => {
         selectedServices: request.body.selectedServices,
         Pamount: request.body.Pamount,
         Samount: request.body.Samount,
-        Booking_Id: request.body.Booking_Id,
-        email:request.body.email
+        Booking_Id: request.body.Booking_Id
       };
       const paymentinvoice = await PaymentInvoice.create(newPaymentInvoice);
       return response.status(201).send(paymentinvoice);
@@ -101,7 +99,6 @@ router.get('/', async (request, response) => {
         !request.body.Pamount||
         !request.body.Samount||
         !request.body.totalAmount||
-        !request.body.email||
         !request.body.Booking_Id
       ) {
         return response.status(400).send({
