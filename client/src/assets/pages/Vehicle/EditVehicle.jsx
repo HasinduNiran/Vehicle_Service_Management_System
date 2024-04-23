@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import backgroundImage from '../../images/t.jpg';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { app } from '../../../firebase';
+import BackButton from '../../components/BackButton';
 
 const EditVehicle = () => {
   const [Register_Number, setRegister_Number] = useState('');
@@ -145,6 +146,7 @@ const handleImageChange = async (e) => {
 
   return (
     <div style={styles.container}>
+      <BackButton destination='/vehicle/dashboard' />
       <div style={styles.formContainer}>
         <h1 style={styles.heading}>Edit Vehicle</h1>
         <form onSubmit={handleEditVehicle} style={styles.form}>

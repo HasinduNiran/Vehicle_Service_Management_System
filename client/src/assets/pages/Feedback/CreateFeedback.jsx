@@ -100,7 +100,7 @@ const CreateFeedback = () => {
       };
       await axios.post("http://localhost:8076/feedback", data);
       setLoading(false);
-      navigate("/feedback");
+      navigate(`/customer/get/${cusID}`);
     } catch (error) {
       setLoading(false);
       console.error("Error creating feedback:", error);

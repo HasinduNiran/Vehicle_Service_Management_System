@@ -69,7 +69,7 @@ const ReadOneHome = () => {
               <h1 style={{ color: 'white', marginTop: '-10px' }}>Nadeeka Auto Service</h1>
             </Link>
 
-            <ul className="navbar-nav ml-auto" style={{ marginRight: "-150px" }}>
+            <ul className="navbar-nav ml-auto" style={{ marginRight: "-140px" }}>
               <li className="nav-item active">
                 <Link className="nav-link" to="/">Home</Link>
               </li>
@@ -77,15 +77,19 @@ const ReadOneHome = () => {
                 <Link className="nav-link" to={`/create/${userData.cusID}`}>Booking</Link>
               </li>
               <li className="nav-item">
+<<<<<<< Updated upstream
                 <Link className="nav-link" to="/package">Package</Link>
+=======
+                <Link className="nav-link" onClick={()=>{window.scrollTo({top:2210})}}>Package</Link>
+>>>>>>> Stashed changes
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={`/customer/get/${userData.cusID}`}>My Profile</Link>
               </li>
               <li className="nav-item">
                 {userData.firstName && (
-                  <div style={{ position: 'absolute', right: '-35px', top: '50%', transform: 'translateY(-50%)' }}>
-                    <img src={userData.image} alt="Welcome" style={{ width: '55px', height: '55px', borderRadius: '100%', marginRight: '2px' }} />
+                  <div style={{ position: 'absolute', right: '-55px', top: '50%', transform: 'translateY(-50%)' }}>
+                    <img src={userData.image} alt="Welcome" style={{ width: '55px', height: '55px', borderRadius: '100%', marginRight: 'px' }} />
                     <p className="mb-0" style={{ color: 'red' }}>Welcome</p><p className="mb-0" style={{ color: 'yellow' }}> {userData.firstName}!</p>
                   </div>
                 )}

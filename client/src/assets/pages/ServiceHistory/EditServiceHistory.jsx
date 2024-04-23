@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import backgroundImage from '../../images/t.jpg';
+import BackButton from '../../components/BackButton';
 
 const EditServiceHistory = () => {
   const [BookingId, setBookingId] = useState('');
@@ -114,7 +115,7 @@ const EditServiceHistory = () => {
     try {
       await axios.put(`http://localhost:8076/ServiceHistory/${id}`, data);
       setLoading(false);
-      navigate('/ServiceHistory');
+      navigate('/ServiceHistory/dashboard');
     } catch (error) {
       setLoading(false);
       console.error('Error updating service history:', error);
@@ -139,6 +140,7 @@ const EditServiceHistory = () => {
 
   return (
     <div style={styles.container}>
+      <BackButton destination='/servicehistory/dashboard' />
       <div style={styles.formContainer}>
         <form onSubmit={handleEditService} style={styles.form}>
           <h1 style={styles.heading}>Edit Service History</h1>
