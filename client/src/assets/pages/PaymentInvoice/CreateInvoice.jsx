@@ -129,6 +129,7 @@ const handlePaymentIdChange = (e) => {
     setPamount(selectedPayment.Pamount);
     setSamount(selectedPayment.Samount);
     setCusID(selectedPayment.cusID);
+    setEmail(selectedPayment.email);
 
     // Retrieve the Vehicle Color from the vehicle table based on the selectedPayment's Vehicle_Number
     const selectedVehicle = vehicles.find((vehicle) => vehicle.Register_Number === selectedPayment.Vehicle_Number);
@@ -205,7 +206,7 @@ return (
          style={styles.select}
          value={email}
          placeholder='Email address'
-         onChange={(e) => setEmail(e.target.value)}  
+         disabled
      />
     </div>
     <div style={styles.formGroup}>
