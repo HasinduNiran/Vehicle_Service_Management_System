@@ -85,10 +85,12 @@ const Specification = () => {
                                     <div className="price-inner card box-shadow" style={{height: "450px"}}>
                                         <div className="card-body">
                                             <h4 className="text-uppercase text-center mb-3">{pkg.pakgname}</h4>
+                                            
 
                                             <h5 className="card-title pricing-card-title">
                                                 <span className="align-top">LKR</span>{pkg.Price}
                                             </h5>
+                                            <p>{pkg.pkgdescription}</p>
                                             <ul className="list-unstyled mt-3 mb-4">
                                             {pkg.includes.map((include, index) => (
                                                 <li key={index}><span className="fa fa-check"></span> {include}</li>
@@ -101,70 +103,8 @@ const Specification = () => {
                                     </div>
                                 </div>
                             ))}
-                            <div className="col-lg-4 col-md-6 price-main-info">
-                                <div className="price-inner card box-shadow">
-                                    <div className="card-body">
-                                        <h4 className="text-uppercase text-center mb-3">Silver Package</h4>
-                                        <h5 className="card-title pricing-card-title">
-                                            <span className="align-top">$</span>35
-                                        </h5>
-                                        <ul className="list-unstyled mt-3 mb-4">
-                                            <li> <span className="fa fa-check"></span> Conventional Oil Change</li>
-                                            <li> <span className="fa fa-check"></span> Fuel System Cleaning</li>
-                                            <li> <span className="fa fa-check"></span> Coolant Exchange</li>
-                                            <li> <span className="fa fa-check"></span> Transmission Fluid Service</li>
-                                            <li> <span className="fa fa-check"></span> Visual Brake Inspection</li>
-                                            <li> <span className="fa fa-check"></span> Tire Rotation</li>
-                                        </ul>
-                                        <div className="read-more mt-4 pt-lg-2">
-                                            <a href="contact.html" className="btn btn-style btn-outline-primary"> Go Basic</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-4 col-md-6 price-main-info mt-md-0 mt-4">
-                                <div className="price-inner card box-shadow active">
-                                    <div className="card-body">
-                                        <label className="price-label">Recommended</label>
-                                        <h4 className="text-uppercase text-center mb-3">Platinum Package</h4>
-                                        <h5 className="card-title pricing-card-title">
-                                            <span className="align-top">$</span>69
-                                        </h5>
-                                        <ul className="list-unstyled mt-3 mb-4">
-                                            <li> <span className="fa fa-check"></span> Conventional Oil Change</li>
-                                            <li> <span className="fa fa-check"></span> Fuel System Cleaning</li>
-                                            <li> <span className="fa fa-check"></span> Coolant Exchange</li>
-                                            <li> <span className="fa fa-check"></span> Transmission Fluid Service</li>
-                                            <li> <span className="fa fa-check"></span> Visual Brake Inspection</li>
-                                            <li> <span className="fa fa-check"></span> Tire Rotation</li>
-                                        </ul>
-                                        <div className="read-more mt-4 pt-lg-2">
-                                            <a href="contact.html" className="btn btn-style btn-primary"> Go Standard</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-4 col-md-6 price-main-info mt-lg-0 mt-4">
-                                <div className="price-inner card box-shadow">
-                                    <div className="card-body">
-                                        <h4 className="text-uppercase text-center mb-3">Gold Package</h4>
-                                        <h5 className="card-title pricing-card-title">
-                                            <span className="align-top">$</span>39
-                                        </h5>
-                                        <ul className="list-unstyled mt-3 mb-4">
-                                            <li> <span className="fa fa-check"></span> Conventional Oil Change</li>
-                                            <li> <span className="fa fa-check"></span> Fuel System Cleaning</li>
-                                            <li> <span className="fa fa-check"></span> Coolant Exchange</li>
-                                            <li> <span className="fa fa-check"></span> Transmission Fluid Service</li>
-                                            <li> <span className="fa fa-check"></span> Visual Brake Inspection</li>
-                                            <li> <span className="fa fa-check"></span> Tire Rotation</li>
-                                        </ul>
-                                        <div className="read-more mt-4 pt-lg-2">
-                                            <a href="contact.html" className="btn btn-style btn-outline-primary"> Go Premium</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    
+                            
                         </div>
                     </div>
                 </div>

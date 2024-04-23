@@ -61,7 +61,7 @@ const EditPackage = () => {
     axios.put(`http://localhost:8076/package/${id}`, data)
       .then(() => {
         setLoading(false);
-        navigate('/package');
+        navigate('/package/dashboard');
       })
       .catch((error) => {
         setLoading(false);
