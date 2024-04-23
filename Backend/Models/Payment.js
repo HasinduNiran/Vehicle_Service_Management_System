@@ -7,15 +7,8 @@ const paymentSchema = mongoose.Schema({
         required:true
     },
     cusID: {
-        type: [String],
-        required: true
-    },
-    duplicatedCusID: {
-        type: [String], // New field to hold duplicated cusID
-        required: true
-    },
-    email:{
-        type:String
+        type: String, // connect to the customer
+        required:true
     },
     Vehicle_Number:{
         type: String,
@@ -45,9 +38,10 @@ const paymentSchema = mongoose.Schema({
     },
     Pamount: {type:Number}
     ,totalAmount: {type:Number},
+    email: {type:String},
      Samount:{
         type:[Number],
-        required:true
+       
      }
     // Package:{
     //     type:String,

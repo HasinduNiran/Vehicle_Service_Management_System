@@ -203,6 +203,7 @@ const CreatePayments = () => {
               value={formValues.email}
               placeholder='email'
               onChange={handleChange}
+              // Make the input field read-only to prevent direct user input
               style={styles.input} 
             />
           </div>
