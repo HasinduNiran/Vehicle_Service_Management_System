@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from '../images/t.jpg';
 import video1 from '../images/2.mp4';
+import Header from "./Header";
 
 import "./signup.css";
 
@@ -73,6 +74,8 @@ function CLogin() {
   };
 
   return (
+    <div className="login-root" style={{ marginTop: "30px" }}>
+      <Header />
     <div className="login-root">
       <div className="box-root flex-flex flex-direction--column" style={{ minHeight: "100vh", flexGrow: 1 }}>
         <div className="loginbackground box-background--white padding-top--64">
@@ -113,11 +116,12 @@ function CLogin() {
           <div className="formbg-outer">
             <div className="formbg">
               <div className="formbg-inner padding-horizontal--48">
-                <span className="padding-bottom--15">Sign in to your account</span>
+                <span className="padding-bottom--15" style={{ fontWeight: "bold", textAlign: "center",fontSize: "1.5rem" }}>Log in to your account</span>
+
                 <form id="stripe-login" onSubmit={onLogin}>
                   <div className="field padding-bottom--24">
-                    <label htmlFor="email">Email</label>
-                    <input type="text" name="email" id="username" onChange={(e) => setCusID(e.target.value)} />
+                    <label htmlFor="username">User Name</label>
+                    <input type="text" name="username" id="username" onChange={(e) => setCusID(e.target.value)} />
                   </div>
                   <div className="field padding-bottom--24">
                     <div className="grid--50-50">
@@ -128,24 +132,21 @@ function CLogin() {
                     </div>
                     <input type="password" name="password" onChange={(e) => setPassword(e.target.value)} />
                   </div>
-                  <div className="field field-checkbox padding-bottom--24 flex-flex align-center">
+                  {/* <div className="field field-checkbox padding-bottom--24 flex-flex align-center">
                     <label htmlFor="checkbox">
                       <input type="checkbox" name="checkbox" /> Stay signed in for a week
                     </label>
-                  </div>
+                  </div> */}
                   <div className="field padding-bottom--24">
-                    <input type="submit" name="submit" value="Continue" />
+                    <input type="submit" name="submit" value="Log In" />
                   </div>
-                  <div className="field">
-                    <a className="ssolink" href="#">Use single sign-on (Google) instead</a>
-                  </div>
+                  
                 </form>
               </div>
             </div>
             <div className="footer-link padding-top--24">
-              <span>Don't have an account? <a href="#">Sign up</a></span>
+              <span>Don't have an account? <a href='/customer/create'>Sign up</a></span>
               <div className="listing padding-top--24 padding-bottom--24 flex-flex center-center">
-                <span><a href="#">© Stackfindover</a></span>
                 <span><a href="#">Contact</a></span>
                 <span><a href="#">Privacy & terms</a></span>
               </div>
@@ -153,6 +154,7 @@ function CLogin() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
