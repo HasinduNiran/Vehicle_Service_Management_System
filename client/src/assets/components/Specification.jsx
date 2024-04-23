@@ -79,25 +79,28 @@ const Specification = () => {
                             <h3 className="hny-title">Our top rated packages</h3>
                             <p className="fea-para"> We offers comprehensive packages tailored to suit your vehicle's needs. From basic maintenance to advanced diagnostics, our packages ensure your vehicle runs smoothly and efficiently.</p>
                         </div>
-                        <div className="row t-in">
+                        <div className="row t-in" >
                             {packages.map((pkg) => (
-                                <div className="col-lg-4 col-md-6 price-main-info">
-                                    <div className="price-inner card box-shadow">
+                                <div className="col-lg-4 col-md-6 price-main-info" style={{height: "500px"}}>
+                                    <div className="price-inner card box-shadow" style={{height: "450px"}}>
                                         <div className="card-body">
                                             <h4 className="text-uppercase text-center mb-3">{pkg.pakgname}</h4>
+
                                             <h5 className="card-title pricing-card-title">
-                                                <span className="align-top">$</span>{pkg.Price}
+                                                <span className="align-top">LKR</span>{pkg.Price}
                                             </h5>
                                             <ul className="list-unstyled mt-3 mb-4">
-                                                <li> <span className="fa fa-check"></span> {pkg.includes}</li>
+                                            {pkg.includes.map((include, index) => (
+                                                <li key={index}><span className="fa fa-check"></span> {include}</li>
+                                            ))}
                                             </ul>
-                                            <div className="read-more mt-4 pt-lg-2">
+                                            <div className="read-more " style={{position:"absolute", bottom:"0", marginBottom:"10px"}}>
                                                 <Link to={`/package/${pkg._id}`} className="btn btn-style btn-outline-primary"> View Package</Link>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            )}
+                            ))}
                             <div className="col-lg-4 col-md-6 price-main-info">
                                 <div className="price-inner card box-shadow">
                                     <div className="card-body">
