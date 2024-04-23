@@ -5,7 +5,7 @@ import backgroundImage from '../../images/t.jpg';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { app } from '../../../firebase';
 import Swal from 'sweetalert2'; // Import SweetAlert2
-
+import BackButton from '../../components/BackButton';
 const CreateVehicle = () => {
   //cus id
   const [cusID, setcusId] = useState('');
@@ -131,6 +131,7 @@ const CreateVehicle = () => {
 
   return (
     <div style={styles.container}>
+      <BackButton destination='/vehicle/dashboard' />
       <div style={styles.formContainer}>
         <h1 style={styles.heading}>Create Vehicle</h1>
         <form onSubmit={handleSubmit} style={styles.form}>

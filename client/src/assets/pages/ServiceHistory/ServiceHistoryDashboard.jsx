@@ -15,6 +15,7 @@ const ServiceHistoryDashboard = () => {
     const [serviceHistories, setServiceHistory] = useState([]);
     const [loading, setLoading] = useState(false);
     const [textSearchQuery, setTextSearchQuery] = useState("");
+    const [textSearchQuery2, setTextSearchQuery2] = useState("");
     const [dateSearchQuery, setDateSearchQuery] = useState("");
     const componentRef = useRef();
 
@@ -33,32 +34,55 @@ const ServiceHistoryDashboard = () => {
             setLoading(false);
         }
     };
-
     const handleSearch = async () => {
         setLoading(true);
         try {
-            const searchTextQuery = textSearchQuery.toLowerCase();
-            const response = await axios.get(`http://localhost:8076/searchservices?search=${searchTextQuery}&date=${dateSearchQuery}`);
-            setServiceHistory(response.data);
+            if (textSearchQuery && dateSearchQuery) {
+                // Convert dateSearchQuery format
+                const formattedDateQuery = dateSearchQuery.substring(0, 10);
+                
+                // Filter by both text and date
+                const searchTextQuery = textSearchQuery.toLowerCase();
+                const response = await axios.get(`http://localhost:8076/searchservices?search=${searchTextQuery}&date=${formattedDateQuery}`);
+                setServiceHistory(response.data);
+            } else if (textSearchQuery) {
+                // Filter by text only
+                const searchTextQuery = textSearchQuery.toLowerCase();
+                const response = await axios.get(`http://localhost:8076/searchservices?search=${searchTextQuery}`);
+                setServiceHistory(response.data);
+            } else if (dateSearchQuery) {
+                // Convert dateSearchQuery format
+                const formattedDateQuery = dateSearchQuery.substring(0, 10);
+                
+                // Filter by date only
+                const response = await axios.get(`http://localhost:8076/searchservices?date=${formattedDateQuery}`);
+                setServiceHistory(response.data);
+            } else {
+                // Fetch all service histories if no search criteria are provided
+                fetchServiceHistories();
+            }
             setLoading(false);
         } catch (err) {
             console.log(err);
             setLoading(false);
         }
     };
+    
+    
 
     const generatePDF = useReactToPrint({
         content: () => componentRef.current,
         documentTitle: 'vehicle List',
         onAfterPrint: () => alert('Data saved in PDF'),
     });
-
     const applyServiceHistoryFilter = (history) => {
         const textQuery = textSearchQuery.toLowerCase();
+        const textQuery2 = textSearchQuery2.toLowerCase();
         const dateQuery = dateSearchQuery;
-
+    
         const textFilter = (
             (history.Customer_Name && history.Customer_Name.toLowerCase().includes(textQuery)) ||
+            (history.cusID && history.cusID.toLowerCase().includes(textQuery)) ||
             (history.Allocated_Employee && history.Allocated_Employee.toLowerCase().includes(textQuery)) ||
             (history.Vehicle_Number && history.Vehicle_Number.toLowerCase().includes(textQuery)) ||
             (history.Service_History && history.Service_History.toLowerCase().includes(textQuery)) ||
@@ -70,26 +94,32 @@ const ServiceHistoryDashboard = () => {
             (history.Servicename && history.Servicename.toLowerCase().includes(textQuery)) ||
             (history.Month && history.Month.toLowerCase().includes(textQuery))
         );
-
+    
         let dateFilter = true;
         if (dateQuery) {
             const [queryYear, queryMonth, queryDate] = dateQuery.split('-');
-            const [serviceYear, serviceMonth, serviceDate] = history.Service_Date.split('-');
-
-            if (queryYear) {
-                dateFilter = dateFilter && (serviceYear === queryYear);
-            }
-            if (queryMonth) {
-                dateFilter = dateFilter && (serviceMonth === queryMonth);
-            }
-            if (queryDate) {
-                dateFilter = dateFilter && (serviceDate === queryDate);
+            if (history.Service_Date) { // This is the problematic line
+                const [serviceYear, serviceMonth, serviceDate] = history.Service_Date.split('-');
+                if (queryYear) {
+                    dateFilter = dateFilter && (serviceYear === queryYear);
+                }
+                if (queryMonth) {
+                    dateFilter = dateFilter && (serviceMonth === queryMonth);
+                }
+                if (queryDate) {
+                    dateFilter = dateFilter && (serviceDate === queryDate);
+                }
             }
         }
-
+    
         return textFilter && dateFilter;
     };
-
+    
+    if (history.Service_Date) {
+        const [serviceYear, serviceMonth, serviceDate] = history.Service_Date.split('-');
+        // Rest of the code...
+    }
+    
     const filteredServiceHistories = serviceHistories.filter(history => applyServiceHistoryFilter(history));
 
     const styles = {
@@ -166,9 +196,12 @@ const ServiceHistoryDashboard = () => {
                             <div>
                                 <input className="form-control " type="text" value={textSearchQuery} placeholder="Search for..." aria-label="Search for..." onChange={(e) => setTextSearchQuery(e.target.value)} aria-describedby="btnNavbarSearch" />
                             </div>
-                            <div className='ml-10'>
+                            {/* <div className='ml-10'>
                                 <input className="form-control " type="text" value={dateSearchQuery} placeholder="Search for..." aria-label="2024-03-02" onChange={(e) => setDateSearchQuery(e.target.value)} aria-describedby="btnNavbarSearch" />
-                            </div>
+                            </div> */}
+                            {/* <div className='ml-10'>
+                                <input className="form-control " type="text" value={textSearchQuery2} placeholder="Search for..." aria-label="2024-03-02" onChange={(e) => setTextSearchQuery2(e.target.value)} aria-describedby="btnNavbarSearch" />
+                            </div> */}
                         </div>
                     </form>
                     <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">

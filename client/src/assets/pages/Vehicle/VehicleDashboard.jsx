@@ -57,9 +57,10 @@ const VDashboard = () => {
     const query = searchQuery ? searchQuery.toLowerCase() : "";
     return (
       (vehicle.Register_Number && vehicle.Register_Number.toLowerCase().includes(query)) ||
-      (vehicle.Brand && vehicle.Brand.toLowerCase().includes(query)) ||
+      (vehicle.Make && vehicle.Make.toLowerCase().includes(query)) ||
       (vehicle.Model && vehicle.Model.toLowerCase().includes(query)) ||
-      (vehicle.Manufacture_Year && vehicle.Manufacture_Year.toLowerCase().includes(query)) ||
+      (vehicle.Year && vehicle.Year.toLowerCase().includes(query)) ||
+      (vehicle.Engine_Details && vehicle.Engine_Details.toLowerCase().includes(query)) ||
       (vehicle.Owner && vehicle.Owner.toLowerCase().includes(query))
     );
   };

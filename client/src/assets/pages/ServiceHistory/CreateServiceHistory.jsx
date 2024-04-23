@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Spinner from '../../components/Spinner';
+import BackButton from '../../components/BackButton';
 import backgroundImage from '../../images/t.jpg';
 
 const CreateServiceHistory = () => {
@@ -169,6 +170,7 @@ const CreateServiceHistory = () => {
 
   return (
     <div style={styles.container}>
+      <BackButton destination='/servicehistory/dashboard' />
       <div style={styles.formContainer}>
         <form onSubmit={handleSubmit} style={styles.form}>
           <h1 style={styles.heading}>Create Service History</h1>
