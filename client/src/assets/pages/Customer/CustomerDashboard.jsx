@@ -93,6 +93,12 @@ const CustomerDashboard = () => {
             height: '200px',
             border: '2px solid red'
         },
+        pic: {
+            width: '100px',
+            height: '100px',
+            border: '3px solid red',
+            borderRadius: '50%'
+        },
         table: {
             width: '300px',
             margin: '0 auto',
@@ -215,7 +221,7 @@ const CustomerDashboard = () => {
                                                             <td style={styles.tableCell}>
                                                                 
                                                                 {customerItem.image && (
-                                                                    <img src={customerItem.image} alt="Profile Pic" style={styles.logo} />
+                                                                    <img src={customerItem.image} alt="Profile Pic" style={styles.pic} />
                                                                 )}
                                                             </td>
                                                             
