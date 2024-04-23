@@ -1,6 +1,6 @@
 // Importing the Express library
 import express from 'express';
-import Swal from 'sweetalert2'; // Import SweetAlert
+
 
 // Importing the Inventory model 
 import { Inventory } from '../Models/Inventory.js';

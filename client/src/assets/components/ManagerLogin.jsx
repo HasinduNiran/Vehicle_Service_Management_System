@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+
 import backgroundImage from '../images/t.jpg'; // Import the background image
 import image1 from '../images/1.jpg'; // Import additional images
 import image2 from '../images/ab2.jpg';
