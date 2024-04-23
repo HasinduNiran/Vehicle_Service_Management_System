@@ -104,7 +104,7 @@ const EditVehicle = () => {
       // Check response status
       if (response.status === 200) {
         // Success: Navigate to vehicle list or show success message
-        navigate('/vehicle');
+        navigate('/vehicle/dashboard');
       } else {
         // Handle other status codes (if needed)
         console.error('Unexpected response status:', response.status);
