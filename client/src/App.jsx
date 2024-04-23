@@ -219,7 +219,7 @@ const App = () => {
         <Route path='/ServiceHistory/get/:id' element={<ReadOneServiceHistory />}></Route>
         <Route path='/ServiceHistory/dashboard' element={<ServiceHistoryDashboard />}></Route>
 
-        <Route path='/Servic' element={<ShowService />}></Route>
+        <Route path='/Service' element={<ShowService />}></Route>
         <Route path='/Service/create' element={<CreateService />}></Route>
         <Route path='/Service/edit/:id' element={<EditService />}></Route>
         <Route path='/Service/delete/:id' element={<DeleteService />}></Route>
