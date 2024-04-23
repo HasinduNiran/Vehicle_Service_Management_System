@@ -209,7 +209,7 @@ const CreateFeedback = () => {
             selected={dateOfService}
             onChange={(date) => setDateOfService(date)}
             dateFormat="yyyy-MM-dd"
-            className="date-picker-input"
+            className="date-picker-input text-black"
           />
         </div>
         <div>
