@@ -10,7 +10,6 @@ import { BsInfoCircle } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
 import SidebarS from "../../components/SidebarS";
-import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const FeedbackDashBoard = () => {
     const [feedback, setFeedback] = useState([]);
@@ -48,17 +47,23 @@ const FeedbackDashBoard = () => {
     const applySearchFilter = (feedback, query) => {
         const lowerCaseQuery = query.toLowerCase();
         return (
-            feedback.cusID.toLowerCase().includes(lowerCaseQuery) ||
+            String(feedback.cusID).toLowerCase().includes(lowerCaseQuery) ||
             feedback.name.toLowerCase().includes(lowerCaseQuery) ||
             feedback.email.toLowerCase().includes(lowerCaseQuery) ||
             feedback.phone_number.toLowerCase().includes(lowerCaseQuery) ||
             feedback.employee.toLowerCase().includes(lowerCaseQuery) ||
             feedback.date_of_service.toLowerCase().includes(lowerCaseQuery) ||
             feedback.message.toLowerCase().includes(lowerCaseQuery) ||
-            feedback.star_rating.toLowerCase().includes(lowerCaseQuery)
+            String(feedback.star_rating).toLowerCase().includes(lowerCaseQuery)
         );
     };
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
+  
     const generatePDF = useReactToPrint({
         content: () => componentRef.current,
         documentTitle: "Feedback List",
@@ -138,15 +143,16 @@ const styles = {
           </a>
           <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             <div className="input-group">
-              <input
+            <input
                 className="form-control"
                 type="text"
                 value={searchQuery}
                 placeholder="Search for..."
                 aria-label="Search for..."
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress} // Call handleSearch on Enter key press
                 aria-describedby="btnNavbarSearch"
-              />
+            />
               <button
                 className="btn btn-primary"
                 id="btnNavbarSearch"
@@ -290,15 +296,15 @@ const styles = {
                       {feedback.employee}
                     </td>
                     <td style={styles.tableCell}>
+                    {feedback.star_rating !== null
+                        ? feedback.star_rating
+                        : "N/A"}
+                    </td>
+                    <td style={styles.tableCell}>
                       {feedback.date_of_service}
                     </td>
                     <td style={styles.tableCell}>
-                      {feedback.message}
-                    </td>
-                    <td style={styles.tableCell}>
-                      {feedback.star_rating !== null
-                        ? feedback.star_rating
-                        : "N/A"}
+                    {feedback.message}
                     </td>
                     <td style={styles.tableCell}>
                               <div className='flex justify-center gap-x-4'>
