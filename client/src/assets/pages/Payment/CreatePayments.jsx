@@ -80,9 +80,9 @@ const CreatePayments = () => {
     if (!values.PaymentMethod) {
       errors.PaymentMethod = "Payment Method is required!";
     }
-    // if (!values.Package) {
-    //   errors.Package = "Package is required!";
-    // }
+    if (!values.Package) {
+      errors.Package = "Package is required!";
+    }
     // if (!values.selectedServices) {
     //   errors.selectedServices = "Service is required!";
     // }
@@ -198,11 +198,11 @@ const CreatePayments = () => {
            <div style={styles.formGroup}>
             <label htmlFor='email'style={styles.label}>Email</label>
             <input
-              type='text'
+              type='email'
               name='email'
-              value={formValues.email}
+              value={email}
               placeholder='email'
-              onChange={handleChange}
+              readOnly // Make the input field read-only to prevent direct user input
               style={styles.input} 
             />
           </div>
