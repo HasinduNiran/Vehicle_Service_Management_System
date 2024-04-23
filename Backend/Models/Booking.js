@@ -13,7 +13,7 @@ const vehicleSchema = mongoose.Schema({
     },
     cusID: {
         type: String, // Changed to String type for custom format
-        unique: true
+    
     },
     Customer_Name: {
         type: String,
