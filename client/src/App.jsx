@@ -59,8 +59,6 @@ import EditVehicle from './assets/pages/Vehicle/EditVehicle'
 import ReadOneVehicle from './assets/pages/Vehicle/ReadOneVehicle'
 import DeleteVehicle from './assets/pages/Vehicle/DeleteVehicle'
 
-
-
 import ShowPackage from './assets/pages/SPackage/ShowPackage'
 import CreatePackage from './assets/pages/SPackage/CreatePackage'
 import EditPackage from './assets/pages/SPackage/EditPackage'
