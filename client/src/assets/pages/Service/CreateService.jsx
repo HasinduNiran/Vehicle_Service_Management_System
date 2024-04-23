@@ -11,15 +11,16 @@ const CreateService = () => {
 
   const handleSubmit = async () => {
     const data = {
-      serviceName // Changed variable name to camelCase
+      Servicename:serviceName // Changed variable name to camelCase
     };
     setLoading(true);
     try {
       await axios.post('http://localhost:8076/Service/', data); // Added quotes around URL
       setLoading(false);
-      navigate('/Service');
+      navigate('/Service/dashboard');
     } catch (error) {
       setLoading(false);
+      alert('An error occurred. Please check the console.');
       console.log(error);
     }
   };

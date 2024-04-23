@@ -33,7 +33,7 @@ const EditService = () => {
       .put(`http://localhost:8076/Service/${id}`, data)
       .then(() => {
         setLoading(false);
-        navigate('/Service');
+        navigate('/Service/dashboard');
       })
       .catch((error) => {
         setLoading(false);

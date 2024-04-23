@@ -8,6 +8,7 @@ import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import ServiceReport from './ServiceReport';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
+import Swal from "sweetalert2";
 
 function ServiceDashboard() {
     const [services, setServices] = useState([]);
