@@ -18,6 +18,7 @@ const UpdateCustomer = () => {
     image: null,
   });
   const [loading, setLoading] = useState(false);
+  const [validInputs, setValidInputs] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const storage = getStorage(app);
@@ -41,13 +42,12 @@ const UpdateCustomer = () => {
       });
   }, [id]);
 
+  useEffect(() => {
+    setValidInputs(validateInputs());
+  }, [customer]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // Add validations for phone number, email, and password
-    if (name === 'phone' && (!/^\d{0,10}$/.test(value) || value.charAt(0) !== '0')) return;
-    if (name === 'email' && !/\S+@\S+\.\S+/.test(value)) return;
-    if (name === 'password' && value.length < 10) return;
-    if (name === 'NIC' && value.length > 12) return;
     setCustomer(prevState => ({
       ...prevState,
       [name]: value
@@ -65,47 +65,66 @@ const UpdateCustomer = () => {
   };
 
   const handleUpdateCustomer = async () => {
+    if (!validInputs) {
+      return;
+    }
+
     setLoading(true);
 
     try {
-      let imageUrl = customer.image; // Default to the current image URL
-      if (customer.image && customer.image instanceof File) {
-        const storageRef = ref(storage, `customer_images/${id}`);
-        const uploadTask = uploadBytesResumable(storageRef, customer.image);
+      const storageRef = ref(storage, `customer_images/${id}`);
+      const uploadTask = uploadBytesResumable(storageRef, customer.image);
 
-        await uploadTask;
-
-        imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
-      }
-
-      // Update customer data with image URL
-      const updatedCustomer = { ...customer, image: imageUrl };
-
-      // Make the PUT request to update the customer
-      axios.put(`http://localhost:8076/customer/${id}`, updatedCustomer)
-        .then((response) => {
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          // Handle progress
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+        },
+        (error) => {
+          // Handle unsuccessful uploads
           setLoading(false);
-          if (response.status === 200) {
-            navigate(`/customer/get/${id}`);
-          } else {
-            console.error('Unexpected response status:', response.status);
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Unexpected response status. Please try again later.',
-            });
-          }
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.error('Error updating customer:', error);
-          console.log('Response data:', error.response?.data);
+          console.error('Error uploading image:', error);
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'An error occurred while updating the customer. Please try again later.',
+            text: 'An error occurred while uploading the image. Please try again later.',
           });
-        });
+        },
+        () => {
+          // Handle successful uploads on complete
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            // Update customer data with image URL
+            const updatedCustomer = { ...customer, image: downloadURL };
+
+            // Make the PUT request to update the customer
+            axios.put(`http://localhost:8076/customer/${id}`, updatedCustomer)
+              .then((response) => {
+                setLoading(false);
+                if (response.status === 200) {
+                  navigate('/customer/customerDashboard');
+                } else {
+                  console.error('Unexpected response status:', response.status);
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Unexpected response status. Please try again later.',
+                  });
+                }
+              })
+              .catch((error) => {
+                setLoading(false);
+                console.error('Error updating customer:', error);
+                console.log('Response data:', error.response?.data);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'An error occurred while updating the customer. Please try again later.',
+                });
+              });
+          });
+        }
+      );
     } catch (error) {
       setLoading(false);
       console.error('Error updating customer:', error);
@@ -115,6 +134,53 @@ const UpdateCustomer = () => {
         text: 'An error occurred while updating the customer. Please try again later.',
       });
     }
+  };
+
+  const validateInputs = () => {
+    const { cusID, firstName, lastName, NIC, phone, email, password } = customer;
+
+    if (!cusID || !firstName || !lastName || !NIC || !phone || !email || !password) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please fill in all fields',
+      });
+      return false;
+    }
+
+    if (!isValidEmail(email)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter a valid email address',
+      });
+      return false;
+    }
+
+    if (NIC.length > 12) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Invalid NIC. Please Enter a valid NIC Number',
+      });
+      return false;
+    }
+
+    if (phone.length !== 10) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Phone number must have 10 digits',
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const isValidEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
 
   return (
@@ -130,7 +196,7 @@ const UpdateCustomer = () => {
               onChange={handleImageChange}
               style={styles.input}
             />
-            {customer.image && <img src={customer.image instanceof File ? URL.createObjectURL(customer.image) : customer.image} alt="Customer" style={{ maxWidth: '100%', maxHeight: '200px' }} />}
+            {customer.image && <img src={customer.image} alt="Customer" style={{ maxWidth: '100%', maxHeight: '200px' }} />}
           </div>
 
           <div style={styles.formGroup}>
@@ -174,7 +240,6 @@ const UpdateCustomer = () => {
               value={customer.NIC}
               onChange={handleChange}
               style={styles.input}
-              maxLength={12} // Limit NIC to 12 characters
             />
           </div>
           <div style={styles.formGroup}>
@@ -201,7 +266,7 @@ const UpdateCustomer = () => {
           <div style={styles.formGroup}>
             <label style={styles.label}>Password</label>
             <input
-              type="password"
+              type="text"
               name="password"
               value={customer.password}
               onChange={handleChange}
@@ -209,7 +274,7 @@ const UpdateCustomer = () => {
             />
           </div>
           <div style={styles.buttonContainer}>
-            <button style={styles.button} onClick={handleUpdateCustomer}>
+            <button style={{ ...styles.button, opacity: validInputs ? 1 : 0.5 }} onClick={handleUpdateCustomer} disabled={!validInputs}>
               Save
             </button>
           </div>

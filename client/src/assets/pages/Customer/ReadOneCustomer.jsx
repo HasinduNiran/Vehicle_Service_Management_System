@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -202,7 +201,7 @@ const ReadOneCustomer = () => {
                    
                   
                   <button
-                    onClick={() => { window.location.href = `/customer/edit/${customer._id}` }}
+                    onClick={() => { window.location.href = `/customer/edit/${customer.cusID}` }}
                     style={styles.navButton}
                   >
                   Edit Profile
@@ -245,7 +244,7 @@ const ReadOneCustomer = () => {
 
 
               <div className='my-4' style={styles.vehicleInfo}>
-                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Username</span>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Customer ID</span>
                 <span style={styles.value}>{customer.cusID}</span>
               </div>
               <div className='my-4' style={styles.vehicleInfo}>
@@ -268,15 +267,16 @@ const ReadOneCustomer = () => {
                 <span className='text-xl mr-4 text-gray-500' style={styles.label}>Email</span>
                 <span style={styles.value}>{customer.email}</span>
               </div>
-              <div className='my-4' style={styles.vehicleInfo}>
-                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Password</span>
-                <span style={styles.value}>{customer.password}</span>
-              </div>
+              
               <div className='my-4' style={styles.vehicleInfo}>
                 <span className='text-xl mr-4 text-gray-500' style={styles.label}>Create Time</span>
                 <span style={styles.value}>{new Date(customer.createdAt).toString()}</span>
               </div>
-              
+              <div className='my-4' style={styles.vehicleInfo}>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Last Update Time</span>
+                <span style={styles.value}>{new Date(customer.updatedAt).toString()}</span>
+              </div>
+
               {bookings.length > 0 ? (
                 <div>
     <h2 className='text-2xl my-4' style={styles.heading}>Bookings</h2>
