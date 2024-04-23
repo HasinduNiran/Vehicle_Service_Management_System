@@ -41,7 +41,7 @@ const EditPayment = () => {
         setSamount(data.Samount);
         setPaymentMethod(data.PaymentMethod);
         setBooking_Id(data.Booking_Id);
-        setEmail(data.Email);
+        setEmail(data.email);
         setLoading(false);
       })
       .catch((error) => {
@@ -91,7 +91,7 @@ const EditPayment = () => {
       <div style={styles.formContainer}>
       <form onSubmit={handleEditPayment} style={styles.form}>
         <h1 style={styles.heading}>
-          {/* <BackButton destination='/payments/pdashboard' /> */}
+          <BackButton destination='/payments/pdashboard' />
           Edit Payment
         </h1>
         {/* {loading ? <Spinner /> : ''} */}

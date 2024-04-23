@@ -8,7 +8,9 @@ const paymentSchema = mongoose.Schema({
     },
     cusID: {
         type: String, // connect to the customer
-        unique: true
+
+        required:true
+
     },
     Vehicle_Number:{
         type: String,
@@ -41,7 +43,7 @@ const paymentSchema = mongoose.Schema({
     email: {type:String},
      Samount:{
         type:[Number],
-        required:true
+       
      }
     // Package:{
     //     type:String,
