@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from './../images/logo2.png';
+import Specification from './Specification';
 
 const Header = () => {
     return (
@@ -48,7 +49,7 @@ const Header = () => {
                         </li>
                         
                         <li className="nav-item">
-                            <Link className="nav-link" to="/package">Package</Link>
+                            <Link className="nav-link" onClick={()=>{window.scrollTo({top:2290})}}>Package</Link>
                         </li>
                     </ul>
                 </nav>
