@@ -98,14 +98,15 @@ router.get("/employees/names", async (req, res) => {
   }
 });
 
-// GET route for retrieving feedback based on search criteria, pagination, and sorting
+// GET route for retrieving filtered feedback based on search criteria
 router.get("/feedback", async (req, res) => {
   try {
-    const { page = 1, limit = 5, search = "", sort = "name" } = req.query;
-    const skip = (parseInt(page) - 1) * parseInt(limit);
+    const { search = "", sort = "name" } = req.query;
+
+    // Define search query
     const query = {
       $or: [
-        { CustomerID:{$regex: search,$options: "i"}},
+        { cusID: { $regex: search, $options: "i" } },
         { name: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },
         { phone_number: { $regex: search, $options: "i" } },
@@ -114,10 +115,11 @@ router.get("/feedback", async (req, res) => {
         { star_rating: { $regex: search, $options: "i" } },
       ],
     };
+
+    // Fetch filtered feedback based on search criteria and sort
     const feedback = await Feedback.find(query)
-      .sort({ [sort]: 1 })
-      .skip(skip)
-      .limit(parseInt(limit));
+      .sort({ [sort]: 1 });
+
     res.status(200).json({ count: feedback.length, data: feedback });
   } catch (err) {
     console.error(err.message);
