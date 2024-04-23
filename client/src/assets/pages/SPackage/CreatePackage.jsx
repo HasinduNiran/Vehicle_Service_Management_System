@@ -46,7 +46,7 @@ const CreatePackage = () => {
     axios.post('http://localhost:8076/Package', data)
       .then(() => {
         setLoading(false);
-        navigate('/package');
+        navigate('/package/dashboard');
       })
       .catch((error) => {
         setLoading(false);

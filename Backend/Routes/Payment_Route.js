@@ -34,11 +34,11 @@ router.post('/', async (request, response) => {
       totalAmount: request.body.totalAmount,
       PaymentMethod: request.body.PaymentMethod,
       Booking_Id: request.body.Booking_Id,
-      Package: request.body.Package,
-      selectedServices: request.body.selectedServices,
       Pamount: request.body.Pamount,
       email: request.body.email,
-      Samount: request.body.Samount
+      Samount: request.body.Samount,
+      Package: request.body.Package,
+      selectedServices: request.body.selectedServices,
     };
     const payment = await Payment.create(newPayment);
     return response.status(201).send(payment);

@@ -77,11 +77,11 @@ const ReadOneHome = () => {
                 <Link className="nav-link" to={`/create/${userData.cusID}`}>Booking</Link>
               </li>
               <li className="nav-item">
-<<<<<<< Updated upstream
-                <Link className="nav-link" to="/package">Package</Link>
-=======
-                <Link className="nav-link" onClick={()=>{window.scrollTo({top:2210})}}>Package</Link>
->>>>>>> Stashed changes
+
+
+
+                <Link className="nav-link" onClick={()=>{window.scrollTo({top:2130})}}>Package</Link>
+
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={`/customer/get/${userData.cusID}`}>My Profile</Link>
