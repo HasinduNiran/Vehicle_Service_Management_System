@@ -6,7 +6,7 @@ import backgroundImage from '../images/t.jpg';
 import video1 from '../images/2.mp4';
 import Header from "./Header";
 
-import "./signup.css";
+import "./c.css";
 
 function CLogin() {
   const [cusID, setCusID] = useState("");
