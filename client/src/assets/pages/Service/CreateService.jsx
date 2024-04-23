@@ -2,57 +2,113 @@ import React, { useState } from 'react';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import backgroundImage from '../../images/t.jpg';
 
 const CreateService = () => {
-  const [Servicename, setname] = useState('');
+  const [serviceName, setServiceName] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
     const data = {
-      Servicename
+      Servicename:serviceName // Changed variable name to camelCase
     };
     setLoading(true);
-    axios
-      .post(`http://localhost:8076/Service/`, data)
-      .then(() => {
-        setLoading(false);
-        navigate('/Service');
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
+    try {
+      await axios.post('http://localhost:8076/Service/', data); // Added quotes around URL
+      setLoading(false);
+      navigate('/Service/dashboard');
+    } catch (error) {
+      setLoading(false);
+      alert('An error occurred. Please check the console.');
+      console.log(error);
+    }
   };
 
   return (
-    <>
-      <div>
-        <div className="p-4">
-          <h1 className="text-3xl my-4">Add New Service</h1>
-          {loading ? <Spinner /> : ''}
-          <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
-            <div className="my-4">
-              <form>
-                <div className="mb-3">
-                  <label htmlFor="Servicename" className="form-label">Service Name : </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={Servicename}
-                    onChange={(e) => setname(e.target.value)}
-                  />
-                  <button type="button" className="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded " onClick={handleSubmit}>
-                    Submit
-                  </button>
-                </div>
-              </form>
-            </div>
+    <div style={styles.container}>
+      <div className="p-4" style={styles.formContainer}>
+        {loading && <Spinner />} {/* Display Spinner when loading is true */}
+        <h1 style={styles.heading}>Add New Service</h1>
+        <form style={styles.form}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Service Name</label>
+            <input
+              type="text"
+              style={styles.input}
+              value={serviceName}
+              onChange={(e) => setServiceName(e.target.value)}
+            />
           </div>
-        </div>
+          <button type="button" style={styles.button} onClick={handleSubmit}>
+            Submit
+          </button>
+        </form>
       </div>
-    </>
+    </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    backgroundImage: `url(${backgroundImage})`, // Fixed backgroundImage syntax
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  heading: {
+    fontSize: '3rem',
+    color: 'white',
+    textAlign: 'center',
+    marginBottom: '1.5rem',
+  },
+  formContainer: {
+    width: '50%',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+    padding: '20px',
+    border: '2px solid red', // Add a red border
+    margin: '10px',
+    textAlign: 'center',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  formGroup: {
+    marginBottom: '1.5rem',
+  },
+  label: {
+    fontWeight: 'bold',
+    marginBottom: '0.5rem',
+    fontSize: '1.2rem',
+    color: 'red',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    backgroundColor: 'black',
+    color: 'white',
+  },
+  button: {
+    backgroundColor: 'red',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px 20px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    margin: '15px 10px',
+  },
 };
 
 export default CreateService;

@@ -38,6 +38,7 @@ const paymentSchema = mongoose.Schema({
     },
     Pamount: {type:Number}
     ,totalAmount: {type:Number},
+    email: {type:String},
      Samount:{
         type:[Number],
         required:true

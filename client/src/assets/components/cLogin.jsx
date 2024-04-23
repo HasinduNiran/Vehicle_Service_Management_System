@@ -3,12 +3,16 @@
 import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import backgroundImage from '../images/t.jpg';
 import video1 from '../images/2.mp4';
+
 import Header from "./Header";
 
 import "./signup.css";
+
+import Header from '../components/Header';
+
 
 function CLogin() {
   const [cusID, setCusID] = useState("");
@@ -74,6 +78,7 @@ function CLogin() {
   };
 
   return (
+
     <div className="login-root" style={{ marginTop: "30px" }}>
       <Header />
     <div className="login-root">
@@ -108,6 +113,16 @@ function CLogin() {
               <div className="box-root box-divider--light-all-2 animationRightLeft tans3s" style={{ flexGrow: 1 }} />
             </div>
           </div>
+
+    <div>
+    <Header/>
+    <div style={styles.container}>
+      <form onSubmit={onLogin} style={styles.form}>
+        <div className="image-container" style={styles.imageContainer}>
+          <video autoPlay loop muted style={styles.video}>
+            <source src={video1} type="video/mp4" />
+          </video>
+
         </div>
         <div className="box-root padding-top--24 flex-flex flex-direction--column" style={{ flexGrow: 1, zIndex: 9 }}>
           <div className="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
@@ -152,11 +167,109 @@ function CLogin() {
               </div>
             </div>
           </div>
+
+
+          <button type="submit" style={styles.button}>Login</button>
+          <Link to="/customer/create" style={styles.registerLink}>Don't you have an account? Sign Up Here.</Link>
+
         </div>
       </div>
     </div>
     </div>
+    </div>
   );
 }
+
+
+const styles = {
+  container: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    background: '#f2f2f2',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  form: {
+    width: '800px', // Adjust form width as needed
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+    padding: '20px',
+    border: '2px solid red',
+    borderColor: 'red',
+    margin: '10px',
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '400px',
+  },
+  formContent: {
+    flex: 1,
+    paddingLeft: '20px',
+  },
+  inputGroup: {
+    marginBottom: '20px',
+  },
+  label: {
+    display: 'block',
+    marginBottom: '5px',
+    fontWeight: 'bold',
+    fontSize: '18px',
+    color: 'white',
+    textAlign: 'center',
+    width: '100%',
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    boxSizing: 'border-box',
+    backgroundColor: 'black',
+    color: 'white',
+    fontSize: '1.2rem',
+    marginBottom: '10px',
+    textAlign: 'left',
+  },
+  header: {
+    fontSize: '2rem',
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: '20px',
+  },
+  button: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '5px',
+    border: 'none',
+    color: '#fff',
+    cursor: 'pointer',
+    background: 'red',
+  },
+  registerLink: {
+    color: 'white',
+    textDecoration: 'none',
+    marginTop: '10px',
+    display: 'block',
+    fontSize: '16px',
+  },
+  imageContainer: {
+    marginRight: '20px',
+  },
+  video: {
+    width: '100%', // Adjust video size as needed
+    height: 'auto',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.9)',
+  },
+};
+
 
 export default CLogin;

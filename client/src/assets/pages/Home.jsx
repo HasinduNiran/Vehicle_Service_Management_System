@@ -17,6 +17,8 @@ import "swiper/css/navigation";
 import "swiper/css/bundle";
 import img1 from "../images/swiper/1.jpg";
 import img2 from "../images/swiper/2.jpg";
+import img3 from "../images/swiper/3.png";
+
 
 const Home = () => {
   SwiperCore.use([Navigation, Autoplay, EffectCards, Pagination]);
@@ -27,6 +29,8 @@ const Home = () => {
       <Swiper autoplay={{ delay: 3000 }} navigation={true} modules={[Navigation]} className="mySwiper" >
         <SwiperSlide><img src={img1} className='h-2/5'/></SwiperSlide>
         <SwiperSlide><img src={img2}/></SwiperSlide>
+        <SwiperSlide><img src={img3}/></SwiperSlide>
+        
       </Swiper>
 
 

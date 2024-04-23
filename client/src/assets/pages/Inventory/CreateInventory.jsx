@@ -20,17 +20,17 @@ const CreateInventory = () => {
   const validateForm = () => {
     let errors = {};
     let isValid = true;
-
+  
     if (!name.trim()) {
       errors.name = 'Name is required';
       isValid = false;
     }
-
+  
     if (!location.trim()) {
       errors.location = 'Location is required';
       isValid = false;
     }
-
+  
     if (!quantity.trim()) {
       errors.quantity = 'Quantity is required';
       isValid = false;
@@ -38,7 +38,7 @@ const CreateInventory = () => {
       errors.quantity = 'Quantity must be a positive number';
       isValid = false;
     }
-
+  
     if (!purchasedPrice.trim()) {
       errors.purchasedPrice = 'Purchased Price is required';
       isValid = false;
@@ -46,36 +46,48 @@ const CreateInventory = () => {
       errors.purchasedPrice = 'Purchased Price must be a positive number';
       isValid = false;
     }
-
+  
     if (!sellPrice.trim()) {
       errors.sellPrice = 'Sell Price is required';
       isValid = false;
     } else if (isNaN(sellPrice) || parseFloat(sellPrice) <= 0) {
       errors.sellPrice = 'Sell Price must be a positive number';
       isValid = false;
+    } else if (parseFloat(sellPrice) < parseFloat(purchasedPrice)) {
+      errors.sellPrice = 'Sell Price must be equal to or greater than Purchased Price';
+      isValid = false;
     }
-
+  
     if (!supplierName.trim()) {
       errors.supplierName = 'Supplier Name is required';
       isValid = false;
     }
-
+  
     if (!supplierPhone.trim()) {
       errors.supplierPhone = 'Supplier Phone is required';
       isValid = false;
-    } else if (!/^\d{10}$/.test(supplierPhone)) {
-      errors.supplierPhone = 'Supplier Phone must be a 10-digit number';
+    } else if (!/^0\d{9}$/.test(supplierPhone)) { // Change regex pattern to match phone number starting with 0
+      errors.supplierPhone = 'Supplier Phone must start with 0 and be a 10-digit number';
       isValid = false;
     }
-
+  
+    if (!isValid) {
+      // Display SweetAlert for errors
+      Swal.fire({
+        icon: 'error',
+        title: 'Problem with Inventory creation',
+        html: Object.values(errors).map(error => `<p>${error}</p>`).join(''),
+      });
+    }
+  
     setErrors(errors);
     return isValid;
   };
-
-  const checkInventoryItem = async () => {
+  
+  const checkInventoryItem = async (itemNameUpperCase) => {
     try {
-      const response = await axios.get(`http://localhost:8076/inventory?Name=${name}`);
-      return response.data.length == name.length ;
+      const response = await axios.get(`http://localhost:8076/inventory?Name=${itemNameUpperCase}`);
+      return response.data.length > 0;
     } catch (error) {
       console.error('Error checking inventory:', error);
       return false;
@@ -88,28 +100,23 @@ const CreateInventory = () => {
     }
 
     setLoading(true);
-    const itemExists = await checkInventoryItem();
+    const itemNameUpperCase = name.toUpperCase(); // Convert item name to uppercase
+
+    const itemExists = await checkInventoryItem(itemNameUpperCase); // Pass the uppercase name to check for duplicates
 
     if (itemExists) {
+      // Display SweetAlert for existing item
       Swal.fire({
         icon: 'error',
-        title: 'Item already exists in the inventory',
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer);
-          toast.addEventListener('mouseleave', Swal.resumeTimer);
-        }
+        title: 'Inventory item with the same name already exists',
+        text: 'Please choose a different name or update the existing item',
       });
-      setLoading(false);
+      setLoading(false); // Set loading to false
       return;
     }
-
+  
     const data = {
-      Name: name,
+      Name: itemNameUpperCase, // Save item name in uppercase
       Location: location,
       Quantity: quantity,
       PurchasedPrice: purchasedPrice,
@@ -137,22 +144,31 @@ const CreateInventory = () => {
 
         setTimeout(() => {
           setLoading(false);
-          navigate('/inventory/allInventory');
+          navigate('/inventory/InventoryDashboard');
         }, 1500);
       })
       .catch((error) => {
         setLoading(false);
-        alert('An error happened. Please check console');
+        //alert('An error happened. Please check console');
+        Swal.fire({
+          icon: 'error',
+          title: 'Inventory item already exists',
+          text: 'Please check the item name or update the existing item',
+        });
         console.error(error);
       });
   };
 
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, 10); // Remove non-digit characters and limit to 10 digits
+    setSupplierPhone(value);
+  };
+
   return (
     <div style={styles.container}>
-      
       {loading ? <Spinner /> : ''}
       <div style={styles.formContainer}>
-      <h1 style={styles.heading}>Add Inventory</h1>
+        <h1 style={styles.heading}>Add Inventory</h1>
         <div style={styles.formGroup}>
           <label style={styles.label}>Name</label>
           <input
@@ -218,7 +234,7 @@ const CreateInventory = () => {
           <input
             type="text"
             value={supplierPhone}
-            onChange={(e) => setSupplierPhone(e.target.value)}
+            onChange={handlePhoneChange}
             style={styles.input}
           />
           {errors.supplierPhone && <p style={styles.error}>{errors.supplierPhone}</p>}

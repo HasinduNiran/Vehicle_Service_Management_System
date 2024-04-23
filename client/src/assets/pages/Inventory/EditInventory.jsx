@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
-import React from 'react';
-import Spinner from "../../components/Spinner"
+import React, { useState, useEffect } from "react";
+import Spinner from "../../components/Spinner";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2";
 import backgroundImage from '../../images/t.jpg';
 import BackButton from '../../components/BackButton';
 
@@ -35,14 +34,85 @@ const EditInventory = () => {
       })
       .catch((error) => {
         setLoading(false);
-        alert(`An error happened. Please check console`);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'An error happened. Please check console.',
+        });
         console.log(error);
       });
   }, [id]);
 
   const handleEditInventory = () => {
+    // Frontend validation
+    const negativeFields = [];
+    
+    if (!name || !quantity || !purchasedPrice || !sellPrice || !supplierName || !supplierPhone) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please fill in all required fields.',
+      });
+      return;
+    }
+  
+    if (isNaN(quantity) || isNaN(purchasedPrice) || isNaN(sellPrice)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Quantity, purchased price, and sell price must be valid numbers.',
+      });
+      return;
+    }
+  
+    if (quantity < 0) {
+      negativeFields.push('Quantity');
+    }
+  
+    if (purchasedPrice < 0) {
+      negativeFields.push('Purchased Price');
+    }
+  
+    if (sellPrice < 0) {
+      negativeFields.push('Sell Price');
+    }
+  
+    if (sellPrice < purchasedPrice) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Sell price must be equal to or greater than the purchased price.',
+      });
+      return;
+    }
+  
+    if (negativeFields.length > 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        html: `The following fields cannot be negative: <br>${negativeFields.join('<br>')}`,
+      });
+      return;
+    }
+
+
+
+     // Phone number validation
+  if (!supplierPhone.startsWith('0') || supplierPhone.length !== 10 || !/^\d+$/.test(supplierPhone)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Phone number must start with 0 and have exactly 10 digits.',
+    });
+      return;
+    }
+
+    // Convert name to uppercase
+    const uppercaseName = name.toUpperCase();
+  
+    // Proceed with editing inventory
     const data = {
-      Name: name,
+      Name: uppercaseName,
       Location: location,
       Quantity: quantity,
       PurchasedPrice: purchasedPrice,
@@ -50,30 +120,39 @@ const EditInventory = () => {
       SupplierName: supplierName,
       SupplierPhone: supplierPhone,
     };
-
+  
     setLoading(true);
-
+  
     axios
       .put(`http://localhost:8076/inventory/${id}`, data)
       .then(() => {
         setLoading(false);
-        Swal.fire("Success!", "Inventory data updated successfully!", "success").then(() => {
-          navigate('/inventory/allInventory');
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Inventory data updated successfully!',
+        }).then(() => {
+          navigate('/inventory/InventoryDashboard');
         });
       })
       .catch((error) => {
         setLoading(false);
-        alert('An error happened. Please check console');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'An error happened. Please check console.',
+        });
         console.log(error);
       });
   };
+  
 
   return (
     <div style={styles.container}>
-      <BackButton destination={`/inventory/allInventory`} />
+      <BackButton destination={`/inventory/InventoryDashboard`} />
       {loading ? <Spinner /> : ''}
       <div style={styles.formContainer}>
-      <h1 style={styles.heading}>Edit inventory</h1>
+        <h1 style={styles.heading}>Edit inventory</h1>
         <div style={styles.formGroup}>
           <label style={styles.label}>Name</label>
           <input
@@ -133,7 +212,12 @@ const EditInventory = () => {
           <input
             type="text"
             value={supplierPhone}
-            onChange={(e) => setSupplierPhone(e.target.value)}
+            onChange={(e) => {
+              const inputPhone = e.target.value;
+              if (inputPhone === '' || (inputPhone.length <= 10 && /^\d+$/.test(inputPhone))) {
+                setSupplierPhone(inputPhone);
+              }
+            }}
             style={styles.input}
           />
         </div>
@@ -146,6 +230,7 @@ const EditInventory = () => {
     </div>
   );
 };
+
 const styles = {
   container: {
     display: 'flex',
@@ -155,7 +240,6 @@ const styles = {
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    
   },
   formContainer: {
     width: '50%',
@@ -163,22 +247,18 @@ const styles = {
     borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
     padding: '20px',
-    border: '2px solid red', // Add a red border
+    border: '2px solid red',
     borderColor: 'red',
     margin: '10px',
     textAlign: 'center',
-    position: 'relative', // Add this line for absolute positioning of the line
+    position: 'relative',
   },
   heading: {
     fontSize: '3rem',
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
-    marginBottom: '20px' // Add margin bottom to create space between heading and form
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
+    marginBottom: '20px',
   },
   formGroup: {
     marginBottom: '1.5rem',
@@ -203,7 +283,7 @@ const styles = {
     textAlign: 'center',
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center', 
+    justifyContent: 'center',
     padding: '10px',
     display: 'block',
     textTransform: 'uppercase',
@@ -219,7 +299,6 @@ const styles = {
     marginBottom: '10px',
     textAlign: 'left',
     display: 'block',
-    
   },
   buttonContainer: {
     display: 'flex',
@@ -235,4 +314,5 @@ const styles = {
     transition: 'background-color 0.8s',
   },
 };
+
 export default EditInventory;

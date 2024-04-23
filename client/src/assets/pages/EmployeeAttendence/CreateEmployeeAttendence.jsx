@@ -121,6 +121,13 @@ const CreateEmployeeAttendence = () => {
 
   // Handler to save employee attendance
   const handleSaveEmployeeAttendence = () => {
+
+    // Basic validations
+    if (!selectedEmployee.EmpID || !selectedEmployee.employeeName || !selectedDate) {
+      alert('Please fill in fields Emp ID,Employee Name,Date.');
+      return;
+    }
+
     const data = {
       EmpID: selectedEmployee.EmpID,
       employeeName: selectedEmployee.employeeName,
@@ -270,7 +277,7 @@ const CreateEmployeeAttendence = () => {
           </div>
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+      <div style={styles.buttonContainer}>
         <button
           style={styles.button}
           onClick={handleSaveEmployeeAttendence}

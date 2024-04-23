@@ -85,4 +85,32 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+//search
+router.get("searchpackage", function (req, res) {
+    var search = req.query.search;
+    console.log(search);
+    Vehicle.find({
+        $or: [
+            { pakgname: { $regex: search, $options: "i" } },
+            { pkgdescription: { $regex: search, $options: "i" } },
+            { includes: { $regex: search, $options: "i" } },
+            { Price: { $regex: search, $options: "i" } }
+            
+        ]
+    }, function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.json(result);
+        }
+    });
+});
+
+
+
+
+
+
+
 export default router;

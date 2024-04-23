@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import backgroundImage from '../../images/t.jpg';
 
 const CreatePackage = () => {
   const [pakgname, setPakgname] = useState('');
@@ -55,36 +56,41 @@ const CreatePackage = () => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-3xl my-4">Add Package</h1>
+    <div style={styles.container}>
+      {/* <h1 style={styles.heading}>Add Package</h1> */}
       {loading && <Spinner />}
 
-      <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Package Name</label>
+      <div style={styles.formContainer}>
+      <h1 style={styles.heading}>Create Package</h1>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Package Name</label>
           <input
             type="text"
             value={pakgname}
             onChange={(e) => setPakgname(e.target.value)}
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Description</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Description</label>
           <input
             type="text"
             value={pkgdescription}
             onChange={(e) => setPkgdescription(e.target.value)}
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Includes</label>
-          <div className="flex flex-wrap">
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Includes</label>
+          <div style={styles.buttonContainer}>
             {services.map(service => (
               <button
                 key={service._id}
-                className={`bg-gray-200 mr-2 mb-2 px-4 py-2 rounded ${selectedServices.includes(service.Servicename) ? 'bg-blue-500 text-white' : ''}`}
+                style={{
+                  ...styles.includeButton,
+                  backgroundColor: selectedServices.includes(service.Servicename) ? 'blue' : 'gray',
+                  color: selectedServices.includes(service.Servicename) ? 'white' : 'black',
+                }}
                 onClick={() => handleServiceSelect(service.Servicename)}
               >
                 {service.Servicename}
@@ -92,23 +98,94 @@ const CreatePackage = () => {
             ))}
           </div>
         </div>
-        <div className="my-4">
-          <label className="text-xl mr-4 text-gray-500">Price</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Price</label>
           <input
             type="number"
             value={Price}
             onChange={(e) => setPrice(e.target.value)}
-            className="border-2 border-gray-500 px-4 py-2 w-full"
+            style={styles.input}
           />
         </div>
-
-        <button className="p-2 bg-sky-300 m-8" onClick={handleSavePackage}>
+        <button style={styles.button} onClick={handleSavePackage}>
           Save
         </button>
-        
       </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    backgroundImage: `url(${backgroundImage})`, // Fixed backgroundImage syntax
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+},
+  heading: {
+    fontSize: '3rem',
+    color: 'white',
+    textAlign: 'center',
+    marginBottom: '1.5rem',
+  },
+  formContainer: {
+    width: '50%',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+    padding: '20px',
+    border: '2px solid red', // Add a red border
+    margin: '10px',
+    textAlign: 'center',
+  },
+  formGroup: {
+    marginBottom: '1.5rem',
+  },
+  label: {
+    fontWeight: 'bold',
+    marginBottom: '0.5rem',
+    fontSize: '1.2rem',
+    color: 'red',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    backgroundColor: 'black',
+    color: 'white',
+  },
+  includeButton: {
+    backgroundColor: 'gray',
+    color: 'black',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '5px 10px', // Adjusted padding
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    margin: '2px 2px', // Adjusted margin
+    fontSize: '0.8rem', // Reduced font size
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: 'red',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px 20px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    margin: '0 10px',
+  },
 };
 
 export default CreatePackage;

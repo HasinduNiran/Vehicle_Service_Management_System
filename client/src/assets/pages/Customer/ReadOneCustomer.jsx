@@ -1,10 +1,10 @@
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
-
 import { Link } from 'react-router-dom';
 
 const ReadOneCustomer = () => {
@@ -15,6 +15,7 @@ const ReadOneCustomer = () => {
   const [vehicles, setVehicles] = useState([]);
   const [serviceHistories, setServiceHistory] = useState([]);
   const [feedback, setFeedback] = useState({});
+  
 
   const { id: cusID } = useParams();
 
@@ -54,7 +55,7 @@ const ReadOneCustomer = () => {
     container: {
       color: 'black',
       border: '3px solid white',
-      backgroundImage: `url(${backgroundImage})`,
+       
       backgroundSize: 'cover',
       backgroundPosition: 'center',
 
@@ -134,8 +135,18 @@ const ReadOneCustomer = () => {
 
     },
     value: {
-      color: 'white',
+      color: 'black',
+      fontWeight: 'bold',
     },
+
+    heading: {
+      fontSize: '2rem',
+      fontWeight: 'bold',
+      marginBottom: '20px',
+      color: 'black',
+      textAlign: 'center',
+      textTransform: 'uppercase',
+     },
   };
 
   return (
@@ -155,8 +166,8 @@ const ReadOneCustomer = () => {
             <Link className="nav-link" to="/" style={{ color: 'white' }}>Home</Link> {/* Set font color to white */}
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/cLogin" style={{ color: 'white' }}>Login</Link> {/* Set font color to white */}
-          </li>
+                <Link className="nav-link" to={`/create/${customer.cusID}`} style={{ color: 'white' }}>Booking</Link>
+              </li>
           {/* <li className="nav-item">
             <Link to="/service" className="nav-link text-blue-500 hover:underline">Services</Link>
           </li> */}
@@ -180,70 +191,62 @@ const ReadOneCustomer = () => {
       </nav>
 
       <div id="layoutSidenav">
-        <nav id="layoutSidenav_nav">
+        <nav id="layoutSidenav_nav" >
 
-          <div className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+          <div className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style={{ backgroundColor: 'gray' }}>
             <div className="sb-sidenav-menu">
               <div className="nav-link">
                 <div className="sb-nav-link-icon">
                   {/* <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} /> */}
+                  
+                   
+                  
                   <button
-                    onClick={() => { window.location.href = '/vehicle/create' }}
+                    onClick={() => { window.location.href = `/customer/edit/${customer._id}` }}
                     style={styles.navButton}
                   >
-                    Add Vehicle
+                  Edit Profile
                   </button>
                   <button
-                    onClick={() => { window.location.href = '/vehicle/dashboard' }}
+                    onClick={() => { window.location.href = `/customer/delete/${customer.cusID}` }}
                     style={styles.navButton}
                   >
-                    All Vehicles
+                    Delete Account
                   </button>
                   <button
-                    onClick={() => { window.location.href = '/ServiceHistory/create' }}
+                    onClick={() => { window.location.href = `/feedback/create/${customer.cusID}` }}
                     style={styles.navButton}
                   >
-                    Add History
+                   Feedback
                   </button>
-                  <button
-                    onClick={() => { window.location.href = '/ServiceHistory' }}
-                    style={styles.navButton}
-                  >
-                    View History
-                  </button>
-                  <div
-                    style={styles.navButton}
-                  >
-                    {/* <VehicleReport filteredVehicles={filteredVehicles} /> */}
-                  </div>
+                   
                 </div>
               </div>
             </div>
             <div className="sb-sidenav-footer">
               <div className="small">Logged in as:</div>
-              Operation manager
+               Customer
             </div>
           </div>
         </nav>
 
         <div id="layoutSidenav_content">
-          <h1 className='text-3xl my-4'>Show Customer</h1>
-          {loading ? (
+           {loading ? (
             <Spinner />
           ) : (
-            <div className='flex flex-col border-2 border-red-400 rounded-xl w-fit p-4'>
+            <div className='flex flex-col border-2 border-red-400 rounded-xl w-fit p-4' >
 
 
 
 
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
-                <img src={customer.image} alt="Vehicle" style={{ maxWidth: '300px', height: '200px', borderRadius: '100%',display: 'flex', justifyContent: 'center', alignItems: 'center', border: '4px solid red', borderRadius: '100px', padding: '10px' }} />
+                <img src={customer.image} alt="Vehicle" style={{maxWidth: '300px', height: '300px', borderRadius: '50%', border: '4px solid red',  padding: '10px' }} />
               </div>
 
 
               <div className='my-4' style={styles.vehicleInfo}>
-                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Customer Number</span>
-                <span style={styles.value}>{customer._id}</span>
+                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Username</span>
+                <span style={styles.value}>{customer.cusID}</span>
               </div>
               <div className='my-4' style={styles.vehicleInfo}>
                 <span className='text-xl mr-4 text-gray-500' style={styles.label}>First Name</span>
@@ -266,10 +269,6 @@ const ReadOneCustomer = () => {
                 <span style={styles.value}>{customer.email}</span>
               </div>
               <div className='my-4' style={styles.vehicleInfo}>
-                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Username</span>
-                <span style={styles.value}>{customer.username}</span>
-              </div>
-              <div className='my-4' style={styles.vehicleInfo}>
                 <span className='text-xl mr-4 text-gray-500' style={styles.label}>Password</span>
                 <span style={styles.value}>{customer.password}</span>
               </div>
@@ -277,14 +276,10 @@ const ReadOneCustomer = () => {
                 <span className='text-xl mr-4 text-gray-500' style={styles.label}>Create Time</span>
                 <span style={styles.value}>{new Date(customer.createdAt).toString()}</span>
               </div>
-              <div className='my-4' style={styles.vehicleInfo}>
-                <span className='text-xl mr-4 text-gray-500' style={styles.label}>Last Update Time</span>
-                <span style={styles.value}>{new Date(customer.updatedAt).toString()}</span>
-              </div>
-
+              
               {bookings.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Bookings</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>Bookings</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
@@ -318,7 +313,7 @@ const ReadOneCustomer = () => {
 
               {payments.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Payments</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>PAYMENTS</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
@@ -346,7 +341,7 @@ const ReadOneCustomer = () => {
 
               {vehicles.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Vehicles</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>VEHICLES</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
@@ -386,7 +381,7 @@ const ReadOneCustomer = () => {
 
               {serviceHistories.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Service Histories</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>SERVICE HISTORIES</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>
@@ -416,7 +411,7 @@ const ReadOneCustomer = () => {
 
               {feedback.length > 0 ? (
                 <div>
-                  <h2 className='text-2xl my-4'>Feedback</h2>
+    <h2 className='text-2xl my-4' style={styles.heading}>FEEDBACKS</h2>
                   <table style={styles.table}>
                     <thead>
                       <tr style={styles.tableHead}>

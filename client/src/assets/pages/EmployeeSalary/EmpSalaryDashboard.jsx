@@ -9,6 +9,7 @@ import {MdOutlineAddBox , MdOutlineDelete} from 'react-icons/md';
 import ReportEmployeeSalary from './ReportEmployeeSalary';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
+import { BsBorderBottom } from 'react-icons/bs';
 
 function ShowEmployeeSalary() {
 
@@ -82,8 +83,9 @@ function ShowEmployeeSalary() {
             fontFamily: 'Arial, sans-serif',
             color: '#fff',
             background: '#1f1f1f',  
-            width: '100%',
+            width: '95%',
             borderCollapse: 'collapse',
+            borderBottom: '1px solid red',
         },
         tableHead: {
           background: '#333',

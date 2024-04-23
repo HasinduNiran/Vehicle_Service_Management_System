@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link, useParams } from 'react-router-dom'; // Import useParams
+import { Link, useParams } from 'react-router-dom';
 import Footer from '../components/Footer';
-import Header from '../components/Header';
-import MainPart from '../components/MainPart';
 import Satisfaction from '../components/Satisfaction';
 import WhoWeAre from '../components/WhoWeAre';
 import Specification from '../components/Specification';
 import Testimonial from '../components/Testimoials'; // Corrected misspelling
 import './../Styles/style-starter.css';
+import axios from 'axios'
+import logo2 from "../images/logo2.png";
+import getready from './../images/getready.mp4';
 
-const ReadOneHome = () => { // Remove cusID from the props
+const ReadOneHome = () => {
   const [userData, setUserData] = useState({});
-  const { cusID } = useParams(); // Get cusID from the URL
-  
+  const { cusID } = useParams();
+
   useEffect(() => {
     if (cusID) {
       fetchData();
     }
   }, [cusID]);
-  
+
   const fetchData = async () => {
     try {
       const response = await axios.get(`http://localhost:8076/customer/${cusID}`);
@@ -28,61 +28,85 @@ const ReadOneHome = () => { // Remove cusID from the props
       console.error('Error fetching user data:', error);
     }
   };
-  
+
+ 
+
   return (
     <div className="bg-gray-100 min-h-screen">
-      <Header />
-      <MainPart />
-      <div className="mt-4 max-w-lg float-right "> {/* Added mx-auto and max-w-lg classes */}
-        {/* <div className="my-4">
-          <label className='text-xl mr-4 text-gray-500'>Username</label>
-          <input
-            type="text"
-            value={userData.username || ''}
-            readOnly // Add readOnly attribute here
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className="my-4">
-          <label className='text-xl mr-4 text-gray-500'>CusID</label>
-          <input
-            type="text"
-            value={userData.cusID || ''}
-            readOnly // Add readOnly attribute here
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div> */}
-        {userData ? (
-       <p className="text-right" style={{ color: 'red' }}>Welcome, {userData.firstName}!</p>
+      <header id="site-header" className="fixed-top">
+        <style>{`
+          #site-header {
+            background-color: #000000;
+            height: 130px;
+            width: 100%;
+          }
+          
+          .container {
+            width: 100%;
+            margin: 0 auto;
+            margin-left: 0%;
+          }
+          
+          .navbar-brand {
+            display: flex;
+            align-items: center;
+          }
+          
+          .logo {
+            width: 150px;
+            margin-right: 10px;
+            margin-top: -10px;
+          }
 
-        ) : (
-          <p>Loading...</p>
-        )}
-      </div>
-      
+          .navbar-nav {
+            flex-direction: row;
+          }
+        `}</style>
+        <div className="container ml-80 pl-80" style={{ paddingLeft: "10px" }} >
+          <nav className="navbar navbar-expand-lg navbar-light" style={{ position: 'relative' }}>
+            <Link className="navbar-brand" to="/">
+              <img src={logo2} alt="Nadeeka Auto Service" className="logo" />
+              <h1 style={{ color: 'white', marginTop: '-10px' }}>Nadeeka Auto Service</h1>
+            </Link>
+
+            <ul className="navbar-nav ml-auto" style={{ marginRight: "-150px" }}>
+              <li className="nav-item active">
+                <Link className="nav-link" to="/">Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={`/create/${userData.cusID}`}>Booking</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/package">Package</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={`/customer/get/${userData.cusID}`}>My Profile</Link>
+              </li>
+              <li className="nav-item">
+                {userData.firstName && (
+                  <div style={{ position: 'absolute', right: '-35px', top: '50%', transform: 'translateY(-50%)' }}>
+                    <img src={userData.image} alt="Welcome" style={{ width: '55px', height: '55px', borderRadius: '100%', marginRight: '2px' }} />
+                    <p className="mb-0" style={{ color: 'red' }}>Welcome</p><p className="mb-0" style={{ color: 'yellow' }}> {userData.firstName}!</p>
+                  </div>
+                )}
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      <video autoPlay loop muted style={{ width: '100%', height: 'auto', borderRadius: '10px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.9)' }}>
+        <source src={getready} type="video/mp4" />
+      </video>
+
       <Satisfaction />
       <WhoWeAre />
-    
       <Specification />
       <Testimonial />
-      {userData && (
-        <Link to={`/create/${userData.cusID}`}>
-         <button className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 text-xl">Booking</button>
 
-        </Link>
-      
-
-
-      )}
-        <Link to={`/feedback/create/${ userData.cusID}`}>
-         <button className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 text-xl">feedback</button>
-
-        </Link>
-       
       <Footer />
     </div>
   );
-  
 };
 
 export default ReadOneHome;

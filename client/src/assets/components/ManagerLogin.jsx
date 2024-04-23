@@ -28,7 +28,7 @@ function Login() {
         switch (userData.Musername) {
           case "customer":
             message = "Welcome back! Kasuni";
-            navigate("/customer/allCustomer");
+            navigate("/customer/customerDashboard");
             break;
           case "package":
             message = "Welcome back! Ravindu";
@@ -36,7 +36,7 @@ function Login() {
             break;
           case "booking":
             message = "Welcome back! Isuru";
-            navigate("/show-all");
+            navigate("/booking/dashboard");
             break;
           case "vehicle":
             message = "Welcome back! Hasindu";
@@ -44,11 +44,11 @@ function Login() {
             break;
           case "inventory":
             message = "Welcome back! Lasal";
-            navigate("/inventory/allInventory");
+            navigate("/inventory/InventoryDashboard");
             break;
           case "payment":
             message = "Welcome back! Sithagi";
-            navigate("/payments/show");
+            navigate("/payments/pdashboard");
             break;
           case "employee":
             message = "Welcome back! Kavindi";

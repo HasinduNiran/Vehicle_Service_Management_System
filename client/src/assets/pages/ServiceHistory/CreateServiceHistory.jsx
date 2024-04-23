@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import Spinner from '../../components/Spinner';
 import Swal from 'sweetalert2';
+import Spinner from '../../components/Spinner';
 import backgroundImage from '../../images/t.jpg';
 
 const CreateServiceHistory = () => {
@@ -47,12 +47,14 @@ const CreateServiceHistory = () => {
     axios.all([
       axios.get('http://localhost:8076/employees'),
       axios.get('http://localhost:8076/bookings'),
-      axios.get(`http://localhost:8076/Package`)
+      axios.get('http://localhost:8076/Package'),
+      axios.get('http://localhost:8076/service')
     ])
-      .then(axios.spread((employeesRes, bookingsRes, packagesRes) => {
+      .then(axios.spread((employeesRes, bookingsRes, packagesRes, servicesRes) => {
         setEmployees(employeesRes.data.data);
         setBookings(bookingsRes.data);
         setPackages(packagesRes.data.data);
+        setServices(servicesRes.data.data);
         setLoading(false);
       }))
       .catch(error => {
@@ -74,6 +76,9 @@ const CreateServiceHistory = () => {
     }
 
     setBookingId(selectedBookingId);
+    // Fetch service history for the selected booking ID
+    // Here you should make a request to fetch service history based on the selected booking ID
+    // and update the `serviceHistory` state accordingly
   };
 
   const handleServiceSelect = (serviceName) => {
@@ -93,7 +98,11 @@ const CreateServiceHistory = () => {
     e.preventDefault();
 
     if (!validateVehicleNumber(vehicleNumber)) {
-      alert('Please enter a valid vehicle number.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Vehicle Number',
+        text: 'Please enter a valid vehicle number.',
+      });
       return;
     }
 
@@ -118,31 +127,25 @@ const CreateServiceHistory = () => {
       await axios.post('http://localhost:8076/serviceHistory/', data);
       setLoading(false);
 
-      // Show alert with next service
-      // alert(`Next Service: ${nextService}`);
-
-      // Redirect to user dashboard if necessary (handle on server side)
       Swal.fire({
-        position: "center",
-        icon: "success",
-        title: `Add the Service Successfully!
-        Vehicle Number: ${vehicleNumber}
-        Your Next Service : ${nextService}
-        `,
-        showConfirmButton: true,
-        confirmButtonColor: '#4CAF50',
-        // timer: 2000,
+        icon: 'success',
+        title: 'Service Created Successfully!',
+        text: `Vehicle Number: ${vehicleNumber}\nNext Service: ${nextService}`,
       });
 
-      // Perform navigation after successful login
-      navigate('/ServiceHistory');
+      // Perform navigation after successful submission
+      navigate('/ServiceHistory/dashboard');
     } catch (error) {
       setLoading(false);
       console.error('Error creating service history:', error);
       if (error.response) {
         console.error('Server responded with:', error.response.data);
       }
-      alert('Error creating service history. Please try again.', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error creating service history. Check booking id or mileage.',
+      });
     }
   };
 
@@ -158,20 +161,6 @@ const CreateServiceHistory = () => {
     const day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
-
-  useEffect(() => {
-    setLoading(true);
-    axios.get('http://localhost:8076/service')
-      .then((response) => {
-        setServices(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching services:', error);
-        setLoading(false);
-      });
-  }, []);
-
 
   const handlePackageChange = (e) => {
     setSelectedPackage(e.target.value);
@@ -245,6 +234,7 @@ const CreateServiceHistory = () => {
               style={styles.input}
               value={milage}
               onChange={handleMilageChange}
+              min={0}
             />
           </div>
           <div style={styles.inputGroup}>
@@ -330,24 +320,19 @@ const styles = {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
-    
   },
-
-
-
   formContainer: {
     width: '50%',
     backgroundColor: 'rgba(5, 4, 2, 0.8)',
     borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
     padding: '20px',
-    border: '2px solid red', // Add a red border
+    border: '2px solid red',
     borderColor: 'red',
     margin: '10px',
     textAlign: 'center',
-    position: 'relative', // Add this line for absolute positioning of the line
+    position: 'relative',
   },
-  
   form: {
     display: 'flex',
     flexDirection: 'column',
@@ -364,12 +349,11 @@ const styles = {
     marginBottom: '20px',
     fontSize: '3rem',
     fontWeight: 'bold',
-    color: 'white'
+    color: 'white',
   },
   inputGroup: {
     marginTop: '20px',
-    width: '100%'
-    
+    width: '100%',
   },
   label: {
     fontWeight: 'bold',
@@ -396,12 +380,7 @@ const styles = {
     justifyContent: 'center',
     display: 'block',
     textAlign: 'center',
-
     marginBottom: '10px',
-
-  
-
-
   },
   input: {
     width: '100%',
@@ -419,9 +398,6 @@ const styles = {
     border: '1px solid #ccc',
     background: 'white',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
-    
-    
-
   },
   button: {
     backgroundColor: 'red',
@@ -434,7 +410,7 @@ const styles = {
   },
   servicesContainer: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   serviceButton: {
     backgroundColor: '#e0e0e0',
@@ -447,10 +423,8 @@ const styles = {
     marginRight: '0.5rem',
     marginBottom: '0.5rem',
     display: 'flex',
-    
-
-
-  }, input1: {
+  },
+  input1: {
     width: '100%',
     padding: '10px',
     border: '1px solid rgba(255, 255, 255, 0.8)',
@@ -458,19 +432,20 @@ const styles = {
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
     color: 'rgba(255, 255, 125, 0.8)',
     textAlign: 'center',
-
   },
-
   highlightedInput: {
     backgroundColor: 'pink',
     color: 'black',
     border: 'red',
     borderRadius: '0.25rem',
     padding: '0.5rem 1rem',
-
-
-
-  }
+  },
+  message: {
+    color: 'white',
+    fontSize: '1rem',
+    textAlign: 'center',
+    marginTop: '10px',
+  },
 };
 
 export default CreateServiceHistory;

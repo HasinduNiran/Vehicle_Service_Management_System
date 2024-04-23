@@ -92,5 +92,26 @@ router.delete('/:id', async (request, response) => {
         response.status(500).send({ message: error.message });
     }
 });
+router.get("searchService", function (req, res) {
+    var search = req.query.search;
+    console.log(search);
+    Vehicle.find({
+        $or: [
+            { Servicename: { $regex: search, $options: "i" } }
+            
+        ]
+    }, function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.json(result);
+        }
+    });
+});
+
+
+
+
 
 export default router;

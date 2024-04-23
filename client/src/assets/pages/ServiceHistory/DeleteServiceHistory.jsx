@@ -13,7 +13,7 @@ const DeleteServiceHistory = () => {
     axios.delete(`http://localhost:8076/servicehistory/${id}`)
       .then(() => {
         setLoading(false);
-        navigate('/ServiceHistory');
+        navigate('/ServiceHistory/dashboard');
       }).catch((error) => {
         setLoading(false);
         console.error('Error deleting service', error);
@@ -32,7 +32,7 @@ const DeleteServiceHistory = () => {
           <button style={styles.deleteButton} onClick={handleDelete}>
             {loading ? 'Deleting...' : 'Delete'}
           </button>
-          <Link to={'/servicehistory'} style={styles.cancelButton}>Cancel</Link>
+          <Link to={'/ServiceHistory/dashboard'} style={styles.cancelButton}>Cancel</Link>
         </div>
       </div>
     </div>

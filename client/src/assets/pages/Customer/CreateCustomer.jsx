@@ -1,67 +1,111 @@
-// Importing necessary dependencies
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
+import Swal from 'sweetalert2';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { app } from '../../../firebase';
-
+import backgroundImage from '../../images/t.jpg';
 
 const CreateCustomer = () => {
   const [firstName, setFirstName] = useState('');
   const [image, setImage] = useState(null);
+  const [cusID, setCusID] = useState('');
   const [lastName, setLastName] = useState('');
   const [NIC, setNIC] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [reEnteredPassword, setReEnteredPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [index, setIndex] = useState(0); // State for auto-generating index
   const navigate = useNavigate();
 
   const storage = getStorage(app);
 
   const handleSaveCustomer = () => {
+    if (!validateInputs()) {
+      return;
+    }
+
+    if (password !== reEnteredPassword) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Passwords do not match',
+      });
+      return;
+    }
+
     setLoading(true);
 
-    // Upload image to Firebase Storage
-    const storageRef = ref(storage, `images/${image.name}`);
+    // Check if cusID is unique
+    const isCusIDUnique = checkCusIDUnique();
+    if (!isCusIDUnique) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Customer ID should be unique!',
+      });
+      setLoading(false);
+      return;
+    }
+
+    // Check if email is unique
+    const isEmailUnique = checkEmailUnique();
+    if (!isEmailUnique) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Email must be unique!',
+      });
+      setLoading(false);
+      return;
+    }
+
+ 
+    const storageRef = ref(storage, `customer_images/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
     uploadTask.on('state_changed', 
-      (snapshot) => {
-        // Progress
-      },
+      (snapshot) => {},
       (error) => {
-        // Error
         console.error(error);
       },
       () => {
-        // Complete
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          // Creating data object from form inputs including the download URL
           const data = {
             image: downloadURL,
+            cusID,
             firstName,
             lastName,
             NIC,
             phone,
             email,
-            username,
             password,
           };
 
-          // Making a POST request to save the customer data
           axios.post('http://localhost:8076/customer', data)
             .then(() => {
-              // Resetting loading state and navigating to the home page
               setLoading(false);
-              navigate('/customer/allCustomer');
+              navigate('/');
             })
             .catch((error) => {
-              // Handling errors by resetting loading state and showing a specific error message
               setLoading(false);
-              alert(`An error occurred: ${error.response.data.message}`);
+              if (error.response && error.response.data) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Customer ID should be unique!',
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'An error occurred. Please try again later.',
+                });
+              }
               console.log(error);
             });
         });
@@ -69,93 +113,281 @@ const CreateCustomer = () => {
     );
   };
 
-  // JSX for rendering the create customer form
+  const validateInputs = () => {
+    if (!firstName || !image || !lastName || !NIC || !phone || !email || !password || !cusID || !reEnteredPassword) {
+      setError('Please fill in all fields');
+      return false;
+    }
+
+    if (!isValidEmail(email)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter a valid email address',
+      });
+      return false;
+    }
+
+    
+  if (NIC.length < 10 || NIC.length > 12) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'NIC must be between 10 and 12 characters long',
+    });
+    return false;
+  }
+
+  if (password.length < 10) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'password must contains at least 10 characters',
+    });
+    return false;
+  }
+
+    if (phone.length !== 10) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Phone number must have 10 digits',
+      });
+      return false;
+    }
+
+    setError('');
+    return true;
+  };
+
+  const isValidEmail = (email) => {
+    // Basic email validation using regular expression
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const checkCusIDUnique = () => {
+    // Assume an API call to check uniqueness
+    // For now, let's just return true to simulate uniqueness
+    return true;
+  };
+
+  const checkEmailUnique = () => {
+    // Assume an API call to check uniqueness
+    // For now, let's just return true to simulate uniqueness
+    return true;
+  };
+
   return (
-    <div className="p-4">
-      <h1 className="text-3xl my-4">Create menu</h1>
+    <div style={styles.container}>
       {loading ? <Spinner /> : ''}
-      
-      <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
-        {/* Input fields for customer information */}
-        {/* Assuming you want to upload an image */}
-        <div className="my-4">
-          <label className='text-xl mr-4 text-gray-500'>Image</label>
-          <input
-            type="file"
-            onChange={(e) => setImage(e.target.files[0])}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
+      <div style={styles.formContainer}>
+        <h1 style={styles.heading}>REGISTER</h1>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <div style={styles.form}>
+
+          {/* Image Input */}
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Image</label>
+            <input
+              type="file"
+              onChange={(e) => setImage(e.target.files[0])}
+              style={styles.input}
+            />
+          </div>
+
+          {/* Customer ID Input */}
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Username</label>
+            <input
+              type="text"
+              value={cusID}
+              onChange={(e) => setCusID(e.target.value)}
+              style={styles.input}
+              maxLength={10}
+              required={true}
+            />
+          </div>
+
+          {/* First Name Input */}
+          <div style={styles.formGroup}>
+            <label style={styles.label}>First Name</label>
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+
+          {/* Last Name Input */}
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Last Name</label>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+
+          {/* NIC Input */}
+          <div style={styles.formGroup}>
+            <label style={styles.label}>NIC</label>
+            <input
+              type="text"
+              value={NIC}
+              onChange={(e) => setNIC(e.target.value)}
+              style={styles.input}
+              maxLength={12}
+            />
+          </div>
+
+          {/* Phone Input */}
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Phone</label>
+            <input
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              style={styles.input}
+              maxLength={10}
+            />
+          </div>
+
+          {/* Email Input */}
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Email</label>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+
+          {/* Password Input */}
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+
+          {/* Re-enter Password Input */}
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Re-enter Password</label>
+            <input
+              type="password"
+              value={reEnteredPassword}
+              onChange={(e) => setReEnteredPassword(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+
+          {/* Save Button */}
+          <div style={styles.buttonContainer}>
+            <button style={styles.button} onClick={handleSaveCustomer}>
+              Save
+            </button>
+          </div>
         </div>
-        <div className="my-4">
-          <label className='text-xl mr-4 text-gray-500'>First Name</label>
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className="my-4">
-          <label className='text-xl mr-4 text-gray-500'>Last Name</label>
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className="my-4">
-          <label className='text-xl mr-4 text-gray-500'>NIC</label>
-          <input
-            type="text"
-            value={NIC}
-            onChange={(e) => setNIC(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className="my-4">
-          <label className='text-xl mr-4 text-gray-500'> Phone</label>
-          <input
-            type="text"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className="my-4">
-          <label className='text-xl mr-4 text-gray-500'>Email</label>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className="my-4">
-          <label className='text-xl mr-4 text-gray-500'>Username</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className="my-4">
-          <label className='text-xl mr-4 text-gray-500'>Password</label>
-          <input
-            type='text'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <button className='p-2 bg-sky-300 m-8' onClick={handleSaveCustomer}>
-          Save
-        </button>
       </div>
     </div>
   );
 };
 
-// Exporting the CreateCustomer component
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  formContainer: {
+    width: '50%',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+    padding: '20px',
+    border: '2px solid red', // Add a red border
+    borderColor: 'red',
+    margin: '10px',
+    textAlign: 'center',
+    position: 'relative', // Add this line for absolute positioning of the line
+  },
+  heading: {
+    fontSize: '3rem',
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: '1.5rem',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    maxWidth: '800px',
+    padding: '20px',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    borderRadius: '10px',
+  },
+  formGroup: {
+    marginBottom: '1.5rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '10px',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    borderRadius: '5px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    color: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+  },
+  label: {
+    fontWeight: 'bold',
+    marginBottom: '0.5rem',
+    flexDirection: 'column',
+    fontSize: '1.2rem',
+    color: 'red',
+    textAlign: 'center',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center', 
+    padding: '10px',
+    display: 'block',
+    textTransform: 'uppercase',
+    backgroundColor: 'black',
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    backgroundColor: 'black',
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: 'red',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '0.25rem',
+    padding: '0.5rem 1rem',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
+};
+
 export default CreateCustomer;

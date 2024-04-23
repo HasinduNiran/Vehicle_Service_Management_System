@@ -78,7 +78,7 @@ const styles = {
   },
   heading: {
     fontSize: '3rem',
-    color: 'Red',
+    color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
 
@@ -87,12 +87,14 @@ const styles = {
   card: {
     width: '50%',
     backgroundColor: 'rgba(5, 4, 2, 0.8)',
-    borderRadius: '10px',
+    borderRadius: '20px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
     padding: '20px',
     bordercolor: 'red',
     margin: '10px',
     textAlign: 'center',
+    
+
   },
   cardBody: {
     padding: '2rem',

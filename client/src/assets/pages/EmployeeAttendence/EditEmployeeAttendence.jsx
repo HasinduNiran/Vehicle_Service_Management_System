@@ -39,6 +39,13 @@ const EditEmployeeAttendence = () => {
   }, [])
   
   const handleEditEmployeeAttendence = () => {
+
+    // Basic validations
+    if (!EmpID || !employeeName || !date) {
+      alert('Please fill in fields Emp ID,Employee Name,Date.');
+      return;
+    }
+
     const data = {
       EmpID,
       employeeName,

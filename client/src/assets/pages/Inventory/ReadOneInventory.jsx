@@ -56,7 +56,7 @@ const ReadOneInventory = () => {
 
   return (
     <div style={styles.container}>
-      <BackButton destination={`/inventory/allInventory`} />
+      <BackButton destination={`/inventory/InventoryDashboard`} />
       <h1 style={styles.heading}>Show Inventory</h1>
       <div style={styles.vehicleContainer}>
         <div style={styles.vehicleInfo}>
@@ -153,16 +153,17 @@ const styles = {
     borderRadius: '10px',
     backgroundColor: 'rgba(5, 4, 2, 0.8)',
     padding: '20px',
-    border: '2px solid red', /* Add border here */
     textAlign: 'left',
-    justifyContent: 'center', /* Add this line */
-    alignItems: 'center', /* Add this line */
-    height: '100vh', /* Adjust this as per your requirement */
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    backdropFilter: 'blur(100px)', // Adjust the blur effect here
+    opacity: '0.9', // Adjust the opacity here
   },
   vehicleInfo: {
-    margin: '0 auto', /* Center the vehicle info */
-    padding: '20px', /* Add padding */
-    width: '80%', /* Set width to 80% of container */
+    margin: '0 auto',
+    padding: '20px',
+    width: '80%',
   },
   infoGrid: {
     display: 'grid',
@@ -191,8 +192,6 @@ const styles = {
     color: 'red',
     textAlign: 'center',
     border: '1px solid red',
-
-
   },
   tableHeader: {
     padding: '10px',
@@ -212,5 +211,6 @@ const styles = {
     border: '1px solid red',
   },
 };
+
 
 export default ReadOneInventory;

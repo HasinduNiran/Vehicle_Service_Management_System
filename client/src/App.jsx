@@ -13,7 +13,8 @@ import CreateBooking from './assets/pages/Booking/CreateBooking';
 import EditBooking from './assets/pages/Booking/EditBooking';
 import DeleteBooking from './assets/pages/Booking/DeleteBooking';
 import ReadOneBooking from './assets/pages/Booking/ReadOneBooking';
-
+import BookingDashBoard from './assets/pages/Booking/BookingDashBoard';
+import AdminCreateBooking from './assets/pages/Booking/AdminCreateBooking';
 
 import ShowPayment from './assets/pages/Payment/ShowPayment';
 import CreatePayments from './assets/pages/Payment/CreatePayments';
@@ -63,6 +64,7 @@ import CreatePackage from './assets/pages/SPackage/CreatePackage'
 import EditPackage from './assets/pages/SPackage/EditPackage'
 import ReadOnePackage from './assets/pages/SPackage/ReadOnePackage'
 import DeletePackage from './assets/pages/SPackage/DeletePAckage'
+import PackageDashboard from './assets/pages/SPackage/PackageDashboard';
 
 import ShowService from './assets/pages/Service/Showservices';
 import CreateService from './assets/pages/Service/CreateService';
@@ -77,6 +79,8 @@ import ReadOneInventory from './assets/pages/Inventory/ReadOneInventory'
 import DeleteInventory from './assets/pages/Inventory/DeleteInventory'
 import AddExistingInventory  from './assets/pages/Inventory/AddItemPage';
 import RetrieveExistingInventory from './assets/pages/Inventory/RetrieveItemPage';
+import InventoryDashboard  from './assets/pages/Inventory/InventoryDashboard';
+import InventoryReport from './assets/pages/Inventory/InventoryReport';
 
 import ShowAllFeedback from './assets/pages/Feedback/ShowAllFeedback';
 import CreateFeedback from './assets/pages/Feedback//CreateFeedback';
@@ -89,7 +93,8 @@ import ShowCustomer from './assets/pages/Customer/ShowCustomer';
 import UpdateCustomer from './assets/pages/Customer/UpdateCustomer';
 import DeleteCustomer from './assets/pages/Customer/DeleteCustomer';
 import ReadOneCustomer from './assets/pages/Customer/ReadOneCustomer';
-import ReportCustomer from './assets/pages/Customer/ReportCustomer';
+import NewReportCustomer from './assets/pages/Customer/NewReportCustomer';
+import CustomerDashboard from './assets/pages/Customer/CustomerDashboard';
 
 import ShowAllServiceHistory from './assets/pages/ServiceHistory/ShowAllServiceHistory';
 import CreateServiceHistory from './assets/pages/ServiceHistory/CreateServiceHistory';
@@ -103,9 +108,10 @@ import ReadOneServiceHistory from './assets/pages/ServiceHistory/ReadOneServiceH
 
 import Dashboard from './assets/pages/dashboard/dashboard';
 import ServiceHistoryDashboard from './assets/pages/ServiceHistory/ServiceHistoryDashboard';
-
+import ServiceDashboard from './assets/pages/Service/ServiceDashboard'; 
 import CusDashboard from './assets/pages/customerDashBoard/cusDashboard'; 
 import VDashboard from './assets/pages/Vehicle/VehicleDashboard';
+import PaymentDashboard from './assets/pages/Payment/PaymentDashboard';
 
 import EmpDashboard from './assets/pages/Employee/EmployeeDashboard';
 import EmpADashboard from './assets/pages/EmployeeAttendence/EmpAttendenceDashboard';
@@ -158,7 +164,8 @@ const App = () => {
         <Route path='/EmployeeSalary/delete/:id' element={<DeleteEmployeeSalary />}></Route>
         <Route path='/EmployeeSalary/reportEmployeeSalary' element={<ReportEmployeeSalary />}></Route>
         <Route path='/EmployeeSalary/EmpSDashboard' element={<EmpSDashboard />}></Route>
-
+        
+        <Route path='/payments/pdashboard' element={<PaymentDashboard />}></Route>
         <Route path='/payments/show' element={<ShowPayment />}></Route>
         <Route path='/payments/detail/:id' element={<ReadOnePayment />}></Route>
         <Route path='/payments/create' element={<CreatePayments />}></Route>
@@ -171,6 +178,9 @@ const App = () => {
         <Route path='/edit/:id' element={<EditBooking />} />
         <Route path='booking/delete/:id' element={<DeleteBooking />} />
         <Route path='booking/read/:id' element={<ReadOneBooking />} />
+        <Route path='booking/dashboard' element={<BookingDashBoard />} />
+        <Route path='booking/adminbooking' element={<AdminCreateBooking />} />
+
 
         <Route path='/inventory/allInventory' element={<ShowInventory />}></Route>
         <Route path='/inventory/create' element={<CreateInventory />}></Route>
@@ -183,6 +193,7 @@ const App = () => {
         <Route path='/package/edit/:id' element={<EditPackage />} />
         <Route path='/package/:id' element={<ReadOnePackage />} />
         <Route path='/package/delete/:id' element={<DeletePackage />} />
+        <Route path='/package/dashboard' element={<PackageDashboard />} />
 
 
 
@@ -191,6 +202,7 @@ const App = () => {
         <Route path='/service/edit/:id' element={<EditService />} />
         <Route path='/service/get/:id' element={<ReadOneService />} />
         <Route path='/service/delete/:id' element={<DeleteService />} />
+        <Route path='/service/dashboard' element={<ServiceDashboard />} />
 
         <Route path='/show-all' element={<ShowAllBooking />} />
         <Route path='/create' element={<CreateBooking />} />
@@ -226,13 +238,15 @@ const App = () => {
         <Route path='/customer/edit/:id' element={<UpdateCustomer />}></Route>
         <Route path='/customer/delete/:id' element={<DeleteCustomer />}></Route>
         <Route path='/customer/get/:id' element={<ReadOneCustomer />}></Route>
-        <Route path='/customer/ReportCustomer' element={<ReportCustomer />}></Route>
+        <Route path='/customer/NewReportCustomer' element={<NewReportCustomer />}></Route>
+        <Route path='/customer/CustomerDashboard' element={<CustomerDashboard/>}></Route>
 
         <Route path='/ServiceHistory' element={<ShowAllServiceHistory />}></Route>
         <Route path='/ServiceHistory/create' element={<CreateServiceHistory />}></Route>
         <Route path='/ServiceHistory/edit/:id' element={<EditServiceHistory />}></Route>
         <Route path='/ServiceHistory/delete/:id' element={<DeleteServiceHistory />}></Route>
         <Route path='/ServiceHistory/get/:id' element={<ReadOneServiceHistory />}></Route>
+        
 
         <Route path='/cusDashboard' element={<CusDashboard />}></Route>
         <Route path='/cLogin' element={<CLogin />}></Route>'
@@ -289,7 +303,8 @@ const App = () => {
       <Route path='/inventory/get/:id' element={<ReadOneInventory />}></Route>
       <Route path='/inventory/addItem/:id' element={<AddExistingInventory />}></Route>
       <Route path='/inventory/retrieveItem/:id' element={<RetrieveExistingInventory />}></Route>
-
+      <Route path='/inventory/InventoryDashboard' element={<InventoryDashboard />}></Route>
+      <Route path='/inventory/InventoryReport' element={<InventoryReport/>}></Route>
 
     
 
@@ -387,7 +402,7 @@ const App = () => {
     <Route path='/customer/edit/:id' element={<UpdateCustomer/>}></Route>
     <Route path='/customer/delete/:id' element={<DeleteCustomer/>}></Route>
     <Route path='/customer/get/:id' element={<ReadOneCustomer/>}></Route>
-    <Route path='/customer/ReportCustomer' element={<ReportCustomer/>}></Route>
+    <Route path='/customer/NewReportCustomer' element={<NewReportCustomer/>}></Route>
 
     <Route path='/ServiceHistory' element={<ShowAllServiceHistory/>}></Route>
     <Route path='/ServiceHistory/create' element={<CreateServiceHistory/>}></Route>

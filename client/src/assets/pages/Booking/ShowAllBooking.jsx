@@ -185,7 +185,7 @@ const filteredBooking = bookings.filter(applySearchFilter);
                   {booking.Email}
                 </td>
                 <td className='border-1 border-slate-700 rounded-md text-center bg-blue-100 text-black'>
-                  {booking.Booking_Date}
+                {booking.Booking_Date.slice(0, 10)}
                 </td>
                 <td className='border-1 border-slate-700 rounded-md text-center bg-red-100'>
                   <div className='flex justify-center gap-x-4'>

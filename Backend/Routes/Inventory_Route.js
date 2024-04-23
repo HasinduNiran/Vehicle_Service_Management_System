@@ -1,49 +1,62 @@
 // Importing the Express library
 import express from 'express';
+import Swal from 'sweetalert2'; // Import SweetAlert
 
 // Importing the Inventory model 
 import { Inventory } from '../Models/Inventory.js';
 
 // Creating an Express router
 const router = express.Router();
+
 // Route for creating a new Inventory item
 router.post('/', async (request, response) => {
     try {
-        // Checking if all required fields are present in the request body
-        if (
-            !request.body.Name ||
-            !request.body.Location ||
-            !request.body.Quantity ||
-            !request.body.PurchasedPrice ||
-            !request.body.SellPrice ||
-            !request.body.SupplierName ||
-            !request.body.SupplierPhone
-        ) {
-            return response.status(400).send({
-                message: 'Send all required fields',
-            });
+        // Validate request body fields
+        const { Name, Location, Quantity, PurchasedPrice, SellPrice, SupplierName, SupplierPhone } = request.body;
+
+        // Check if all required fields are present and non-empty
+        if (!Name || !Location || !Quantity || !PurchasedPrice || !SellPrice || !SupplierName || !SupplierPhone) {
+            return response.status(400).json({ message: 'Please provide all required fields.' });
         }
-// Creating a new inventory item with the provided data
-const newInventory = {
-    Name: request.body.Name,
-    Location: request.body.Location,
-    Quantity: request.body.Quantity,
-    PurchasedPrice: request.body.PurchasedPrice,
-    SellPrice: request.body.SellPrice,
-    SupplierName: request.body.SupplierName,
-    SupplierPhone: request.body.SupplierPhone,
-};
 
-// Adding the new inventory item to the database
-const inventory = await Inventory.create(newInventory);
+        // Validate Quantity, PurchasedPrice, and SellPrice to be numbers greater than zero
+        if (isNaN(Quantity) || isNaN(PurchasedPrice) || isNaN(SellPrice) || Quantity <= 0 || PurchasedPrice <= 0 || SellPrice <= 0) {
+            return response.status(400).json({ message: 'Quantity, PurchasedPrice, and SellPrice must be numbers greater than zero.' });
+        }
 
-// Sending the created inventory item as a JSON response
-return response.status(201).send(inventory);
-} catch (error) {
-// Handling errors and sending an error response
-console.error(error.message);
-response.status(500).send({ message: error.message });
-}
+        // Validate SupplierPhone to be a valid phone number with 10 digits
+        const phoneRegex = /^\d{10}$/; // Simple regex for 10-digit phone number
+        if (!phoneRegex.test(SupplierPhone)) {
+            return response.status(400).json({ message: 'SupplierPhone must be a valid 10-digit phone number.' });
+        }
+
+        // Check if an inventory item with the same name already exists
+        const existingItem = await Inventory.findOne({ Name });
+        if (existingItem) {
+            return response.status(400).json({ message: 'An inventory item with the same name already exists.' });
+        }
+
+        // Creating a new inventory item with the provided data
+        const newInventory = {
+            Name,
+            Location,
+            Quantity,
+            PurchasedPrice,
+            SellPrice,
+            SupplierName,
+            SupplierPhone
+        };
+
+        // Adding the new inventory item to the database
+        const inventory = await Inventory.create(newInventory);
+
+        // Sending the created inventory item as a JSON response
+        return response.status(201).json(inventory);
+    } catch (error) {
+        // Handling errors and sending an error response
+        console.error(error.message);
+        response.status(500).json({ message: error.message });
+    }
 });
 
 // Route for retrieving all inventory items from the database
@@ -60,7 +73,7 @@ router.get('/', async (request, response) => {
     } catch (error) {
         // Handling errors and sending an error response
         console.error(error.message);
-        response.status(500).send({ message: error.message });
+        response.status(500).json({ message: error.message });
     }
 });
 
@@ -78,7 +91,7 @@ router.get('/:id', async (request, response) => {
     } catch (error) {
         // Handling errors and sending an error response
         console.error(error.message);
-        response.status(500).send({ message: error.message });
+        response.status(500).json({ message: error.message });
     }
 });
 
@@ -92,7 +105,7 @@ router.put('/:id', async (request, response) => {
         const inventory = await Inventory.findById(id);
 
         if (!inventory) {
-            return response.status(404).send({ message: 'Inventory not found' });
+            return response.status(404).json({ message: 'Inventory not found' });
         }
 
         // Update the fields of the inventory item
@@ -108,15 +121,14 @@ router.put('/:id', async (request, response) => {
         await inventory.save();
 
         // Sending a success response
-        return response.status(200).send({ message: 'Inventory updated successfully', data: inventory });
+        return response.status(200).json({ message: 'Inventory updated successfully', data: inventory });
 
     } catch (error) {
         // Handling errors and sending an error response
         console.error(error.message);
-        response.status(500).send({ message: error.message });
+        response.status(500).json({ message: error.message });
     }
 });
-
 
 // Route for deleting a inventory item by ID
 router.delete('/:id', async(request, response) => {
@@ -128,12 +140,12 @@ router.delete('/:id', async(request, response) => {
         await Inventory.findByIdAndDelete(id);
 
         // Sending a success response
-        return response.status(200).send({ message: 'Menu deleted successfully' });
+        return response.status(200).json({ message: 'Menu deleted successfully' });
 
     } catch (error) {
         // Handling errors and sending an error response
         console.log(error.message);
-        response.status(500).send({ message: error.message });
+        response.status(500).json({ message: error.message });
     }
 });
 
