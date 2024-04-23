@@ -94,7 +94,7 @@ const ReadOneHome = () => {
               </li>
               
               <li className="nav-item">
-                <Link className="nav-link" to={`/customer/get/${userData.cusID}`}>Dashborad</Link>
+                <Link className="nav-link" to={`/customer/get/${userData.cusID}`}>My Profile</Link>
               </li>
 
               <li className="nav-item">

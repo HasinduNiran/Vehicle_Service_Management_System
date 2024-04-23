@@ -93,7 +93,7 @@ const styles = {
     bordercolor: 'red',
     margin: '10px',
     textAlign: 'center',
-    bo
+    
 
   },
   cardBody: {

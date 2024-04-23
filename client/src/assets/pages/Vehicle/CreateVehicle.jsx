@@ -7,6 +7,8 @@ import { app } from '../../../firebase';
 import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const CreateVehicle = () => {
+  //cus id
+  const [cusID,setcusId]= useState('');
   const [Register_Number, setRegister_Number] = useState('');
   const [image, setImage] = useState(null);
   const [Make, setMake] = useState('');
@@ -19,6 +21,7 @@ const CreateVehicle = () => {
   const [Condition_Assessment, setCondition_Assessment] = useState('');
   const [Owner, setOwner] = useState('');
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const storage = getStorage(app);
@@ -68,6 +71,7 @@ const CreateVehicle = () => {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             const data = {
+              cusID,
               Register_Number,
               image: downloadURL,
               Make,
@@ -136,6 +140,18 @@ const CreateVehicle = () => {
               value={Register_Number}
               onChange={(e) => setRegister_Number(e.target.value.toUpperCase())}
               maxLength={8}
+              required
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="register_number" style={styles.label}>User Name </label>
+            <input
+              type="text"
+              id="register_number"
+              style={styles.input}
+              value={cusID}
+              onChange={(e) => setcusId(e.target.value)}
+              
               required
             />
           </div>
