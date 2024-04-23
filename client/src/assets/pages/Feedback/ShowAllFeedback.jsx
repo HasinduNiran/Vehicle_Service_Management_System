@@ -127,60 +127,60 @@ const ShowAllFeedback = () => {
           <table className="table-auto w-full mb-4">
             <thead>
               <tr>
-                <th className="border border-green-800 rounded-md">Customer ID</th>
-                <th className="border border-green-800 rounded-md">Name</th>
-                <th className="border border-green-800 rounded-md">Email</th>
-                <th className="border border-green-800 rounded-md">
+                <th className="border border-green-800 rounded-md text-black">Customer ID</th>
+                <th className="border border-green-800 rounded-md text-black">Name</th>
+                <th className="border border-green-800 rounded-md text-black">Email</th>
+                <th className="border border-green-800 rounded-md text-black">
                   Phone Number
                 </th>
-                <th className="border border-green-800 rounded-md">Employee</th>
-                <th className="border border-green-800 rounded-md">
+                <th className="border border-green-800 rounded-md text-black">Employee</th>
+                <th className="border border-green-800 rounded-md text-black">
                   Date of Service
                 </th>
-                <th className="border border-green-800 rounded-md">Message</th>
-                <th className="border border-green-800 rounded-md">
+                <th className="border border-green-800 rounded-md text-black">Message</th>
+                <th className="border border-green-800 rounded-md text-black">
                   Star Rating
                 </th>
-                <th className="border border-green-800 rounded-md">Actions</th>
+                <th className="border border-green-800 rounded-md text-black">Actions</th>
               </tr>
             </thead>
             <tbody>
               {feedbacks.length === 0 ? (
                 <tr>
-                  <td colSpan="9" className="text-center">
+                  <td colSpan="9" className="text-center text-black">
                     No feedbacks available
                   </td>
                 </tr>
               ) : (
                 feedbacks.map((feedback) => (
                   <tr key={feedback._id}>
-                    <td className="border border-gray-600 rounded-md">
+                    <td className="border border-gray-600 rounded-md text-black">
                       {feedback.cusID}
                     </td>
-                    <td className="border border-gray-600 rounded-md">
+                    <td className="border border-gray-600 rounded-md text-black">
                       {feedback.name}
                     </td>
-                    <td className="border border-gray-600 rounded-md">
+                    <td className="border border-gray-600 rounded-md text-black">
                       {feedback.email}
                     </td>
-                    <td className="border border-gray-600 rounded-md">
+                    <td className="border border-gray-600 rounded-md text-black">
                       {feedback.phone_number}
                     </td>
-                    <td className="border border-gray-600 rounded-md">
+                    <td className="border border-gray-600 rounded-md text-black">
                       {feedback.employee}
                     </td>
-                    <td className="border border-gray-600 rounded-md">
+                    <td className="border border-gray-600 rounded-md text-black">
                       {feedback.date_of_service}
                     </td>
-                    <td className="border border-gray-600 rounded-md">
+                    <td className="border border-gray-600 rounded-md text-black">
                       {feedback.message}
                     </td>
-                    <td className="border border-gray-600 rounded-md">
+                    <td className="border border-gray-600 rounded-md text-black">
                       {feedback.star_rating !== null
                         ? feedback.star_rating
                         : "N/A"}
                     </td>
-                    <td className="border border-gray-600 rounded-md">
+                    <td className="border border-gray-600 rounded-md text-black">
                       <div className="flex justify-around">
                         <Link
                           to={`/feedback/edit/${feedback._id}`}
