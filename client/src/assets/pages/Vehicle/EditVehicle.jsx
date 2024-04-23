@@ -7,6 +7,7 @@ import { app } from '../../../firebase';
 
 const EditVehicle = () => {
   const [Register_Number, setRegister_Number] = useState('');
+  const[cusID, setcusID] = useState(''); // Add this line
   const [image, setImage] = useState(null); 
   const [Make, setMake] = useState('');
   const [Model, setModel] = useState('');
@@ -28,6 +29,7 @@ const EditVehicle = () => {
       .then((response) => {
         const data = response.data;
         setRegister_Number(data.Register_Number || '');
+        setcusID(data.cusID || '');
         setMake(data.Make || '');
         setModel(data.Model || '');
         setYear(data.Year || '');
@@ -49,37 +51,55 @@ const EditVehicle = () => {
       });
   }, [id]);
 
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0]; // Access the first file in the array
+// Inside EditVehicle component
 
-    // Create a reference to the Firebase Storage bucket
-    const storage = getStorage(app);
-    const storageRef = ref(storage, `vehicleImages/${file.name}`);
+const handleImageChange = async (e) => {
+  const file = e.target.files[0]; // Access the first file in the array
 
-    try {
-      // Upload file to Firebase Storage
-      const uploadTask = uploadBytesResumable(storageRef, file);
+  // Create a reference to the Firebase Storage bucket
+  const storage = getStorage(app);
+  const storageRef = ref(storage, `vehicleImages/${file.name}`);
 
-      // Get the download URL of the uploaded file
-      uploadTask.on('state_changed', 
-        (snapshot) => {
-          // Progress tracking
-        }, 
-        (error) => {
-          console.error('Error uploading image:', error);
-          alert('Error uploading image. Please try again.');
-        }, 
-        async () => {
-          // Upload completed successfully, get download URL
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          setImage(downloadURL);
-        }
-      );
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      alert('Error uploading image. Please try again.');
-    }
-  };
+  try {
+    // Upload file to Firebase Storage
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    // Get the download URL of the uploaded file
+    uploadTask.on('state_changed', 
+      (snapshot) => {
+        // Progress tracking
+      }, 
+      (error) => {
+        console.error('Error uploading image:', error);
+        alert('Error uploading image. Please try again.');
+      }, 
+      async () => {
+        // Upload completed successfully, get download URL
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        // Update the image state with the new image URL
+        setImage(downloadURL);
+      }
+    );
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    alert('Error uploading image. Please try again.');
+  }
+};
+
+
+// Inside return statement
+
+<div style={styles.formGroup}>
+  <label htmlFor="image" style={styles.label}>
+    Vehicle image
+  </label>
+  <input type="file" id="image" style={styles.input} onChange={handleImageChange} />
+  {/* Conditionally render image preview */}
+  {image && (
+    <img src={image} alt="Vehicle" style={{ maxWidth: '200px', marginTop: '10px' }} />
+  )}
+</div>
+
   const handleEditVehicle = async (e) => {
     e.preventDefault();
   
@@ -95,6 +115,7 @@ const EditVehicle = () => {
       Vehicle_Features,
       Condition_Assessment,
       Owner,
+      cusID
     };
   
     setLoading(true);
@@ -137,6 +158,19 @@ const EditVehicle = () => {
             )}
           </div>
           
+          <div style={styles.formGroup}>
+            <label htmlFor="register_number" style={styles.label}>User Name</label>
+            <input
+              type="text"
+              id="register_number"
+              style={styles.input}
+              value={cusID}
+              onChange={(e) => setcusID(e.target.value)}
+             
+              required
+            />
+          </div>
+              
           <div style={styles.formGroup}>
             <label htmlFor="register_number" style={styles.label}>Vehicle Number</label>
             <input

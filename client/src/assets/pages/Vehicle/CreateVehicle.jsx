@@ -8,7 +8,7 @@ import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const CreateVehicle = () => {
   //cus id
-  const [cusID,setcusId]= useState('');
+  const [cusID, setcusId] = useState('');
   const [Register_Number, setRegister_Number] = useState('');
   const [image, setImage] = useState(null);
   const [Make, setMake] = useState('');
@@ -53,62 +53,29 @@ const CreateVehicle = () => {
 
     setLoading(true);
     try {
-      const storageRef = ref(storage, `vehicleImages/${image.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, image);
+      let imageUrl = ''; // Initialize imageUrl
+      if (image) {
+        const storageRef = ref(storage, `vehicleImages/${image.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, image);
 
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {},
-        (error) => {
-          console.error('Error uploading image to Firebase:', error);
-          setLoading(false);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Error uploading image to Firebase. Please try again.',
-          });
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            const data = {
-              cusID,
-              Register_Number,
-              image: downloadURL,
-              Make,
-              Model,
-              Year: selectedYear,
-              Engine_Details,
-              Transmission_Details,
-              Vehicle_Color,
-              Vehicle_Features,
-              Condition_Assessment,
-              Owner,
-            };
-
-            axios.post('http://localhost:8076/vehicles', data).then((response) => {
-              setLoading(false);
-              if (response.status === 201) {
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Success',
-                  text: 'Vehicle created successfully.',
-                });
-                navigate('/vehicle/dashboard');
-              } else {
-                throw new Error('Failed to create vehicle.');
-              }
-            }).catch((error) => {
-              setLoading(false);
-              console.error('Error creating vehicle:', error);
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Error creating vehicle. Please check validation.',
-              });
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {},
+          (error) => {
+            console.error('Error uploading image to Firebase:', error);
+            // Even if there's an error uploading image, proceed to create vehicle
+            createVehicle(imageUrl);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              imageUrl = downloadURL; // Set imageUrl after successful upload
+              createVehicle(imageUrl); // Call createVehicle function with imageUrl
             });
-          });
-        }
-      );
+          }
+        );
+      } else {
+        createVehicle(imageUrl); // Call createVehicle function with empty imageUrl
+      }
     } catch (error) {
       setLoading(false);
       console.error('Error creating vehicle:', error);
@@ -120,16 +87,59 @@ const CreateVehicle = () => {
     }
   };
 
+  const createVehicle = (imageUrl) => {
+    const data = {
+      cusID,
+      Register_Number,
+      image: imageUrl, // imageUrl will be either empty string or the URL of the uploaded image
+      Make,
+      Model,
+      Year: selectedYear,
+      Engine_Details,
+      Transmission_Details,
+      Vehicle_Color,
+      Vehicle_Features,
+      Condition_Assessment,
+      Owner,
+    };
+
+    axios
+      .post('http://localhost:8076/vehicles', data)
+      .then((response) => {
+        setLoading(false);
+        if (response.status === 201) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Vehicle created successfully.',
+          });
+          navigate('/vehicle/dashboard');
+        } else {
+          throw new Error('Failed to create vehicle.');
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error('Error creating vehicle:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error creating vehicle. Please check validation.',
+        });
+      });
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.formContainer}>
         <h1 style={styles.heading}>Create Vehicle</h1>
         <form onSubmit={handleSubmit} style={styles.form}>
+          {/* Remove the 'required' attribute from the input element */}
           <div style={styles.formGroup}>
             <label htmlFor="image" style={styles.label}>
               Vehicle image
             </label>
-            <input type="file" id="image" style={styles.input} onChange={handleImageChange} required />
+            <input type="file" id="image" style={styles.input} onChange={handleImageChange} />
           </div>
           <div style={styles.formGroup}>
             <label htmlFor="register_number" style={styles.label}>Vehicle Number</label>
