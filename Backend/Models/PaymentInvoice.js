@@ -7,6 +7,7 @@ const paymentInvoiceSchema = mongoose.Schema({
     },
     customerName:{type:String}
     , // Removed 'required: true' since it's optional
+     email:{type:String},
      cusID: {
         type: [String],
         required: true

@@ -1,6 +1,5 @@
 import express from 'express';
 import mongoose from 'mongoose';
-
 import { Payment } from '../Models/Payment.js';
 
 const router = express.Router();
@@ -10,16 +9,12 @@ router.post('/', async (request, response) => {
   try {
     if (
       !request.body.PaymentId ||
-      !request.body.cusID||
       !request.body.Vehicle_Number||
       !request.body.PaymentDate ||
       !request.body.totalAmount ||
       !request.body.PaymentMethod||
       !request.body.Booking_Id||
-      !request.body.Package||
-      !request.body.selectedServices||
       !request.body.Pamount||
-      !request.body.email||
       !request.body.Samount
     ) {
       return response.status(400).send({
@@ -28,7 +23,7 @@ router.post('/', async (request, response) => {
     }
     const newPayment = {
       PaymentId: request.body.PaymentId,
-      cusID:request.body.cusID,
+      cusID:request.body.cusID, // Ensure cusID is an array
       Vehicle_Number: request.body.Vehicle_Number,
       PaymentDate: request.body.PaymentDate,
       totalAmount: request.body.totalAmount,
@@ -46,13 +41,14 @@ router.post('/', async (request, response) => {
     console.log(error.message);
     response.status(500).send({ message: error.message });
   }
+ 
 });
 
 // GET route for retrieving payments based on search criteria, pagination, and sorting
 router.get("/payments", async (req, res) => {
   try {
     // Destructuring the request query with default values
-    const { page = 1, limit = 4, search = "", sort = "PaymentId" } = req.query;
+    const { page = 1, limit = 7, search = "", sort = "PaymentId" } = req.query;
     const skip = (parseInt(page) - 1) * parseInt(limit);
     // Regular expression for case-insensitive search
     const query = {
@@ -61,6 +57,10 @@ router.get("/payments", async (req, res) => {
         { PaymentDate: { $regex: new RegExp(search, 'i') } },
         { totalAmount: { $regex: new RegExp(search, 'i') } },
         { PaymentMethod: { $regex: new RegExp(search, 'i') } },
+        { Booking_Id: { $regex: new RegExp(search, 'i') } },
+        { Package: { $regex: new RegExp(search, 'i') } },
+        { selectedServices: { $regex: new RegExp(search, 'i') } },
+        
       ],
     };
     // Using await to ensure that sorting and pagination are applied correctly
@@ -134,7 +134,22 @@ router.get('/', async (request, response) => {
   }
 });
 
-
+router.post('/duplicate-cusid/:id', async (request, response) => {
+  try {
+      const { id } = request.params;
+      const payment = await Payment.findById(id);
+      if (!payment) {
+          return response.status(404).json({ message: 'Payment not found' });
+      }
+      // Duplicating cusID and updating the document
+      payment.duplicatedCusID = [...payment.cusID];
+      await payment.save();
+      return response.status(200).json({ message: 'cusID duplicated successfully', payment });
+  } catch (error) {
+      console.log(error.message);
+      response.status(500).send({ message: error.message });
+  }
+});
 
 // Route for update
 router.put('/:id', async (request, response) => {
@@ -147,8 +162,6 @@ router.put('/:id', async (request, response) => {
       !request.body.totalAmount ||
       !request.body.PaymentMethod||
       !request.body.Booking_Id||
-      !request.body.Package||
-      !request.body.selectedServices||
       !request.body.Pamount||
       !request.body.email||
       !request.body.Samount
