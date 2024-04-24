@@ -233,6 +233,7 @@ const VDashboard = () => {
                         <tr>
                           <th style={styles.tableHeader}>Vehicle </th>
                           <th style={styles.tableHeader}>Register Number</th>
+                          <th style={styles.tableHeader}>username</th>
                           <th style={styles.tableHeader}>Brand</th>
                           <th style={styles.tableHeader}>Model</th>
                           <th style={styles.tableHeader}>Year</th>
@@ -255,6 +256,7 @@ const VDashboard = () => {
 
                             <td style={styles.tableCell}>{vehicle.Register_Number}</td>
                             <td style={styles.tableCell}>{vehicle.Make}</td>
+                            <td style={styles.tableCell}>{vehicle.cusID}</td>
                             <td style={styles.tableCell}>{vehicle.Model}</td>
                             <td style={styles.tableCell}>{vehicle.Year}</td>
                             <td style={styles.tableCell}>{vehicle.Engine_Details}</td>
