@@ -44,7 +44,7 @@ export default function InventoryReport({ filteredInventory }) {
     doc.text("Nadeeka Auto care", 60, 15);
 
     doc.setFont("helvetica", "normal").setFontSize(20).setTextColor(0, 0, 0);
-    doc.text("Vehicle Details Report", 65, 25);
+    doc.text("Inventory Details Report", 65, 25);
 
     doc.setFont("times", "normal").setFontSize(15).setTextColor(100, 100, 100);
     doc.text(`Report Generated Date: ${date}`, 65, 35);
