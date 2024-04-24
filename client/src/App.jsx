@@ -6,6 +6,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom';
 import CustomerDashboard from'./assets/pages/Customer/CustomerDashboard';
 import PaymentDashboard from './assets/pages/Payment/PaymentDashboard';
+import AdminCreateBooking from './assets/pages/Booking/AdminCreateBooking';
 
 import Home from './assets/pages/Home';
 import ReadOneHome from './assets/pages/ReadOneHome';
@@ -181,6 +182,8 @@ const App = () => {
         <Route path='booking/delete/:id' element={<DeleteBooking />} />
         <Route path='booking/read/:id' element={<ReadOneBooking />} />
         <Route path='booking/dashboard' element={<BookingDashBoard />} />
+        <Route path='booking/adminbooking' element={<AdminCreateBooking />} />
+
 
         <Route path='/inventory/allInventory' element={<ShowInventory />}></Route>
         <Route path='/inventory/create' element={<CreateInventory />}></Route>
