@@ -258,9 +258,7 @@ function ServiceDashboard() {
                                                             <td style={styles.tableCell}>{service.Servicename}</td>
                                                             <td style={styles.tableCell}>
                                                                 <div className='flex justify-center gap-x-4'>
-                                                                    <Link to={`/Service/get/${service._id}`} >
-                                                                        <BsInfoCircle className='text-2x1 text-green-800' />
-                                                                    </Link>
+                                                                 
                                                                     <Link to={`/Service/edit/${service._id}`}>
                                                                         <AiOutlineEdit className='text-2x1 text-yellow-600' />
                                                                     </Link>

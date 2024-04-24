@@ -111,7 +111,7 @@ const Specification = (props) => {
                                                 
                                                { props.usr ?  (<Link to={`/create/${props.usr}`} className="btn btn-style btn-outline-primary"> Make Appoinment</Link>) :
                                                     
-                                                    (<Link to={`/cLogin`} className="btn btn-style btn-outline-primary"> Login</Link>)
+                                                    (<Link to={`/cLogin`} className="btn btn-style btn-outline-primary"> Make Apoinment</Link>)
                                                 }
                                             </div> 
                                         </div>
