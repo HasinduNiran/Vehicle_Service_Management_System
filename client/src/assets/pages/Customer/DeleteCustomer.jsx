@@ -12,7 +12,7 @@ const DeleteCustomer = () => {
       setLoading(true);
       await axios.delete(`http://localhost:8076/customer/${id}`);
       setLoading(false);
-      navigate('/customer/customerDashboard');
+      navigate('/');
     } catch (error) {
       setLoading(false);
       console.error(error);
