@@ -32,7 +32,7 @@ const DeleteCustomer = () => {
             {loading ? 'Deleting...' : 'Delete'}
           </button>
           <Link
-            to={'/customer/customerDashboard'}
+            to={'/'}
             style={{ backgroundColor: '#007bff', color: 'white', padding: '0.8rem 2rem', borderRadius: '5px', textDecoration: 'none' }}>
             Cancel
           </Link>
