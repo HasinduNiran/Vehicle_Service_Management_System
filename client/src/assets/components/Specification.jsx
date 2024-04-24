@@ -109,7 +109,14 @@ const Specification = (props) => {
                                             </ul>
                                             <div className="read-more " style={{position:"absolute", bottom:"0", marginBottom:"10px"}}>
                                                 
+<<<<<<< Updated upstream
                                                { props.usr && (<Link to={`/create/${props.usr}`} className="btn btn-style btn-outline-primary"> Make Appoinment</Link>)}
+=======
+                                               { props.usr ?  (<Link to={`/create/${props.usr}`} className="btn btn-style btn-outline-primary"> Make Appoinment</Link>) :
+                                                    
+                                                    (<Link to={`/cLogin`} className="btn btn-style btn-outline-primary">Make Appoinment</Link>)
+                                                }
+>>>>>>> Stashed changes
                                             </div> 
                                         </div>
                     
