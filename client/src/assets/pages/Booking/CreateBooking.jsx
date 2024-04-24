@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import backgroundImage from '../../images/t.jpg';
+import backgroundImage from '../../images/car.jpg';
 import Spinner from '../../components/Spinner';
 
 const CreateBooking = () => {
@@ -161,7 +161,7 @@ const CreateBooking = () => {
                         </select>
                     </div>
                     <div style={styles.inputGroup}>
-                        <label style={styles.label}>Includes</label>
+                        <label style={styles.label}>Services</label>
                         <div style={styles.servicesContainer}>
                             {services.map((service) => (
                                 <button
@@ -251,7 +251,7 @@ const styles = {
     },
     formContainer: {
         width: '50%',
-        backgroundColor: 'rgba(5, 4, 2, 0.8)',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
         borderRadius: '10px',
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
         padding: '20px',
@@ -268,13 +268,14 @@ const styles = {
         justifyContent: 'center',
         width: '100%',
         maxWidth: '800px',
-        padding: '20px',
+        padding: '10px',
         border: '1px solid rgba(255, 255, 255, 0.2)',
-        borderRadius: '10px',
+        borderRadius: '20px',
+        
     },
     heading: {
         fontSize: '3rem',
-        color: 'white',
+        color: 'black',
         textAlign: 'center',
         fontWeight: 'bold',
         marginBottom: '1.5rem',
@@ -283,8 +284,8 @@ const styles = {
         width: '100%',
         padding: '10px',
         borderRadius: '5px',
-        border: '1px solid #ccc',
-        backgroundColor: 'black',
+        border: '2px solid #ccc',
+        backgroundColor: 'white',
     },
     label: {
         fontWeight: 'bold',
