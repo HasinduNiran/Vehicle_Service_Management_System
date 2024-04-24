@@ -116,7 +116,7 @@ function CLogin() {
 
                 <form id="stripe-login" onSubmit={onLogin}>
                   <div className="field padding-bottom--24">
-                    <label htmlFor="username">User Name</label>
+                    <label htmlFor="username">Username</label>
                     <input type="text" name="username" id="username" onChange={(e) => setCusID(e.target.value)} />
                   </div>
                   <div className="field padding-bottom--24">
@@ -141,7 +141,9 @@ function CLogin() {
               </div>
             </div>
             <div className="footer-link padding-top--24">
-              <span>Don't have an account? <a href="#">Sign up</a></span>
+              
+            <span>Don't have an account? <a href="/customer/create" class="signup-link" style={{color:"black"}}>Sign up</a></span>
+
               <div className="listing padding-top--24 padding-bottom--24 flex-flex center-center">
                 <span><a href="#">© Stackfindover</a></span>
                 <span><a href="#">Contact</a></span>

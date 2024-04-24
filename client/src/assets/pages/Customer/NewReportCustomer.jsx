@@ -43,7 +43,7 @@ export default function NewReportCustomer({ filteredCustomer }) {
     doc.text("Nadeeka Auto care", 60, 15);
 
     doc.setFont("helvetica", "normal").setFontSize(20).setTextColor(0, 0, 0);
-    doc.text("Employee Details Report", 65, 25);
+    doc.text("Customer Details Report", 65, 25);
 
     doc.setFont("times", "normal").setFontSize(15).setTextColor(100, 100, 100);
     doc.text(`Report Generated Date: ${dateStr}`, 65, 35);
