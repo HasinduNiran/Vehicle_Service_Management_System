@@ -43,7 +43,8 @@ router.post('/', async (request, response) => {
         selectedServices: request.body.selectedServices,
         Pamount: request.body.Pamount,
         Samount: request.body.Samount,
-        Booking_Id: request.body.Booking_Id
+        Booking_Id: request.body.Booking_Id,
+        email: request.body.email,
       };
       const paymentinvoice = await PaymentInvoice.create(newPaymentInvoice);
       return response.status(201).send(paymentinvoice);

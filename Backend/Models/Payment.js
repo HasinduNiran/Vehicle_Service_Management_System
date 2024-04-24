@@ -36,7 +36,7 @@ const paymentSchema = mongoose.Schema({
     , // Removed 'required: true' since it's optional
      selectedServices: {
         type: [String],
-        required: true
+        
     },
     Pamount: {type:Number}
     ,totalAmount: {type:Number},

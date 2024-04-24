@@ -16,8 +16,6 @@ router.post('/', async (request, response) => {
       !request.body.totalAmount ||
       !request.body.PaymentMethod||
       !request.body.Booking_Id||
-      !request.body.Package||
-      !request.body.selectedServices||
       !request.body.Pamount||
       !request.body.email||
       !request.body.Samount
@@ -147,8 +145,6 @@ router.put('/:id', async (request, response) => {
       !request.body.totalAmount ||
       !request.body.PaymentMethod||
       !request.body.Booking_Id||
-      !request.body.Package||
-      !request.body.selectedServices||
       !request.body.Pamount||
       !request.body.email||
       !request.body.Samount

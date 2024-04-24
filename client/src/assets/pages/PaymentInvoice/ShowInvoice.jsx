@@ -260,6 +260,7 @@ const ShowInvoice=()=> {
                         <th className={styles.tableHeader}>Invoice ID</th>
                         <th className={styles.tableHeader}>Customer Name</th>
                         <th className={styles.tableHeader}>Customer ID</th>
+                        <th className={styles.tableHeader}>Email</th>
                         <th className={styles.tableHeader}>Vehicle No</th>
                         <th className={styles.tableHeader}>Payment ID</th>
                         <th className={styles.tableHeader}>Package</th>
@@ -291,6 +292,9 @@ const ShowInvoice=()=> {
                             </td>
                              <td style={styles.tableCell}>
                                 {paymentInvoice.cusID}
+                            </td>
+                            <td style={styles.tableCell}>
+                                {paymentInvoice.email}
                             </td>
                              <td style={styles.tableCell}>
                                 {paymentInvoice.Vehicle_Number}

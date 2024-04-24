@@ -22,6 +22,7 @@ const CreateInvoice = () => {
   const[selectedServices,setSelectedServices] = useState('');
   const[Pamount,setPamount] = useState('');
   const[Samount,setSamount] = useState('');
+  const[email,setEmail] = useState('');
   
   //to connect other components
   const [vehicles,setVehicles]= useState([]); 
@@ -92,6 +93,7 @@ const handleSavePaymentInvoice = () => {
     Samount,
     totalAmount,
     Booking_Id,
+    email,
   };
 
   setLoading(true);
@@ -99,7 +101,7 @@ const handleSavePaymentInvoice = () => {
     .post(`http://localhost:8076/PaymentInvoice`, data)
     .then(() => {
       setLoading(false);
-      navigate('/payments/pdashboard');
+      navigate("/PaymentInvoice/show");
     })
     .catch((error) => {
       setLoading(false);
@@ -149,7 +151,7 @@ const handlePaymentIdChange = (e) => {
 return (
   <div style={styles.container}>
       <div style={styles.formContainer}> 
-      <h1 style={styles.heading}><BackButton destination='/payments/pdashboard' />Create Invoice</h1>
+      <h1 style={styles.heading}><BackButton destination='/PaymentInvoice/show' />Create Invoice</h1>
       {loading ? <Spinner /> : ''}
       <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
         <form  style={styles.form}>
