@@ -26,18 +26,15 @@ const ReadOneInvoice = () => {
 
   return (
     <div style={styles.container}>
-      
-        <div style={styles.b1}>
         <div className="container my-5 py-5">
           <div className="pattern d-md-flex justify-content-between align-items-center border-top border-bottom mb-5 py-5 py-md-3">
             <div className="d-none d-md-flex pattern-overlay pattern-right">
-              <img src="images/pattern-blur-right.png" alt="../images/pattern-blur-right.png" />
             </div>
             <div>
               <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} />
             </div>
             <div style={styles.invoice}>
-            <div style={styles.invoice1}>Invoice</div>
+            <div style={styles.invoice}>Invoice</div>
               <div style={styles.invoice}>Invoice No: <span>{paymentInvoice.InvoiceId}</span></div>
               <div style={styles.invoice}>Invoice Date: <span>{paymentInvoice.PaymentDate}</span></div>
             </div>
@@ -229,8 +226,6 @@ const ReadOneInvoice = () => {
         </div>
       </div>
       </div>
-    
-    </div>
   );
 };
 const styles = {

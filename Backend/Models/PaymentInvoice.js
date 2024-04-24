@@ -11,6 +11,10 @@ const paymentInvoiceSchema = mongoose.Schema({
         type: [String],
         
     },
+    email:{
+        type:String,
+        required:true
+    },
    
     PaymentId:{
         type:String,

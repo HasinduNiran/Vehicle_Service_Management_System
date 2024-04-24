@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 import backgroundImage from '../../images/Pback21.jpg'; // background image
@@ -83,9 +84,12 @@ const CreatePayments = () => {
     if (!values.Package) {
       errors.Package = "Package is required!";
     }
-    // if (!values.selectedServices) {
-    //   errors.selectedServices = "Service is required!";
-    // }
+    if (!values.email) {
+      errors.email = "Email is required!";
+    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+      errors.email = "Email address is invalid!";
+    }
+  
     return errors;
   };
 
@@ -96,6 +100,7 @@ const CreatePayments = () => {
   const totalAmount = calculateTotalAmount();
 
   const handleSavePayment = () => {
+    
     const data = {
       PaymentId: formValues.PaymentId,
       cusID: formValues.cusID,
@@ -198,16 +203,17 @@ const CreatePayments = () => {
            <div style={styles.formGroup}>
             <label htmlFor='email'style={styles.label}>Email</label>
             <input
-              type='email'
+              type='text'
               name='email'
-              value={email}
+              value={formValues.email}
               placeholder='email'
 
               onChange={handleChange}
               // Make the input field read-only to prevent direct user input
-
+             
               style={styles.input} 
-            />
+              />
+              {formErrors.email && <p className='text-red-500'>{formErrors.email}</p>} {/* Display error message */}
           </div>
           <div style={styles.formGroup}>
             <label htmlFor='Booking_Id'style={styles.label}>Service ID</label>
