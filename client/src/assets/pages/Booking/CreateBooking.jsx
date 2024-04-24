@@ -117,7 +117,7 @@ const CreateBooking = () => {
             .then(() => {
                 setLoading(false);
                 alert('Your Booking is successfull');
-                navigate('/customer/get/${cusID}');
+                navigate(`/ReadOneHome/${cusID}`);
             })
             .catch((error) => {
                 setLoading(false);
