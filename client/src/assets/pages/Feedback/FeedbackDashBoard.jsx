@@ -215,14 +215,14 @@ const styles = {
                       alt="Nadeeka Auto Logo"
                       style={styles.logo}
                     />
-                    <button
+                    {/* <button
                       onClick={() => {
                         window.location.href = "/feedback/create";
                       }}
                       style={styles.navButton}
                     >
                       Add Feedback
-                    </button>
+                    </button> */}
                     <button
                       onClick={() => {
                         window.location.href = "/feedback/dashboard";
