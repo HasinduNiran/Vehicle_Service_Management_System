@@ -101,46 +101,81 @@ const handleImageChange = async (e) => {
   )}
 </div>
 
-  const handleEditVehicle = async (e) => {
-    e.preventDefault();
-  
-    const data = {
-      image,
-      Register_Number,
-      Make,
-      Model,
-      Year,
-      Engine_Details,
-      Transmission_Details,
-      Vehicle_Color,
-      Vehicle_Features,
-      Condition_Assessment,
-      Owner,
-      cusID
-    };
-  
-    setLoading(true);
-    try {
-      const response = await axios.put(`http://localhost:8076/vehicles/${id}`, data);
-      setLoading(false);
-      // Check response status
-      if (response.status === 200) {
-        // Success: Navigate to vehicle list or show success message
-        navigate('/vehicle/dashboard');
-      } else {
-        // Handle other status codes (if needed)
-        console.error('Unexpected response status:', response.status);
-      }
-    } catch (error) {
-      setLoading(false);
-      // Log detailed error message
-      console.error('Error updating vehicle:', error);
-      // Log response data (if available)
-      console.log('Response data:', error.response?.data);
-      // Display error message to the user
-      alert('Error updating vehicle. Please try again.');
-    }
+const handleEditVehicle = async (e) => {
+  e.preventDefault();
+
+  const data = {
+    image,
+    Register_Number,
+    Make,
+    Model,
+    Year,
+    Engine_Details,
+    Transmission_Details,
+    Vehicle_Color,
+    Vehicle_Features,
+    Condition_Assessment,
+    Owner,
+    cusID
   };
+
+  setLoading(true);
+  try {
+    const response = await axios.put(`http://localhost:8076/vehicles/${id}`, data);
+    setLoading(false);
+    // Check response status
+    if (response.status === 200) {
+      // Success: Navigate to vehicle list or show success message
+      navigate('/vehicle/dashboard');
+    } else {
+      // Handle other status codes (if needed)
+      console.error('Unexpected response status:', response.status);
+    }
+  } catch (error) {
+    setLoading(false);
+    // Log detailed error message
+    console.error('Error updating vehicle:', error);
+    // Log response data (if available)
+    console.log('Response data:', error.response?.data);
+    // Display error message to the user
+    alert('Error updating vehicle. Please try again.');
+  }
+};
+
+// Inside handleImageChange function, update image state
+// const handleImageChange = async (e) => {
+//   const file = e.target.files[0]; // Access the first file in the array
+
+//   // Create a reference to the Firebase Storage bucket
+//   const storage = getStorage(app);
+//   const storageRef = ref(storage, `vehicleImages/${file.name}`);
+
+//   try {
+//     // Upload file to Firebase Storage
+//     const uploadTask = uploadBytesResumable(storageRef, file);
+
+//     // Get the download URL of the uploaded file
+//     uploadTask.on('state_changed', 
+//       (snapshot) => {
+//         // Progress tracking
+//       }, 
+//       (error) => {
+//         console.error('Error uploading image:', error);
+//         alert('Error uploading image. Please try again.');
+//       }, 
+//       async () => {
+//         // Upload completed successfully, get download URL
+//         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+//         // Update the image state with the new image URL
+//         setImage(downloadURL);
+//       }
+//     );
+//   } catch (error) {
+//     console.error('Error uploading image:', error);
+//     alert('Error uploading image. Please try again.');
+//   }
+// };
+
   
 
 
