@@ -101,7 +101,7 @@ const ReadOneHome = () => {
 
       <Satisfaction />
       <WhoWeAre />
-      <Specification />
+      <Specification cID={cusID}/>
       <Testimonial />
 
       <Footer />

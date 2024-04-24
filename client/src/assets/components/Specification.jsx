@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import './../Styles/style-starter.css';
 import './../pages/SPackage/ShowPackage';
 
-const Specification = () => {
+
+const Specification = (prop) => {
+    const [packages, setPackages] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(null);
 
 
     return (
@@ -139,6 +143,5 @@ const Specification = () => {
 };
 
 export default Specification;
-
 
 
