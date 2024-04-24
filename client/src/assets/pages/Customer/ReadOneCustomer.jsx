@@ -53,7 +53,7 @@ const ReadOneCustomer = () => {
 
   const styles = {
     container: {
-      color: 'black',
+      //color: 'black',
       border: '3px solid white',
        
       backgroundSize: 'cover',
@@ -208,7 +208,7 @@ const ReadOneCustomer = () => {
                   Edit Profile
                   </button>
                   <button
-                    onClick={() => { window.location.href = `/customer/delete/${customer.cusID}` }}
+                    onClick={() => { window.location.href = `/customer/delete/${customer._id}` }}
                     style={styles.navButton}
                   >
                     Delete Account

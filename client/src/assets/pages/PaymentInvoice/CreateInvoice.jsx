@@ -22,7 +22,6 @@ const CreateInvoice = () => {
   const[selectedServices,setSelectedServices] = useState('');
   const[Pamount,setPamount] = useState('');
   const[Samount,setSamount] = useState('');
-  const[email,setEmail] = useState('');
   
   //to connect other components
   const [vehicles,setVehicles]= useState([]); 
@@ -93,7 +92,6 @@ const handleSavePaymentInvoice = () => {
     Samount,
     totalAmount,
     Booking_Id,
-    email,
   };
 
   setLoading(true);
@@ -129,6 +127,7 @@ const handlePaymentIdChange = (e) => {
     setPamount(selectedPayment.Pamount);
     setSamount(selectedPayment.Samount);
     setCusID(selectedPayment.cusID);
+    setEmail(selectedPayment.email);
 
     // Retrieve the Vehicle Color from the vehicle table based on the selectedPayment's Vehicle_Number
     const selectedVehicle = vehicles.find((vehicle) => vehicle.Register_Number === selectedPayment.Vehicle_Number);
@@ -200,15 +199,17 @@ return (
      />
     </div>
     <div style={styles.formGroup}>
+
       <label  htmlFor="email"style={styles.label}>Email</label>
       <input
          style={styles.select}
          value={email}
          placeholder='Email address'
-         onChange={(e) => setEmail(e.target.value)}  
+         disabled
      />
     </div>
     <div style={styles.formGroup}>
+
       <label  htmlFor="Vehicle_Number"style={styles.label}>Vehicle Number</label>
       <input
           style={styles.select}

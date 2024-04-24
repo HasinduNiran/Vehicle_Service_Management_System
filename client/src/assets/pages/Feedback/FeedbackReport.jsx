@@ -1,51 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import jspdf from "jspdf";
 import "jspdf-autotable";
 
-export default function ReportInvoice({ paymentInvoice }) {
-  function generatePDF() {
+export default function PackageReport({filteredFeedback}) {
+  const [error, setError] = useState(false);
+  const [packages, setPackages] = useState([]);
+
+
+
+  function generatePDF(filteredFeedback) {
     const doc = new jspdf();
     const tableColumn = [
-      "InvoiceId",
-      "customerName",
-      "cusID",
-      "PaymentId",
-      "Package",
-      "selectedServices",
-      "Vehicle_Number",
-      "Vehicle_Color",
-      "Model",
-      "Year",
-      "Engine_Details",
-      "PaymentDate",
-      "Pamount",
-      "Samount",
-      "totalAmount",
-      "Booking_Id",
+      "Customer ID",
+      "Name",
+      "Email",
+      "Phone Number",
+      "Employee Name",
+      "Star Rating",
+      "Date of Service",
+      "Message",
     ];
     const tableRows = [];
 
-    filteredPayments
-    .slice(0)
-    .reverse()
-    .map((payment) => {
-      const data = [
-     //   index + 1,
-        payment.PaymentId,
-        payment.cusID,
-        payment.Vehicle_Number,
-        payment.PaymentDate,
-        payment.Booking_Id,
-        payment.Package,
-        payment.selectedServices,
-        payment.Pamount,
-        payment.Samount,
-        payment.totalAmount,
-        payment.PaymentMethod,
-
-      ];
-      tableRows.push(data);
-    });
+    filteredFeedback
+      .slice(0)
+      .reverse()
+      .map((feedback, index) => {
+        const data = [
+          index + 1,
+          feedback.cusID,
+          feedback.name,
+          feedback.email,
+          feedback.phone_number,
+          feedback.employee,
+          feedback.date_of_service,
+          feedback.message,
+        ];
+        tableRows.push(data);
+      });
 
     const date = Date().split(" ");
     const dateStr = date[1] + "-" + date[2] + "-" + date[3];
@@ -56,7 +49,7 @@ export default function ReportInvoice({ paymentInvoice }) {
     doc.text("Nadeeka Auto care", 60, 15);
 
     doc.setFont("helvetica", "normal").setFontSize(20).setTextColor(0, 0, 0);
-    doc.text("Payment Details Report", 65, 25);
+    doc.text("Feedback Details Report", 65, 25);
 
     doc.setFont("times", "normal").setFontSize(15).setTextColor(100, 100, 100);
     doc.text(`Report Generated Date: ${dateStr}`, 65, 35);
@@ -89,19 +82,18 @@ export default function ReportInvoice({ paymentInvoice }) {
       },
     });
 
-    doc.save(`Payment-Details-Report_${dateStr}.pdf`);
+    doc.save(`Feedback-Details-Report_${dateStr}.pdf`);
   }
-
   return (
     <div>
-      <div className="grid md:grid-cols-1 gap-1">
+      <div className="">
         <button
           onClick={() => {
-            generatePDF(filteredPayments);
+            generatePDF(filteredFeedback);
           }}
-          className="btn2"
+          className="ml-3"
         >
-          Payment Report
+         Feedback Report
         </button>
       </div>
     </div>

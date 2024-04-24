@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 import backgroundImage from '../images/t.jpg';
 import video1 from '../images/2.mp4';
 import Header from "./Header";
-
-import "./c.css";
+import "./c.css"
 
 function CLogin() {
   const [cusID, setCusID] = useState("");
@@ -72,6 +71,7 @@ function CLogin() {
   };
 
   return (
+    <div className="HN">
     <div className="login-root" style={{ marginTop: "150px" }}>
       <Header />
     <div className="login-root">
@@ -153,7 +153,9 @@ function CLogin() {
       </div>
     </div>
     </div>
+    </div>
   );
 }
 
 export default CLogin;
+

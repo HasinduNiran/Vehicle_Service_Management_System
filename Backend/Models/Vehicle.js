@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 const vehicleSchema = mongoose.Schema({
     cusID: {
         type: String, // Changed to String type for custom format
-        unique: true
+       
     },
 
     image: { type: String,

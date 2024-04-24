@@ -100,7 +100,7 @@ const CreateFeedback = () => {
       };
       await axios.post("http://localhost:8076/feedback", data);
       setLoading(false);
-      navigate("/feedback");
+      navigate(`/customer/get/${cusID}`);
     } catch (error) {
       setLoading(false);
       console.error("Error creating feedback:", error);
@@ -140,62 +140,7 @@ const CreateFeedback = () => {
     );
   };
 
-  const styles = {
-    container: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "100vh",
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    },
-    formContainer: {
-      width: "50%",
-      backgroundColor: "rgba(5, 4, 2, 0.8)",
-      borderRadius: "10px",
-      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.8)",
-      padding: "20px",
-      border: "2px solid red",
-      borderColor: "red",
-      margin: "10px",
-      textAlign: "center",
-      position: "relative",
-    },
-    label: {
-      fontWeight: "bold",
-      marginBottom: "0.5rem",
-      fontSize: "1.2rem",
-      color: "red",
-      textAlign: "center",
-      width: "100%",
-      display: "block",
-      textTransform: "uppercase",
-    },
-    input: {
-      padding: "8px",
-      borderRadius: "5px",
-      border: "1px solid #ccc",
-      width: "100%",
-      color: "white",
-      backgroundColor: "black",
-      marginBottom: "10px",
-    },
-    button: {
-      backgroundColor: "red",
-      color: "#fff",
-      border: "none",
-      borderRadius: "0.25rem",
-      fontWeight: "bold",
-      padding: "0.5rem 1rem",
-      cursor: "pointer",
-      transition: "background-color 0.3s ease",
-    },
-    star: {
-      marginRight: "5px",
-      cursor: "pointer",
-    },
-  };
+  
 
   return (
     <div style={styles.container}>
@@ -245,7 +190,7 @@ const CreateFeedback = () => {
             className="border-2 border-gray-500 px-4 py-2 w-full custom-select"
             style={styles.input}
           >
-            <option value="" style={styles.input}>Select Employee</option>
+            <option value="">Select Employee</option>
             {employees.map((employee) => (
               <option key={employee._id} value={employee.employeeName}>
                 {employee.employeeName}
@@ -264,7 +209,7 @@ const CreateFeedback = () => {
             selected={dateOfService}
             onChange={(date) => setDateOfService(date)}
             dateFormat="yyyy-MM-dd"
-            className="date-picker-input"
+            className="date-picker-input text-black"
           />
         </div>
         <div>
@@ -281,6 +226,82 @@ const CreateFeedback = () => {
       </div>
     </div>
   );
+};
+const styles = {
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  },
+  heading: {
+    fontSize: '3rem',
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold'
+  },
+  formContainer: {
+    width: "80%",
+    backgroundColor: "rgba(5, 4, 2, 0.8)",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.8)",
+    padding: "20px",
+    border: "2px solid red",
+    borderColor: "red",
+    margin: "10px",
+    textAlign: "center",
+    position: "relative",
+    alignItems: "center",
+  },
+  label: {
+    fontWeight: "bold",
+    marginBottom: "0.5rem",
+    fontSize: "1.2rem",
+    color: "red",
+    textAlign: "center",
+    width: "100%",
+    padding: "10px",
+    textTransform: "uppercase",
+  },
+  input: {
+    width: "60%",
+    padding: "10px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+    backgroundColor: "black",
+    color: "white",
+    fontSize: "1.2rem",
+    marginBottom: "10px",
+    textAlign: "left",
+  },
+  text: {
+    width: "65%",
+    height: "100px",
+    padding: "10px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+    backgroundColor: "black",
+    color: "white",
+    fontSize: "1.2rem",
+    marginBottom: "10px",
+    textAlign: "left",
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  button: {
+    backgroundColor: "#ff0000",
+    color: "black",
+    FaBolt: "true",
+    padding: "10px 20px",
+    borderRadius: "5px",
+    border: "none",
+    cursor: "pointer",
+    transition: "background-color 0.8s",
+  },
 };
 
 export default CreateFeedback;

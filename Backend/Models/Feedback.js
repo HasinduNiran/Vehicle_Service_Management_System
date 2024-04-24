@@ -4,7 +4,7 @@ import { Schema, model } from "mongoose";
 const feedbackSchema = Schema({
     cusID: {
         type: String,
-        unique: true,
+        
     },
     name: {
         type: String,

@@ -223,6 +223,7 @@ const EditFeedback = () => {
           <DatePicker
             selected={dateOfService}
             onChange={(date) => setDateOfService(date)}
+            className="date-picker-input text-black" 
           />
           <label style={styles.label}>Message</label>
           <input
