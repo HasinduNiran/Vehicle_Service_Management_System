@@ -7,7 +7,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 
-const Specification = () => {
+const Specification = (prop) => {
     const [packages, setPackages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(null);
@@ -107,7 +107,8 @@ const Specification = () => {
                                             ))}
                                             </ul>
                                             <div className="read-more " style={{position:"absolute", bottom:"0", marginBottom:"10px"}}>
-                                                <Link to={`/package/${pkg._id}`} className="btn btn-style btn-outline-primary"> View Package</Link>
+                                                
+                                               { prop.usr && (<Link to={`/package/${pkg._id}`} className="btn btn-style btn-outline-primary"> View Package</Link>)}
                                             </div> 
                                         </div>
                                         
