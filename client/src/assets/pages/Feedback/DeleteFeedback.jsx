@@ -23,7 +23,7 @@ const DeleteFeedback = () => {
       .delete(`http://localhost:8076/feedback/${id}`)
       .then(() => {
         setLoading(false);
-        navigate(`/customer/get/${cusID}`);
+        navigate("/");
       })
       .catch((error) => {
         setLoading(false);

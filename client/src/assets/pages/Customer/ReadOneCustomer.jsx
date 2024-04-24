@@ -6,6 +6,7 @@ import Spinner from '../../components/Spinner';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
 import { Link } from 'react-router-dom';
+import { MdOutlineDelete } from "react-icons/md";
 
 const ReadOneCustomer = () => {
   const [customer, setCustomer] = useState({});
@@ -423,6 +424,7 @@ const ReadOneCustomer = () => {
                         <th style={styles.tableHeader}>Employee:</th>
                         <th style={styles.tableHeader}>Star Rating:</th>
                         <th style={styles.tableHeader}>Date of Service:</th>
+                        <th style={styles.tableHeader}>Action:</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -436,6 +438,7 @@ const ReadOneCustomer = () => {
                           <td style={styles.tableCell}>{feedback.employee}</td>
                           <td style={styles.tableCell}>{feedback.star_rating}</td>
                           <td style={styles.tableCell}>{feedback.date_of_service}</td>
+                          <td style={styles.tableCell}><Link to={`/feedback/delete/${feedback._id}`} ><MdOutlineDelete className='text-2x1 text-red-600' /></Link></td>
                         </tr>
                       ))}
                     </tbody>
