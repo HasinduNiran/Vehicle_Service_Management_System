@@ -116,7 +116,7 @@ function CLogin() {
 
                 <form id="stripe-login" onSubmit={onLogin}>
                   <div className="field padding-bottom--24">
-                    <label htmlFor="username">User Name</label>
+                    <label htmlFor="username">Username</label>
                     <input type="text" name="username" id="username" onChange={(e) => setCusID(e.target.value)} />
                   </div>
                   <div className="field padding-bottom--24">
