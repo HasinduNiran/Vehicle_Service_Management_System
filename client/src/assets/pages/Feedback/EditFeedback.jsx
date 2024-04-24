@@ -122,7 +122,7 @@ const EditFeedback = () => {
     axios
       .put(`http://localhost:8076/feedback/${feedbackId}`, data)
       .then(() => {
-        navigate("/feedback");
+        navigate(`/customer/get/${cusID}`);
       })
       .catch((error) => {
         console.error("Error updating feedback:", error);

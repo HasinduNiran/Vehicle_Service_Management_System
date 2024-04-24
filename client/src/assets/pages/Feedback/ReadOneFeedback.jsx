@@ -51,7 +51,8 @@ const ReadOneFeedback = () => {
       <div style={styles.formContainer}>
         <h1 style={styles.heading}>Feedback Details</h1>
 
-        <Link to="/feedback" style={{ ...styles.button, color: "black" }}>
+        <Link to={`/customer/get/${cusID}`} style={{ ...styles.button, color: "black" }}>
+    
           Back to Feedback
         </Link>
 
