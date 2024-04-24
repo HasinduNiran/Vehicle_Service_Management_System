@@ -50,7 +50,9 @@ function BookingDashBoard() {
             booking.Customer_Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             booking.Vehicle_Number.toLowerCase().includes(searchQuery.toLowerCase()) ||
             booking.Booking_Id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            booking.Email.toLowerCase().includes(searchQuery.toLowerCase())
+            booking.Email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            booking.Booking_Date.includes(searchQuery) ||
+            booking.Contact_Number.includes(searchQuery)
         );
     };
 

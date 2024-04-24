@@ -19,7 +19,7 @@ const AdminCreateBooking = () => {
     const [services, setServices] = useState([]);
     const [selectedServices, setSelectedServices] = useState([]);
     const [selectedPackage, setSelectedPackage] = useState('');
-    
+
 
     //validate name
     const validateCustomerName = (name) => {
@@ -207,12 +207,16 @@ const AdminCreateBooking = () => {
                     </div>
                     <div style={styles.inputGroup}>
                         <label style={styles.label}>Vehicle Type</label>
-                        <input
-                            type='text'
+                        <select
                             value={Vehicle_Type}
                             onChange={(e) => setVehicle_Type(e.target.value)}
                             style={styles.input}
-                        />
+                        >
+                            <option value="">Select Vehicle Type</option>
+                            <option value="Van">Van</option>
+                            <option value="Car">Car</option>
+                            <option value="Bus">Bus</option>
+                        </select>
                     </div>
                     <div style={styles.inputGroup}>
                         <label style={styles.label}>Vehicle Number</label>
