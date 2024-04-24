@@ -8,6 +8,7 @@ import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import PackageReport from './PackageReport';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
+import Swal from 'sweetalert2';
 
 function PackageDashboard() {
     const [packages, setPackages] = useState([]);
@@ -48,46 +49,46 @@ function PackageDashboard() {
     }, []);
     const handleDeletePackage = (id) => {
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this !!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!"
         }).then((result) => {
-            if (result.isConfirmed) {
-                axios.delete(`http://localhost:8076/Package/${id}`)
-                    .then(response => {
-                        if (response.status === 200) {
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "Your package has been deleted.",
-                                icon: "success"
-                            }).then(() => {
-                                // Refresh the package list after successful deletion
-                                window.location.reload();
-                            });
-                        } else {
-                            Swal.fire({
-                                title: "Error!",
-                                text: "Failed to delete package.",
-                                icon: "error"
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error deleting package:", error);
-                        Swal.fire({
-                            title: "Error!",
-                            text: "Failed to delete package.",
-                            icon: "error"
-                        });
-                    });
-            }
+          if (result.isConfirmed) {
+            axios.delete(`http://localhost:8076/Package/${id}`)
+              .then(response => {
+                if (response.status === 200) {
+                  Swal.fire({
+                    title: "Deleted!",
+                    text: "Your package has been deleted.",
+                    icon: "success"
+                  }).then(() => {
+                    // Refresh the package list after successful deletion
+                    window.location.reload();
+                  });
+                } else {
+                  Swal.fire({
+                    title: "Error!",
+                    text: "Failed to delete package.",
+                    icon: "error"
+                  });
+                }
+              })
+              .catch(error => {
+                console.error("Error deleting package:", error);
+                Swal.fire({
+                  title: "Error!",
+                  text: "Failed to delete package.",
+                  icon: "error"
+                });
+              });
+          }
         });
-    };
-
+      };
+    
     // Search filter 
     const applySearchFilter = (pkg) => {
         const pakgname = pkg.pakgname ? pkg.pakgname.toLowerCase() : '';
