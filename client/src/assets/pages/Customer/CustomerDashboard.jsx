@@ -205,7 +205,7 @@ const CustomerDashboard = () => {
                                                     <tr>
                                                     <th style={styles.tableHeader}>No</th>
                                                         <th style={styles.tableHeader}>Profile Pic</th>
-                                                        <th style={styles.tableHeader}>Customer ID</th>
+                                                        <th style={styles.tableHeader}>Username</th>
                                                         <th style={styles.tableHeader}>First Name</th>
                                                         <th style={styles.tableHeader}>Last Name</th>
                                                         <th style={styles.tableHeader}>NIC</th>
