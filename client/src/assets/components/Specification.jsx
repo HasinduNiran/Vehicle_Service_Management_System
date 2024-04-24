@@ -7,10 +7,11 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 
-const Specification = (prop) => {
+const Specification = (props) => {
     const [packages, setPackages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(null);
+
 
     useEffect(() => {
         setLoading(true);
@@ -89,7 +90,7 @@ const Specification = (prop) => {
                             <h3 className="hny-title">Our top rated packages</h3>
                             <p className="fea-para"> We offers comprehensive packages tailored to suit your vehicle's needs. From basic maintenance to advanced diagnostics, our packages ensure your vehicle runs smoothly and efficiently.</p>
                         </div>
-                        <div className="row t-in" >
+                        <div className="row t-in" style={{marginLeft:"110px"}} >
                             {packages.map((pkg) => (
                                 <div className="col-lg-4 col-md-6 price-main-info" style={{height: "550px"}} onClick={()=>handleView(pkg)}>
                                     <div className="price-inner card box-shadow" style={{height: "520px"}}>
@@ -108,10 +109,10 @@ const Specification = (prop) => {
                                             </ul>
                                             <div className="read-more " style={{position:"absolute", bottom:"0", marginBottom:"10px"}}>
                                                 
-                                               { prop.usr && (<Link to={`/package/${pkg._id}`} className="btn btn-style btn-outline-primary"> View Package</Link>)}
+                                               { props.usr && (<Link to={`/create/${props.usr}`} className="btn btn-style btn-outline-primary"> Make Appoinment</Link>)}
                                             </div> 
                                         </div>
-                                        
+                    
                                     </div>
                                 </div>
                             ))}  
