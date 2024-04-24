@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import backgroundImage from '../../images/t.jpg';
 import { useNavigate } from 'react-router-dom';
 //import { useSnackbar } from 'notistack';
@@ -24,21 +25,43 @@ const CreateEmployee = () => {
 
     // Basic validations
     if (!EmpID || !employeeName || !DOB || !NIC || !Address || !Position || !ContactNo || !Email) {
-      alert('Please fill in all fields.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please fill in all fields.',
+      });
+      return;
+    }
+
+    // Validating NIC
+    if (NIC.length < 10 || NIC.length > 12) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'NIC must be between 10 and 12 characters long',
+      });
       return;
     }
 
     // Validating Contact No
     const contactNoPattern = /^\d{10}$/;
     if (!contactNoPattern.test(ContactNo)) {
-      alert('Please enter a valid Contact No (10 digits).');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter a valid Contact No (10 digits).',
+      });
       return;
     }
 
     // Validating Email
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(Email)) {
-      alert('Please enter a valid Email.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter a valid Email.',
+      });
       return;
     }
 

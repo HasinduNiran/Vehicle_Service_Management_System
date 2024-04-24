@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import backgroundImage from '../../images/t.jpg';
 import { useNavigate, useParams } from 'react-router-dom';
 //import { useSnackbar } from 'notistack';
@@ -44,23 +45,46 @@ const EditEmployee = () => {
 
     // Basic validations
     if (!EmpID || !employeeName || !DOB || !NIC || !Address || !Position || !ContactNo || !Email) {
-      alert('Please fill in all fields.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please fill in all fields.',
+      });
+      return;
+    }
+
+    // Validating NIC
+    if (NIC.length < 10 || NIC.length > 12) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'NIC must be between 10 and 12 characters long',
+      });
       return;
     }
 
     // Validating Contact No
     const contactNoPattern = /^\d{10}$/;
     if (!contactNoPattern.test(ContactNo)) {
-      alert('Please enter a valid Contact No (10 digits).');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter a valid Contact No (10 digits).',
+      });
       return;
     }
 
     // Validating Email
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(Email)) {
-      alert('Please enter a valid Email.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter a valid Email.',
+      });
       return;
     }
+
     
     const data = {
       EmpID,
@@ -90,10 +114,11 @@ const EditEmployee = () => {
 
   return (
     <div style={styles.container}>
-      <div style={styles.formContainer}>
+      
       <BackButton destination='/employees/EmployeeDashboard' />
         <h1 style={styles.heading}>Edit Employee</h1>
         {loading ? <Spinner /> : ''}
+        <div style={styles.formContainer}>
         <div style={styles.form}>
           <div style={styles.formGroup}>
             <label style={styles.label}>EmpID</label>
@@ -131,6 +156,8 @@ const EditEmployee = () => {
               style={styles.input}
             />
           </div>
+          </div>
+          <div style={styles.form}>
           <div style={styles.formGroup}>
             <label style={styles.label}>Address</label>
             <input
@@ -167,12 +194,14 @@ const EditEmployee = () => {
               style={styles.input}
             />
           </div>
+          </div>
+          </div>
           <div style={styles.buttonContainer}>
             <button style={styles.button} onClick={handleEditEmployee}>
               Save
             </button>
-          </div>
-        </div>
+          
+        
       </div>
     </div>
   );
@@ -192,24 +221,30 @@ const styles = {
 
   },
   container: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height: '117vh', // Set height to cover the viewport height
 },
 formContainer: {
-  width: '50%',
-  backgroundColor: 'rgba(5, 4, 2, 0.8)',
-  borderRadius: '10px',
-  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
-  padding: '20px',
-  border: '2px solid red', // Add a red border
-  borderColor: 'red',
-  margin: '10px',
-  textAlign: 'center',
-  position: 'relative', // Add this line for absolute positioning of the line
+  display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
+    padding: '20px',
+    border: '2px solid red', // Add a red border
+    borderColor: 'red',
+    margin: '10px auto',
+    textAlign: 'center',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '80%',
+    padding: '20px',
 },
 
 heading: {
@@ -225,11 +260,12 @@ form: {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '100%',
-  maxWidth: '800px',
+  width: '50%',
+  
   padding: '20px',
   border: '1px solid rgba(255, 255, 255, 0.2)',
   borderRadius: '10px',
+  margin: ' auto',
 },
 formGroup: {
   marginBottom: '1.5rem',

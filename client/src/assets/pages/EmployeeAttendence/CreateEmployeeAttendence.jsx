@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import backgroundImage from '../../images/t.jpg';
 import { useNavigate } from 'react-router-dom';
 
@@ -124,7 +125,11 @@ const CreateEmployeeAttendence = () => {
 
     // Basic validations
     if (!selectedEmployee.EmpID || !selectedEmployee.employeeName || !selectedDate) {
-      alert('Please fill in fields Emp ID,Employee Name,Date.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please fill in fields Emp ID,Employee Name,Date.',
+      });
       return;
     }
 

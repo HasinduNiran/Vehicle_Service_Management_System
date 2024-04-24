@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../../images/t.jpg';
 
@@ -124,19 +125,31 @@ const CreateEmployeeSalary = () => {
 
     // Check if essential fields are empty
     if (!selectedEmployee.EmpID || !selectedEmployee.employeeName || !fromDate || !toDate || !totalOThours || !totalWorkedhours ||!totalOTpay || !totalWorkedpay) {
-      alert('Please fill in all required fields.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please fill in all required fields.',
+      });
       return;
     }
     
     // Check if toDate is before fromDate
     if (toDate < fromDate) {
-      alert('The "toDate" must be after the "fromDate".');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'The "toDate" must be after the "fromDate".',
+      });
       return;
     }
 
     // Check if totalOThours and totalWorkedhours are numeric
     if (isNaN(totalOThours) || isNaN(totalWorkedhours)) {
-      alert('Please enter valid numeric values for total OT hours and total worked hours.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter valid numeric values for total OT hours and total worked hours.',
+      });
       return;
     }  
 
@@ -144,9 +157,14 @@ const CreateEmployeeSalary = () => {
     const MAX_OHOURS = 48;
     // Check if totalOThours and totalWorkedhours are within a valid range
     if (totalOThours < 0 || totalOThours > MAX_OHOURS || totalWorkedhours < 0 || totalWorkedhours > MAX_WHOURS) {
-      alert('Total OT hours and total worked hours must be between 0 and 24 hours.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Total OT hours and total worked hours must be between 0 and 24 hours.',
+      });
       return;
     }
+
       
     calculateTotalOvertimeHours();
     calculateTotalWorkedhours();
