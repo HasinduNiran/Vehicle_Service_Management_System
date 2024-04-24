@@ -55,7 +55,8 @@ const paymentInvoiceSchema = mongoose.Schema({
     Booking_Id: {
         type: String,
         required: true,
-    }
+    },
+    email: {type:String},
 });
 
 export const PaymentInvoice = mongoose.model('paymentinvoice',paymentInvoiceSchema);

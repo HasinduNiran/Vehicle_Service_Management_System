@@ -19,6 +19,7 @@ const CreateInvoice = () => {
   const[totalAmount,settotalAmount] = useState('');
   const[Booking_Id,setBooking_Id] = useState(''); 
   const[Package,setPackage] = useState('');
+  const[email,setEmail] = useState('');
   const[selectedServices,setSelectedServices] = useState('');
   const[Pamount,setPamount] = useState('');
   const[Samount,setSamount] = useState('');
@@ -73,7 +74,6 @@ useEffect(() => {
       });
 }, []);
 
-
 const handleSavePaymentInvoice = () => {
   const data = {
     InvoiceId,
@@ -92,7 +92,14 @@ const handleSavePaymentInvoice = () => {
     Samount,
     totalAmount,
     Booking_Id,
+    email
   };
+
+  // Check if all required fields are filled before sending the request
+  if (!InvoiceId || !customerName || !cusID || !PaymentId || !Vehicle_Number || !totalAmount || !Booking_Id || !email) {
+    console.error('Please fill all required fields.');
+    return;
+  }
 
   setLoading(true);
   axios
@@ -103,7 +110,7 @@ const handleSavePaymentInvoice = () => {
     })
     .catch((error) => {
       setLoading(false);
-      console.log(error);
+      console.error(error);
     });
 };
 
@@ -149,7 +156,7 @@ const handlePaymentIdChange = (e) => {
 return (
   <div style={styles.container}>
       <div style={styles.formContainer}> 
-      <h1 style={styles.heading}><BackButton destination='/payments/pdashboard' />Create Invoice</h1>
+      <h1 style={styles.heading}><BackButton destination='/PaymentInvoice/show' />Create Invoice</h1>
       {loading ? <Spinner /> : ''}
       <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
         <form  style={styles.form}>
@@ -165,7 +172,7 @@ return (
       <div style={styles.formGroup}>
         <label htmlFor="customerName"style={styles.label}>Customer Name</label>
          <input
-          type='String'
+          type='text'
           value={customerName}
           style={styles.input} 
           onChange={(e) => setcustomerName(e.target.value)}    

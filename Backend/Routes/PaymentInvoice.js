@@ -28,6 +28,7 @@ router.post('/', async (request, response) => {
       }
       
       const newPaymentInvoice = {
+        email:request.body.email,
         InvoiceId: request.body.InvoiceId,
         customerName:request.body.customerName,
         cusID:request.body.cusID,

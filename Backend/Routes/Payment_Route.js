@@ -16,8 +16,8 @@ router.post('/', async (request, response) => {
       !request.body.totalAmount ||
       !request.body.PaymentMethod||
       !request.body.Booking_Id||
-      !request.body.Package||
-      !request.body.selectedServices||
+      // !request.body.Package||
+      // !request.body.selectedServices||
       !request.body.Pamount||
       !request.body.email||
       !request.body.Samount
@@ -37,8 +37,8 @@ router.post('/', async (request, response) => {
       Pamount: request.body.Pamount,
       email: request.body.email,
       Samount: request.body.Samount,
-      Package: request.body.Package,
-      selectedServices: request.body.selectedServices,
+      // Package: request.body.Package,
+      // selectedServices: request.body.selectedServices,
     };
     const payment = await Payment.create(newPayment);
     return response.status(201).send(payment);

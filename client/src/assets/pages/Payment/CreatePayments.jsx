@@ -198,9 +198,9 @@ const CreatePayments = () => {
            <div style={styles.formGroup}>
             <label htmlFor='email'style={styles.label}>Email</label>
             <input
-              type='email'
+              type='text'
               name='email'
-              value={email}
+              value={formValues.email}
               placeholder='email'
 
               onChange={handleChange}
