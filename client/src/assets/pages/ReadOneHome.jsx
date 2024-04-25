@@ -69,7 +69,7 @@ const ReadOneHome = () => {
               <h1 style={{ color: 'white', marginTop: '-10px' }}>Nadeeka Auto Service</h1>
             </Link>
 
-            <ul className="navbar-nav ml-auto" style={{ marginRight: "50px" }}>
+            <ul className="navbar-nav ml-auto" style={{ marginRight: "-120px" }}>
               <li className="nav-item active">
                 <Link className="nav-link" to="/">Home</Link>
               </li>

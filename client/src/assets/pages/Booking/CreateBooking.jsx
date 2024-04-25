@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import backgroundImage from '../../images/car.jpg';
 import Spinner from '../../components/Spinner';
+import { Link,  } from 'react-router-dom';
+import logo2 from "../../images/logo2.png";
 
 const CreateBooking = () => {
     const [Booking_Date, setBooking_Date] = useState('');
@@ -19,7 +21,7 @@ const CreateBooking = () => {
     const [services, setServices] = useState([]);
     const [selectedServices, setSelectedServices] = useState([]);
     const [selectedPackage, setSelectedPackage] = useState('');
-
+    const [userData, setUserData] = useState({});
 
     // Validation function for Vehicle Number
     const validateVehicleNumber = (value) => {
@@ -37,6 +39,7 @@ const CreateBooking = () => {
         axios.get(`http://localhost:8076/customer/${cusID}`)
             .then((response) => {
                 const data = response.data;
+                setUserData(response.data);
                 setcussID(data.cusID);
                 setContact_Number(data.phone);
                 setEmail(data.email);
@@ -129,7 +132,72 @@ const CreateBooking = () => {
     const today = new Date().toISOString().split('T')[0];
 
     return (
-        <div style={styles.container}>
+        <div>   <header id="site-header" className="fixed-top">
+        <style>{`
+          #site-header {
+            background-color: #000000;
+            height: 130px;
+            width: 100%;
+          }
+          
+          .container {
+            width: 100%;
+            margin: 0 auto;
+            margin-left: 0%;
+          }
+          
+          .navbar-brand {
+            display: flex;
+            align-items: center;
+          }
+          
+          .logo {
+            width: 150px;
+            margin-right: 10px;
+            margin-top: -10px;
+          }
+
+          .navbar-nav {
+            flex-direction: row;
+          }
+        `}</style>
+        <div className="container ml-80 pl-80" style={{ paddingLeft: "10px" }} >
+          <nav className="navbar navbar-expand-lg navbar-light" style={{ position: 'relative' }}>
+            <Link className="navbar-brand" to="/">
+              <img src={logo2} alt="Nadeeka Auto Service" className="logo" />
+              <h1 style={{ color: 'white', marginTop: '-10px' }}>Nadeeka Auto Service</h1>
+            </Link>
+
+            <ul className="navbar-nav ml-auto" style={{ marginRight: "-120px" }}>
+              <li className="nav-item ">
+                <Link className="nav-link" to="/">Home</Link>
+              </li>
+              <li className="nav-item active">
+                <Link className="nav-link" to={`/create/${userData.cusID}`}>Booking</Link>
+              </li>
+              {/* <li className="nav-item">
+
+
+
+                <Link className="nav-link" onClick={()=>{window.scrollTo({top:2130})}}>Package</Link>
+
+              </li> */}
+               <li className="nav-item ">
+                <Link className="nav-link" to={`/customer/get/${userData.cusID}`}>My Profile</Link>
+              </li>
+              <li className="nav-item">
+                {userData.firstName && (
+                  <div style={{ position: 'absolute', right: '-55px', top: '50%', transform: 'translateY(-50%)' }}>
+                    <img src={userData.image} alt="Welcome" style={{ width: '55px', height: '55px', borderRadius: '100%', marginRight: 'px' }} />
+                    <p className="mb-0" style={{ color: 'red' }}>Welcome</p><p className="mb-0" style={{ color: 'yellow' }}> {userData.firstName}!</p>
+                  </div>
+                )}
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+      <div style={styles.container}>
             <div style={styles.formContainer}>
                 <h1 style={styles.heading}>Create Booking </h1>
                 <div style={styles.underline}></div>
@@ -236,6 +304,7 @@ const CreateBooking = () => {
                 </div>
             </div>
         </div>
+        </div>
     );
 };
 
@@ -251,6 +320,7 @@ const styles = {
     },
     formContainer: {
         width: '50%',
+        marginTop: '9%',
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         borderRadius: '10px',
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
@@ -259,7 +329,7 @@ const styles = {
         borderColor: 'red',
         margin: '10px',
         textAlign: 'center',
-        position: 'relative', // Add this line for absolute positioning of the line
+        position: 'absoulte', // Add this line for absolute positioning of the line
     },
     form: {
         display: 'flex',
