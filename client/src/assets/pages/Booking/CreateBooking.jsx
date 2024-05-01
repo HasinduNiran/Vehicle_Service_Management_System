@@ -93,7 +93,8 @@ const CreateBooking = () => {
         }
     };
 
-    const handleSaveBooking = () => {
+    const handleSaveBooking =  () => {
+        
         if (!Booking_Date || !cusID || !Customer_Name || !Vehicle_Type || !Vehicle_Number || !Contact_Number || !Email || !selectedPackage && selectedServices.length === 0) {
             alert("All fields are required.");
             return;
@@ -124,8 +125,12 @@ const CreateBooking = () => {
             })
             .catch((error) => {
                 setLoading(false);
-                alert('An error happened. Please Check Console for more information');
-                console.log(error);
+                if (error.response && error.response.status === 400 && error.response.data.message === 'Booking limit exceeded for the selected date') {
+                    alert('Booking limit exceeded for the selected date');
+                } else {
+                    alert('An error occurred. Please check console for more information');
+                    console.log(error);
+                }
             });
     };
 

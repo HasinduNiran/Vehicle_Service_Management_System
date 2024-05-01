@@ -20,7 +20,7 @@ const AdminCreateBooking = () => {
     const [selectedServices, setSelectedServices] = useState([]);
     const [selectedPackage, setSelectedPackage] = useState('');
 
-
+    
     //validate name
     const validateCustomerName = (name) => {
         // Regular expression for validating customer name (allowing alphabets, spaces, and possibly some special characters)
@@ -91,7 +91,7 @@ const AdminCreateBooking = () => {
             setSelectedServices([...selectedServices, serviceName]);
         }
     };
-
+    
     const handleSaveBooking = () => {
 
         if (!Booking_Date || !Customer_Name || !Vehicle_Type || !Vehicle_Number || !Contact_Number || !Email || !selectedPackage && selectedServices.length === 0) {
@@ -137,11 +137,13 @@ const AdminCreateBooking = () => {
 
             })
             .catch((error) => {
-
                 setLoading(false);
-                alert('An error happened. Please Check Console for more information');
-                console.log(error);
-
+                if (error.response && error.response.status === 400 && error.response.data.message === 'Booking limit exceeded for the selected date') {
+                    alert('Booking limit exceeded for the selected date');
+                } else {
+                    alert('An error occurred. Please check console for more information');
+                    console.log(error);
+                }
             });
 
 
@@ -183,7 +185,7 @@ const AdminCreateBooking = () => {
                         </select>
                     </div>
                     <div style={styles.inputGroup}>
-                        <label style={styles.label}>Includes</label>
+                        <label style={styles.label}>Services</label>
                         <div style={styles.servicesContainer}>
                             {services.map((service) => (
                                 <button

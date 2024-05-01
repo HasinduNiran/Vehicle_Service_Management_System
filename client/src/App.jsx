@@ -17,6 +17,8 @@ import EditBooking from './assets/pages/Booking/EditBooking';
 import DeleteBooking from './assets/pages/Booking/DeleteBooking';
 import ReadOneBooking from './assets/pages/Booking/ReadOneBooking';
 import BookingDashBoard from './assets/pages/Booking/BookingDashBoard';
+import AddBookingLimit from './assets/pages/Booking/AddBookingLimit';
+import BookingLimitDashBoard from './assets/pages/Booking/BookingLimitDashBoard';
 
 
 import ShowPayment from './assets/pages/Payment/ShowPayment';
@@ -183,6 +185,8 @@ const App = () => {
         <Route path='booking/read/:id' element={<ReadOneBooking />} />
         <Route path='booking/dashboard' element={<BookingDashBoard />} />
         <Route path='booking/adminbooking' element={<AdminCreateBooking />} />
+        <Route path='booking/addbookinglimit' element={<AddBookingLimit />} />
+        <Route path='booking/bookinglimitdashboard' element={<BookingLimitDashBoard/>} />
 
 
         <Route path='/inventory/allInventory' element={<ShowInventory />}></Route>
