@@ -6,8 +6,12 @@ import Spinner from '../../components/Spinner';
 
 
 const AdminCreateBooking = () => {
-
+    const [bookings, setBookings] = useState([]);
+    //const [bookinglimits, setBookinglimits] = useState([]);
+    const [maxBookingLimit, setMaxBookingLimit] = useState('');
+    
     const [Booking_Date, setBooking_Date] = useState('');
+    const [bookingCount, setBookingCount] = useState('');
     const [Customer_Name, setCustomer_Name] = useState('');
     const [Vehicle_Type, setVehicle_Type] = useState('');
     const [Vehicle_Number, setVehicle_Number] = useState('');
@@ -20,7 +24,64 @@ const AdminCreateBooking = () => {
     const [selectedServices, setSelectedServices] = useState([]);
     const [selectedPackage, setSelectedPackage] = useState('');
 
+    const calculateBookingCount = () => {
+        // Format the selected date to match the format in the database
+        const formattedSelectedDate = new Date(Booking_Date).toISOString();
     
+        // Filter bookings based on the formatted selected date
+        const selectedDateBookings = bookings.filter(booking => {
+            // Format each booking date to match the format in the database
+            const formattedBookingDate = new Date(booking.Booking_Date).toISOString();
+            // Check if the formatted booking date matches the formatted selected date
+            return formattedBookingDate.startsWith(formattedSelectedDate.slice(0, 10)); // Compare only date part
+        });
+    
+        setBookingCount(selectedDateBookings.length);
+    };
+
+
+    useEffect(() => {
+        setLoading(true);
+        axios
+            .get('http://localhost:8076/bookings/')
+            .then((response) => {
+                setBookings(response.data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoading(false);
+            });
+    
+        // Calculate booking count when Booking_Date changes
+        if (Booking_Date) {
+            calculateBookingCount();
+        }
+    }, [Booking_Date]);
+
+    useEffect(() => {
+        setLoading(true);
+    
+        // Check if Booking_Date is not empty
+        if (Booking_Date) {
+            // Format the selected date to match the format in the database
+            const formattedDate = new Date(Booking_Date).toISOString();
+            
+            axios
+                .get(`http://localhost:8076/bookinglimits/${formattedDate}`)
+                .then((response) => {
+                    setMaxBookingLimit(response.data.Booking_Limit);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setLoading(false);
+                });
+        } else {
+            setLoading(false);
+        }
+    }, [Booking_Date]);
+
     //validate name
     const validateCustomerName = (name) => {
         // Regular expression for validating customer name (allowing alphabets, spaces, and possibly some special characters)
@@ -168,7 +229,8 @@ const AdminCreateBooking = () => {
                             min={today}
                             style={styles.input}
                         />
-                    </div>
+                    </div> 
+                    <p style={{ color: 'red', fontSize: '1.2rem' }}>Available Bookings: {maxBookingLimit - bookingCount}</p>
                     <div style={styles.inputGroup}>
                         <label style={styles.label}>Package</label>
                         <select

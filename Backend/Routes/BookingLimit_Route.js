@@ -49,7 +49,7 @@ router.post('/',async (request, response) => {
 
     });
 
-    /* router.get('/:id',async (request, response) => {
+    // router.get('/:id',async (request, response) => {
     //   try {
 
     //     const {id} = request.params;
@@ -65,41 +65,34 @@ router.post('/',async (request, response) => {
 
     // });
 
-    // Route for retrieving a specific Vehicle by ID
-router.get('/:identifier', async (request, response) => {
-  try {
-      // Extracting the identifier from the request parameters
-      const { identifier } = request.params;
 
-      // Checking if the provided identifier is a valid MongoDB ObjectId
-      if (mongoose.Types.ObjectId.isValid(identifier)) {
-          // Fetching a vehicle from the database based on the ID
-          const BookingByID = await createVehicle.findById(identifier);
-          if (BookingByID) {
-              // Sending the fetched vehicle as a JSON response if found by ID
-              return response.status(200).json(BookingByID);
-          }
-      }
+// GET route to retrieve a booking limit by ID or Booking_Date
+     router.get('/:identifier', async (req, res) => {
+    try {
+        const { identifier } = req.params;
 
-      // If the provided identifier is not a valid ObjectId, try searching by register number
-      const BookingByCUSID = await createVehicle.find({ cusID: identifier });
-      if (BookingByCUSID) {
-          // Sending the fetched vehicle as a JSON response if found by register number
-          return response.status(200).json(BookingByCUSID);
-      }
+        // Check if the identifier is a valid MongoDB ObjectId
+        if (mongoose.Types.ObjectId.isValid(identifier)) {
+            const bookingLimitByID = await addLimit.findById(identifier);
+            if (bookingLimitByID) {
+                return res.status(200).json(bookingLimitByID);
+            }
+        }
 
-      // If no vehicle found by either ID or register number, send a 404 Not Found response
-      return response.status(404).json({ message: 'booking not found' });
-  } catch (error) {
-      // Handling errors and sending an error response with detailed error message
-      console.error(error);
-      response.status(500).send({ message: 'Error fetching booking: ' + error.message });
-  }
+        // If the identifier is not a valid ObjectId, try searching by Booking_Date
+        const bookingLimitByDate = await addLimit.findOne({ Booking_Date: identifier });
+        if (bookingLimitByDate) {
+            return res.status(200).json(bookingLimitByDate);
+        }
+
+        return res.status(404).json({ message: 'Booking limit not found.' });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send({ message: 'Internal Server Error' });
+    }
 });
-
-
     //Route for update booking
-    router.put('/:id',async (request, response) => {
+    /*router.put('/:id',async (request, response) => {
       try{
       if(
      !request.body.Customer_Name ||
