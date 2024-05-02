@@ -4,6 +4,7 @@ import  express from 'express';
 import mongoose from 'mongoose';
 
 import {createVehicle} from '../Models/Booking.js';
+import { addLimit } from '../Models/BookingLimit.js';
 
 const router = express.Router();
 
@@ -21,6 +22,22 @@ router.post('/',async (request, response) => {
       message: 'Send all required field'
     });
       }
+      // Extract the booking date from the request
+      const bookingDate = new Date(request.body.Booking_Date);
+      // Query to find the booking limit for the selected date
+      const bookingLimit = await addLimit.findOne({ Booking_Date: bookingDate });
+      // Get the maximum bookings per day from the booking limit data
+      const maxBookingsPerDay = bookingLimit ? bookingLimit.Booking_Limit : 20;// Default limit is 10 if booking limit is not available
+      // Query to count bookings made on the selected date
+      const bookingsCount = await createVehicle.countDocuments({ Booking_Date: bookingDate });
+      // Check if the booking limit for the selected date is exceeded
+      if (bookingsCount >= maxBookingsPerDay) {
+        console.error("Booking limit exceeded");
+        return response.status(400).send({
+            message: 'Booking limit exceeded for the selected date'
+        });
+    }
+
     const newVehicle = {
     cusID:request.body.cusID,
     Booking_Date: request.body.Booking_Date,
@@ -154,7 +171,7 @@ router.get('/:identifier', async (request, response) => {
     }
   });
 
-  router.get("searchbooking", function (req, res) {
+  router.get("/searchbooking", function (req, res) {
     var search = req.query.search;
     console.log(search);
     Booking.find({
@@ -171,11 +188,9 @@ router.get('/:identifier', async (request, response) => {
             res.json(result);
         }
     });
-});
 
-
-
-
+  });
+    
 
 
     export default router;

@@ -7,6 +7,9 @@ import { Link,  } from 'react-router-dom';
 import logo2 from "../../images/logo2.png";
 
 const CreateBooking = () => {
+    const [bookings, setBookings] = useState([]);
+    const [maxBookingLimit, setMaxBookingLimit] = useState('');
+    const [bookingCount, setBookingCount] = useState('');
     const [Booking_Date, setBooking_Date] = useState('');
     const [cussID, setcussID] = useState('');
     const [Customer_Name, setCustomer_Name] = useState('');
@@ -22,6 +25,63 @@ const CreateBooking = () => {
     const [selectedServices, setSelectedServices] = useState([]);
     const [selectedPackage, setSelectedPackage] = useState('');
     const [userData, setUserData] = useState({});
+    
+    const calculateBookingCount = () => {
+        // Format the selected date to match the format in the database
+        const formattedSelectedDate = new Date(Booking_Date).toISOString();
+    
+        // Filter bookings based on the formatted selected date
+        const selectedDateBookings = bookings.filter(booking => {
+            // Format each booking date to match the format in the database
+            const formattedBookingDate = new Date(booking.Booking_Date).toISOString();
+            // Check if the formatted booking date matches the formatted selected date
+            return formattedBookingDate.startsWith(formattedSelectedDate.slice(0, 10)); // Compare only date part
+        });
+    
+        setBookingCount(selectedDateBookings.length);
+    };
+
+    useEffect(() => {
+        setLoading(true);
+        axios
+            .get('http://localhost:8076/bookings/')
+            .then((response) => {
+                setBookings(response.data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoading(false);
+            });
+    
+        // Calculate booking count when Booking_Date changes
+        if (Booking_Date) {
+            calculateBookingCount();
+        }
+    }, [Booking_Date]);
+
+    useEffect(() => {
+        setLoading(true);
+    
+        // Check if Booking_Date is not empty
+        if (Booking_Date) {
+            // Format the selected date to match the format in the database
+            const formattedDate = new Date(Booking_Date).toISOString();
+            
+            axios
+                .get(`http://localhost:8076/bookinglimits/${formattedDate}`)
+                .then((response) => {
+                    setMaxBookingLimit(response.data.Booking_Limit);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setLoading(false);
+                });
+        } else {
+            setLoading(false);
+        }
+    }, [Booking_Date]);
 
     // Validation function for Vehicle Number
     const validateVehicleNumber = (value) => {
@@ -93,7 +153,8 @@ const CreateBooking = () => {
         }
     };
 
-    const handleSaveBooking = () => {
+    const handleSaveBooking =  () => {
+        
         if (!Booking_Date || !cusID || !Customer_Name || !Vehicle_Type || !Vehicle_Number || !Contact_Number || !Email || !selectedPackage && selectedServices.length === 0) {
             alert("All fields are required.");
             return;
@@ -124,8 +185,12 @@ const CreateBooking = () => {
             })
             .catch((error) => {
                 setLoading(false);
-                alert('An error happened. Please Check Console for more information');
-                console.log(error);
+                if (error.response && error.response.status === 400 && error.response.data.message === 'Booking limit exceeded for the selected date') {
+                    alert('Booking limit exceeded for the selected date');
+                } else {
+                    alert('An error occurred. Please check console for more information');
+                    console.log(error);
+                }
             });
     };
 
@@ -213,6 +278,7 @@ const CreateBooking = () => {
                             style={styles.input}
                         />
                     </div>
+                    <p style={{ color: 'red', fontSize: '1.2rem' }}>Available Bookings: {maxBookingLimit - bookingCount}</p>
                     <div style={styles.inputGroup}>
                         <label style={styles.label}>Package</label>
                         <select

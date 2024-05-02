@@ -23,6 +23,7 @@ import Manager_Route from './Routes/Manager_Route.js';
 import EmployeeAttendence_Route from "./Routes/EmployeeAttendence_Route.js";
 import { ReadOneHome_Route } from "./Routes/ReadOneHome_Route.js";
 import EmployeeSalary_Route from './Routes/EmployeeSalary_Route.js';
+import BookingLimit_Route from './Routes/BookingLimit_Route.js';
 
 // Creating an instance of the Express application
 const app = express();
@@ -49,6 +50,7 @@ app.use('/EmployeeAttendence', EmployeeAttendence_Route);
 app.use('/PaymentInvoice', PaymentInvoice_Route);
 app.use('/Home', ReadOneHome_Route);
 app.use('/EmployeeSalary', EmployeeSalary_Route);
+app.use('/bookinglimits', BookingLimit_Route);
 
 // Connecting to the MongoDB database
 mongoose.connect(mongoDBURL)
