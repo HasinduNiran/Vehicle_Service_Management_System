@@ -12,13 +12,13 @@ router.post('/', async (request, response) => {
       !request.body.DOB ||
       !request.body.NIC ||
       !request.body.Address ||
-      !request.body.Position ||
+      !request.body.BasicSalary ||
       !request.body.ContactNo ||
       !request.body.Email
 
     ) {
       return response.status(400).send({
-        message: 'Send all required fields: EmpID, employeeName, DOB, NIC, Address, Position, ContactNo,Email',
+        message: 'Send all required fields: EmpID, employeeName, DOB, NIC, Address, BasicSalary, ContactNo,Email',
       });
     }
     const newEmployee = {
@@ -27,7 +27,7 @@ router.post('/', async (request, response) => {
       DOB: request.body.DOB,
       NIC: request.body.NIC,
       Address: request.body.Address,
-      Position: request.body.Position,
+      BasicSalary: request.body.BasicSalary,
       ContactNo: request.body.ContactNo,
       Email: request.body.Email,
     };
@@ -79,12 +79,12 @@ router.put('/:id', async (request, response) => {
       !request.body.DOB ||
       !request.body.NIC ||
       !request.body.Address ||
-      !request.body.Position ||
+      !request.body.BasicSalary ||
       !request.body.ContactNo ||
       !request.body.Email
     ) {
       return response.status(400).send({
-        message: 'Send all required fields: EmpID, employeeName, DOB, NIC, Address, Position, Salary',
+        message: 'Send all required fields: EmpID, employeeName, DOB, NIC, Address, BasicSalary, Salary',
       });
     }
 
@@ -135,7 +135,7 @@ router.get("/searchEmployee", async (req, res) => {
         { DOB: { $regex: new RegExp(search, 'i') } },
         { NIC: { $regex: new RegExp(search, 'i') } },
         { Address: { $regex: new RegExp(search, 'i') } },
-        { Position: { $regex: new RegExp(search, 'i') } },
+        { BasicSalary: { $regex: new RegExp(search, 'i') } },
         { ContactNo: { $regex: new RegExp(search, 'i') } },
         { Email: { $regex: new RegExp(search, 'i') } },
       ],

@@ -54,8 +54,8 @@ const ReadOneEmployee = () => {
               <span style={styles.value}>{employee.Address}</span>
             </div>
             <div style={styles.employeeField}>
-              <span style={styles.label}>Position:</span>
-              <span style={styles.value}>{employee.Position}</span>
+              <span style={styles.label}>BasicSalary:</span>
+              <span style={styles.value}>{employee.BasicSalary}</span>
             </div>
             <div style={styles.employeeField}>
               <span style={styles.label}>Contact No:</span>
@@ -76,7 +76,7 @@ const styles = {
   container: {
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundBasicSalary: 'center',
     minHeight: '100vh',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',

@@ -13,7 +13,7 @@ const EditEmployee = () => {
   const [DOB, setDOB] = useState('');
   const [NIC, setNIC] = useState('');
   const [Address, setAddress] = useState('');
-  const [Position, setPosition] = useState('');
+  const [BasicSalary, setBasicSalary] = useState('');
   const [ContactNo, setContactNo] = useState('');
   const [Email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -30,7 +30,7 @@ const EditEmployee = () => {
         setDOB(response.data.DOB)
         setNIC(response.data.NIC);
         setAddress(response.data.Address)
-        setPosition(response.data.Position)
+        setBasicSalary(response.data.BasicSalary)
         setContactNo(response.data.ContactNo)
         setEmail(response.data.Email)
         setLoading(false);
@@ -44,7 +44,7 @@ const EditEmployee = () => {
   const handleEditEmployee = () => {
 
     // Basic validations
-    if (!EmpID || !employeeName || !DOB || !NIC || !Address || !Position || !ContactNo || !Email) {
+    if (!EmpID || !employeeName || !DOB || !NIC || !Address || !BasicSalary || !ContactNo || !Email) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -92,7 +92,7 @@ const EditEmployee = () => {
       DOB,
       NIC,
       Address,
-      Position,
+      BasicSalary,
       ContactNo,
       Email
     };
@@ -168,11 +168,11 @@ const EditEmployee = () => {
             />
           </div>
           <div style={styles.formGroup}>
-            <label style={styles.label}>Position</label>
+            <label style={styles.label}>BasicSalary</label>
             <input
-              type='text'
-              value={Position}
-              onChange={(e) => setPosition(e.target.value)}
+              type='number'
+              value={BasicSalary}
+              onChange={(e) => setBasicSalary(e.target.value)}
               style={styles.input}
             />
           </div>
@@ -227,7 +227,7 @@ const styles = {
     
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundBasicSalary: 'center',
     height: '117vh', // Set height to cover the viewport height
 },
 formContainer: {

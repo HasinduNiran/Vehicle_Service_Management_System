@@ -13,7 +13,7 @@ const CreateEmployee = () => {
   const [DOB, setDOB] = useState('');
   const [NIC, setNIC] = useState('');
   const [Address, setAddress] = useState('');
-  const [Position, setPosition] = useState('');
+  const [BasicSalary, setBasicSalary] = useState('');
   const [ContactNo, setContactNo] = useState('');
   const [Email, setEmail] = useState('');
 
@@ -24,7 +24,7 @@ const CreateEmployee = () => {
   const handleSaveEmployee = () => {
 
     // Basic validations
-    if (!EmpID || !employeeName || !DOB || !NIC || !Address || !Position || !ContactNo || !Email) {
+    if (!EmpID || !employeeName || !DOB || !NIC || !Address || !BasicSalary || !ContactNo || !Email) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -71,7 +71,7 @@ const CreateEmployee = () => {
       DOB,
       NIC,
       Address,
-      Position,
+      BasicSalary,
       ContactNo,
       Email
     };
@@ -147,11 +147,11 @@ const CreateEmployee = () => {
             />
           </div>
           <div style={styles.formGroup}>
-            <label style={styles.label}>Position</label>
+            <label style={styles.label}>BasicSalary</label>
             <input
-              type='text'
-              value={Position}
-              onChange={(e) => setPosition(e.target.value)}
+              type='number'
+              value={BasicSalary}
+              onChange={(e) => setBasicSalary(e.target.value)}
               style={styles.input}
             />
           </div>
@@ -207,7 +207,7 @@ const styles = {
     
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundBasicSalary: 'center',
     height: '117vh', // Set height to cover the viewport height
 },
 formContainer: {

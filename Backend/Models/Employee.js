@@ -22,7 +22,7 @@ const employeeSchema = mongoose.Schema(
         type: String,
         required: true,
     },
-    Position: {
+    BasicSalary: {
         type: String,
         required: true,
     },
