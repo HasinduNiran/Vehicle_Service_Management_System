@@ -10,6 +10,7 @@ const EditPackage = () => {
   const [services, setServices] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
   const [Price, setPrice] = useState(0);
+  const [exp, setExp] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -24,6 +25,7 @@ const EditPackage = () => {
         setPkgdescription(packageData.pkgdescription);
         setSelectedServices(packageData.includes);
         setPrice(packageData.Price);
+        setExp(packageData.exp);
         setLoading(false);
       })
       .catch((error) => {
@@ -54,7 +56,8 @@ const EditPackage = () => {
       pakgname,
       pkgdescription,
       includes: selectedServices,
-      Price
+      Price,
+      exp
     };
     setLoading(true);
 
@@ -72,7 +75,6 @@ const EditPackage = () => {
 
   return (
     <div style={styles.container}>
-      {/* <h1 className="text-3xl my-4">Edit Package</h1> */}
       {loading && <Spinner />}
       <div style={styles.formContainer}>
       <h1 style={styles.heading}>Edit Package</h1>
@@ -116,6 +118,15 @@ const EditPackage = () => {
             type="number"
             value={Price}
             onChange={(e) => setPrice(e.target.value)}
+            style={styles.input}
+          />
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Expiry Date</label>
+          <input
+            type="Date"
+            value={exp}
+            onChange={(e) => setExp(e.target.value)}
             style={styles.input}
           />
         </div>
