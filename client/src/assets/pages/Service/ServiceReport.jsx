@@ -3,17 +3,14 @@ import { Link, useLocation } from "react-router-dom";
 import jspdf from "jspdf";
 import "jspdf-autotable";
 
-export default function ServiceReport({filteredService}) {
-
-
-
+export default function ServiceReport({ filteredService }) {
 
   function generatePDF(filteredService) {
     const doc = new jspdf();
     const tableColumn = [
       "No",
-      "Service Name"
-
+      "Service Name",
+      "Price" // Added Price column
     ];
     const tableRows = [];
 
@@ -23,15 +20,14 @@ export default function ServiceReport({filteredService}) {
       .map((Service, index) => {
         const data = [
           index + 1,
-          Service.Servicename
+          Service.Servicename,
+          Service.Price // Added Price data
         ];
         tableRows.push(data);
       });
 
     const date = Date().split(" ");
     const dateStr = date[1] + "-" + date[2] + "-" + date[3];
-
-
 
     doc.setFontSize(28).setFont("Mooli", "bold").setTextColor('red');
     doc.text("Nadeeka Auto care", 60, 15);
@@ -72,6 +68,7 @@ export default function ServiceReport({filteredService}) {
 
     doc.save(`Services_Report_${dateStr}.pdf`);
   }
+
   return (
     <div>
       <div className="">

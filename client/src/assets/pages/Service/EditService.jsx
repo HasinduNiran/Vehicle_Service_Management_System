@@ -1,32 +1,35 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import Spinner from '../../components/Spinner';
-import axios from 'axios'
+import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import backgroundImage from '../../images/t.jpg';
 
-
 const EditService = () => {
-  const [Servicename, setname] = useState('');
+  const [Servicename, setServiceName] = useState('');
+  const [price, setPrice] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+
   useEffect(() => {
     setLoading(true);
     axios.get(`http://localhost:8076/Service/${id}`)
       .then((response) => {
-        setname(response.data.Servicename);
-        setdiscription(response.data.pkgdescription);
-        setincludes(response.data.includes);
+        setServiceName(response.data.Servicename);
+        setPrice(response.data.Price); // Set the price
         setLoading(false);
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error.message);
         setLoading(false);
       });
   }, [id]);
+
   const handleEdit = async (e) => {
     e.preventDefault();
     const data = {
-      Servicename
+      Servicename,
+      Price: price // Include the price in the data object
     };
     setLoading(true);
     axios
@@ -38,40 +41,45 @@ const EditService = () => {
       .catch((error) => {
         setLoading(false);
         console.log(error);
-      })
+      });
   };
 
-
   return (
-    <>
-      <div style={styles.container}>
-        <div style={styles.formContainer}>
-          <h1 style={styles.heading}>Edit Service details</h1>
-          {loading ? <Spinner /> : ''}
-          <div >
-            <div >
-              <form style={styles.form}>
-                <div style={styles.formGroup}>
-                  <label for="Servicename" style={styles.label}>Service Name </label>
-                  <input
-                    type="text"
-                    style={styles.input}
-                    className="form-control"
-                    value={Servicename}
-                    onChange={(e) => setname(e.target.value)} />
-
-                  <button type="submit" style={styles.button}  onClick={handleEdit}>Submit</button>
-                </div>
-              </form>
-            </div>
+    <div style={styles.container}>
+      <div style={styles.formContainer}>
+        <h1 style={styles.heading}>Edit Service details</h1>
+        {loading ? <Spinner /> : ''}
+        <div>
+          <div>
+            <form style={styles.form}>
+              <div style={styles.formGroup}>
+                <label htmlFor="Servicename" style={styles.label}>Service Name</label>
+                <input
+                  type="text"
+                  style={styles.input}
+                  className="form-control"
+                  value={Servicename}
+                  onChange={(e) => setServiceName(e.target.value)}
+                />
+              </div>
+              <div style={styles.formGroup}>
+                <label htmlFor="price" style={styles.label}>Price</label>
+                <input
+                  type="text"
+                  style={styles.input}
+                  className="form-control"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </div>
+              <button type="submit" style={styles.button} onClick={handleEdit}>Submit</button>
+            </form>
           </div>
         </div>
-
       </div>
-    </>
-  )
-}
-
+    </div>
+  );
+};
 
 const styles = {
   container: {
@@ -79,7 +87,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    backgroundImage: `url(${backgroundImage})`, // Fixed backgroundImage syntax
+    backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
@@ -95,7 +103,7 @@ const styles = {
     borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
     padding: '20px',
-    border: '2px solid red', // Add a red border
+    border: '2px solid red',
     margin: '10px',
     textAlign: 'center',
   },
@@ -135,7 +143,4 @@ const styles = {
   },
 };
 
-export default EditService
-
-
-
+export default EditService;
