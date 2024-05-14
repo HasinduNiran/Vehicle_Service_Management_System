@@ -1,33 +1,41 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../components/BackButton';
 import { Link } from 'react-router-dom';
-//import Spinner from '../../components/Spinner';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 import backgroundImage from '../../images/Pback21.jpg';
+
 const DeletePayment = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
-  // Function to handle the DeletePayment 
   const handleDeletePayment = () => {
     setLoading(true);
     axios
       .delete(`http://localhost:8076/payments/${id}`)
       .then(() => {
-        
         setLoading(false);
-        navigate('/payments/pdashboard');
+        Swal.fire({
+          icon: 'success',
+          title: 'Payment Record Deleted Successfully!',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => navigate('/payments/pdashboard'));
       })
       .catch((error) => {
         setLoading(false);
-        alert('An error happened. Please check the console');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to delete payment record!',
+          footer: `<p>${error}</p>`
+        });
         console.error(error);
       });
   };
-
   return (
     <div style={styles.container}>
      <div style={styles.container1}>

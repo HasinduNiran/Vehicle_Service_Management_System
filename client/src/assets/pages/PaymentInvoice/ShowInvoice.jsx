@@ -262,7 +262,6 @@ const ShowInvoice=()=> {
                         <th className={styles.tableHeader}>Customer ID</th>
                         <th className={styles.tableHeader}>Email</th>
                         <th className={styles.tableHeader}>Vehicle No</th>
-                        <th className={styles.tableHeader}>Payment ID</th>
                         <th className={styles.tableHeader}>Package</th>
                         <th className={styles.tableHeader}>Service</th>
                         <th className={styles.tableHeader}>Color</th>
@@ -285,7 +284,7 @@ const ShowInvoice=()=> {
                                 {index + 1}
                             </td>
                              <td style={styles.tableCell}>
-                                {paymentInvoice.InvoiceId}
+                                {paymentInvoice.PaymentId}
                             </td>
                              <td style={styles.tableCell}>
                                 {paymentInvoice.customerName}
@@ -298,9 +297,6 @@ const ShowInvoice=()=> {
                             </td>
                              <td style={styles.tableCell}>
                                 {paymentInvoice.Vehicle_Number}
-                            </td>
-                             <td style={styles.tableCell}>
-                                {paymentInvoice.PaymentId}
                             </td>
                              <td style={styles.tableCell}>
                                 {paymentInvoice.Package}
@@ -339,9 +335,6 @@ const ShowInvoice=()=> {
                                     <Link to={`/PaymentInvoice/read/${paymentInvoice._id}`}
                                     className="text-green-600 mr-2 hover:text-green-800">   
                                     View</Link>
-                                    <Link to={`/PaymentInvoice/edit/${paymentInvoice._id}`}
-                                    className="text-red-600 mr-2 hover:text-red-800">
-                                    Edit</Link>
                                     <Link to={`/PaymentInvoice/delete/${paymentInvoice._id}`}
                                     className="text-blue-600 hover:text-blue-800">
                                     Delete</Link>

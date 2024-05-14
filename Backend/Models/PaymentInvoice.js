@@ -1,10 +1,7 @@
 import mongoose from 'mongoose';
 
 const paymentInvoiceSchema = mongoose.Schema({
-    InvoiceId:{
-        type:String,
-        required:true
-    },
+    
     customerName:{type:String}
     , // Removed 'required: true' since it's optional
      cusID: {
@@ -26,19 +23,19 @@ const paymentInvoiceSchema = mongoose.Schema({
     },
     Vehicle_Color: {
         type: String,
-        required: true
+       
     },
     Model: {
         type: String,
-        required: true
+        
     },
     Year: {
         type: String,
-        required: true
+        
     },
     Engine_Details: {
         type: String,
-        required: true
+        
     },
     PaymentDate:{
         type:String,

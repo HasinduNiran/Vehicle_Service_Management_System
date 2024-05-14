@@ -1,180 +1,160 @@
-import React,{useEffect,useState} from 'react'
-import BackButton from '../../components/BackButton';
-import Spinner from '../../components/Spinner';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Spinner from '../../components/Spinner';
+import backgroundImage from '../../images/Pback21.jpg';
+import Swal from 'sweetalert2';
+import BackButton from '../../components/BackButton';
 
-import backgroundImage from '../../images/Pback21.jpg'; 
 const CreateInvoice = () => {
-  const[InvoiceId,setInvoiceId] = useState('');
-  const[customerName,setcustomerName] = useState('');
-  const[cusID,setCusID] = useState('');
-  const[PaymentId,setPaymentId] = useState('');
-  const[Vehicle_Number,setVehicle_Number] = useState('');
-  const[Vehicle_Color,setVehicle_Color] = useState('');
-  const[Model,setModel] = useState('');
-  const[Year,setYear] = useState('');
-  const[Engine_Details,setEngine_Details] = useState('');
-  const[PaymentDate,setPaymentDate] = useState('');
-  const[totalAmount,settotalAmount] = useState('');
-  const[Booking_Id,setBooking_Id] = useState(''); 
-  const[Package,setPackage] = useState('');
-  const[selectedServices,setSelectedServices] = useState('');
-  const[Pamount,setPamount] = useState('');
-  const[Samount,setSamount] = useState('');
-  const[email,setEmail] = useState('');
-  
-  //to connect other components
-  const [vehicles,setVehicles]= useState([]); 
-  const [payments,setPayments] = useState([]);
-  
-  const[count, setCount] = useState();
+  const [customerName, setCustomerName] = useState('');
+  const [cusID, setCusID] = useState('');
+  const [PaymentId, setPaymentId] = useState('');
+  const [Vehicle_Number, setVehicle_Number] = useState('');
+  const [Vehicle_Color, setVehicle_Color] = useState('');
+  const [Model, setModel] = useState('');
+  const [Year, setYear] = useState('');
+  const [Engine_Details, setEngine_Details] = useState('');
+  const [PaymentDate, setPaymentDate] = useState('');
+  const [totalAmount, setTotalAmount] = useState('');
+  const [Booking_Id, setBooking_Id] = useState(''); 
+  const [Package, setPackage] = useState('');
+  const [selectedServices, setSelectedServices] = useState('');
+  const [Pamount, setPamount] = useState('');
+  const [Samount, setSamount] = useState('');
+  const [email, setEmail] = useState('');
+  const [vehicles, setVehicles] = useState([]); 
+  const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
     axios
-        .get('http://localhost:8076/vehicles')
-        .then((res) => {
-            setVehicles(res.data.data);
-            setCount(res.data.count);
-            setLoading(false);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-}, []);
-
-// useEffect(() => {
-//   setLoading(true);
-//   axios
-//       .get('http://localhost:8076/servicehistory')
-//       .then((res) => {
-//           setVehicles(res.data.data);
-//           setCount(res.data.count);
-//           setLoading(false);
-//       })
-//       .catch((err) => {
-//           console.log(err);
-//       });
-// }, []);
-
-useEffect(() => {
-  setLoading(true);
-  axios
-      .get('http://localhost:8076/payments')
+      .get('http://localhost:8076/vehicles')
       .then((res) => {
-          setPayments(res.data.data);
-          setCount(res.data.count);
-          setLoading(false);
+        setVehicles(res.data.data);
+        setLoading(false);
       })
       .catch((err) => {
-          console.log(err);
+        console.log(err);
+        setLoading(false);
       });
-}, []);
+  }, []);
 
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get('http://localhost:8076/payments')
+      .then((res) => {
+        setPayments(res.data.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, []);
 
-const handleSavePaymentInvoice = () => {
-  const data = {
-    InvoiceId,
-    customerName,
-    cusID,
-    PaymentId,
-    Package,
-    selectedServices,
-    Vehicle_Number,
-    Vehicle_Color,
-    Model,
-    Year,
-    Engine_Details,
-    PaymentDate,
-    Pamount,
-    Samount,
-    totalAmount,
-    Booking_Id,
-    email,
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Validate form inputs
+    if (validateForm()) {
+      // Save data only if the form is valid
+      handleSavePaymentInvoice();
+    }
   };
 
-  setLoading(true);
-  axios
-    .post(`http://localhost:8076/PaymentInvoice`, data)
-    .then(() => {
-      setLoading(false);
-      navigate("/PaymentInvoice/show");
-    })
-    .catch((error) => {
-      setLoading(false);
-      console.log(error);
-    });
-};
+  const validateForm = () => {
+    // Regular expression to check if the name contains any numbers
+    const nameRegex = /\d/;
+    if (nameRegex.test(customerName)) {
+      alert('Please enter a valid name without numbers.');
+      return false;
+    }
+    // Add more validation rules if needed
+    return true;
+  };
 
-const handlePaymentIdChange = (e) => {
-  const selectedPaymentId = e.target.value;
-  setPaymentId(selectedPaymentId);
+  const handleSavePaymentInvoice = () => {
+    const data = {
+      customerName,
+      cusID,
+      PaymentId,
+      Package,
+      selectedServices,
+      Vehicle_Number,
+      Vehicle_Color,
+      Model,
+      Year,
+      Engine_Details,
+      PaymentDate,
+      Pamount,
+      Samount,
+      totalAmount,
+      Booking_Id,
+      email,
+    };
 
-  // Find the payment associated with the selected Payment ID
-  const selectedPayment = payments.find((payment) => payment.PaymentId === selectedPaymentId);
+    setLoading(true);
+    axios
+      .post(`http://localhost:8076/PaymentInvoice`, data)
+      .then(() => {
+        setLoading(false);
+        navigate('/PaymentInvoice/show');
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
+  };
   
-  // If a payment is found, set the Vehicle Number to the found payment's vehicle number
-  // and retrieve the Vehicle Color from the vehicle data
-  // If not found, set the Vehicle Number and Vehicle Color to empty strings or handle accordingly
-  if (selectedPayment) {
-    setVehicle_Number(selectedPayment.Vehicle_Number);
-    setBooking_Id(selectedPayment.Booking_Id);
-    setPaymentDate(selectedPayment.PaymentDate);
-    settotalAmount(selectedPayment.totalAmount);
-    setPackage(selectedPayment.Package);
-    setSelectedServices(selectedPayment.selectedServices);
-    setPamount(selectedPayment.Pamount);
-    setSamount(selectedPayment.Samount);
-    setCusID(selectedPayment.cusID);
-    setEmail(selectedPayment.email);
 
-    // Retrieve the Vehicle Color from the vehicle table based on the selectedPayment's Vehicle_Number
-    const selectedVehicle = vehicles.find((vehicle) => vehicle.Register_Number === selectedPayment.Vehicle_Number);
-    setVehicle_Color(selectedVehicle ? selectedVehicle.Vehicle_Color : '');
-    setModel(selectedVehicle ? selectedVehicle.Model : '');
-    setYear(selectedVehicle ? selectedVehicle.Year : '');
-    setEngine_Details(selectedVehicle ? selectedVehicle.Engine_Details: '');
-  } else {
-    setVehicle_Number('');
-    setVehicle_Color('');
-    setModel('');
-    setYear('');
-    setEngine_Details('');
-  }
-};
+  const handlePaymentIdChange = (e) => {
+    const selectedPaymentId = e.target.value;
+    setPaymentId(selectedPaymentId);
+    // Find the payment associated with the selected Payment ID
+    const selectedPayment = payments.find((payment) => payment.PaymentId === selectedPaymentId);
+    if (selectedPayment) {
+      // Set data from selected payment
+      setVehicle_Number(selectedPayment.Vehicle_Number);
+      setBooking_Id(selectedPayment.Booking_Id);
+      setPaymentDate(selectedPayment.PaymentDate);
+      setTotalAmount(selectedPayment.totalAmount);
+      setPackage(selectedPayment.Package);
+      setSelectedServices(selectedPayment.selectedServices);
+      setPamount(selectedPayment.Pamount);
+      setSamount(selectedPayment.Samount);
+      setCusID(selectedPayment.cusID);
+      setEmail(selectedPayment.email);
+      // Retrieve additional data from vehicles if needed
+      const selectedVehicle = vehicles.find((vehicle) => vehicle.Register_Number === selectedPayment.Vehicle_Number);
+      setVehicle_Color(selectedVehicle ? selectedVehicle.Vehicle_Color : '');
+      setModel(selectedVehicle ? selectedVehicle.Model : '');
+      setYear(selectedVehicle ? selectedVehicle.Year : '');
+      setEngine_Details(selectedVehicle ? selectedVehicle.Engine_Details: '');
+    } else {
+      // Clear fields if payment not found
+      setVehicle_Number('');
+      setVehicle_Color('');
+      setModel('');
+      setYear('');
+      setEngine_Details('');
+    }
+  };
 
-
-
-return (
-  <div style={styles.container}>
+  return (
+    <div style={styles.container}>
       <div style={styles.formContainer}> 
-      <h1 style={styles.heading}><BackButton destination='/PaymentInvoice/show' />Create Invoice</h1>
-      {loading ? <Spinner /> : ''}
-      <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
-        <form  style={styles.form}>
+        <h1 style={styles.heading}>
+          <BackButton destination='/PaymentInvoice/show' />
+          Create Invoice
+        </h1>
+        {loading ? <Spinner /> : ''}
+        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
+          <form onSubmit={handleSubmit} style={styles.form}>
         <div style={styles.formGroup}>
-        <label htmlFor="InvoiceId"style={styles.label}>Invoice Id</label>
-         <input
-          type='text'
-          value={InvoiceId}
-          style={styles.input} 
-          onChange={(e) => setInvoiceId(e.target.value)}    
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="customerName"style={styles.label}>Customer Name</label>
-         <input
-          type='String'
-          value={customerName}
-          style={styles.input} 
-          onChange={(e) => setcustomerName(e.target.value)}    
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="PaymentId"style={styles.label}>Payment ID</label>
+        <label htmlFor="PaymentId"style={styles.label}>Invoice Id</label>
         <select  
           value={PaymentId} 
           style={styles.select}
@@ -190,6 +170,15 @@ return (
             ))
           }
         </select>
+      </div>
+      <div style={styles.formGroup}>
+        <label htmlFor="customerName"style={styles.label}>Customer Name</label>
+         <input
+          type='String'
+          value={customerName}
+          style={styles.input} 
+          onChange={(e) => setCustomerName(e.target.value)}    
+        />
       </div>
       <div style={styles.formGroup}>
       <label  htmlFor="cusID"style={styles.label}>Customer ID</label>
@@ -320,7 +309,7 @@ return (
           disabled
           />
          </div>
-      <button className='p-3 bg-red-400 m-8' onClick={handleSavePaymentInvoice}>
+      <button className='p-3 bg-red-400 m-8' type='submit'>
         Save
       </button>
       </form>

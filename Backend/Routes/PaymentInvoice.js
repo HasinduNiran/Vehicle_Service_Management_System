@@ -7,18 +7,11 @@ const router = express.Router();
 router.post('/', async (request, response) => {
     try {
       if (
-        !request.body.InvoiceId ||
-        !request.body.customerName ||
+       
         !request.body.cusID||
         !request.body.PaymentId ||
         !request.body.Vehicle_Number ||
-        !request.body.Vehicle_Color ||
-        !request.body.Model ||
-        !request.body.Year ||
-        !request.body.Engine_Details ||
         !request.body.PaymentDate ||
-        !request.body.Pamount||
-        !request.body.Samount||
         !request.body.totalAmount||
         !request.body.Booking_Id
       ) {
@@ -87,18 +80,12 @@ router.get('/', async (request, response) => {
   router.put('/:id', async (request, response) => {
     try {
       if (
-        !request.body.InvoiceId ||
-        !request.body.customerName||
+        
+        
         !request.body.cusID||
         !request.body.PaymentId||
         !request.body.Vehicle_Number ||
-        !request.body.Vehicle_Color ||
-        !request.body.Model||
-        !request.body.Year||
-        !request.body.Engine_Details||
         !request.body.PaymentDate||
-        !request.body.Pamount||
-        !request.body.Samount||
         !request.body.totalAmount||
         !request.body.Booking_Id
       ) {

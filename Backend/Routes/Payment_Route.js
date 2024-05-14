@@ -13,10 +13,7 @@ router.post('/', async (request, response) => {
       !request.body.PaymentDate ||
       !request.body.totalAmount ||
       !request.body.PaymentMethod ||
-      !request.body.Booking_Id ||
-      !request.body.Pamount ||
-      !request.body.email ||
-      !request.body.Samount
+      !request.body.Booking_Id 
     ) {
       return response.status(400).send({
         message: 'Send all required fields: cusID, Vehicle_Number, PaymentDate, totalAmount, PaymentMethod, Booking_Id, Pamount, email, Samount',
@@ -142,10 +139,8 @@ router.put('/:id', async (request, response) => {
       !request.body.PaymentDate ||
       !request.body.totalAmount ||
       !request.body.PaymentMethod||
-      !request.body.Booking_Id||
-      !request.body.Pamount||
-      !request.body.email||
-      !request.body.Samount
+      !request.body.Booking_Id
+     
     ) {
       return response.status(400).send({
         message: 'Send all required fields:PaymentId,cusID,PaymentDate,totalAmount,PaymentMethod',
