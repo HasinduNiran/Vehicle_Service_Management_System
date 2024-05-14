@@ -1,24 +1,24 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import Spinner from '../../components/Spinner'; // Importing Spinner component
-import { Link } from 'react-router-dom'; // Importing Link component from react-router-dom
-import { AiOutlineEdit } from 'react-icons/ai'; // Importing edit icon
-import { BsInfoCircle } from 'react-icons/bs'; // Importing info icon
-import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md'; // Importing delete icon
-import Swal from 'sweetalert2'; // Importing SweetAlert2 for pop-up alerts
-import InventoryReport from './InventoryReport'; // Importing InventoryReport component
-import logo from '../../images/logo.jpg'; // Importing logo image
-import backgroundImage from '../../images/t.jpg'; // Importing background image
+import Spinner from '../../components/Spinner';
+import { Link } from 'react-router-dom';
+import { AiOutlineEdit } from 'react-icons/ai';
+import { BsInfoCircle } from 'react-icons/bs';
+import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
+import Swal from 'sweetalert2';
+import InventoryReport from './InventoryReport';
+import logo from '../../images/logo.jpg';
+import backgroundImage from '../../images/t.jpg';
 import { useReactToPrint } from 'react-to-print';
-import emailjs from 'emailjs-com'
+import emailjs from 'emailjs-com';
 
 const InventoryDashboard = () => {
     // State and refs initialization
-    const [inventory, setInventory] = useState([]); // State for inventory items
-    const [loading, setLoading] = useState(false); // State for loading status
-    const [error, setError] = useState(null); // State for error message
-    const [searchQuery, setSearchQuery] = useState(""); // State for search query
-    const componentRef = useRef(); // Ref for component
+    const [inventory, setInventory] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const componentRef = useRef();
 
     // Function to fetch inventory items based on search query
     const handleSearch = async () => {
@@ -27,7 +27,7 @@ const InventoryDashboard = () => {
             const response = await axios.get(
                 `http://localhost:8076/inventory?search=${searchQuery}`
             );
-            setInventory(response.data.data); // Update inventory state with fetched data
+            setInventory(response.data.data);
             setLoading(false);
             setError(null);
         } catch (error) {
@@ -39,7 +39,7 @@ const InventoryDashboard = () => {
         }
     };
 
-    const sendEmailToCustomer = () => {
+    const sendEmailToCustomer = (email) => { 
         const emailConfig = {
             serviceID: 'service_p1zv9rh',
             templateID: 'template_pua7ayd',
@@ -50,19 +50,20 @@ const InventoryDashboard = () => {
             emailConfig.serviceID,
             emailConfig.templateID,
             {
-                to_email: "weerakkodyse@gmail.com",
-                message:'Your mdasdadada email'
+                to_email: email,
+                message: 'Your mdasdadada email'
             },
             emailConfig.userID
         );
-    }
+    };
+
     // Effect hook to fetch inventory items on component mount
     useEffect(() => {
         setLoading(true);
         axios
             .get("http://localhost:8076/inventory")
             .then((response) => {
-                setInventory(response.data.data); // Update inventory state with fetched data
+                setInventory(response.data.data);
                 setLoading(false);
             })
             .catch((error) => {
@@ -70,13 +71,6 @@ const InventoryDashboard = () => {
                 setLoading(false);
             });
     }, []);
-
-    // // Function to generate PDF
-    // const generatePDF = useReactToPrint({
-    //     content: () => componentRef.current,
-    //     documentTitle: 'Inventory List',
-    //     onAfterPrint: () => alert('Data saved in PDF'),
-    // });
 
     // Function to apply search filter to inventory items
     const applySearchFilter = (inventoryItem) => {
@@ -101,29 +95,26 @@ const InventoryDashboard = () => {
     // Filtered inventory based on search query
     const filteredInventory = inventory.filter(applySearchFilter);
 
-
-    
     // Alert when quantity of any item is below 15
     useEffect(() => {
         const itemsBelow15 = filteredInventory.filter(item => item.Quantity <= 15);
         if (itemsBelow15.length > 0) {
-            const itemNamesList = itemsBelow15.map(item => `<li>${item.Name}</li>`).join('');
-            // sendEmailToCustomer();
+            const itemListWithSupplier = itemsBelow15.map(item => `<li>${item.Name} - ${item.SupplierEmail}</li>`).join('');
             Swal.fire({
                 icon: "warning",
                 title: "Warning",
-                html: `Quantity of the following items are at a low level<ul>${itemNamesList}</ul>`,
+                html: `Quantity of the following items are at a low level<ul>${itemListWithSupplier}</ul>`,
+                footer: `<button id="sendEmailBtn" class="btn btn-primary">Send an Email</button>`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Call the send email function here
+                    itemsBelow15.forEach(item => {
+                        sendEmailToCustomer(item.SupplierEmail);
+                    });
+                }
             });
         }
     }, [filteredInventory]);
-    
-
-
-
-
-
-
-
 
     // Function to handle delete item
     const handleDelete = (id) => {
@@ -145,7 +136,6 @@ const InventoryDashboard = () => {
                                 text: "Your file has been deleted.",
                                 icon: "success"
                             }).then(() => {
-                                // Refresh the inventory list after successful deletion
                                 handleSearch();
                             });
                         } else {
