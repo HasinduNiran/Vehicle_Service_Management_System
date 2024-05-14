@@ -1,6 +1,5 @@
 import express from 'express';
 import mongoose from 'mongoose';
-
 import { Payment } from '../Models/Payment.js';
 
 const router = express.Router();
@@ -9,24 +8,23 @@ const router = express.Router();
 router.post('/', async (request, response) => {
   try {
     if (
-      !request.body.PaymentId ||
-      !request.body.cusID||
-      !request.body.Vehicle_Number||
+      !request.body.cusID ||
+      !request.body.Vehicle_Number ||
       !request.body.PaymentDate ||
       !request.body.totalAmount ||
-      !request.body.PaymentMethod||
-      !request.body.Booking_Id||
-      !request.body.Pamount||
-      !request.body.email||
+      !request.body.PaymentMethod ||
+      !request.body.Booking_Id ||
+      !request.body.Pamount ||
+      !request.body.email ||
       !request.body.Samount
     ) {
       return response.status(400).send({
-        message: 'Send all required fields:PaymentId,Package,cusID,PaymentDate,totalAmount,PaymentMethod',
+        message: 'Send all required fields: cusID, Vehicle_Number, PaymentDate, totalAmount, PaymentMethod, Booking_Id, Pamount, email, Samount',
       });
     }
-    const newPayment = {
-      PaymentId: request.body.PaymentId,
-      cusID:request.body.cusID,
+
+    const newPayment = new Payment({
+      cusID: request.body.cusID,
       Vehicle_Number: request.body.Vehicle_Number,
       PaymentDate: request.body.PaymentDate,
       totalAmount: request.body.totalAmount,
@@ -37,15 +35,15 @@ router.post('/', async (request, response) => {
       Samount: request.body.Samount,
       Package: request.body.Package,
       selectedServices: request.body.selectedServices,
-    };
-    const payment = await Payment.create(newPayment);
+    });
+
+    const payment = await newPayment.save();
     return response.status(201).send(payment);
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
     response.status(500).send({ message: error.message });
   }
 });
-
 // GET route for retrieving payments based on search criteria, pagination, and sorting
 router.get("/payments", async (req, res) => {
   try {
@@ -138,7 +136,7 @@ router.get('/', async (request, response) => {
 router.put('/:id', async (request, response) => {
   try {
     if (
-      !request.body.PaymentId ||
+      
       !request.body.cusID||
       !request.body.Vehicle_Number||
       !request.body.PaymentDate ||

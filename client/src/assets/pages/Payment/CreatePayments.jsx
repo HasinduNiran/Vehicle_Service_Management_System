@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../../images/Pback21.jpg'; // background image
 
 const CreatePayments = () => {
-  const [PaymentId, setPaymentId] = useState('');
+ // const [PaymentId, setPaymentId] = useState('');
   const [cusID, setCusID] = useState('');
   const [Vehicle_Number, setVehicle_Number] = useState('');
   const [PaymentDate, setPaymentDate] = useState('');
@@ -19,12 +19,17 @@ const CreatePayments = () => {
   const [Pamount, setPamount] = useState('');
   const [Samount, setSamount] = useState('');
   const [email, setEmail] = useState('');
+
+
   const [Servicehistory, setServiceHistory] = useState([]);
+  const [Packageprice, setPackageprice] = useState([]);
+  const [Serviceprice, setServiceprice] = useState([]);
+  const [Customeremail, setCustomeremail] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const initialValues = {
-    PaymentId: '',
+   // PaymentId: '',
     cusID: '',
     Vehicle_Number: '',
     PaymentDate: '',
@@ -36,7 +41,7 @@ const CreatePayments = () => {
     Samount: '',
     email: ''
   };
-
+  const[count, setCount] = useState();
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -60,9 +65,6 @@ const CreatePayments = () => {
 
   const validate = (values) => {
     const errors = {};
-    if (!values.PaymentId) {
-      errors.PaymentId = "PaymentId is required!";
-    }
     // if (!values.cusID) {
     //   errors.cusID = "Customer ID is required!";
     // }
@@ -102,7 +104,7 @@ const CreatePayments = () => {
   const handleSavePayment = () => {
     
     const data = {
-      PaymentId: formValues.PaymentId,
+      //PaymentId: formValues.PaymentId,
       cusID: formValues.cusID,
       Booking_Id: formValues.Booking_Id,
       Vehicle_Number: formValues.Vehicle_Number,
@@ -141,7 +143,44 @@ const CreatePayments = () => {
         console.log(err);
       });
   }, []);
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get('http://localhost:8076/package')
+      .then((res) => {
+        setServiceprice(res.data.data);
+          setCount(res.data.count);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get('http://localhost:8076/service')
+      .then((res) => {
+        setPackageprice(res.data.data);
+          setCount(res.data.count);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get('http://localhost:8076/customer')
+      .then((res) => {
+        setCustomeremail(res.data.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   const handleServiceIdChange = (e) => {
     const selectedBooking_Id = e.target.value;
     const selectedServiceEntry = Servicehistory.find((service) => service.Booking_Id === selectedBooking_Id);
@@ -158,7 +197,13 @@ const CreatePayments = () => {
         Vehicle_Number: selectedServiceEntry.Vehicle_Number,
         Package: selectedServiceEntry.Package,
         selectedServices: selectedServiceEntry.selectedServices,
-        cusID: selectedServiceEntry.cusID
+        cusID: selectedServiceEntry.cusID,
+        // Fetch the package amount based on the selected package name
+        Pamount: fetchPackageAmount(selectedServiceEntry.Package),
+        Samount: fetchServiceAmount(selectedServiceEntry.Service),
+        email: fetchCustomerEmail(selectedServiceEntry.cusID),
+        
+        
       });
     } else {
       setBooking_Id(selectedBooking_Id);
@@ -173,11 +218,29 @@ const CreatePayments = () => {
         Vehicle_Number: '',
         Package: '',
         selectedServices: '',
-        cusID: ''
+        cusID: '',
+        Pamount: ''
       });
     }
   };
 
+  const fetchPackageAmount = (packageName) => {
+    // Find the package with the given package name and return its price
+    const packageData = Packageprice.find((pkg) => pkg.pakgname === packageName);
+    return packageData ? packageData.Price : '';
+  };
+  
+  const fetchServiceAmount = (serviceName) => {
+    // Find the package with the given package name and return its price
+    const serviceData = Serviceprice.find((skg) => skg.servgname === serviceName);
+    return serviceData ? serviceData.Price : '';
+  };
+
+  const fetchCustomerEmail = (cusID) => {
+    // Find the package with the given package name and return its price
+    const customerData = Customeremail.find((ckg) => ckg.cusID === cusID);
+    return customerData ? customerData.email : '';
+  };
   return (
    
        
@@ -187,34 +250,6 @@ const CreatePayments = () => {
       {loading ? <Spinner /> : ''}
       <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
         <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.formGroup}>
-            <label htmlFor="PaymentId"style={styles.label}>PaymentId</label>
-            <input
-              type='text'
-              name='PaymentId'
-              style={styles.input} 
-              value={formValues.PaymentId}
-             // placeholder='Payment Id'
-              onChange={handleChange}
-              // className='border-2 border-gray-500 px-4 py-2 w-full'
-            />
-            {formErrors.PaymentId && <p className='text-red-500'>{formErrors.PaymentId}</p>}
-          </div> 
-           <div style={styles.formGroup}>
-            <label htmlFor='email'style={styles.label}>Email</label>
-            <input
-              type='text'
-              name='email'
-              value={formValues.email}
-              placeholder='email'
-
-              onChange={handleChange}
-              // Make the input field read-only to prevent direct user input
-             
-              style={styles.input} 
-              />
-              {formErrors.email && <p className='text-red-500'>{formErrors.email}</p>} {/* Display error message */}
-          </div>
           <div style={styles.formGroup}>
             <label htmlFor='Booking_Id'style={styles.label}>Service ID</label>
             <select
@@ -232,6 +267,24 @@ const CreatePayments = () => {
             </select>
             {formErrors.Booking_Id && <p className='text-red-500'>{formErrors.Booking_Id}</p>}
           </div>
+           <div style={styles.formGroup}>
+            <label htmlFor='email'style={styles.label}>Email</label>
+            <select
+                name='email'
+                style={styles.select}
+                value={formValues.email}
+                disabled
+              >
+                <option value=''>Select Email</option>
+                {Customeremail.map((em) => (
+                  <option key={em._id} value={em.email}>
+                    {em.email}
+                  </option>
+                ))}
+              </select>
+              {formErrors.email && <p className='text-red-500'>{formErrors.email}</p>} {/* Display error message */}
+          </div>
+          
             <div style={styles.formGroup}>
             <label  htmlFor="Vehicle_Number"style={styles.label}>Vehicle Number</label>
            < input
@@ -285,26 +338,36 @@ const CreatePayments = () => {
           </div>
           <div style={styles.formGroup}>
             <label htmlFor='Pamount'style={styles.label}>Package Amount</label>
-            <input
-              type='number'
-              name='Pamount'
-              value={formValues.Pamount}
-              onChange={handleChange}
-              placeholder='Package Amount'
-              style={styles.input} 
-            />
+            <select
+                name='Pamount'
+                style={styles.select}
+                value={formValues.Pamount}
+                onChange={handleChange}
+              >
+                <option value=''>Select Price</option>
+                {Packageprice.map((price) => (
+                  <option key={price._id} value={price.Price}>
+                    {price.Price}
+                  </option>
+                ))}
+              </select>
             {/* {formErrors.totalAmount && <p className='text-red-500'>{formErrors.totalAmount}</p>} */}
           </div>
           <div style={styles.formGroup}>
             <label htmlFor='Samount'style={styles.label}>Service Amount</label>
-            <input
-              type='number'
-              name='Samount'
-              value={formValues.Samount}
-              onChange={handleChange}
-              placeholder='Service Amount'
-              style={styles.input} 
-            />
+            <select
+                name='Samount'
+                style={styles.select}
+                value={formValues.Samount}
+                onChange={handleChange}
+              >
+                <option value=''>Select Service Price</option>
+                {Serviceprice.map((pric) => (
+                  <option key={pric._id} value={pric.Price}>
+                    {pric.Price}
+                  </option>
+                ))}
+              </select>
             {/* {formErrors.totalAmount && <p className='text-red-500'>{formErrors.totalAmount}</p>} */}
           </div>
           <div style={styles.formGroup}>
