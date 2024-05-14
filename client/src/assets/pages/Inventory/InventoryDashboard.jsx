@@ -39,23 +39,26 @@ const InventoryDashboard = () => {
         }
     };
 
-    const sendEmailToCustomer = (email) => { 
+
+    //Send an email
+    const sendEmailToSupplier = (itemName, email) => { 
         const emailConfig = {
             serviceID: 'service_p1zv9rh',
             templateID: 'template_pua7ayd',
             userID: 'v53cNBlrti0pL_RxD'
         };
-
+    
         emailjs.send(
             emailConfig.serviceID,
             emailConfig.templateID,
             {
                 to_email: email,
-                message: 'Your mdasdadada email'
+                message: `Dear Supplier,\n\nWe would like to inform you that the quantity of the item "${itemName}" in our inventory provided by you is low. Please consider restocking.\n\nBest regards,\nNadeeka Auto Service`
             },
             emailConfig.userID
         );
     };
+    
 
     // Effect hook to fetch inventory items on component mount
     useEffect(() => {
@@ -95,26 +98,28 @@ const InventoryDashboard = () => {
     // Filtered inventory based on search query
     const filteredInventory = inventory.filter(applySearchFilter);
 
+   
     // Alert when quantity of any item is below 15
-    useEffect(() => {
-        const itemsBelow15 = filteredInventory.filter(item => item.Quantity <= 15);
-        if (itemsBelow15.length > 0) {
-            const itemListWithSupplier = itemsBelow15.map(item => `<li>${item.Name} - ${item.SupplierEmail}</li>`).join('');
-            Swal.fire({
-                icon: "warning",
-                title: "Warning",
-                html: `Quantity of the following items are at a low level<ul>${itemListWithSupplier}</ul>`,
-                footer: `<button id="sendEmailBtn" class="btn btn-primary">Send an Email</button>`
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Call the send email function here
-                    itemsBelow15.forEach(item => {
-                        sendEmailToCustomer(item.SupplierEmail);
-                    });
-                }
-            });
-        }
-    }, [filteredInventory]);
+useEffect(() => {
+    const itemsBelow15 = filteredInventory.filter(item => item.Quantity <= 15);
+    if (itemsBelow15.length > 0) {
+        const itemListWithSupplier = itemsBelow15.map(item => `<li>${item.Name} - ${item.SupplierEmail}</li>`).join('');
+        Swal.fire({
+            icon: "warning",
+            title: "Warning",
+            html: `Quantity of the following items are at a low level<ul>${itemListWithSupplier}</ul>`,
+            footer: `<button id="sendEmailBtn" class="btn btn-primary">Send an Email</button>`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Call the send email function here
+                itemsBelow15.forEach(item => {
+                    sendEmailToSupplier(item.Name, item.SupplierEmail);
+                });
+            }
+        });
+    }
+}, [filteredInventory]);
+
 
     // Function to handle delete item
     const handleDelete = (id) => {
