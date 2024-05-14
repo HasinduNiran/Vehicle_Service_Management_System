@@ -345,6 +345,7 @@ const PaymentDashboard = () => {
                               >
                                 View
                               </Link>
+                              
                               <Link
                                 to={`/payments/edit/${payment._id}`}
                                 className="text-red-600 mr-2 hover:text-red-800"
@@ -357,11 +358,13 @@ const PaymentDashboard = () => {
                               >
                                 Delete
                               </Link>
+                              
                                <div className='flex justify-center gap-x-4'>
                   {/* Send Email button */}
                   <button onClick={() => openEmailClient(payment)}>
                     Send Email
                   </button>
+                  
 </div>
                             </td>
                           </tr>
