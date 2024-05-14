@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import Spinner from '../../components/Spinner';
 import BackButton from '../../components/BackButton';
 import backgroundImage from '../../images/t.jpg';
+import emailjs from 'emailjs-com';
 
 const CreateServiceHistory = () => {
   const [cusID, setCusID] = useState('');
@@ -96,6 +97,29 @@ const CreateServiceHistory = () => {
     setSelectedServices(updatedSelectedServices);
   };
 
+  const sendEmailToCustomer = () => {
+    const emailConfig = {
+      serviceID: 'service_3p901v6',
+      templateID: 'template_cwl7ahv',
+      userID: '-r5ctVwHjzozvGIfg'
+  };
+
+  emailjs.send(
+    emailConfig.serviceID,
+    emailConfig.templateID,
+    {
+      to_email:  `${customeremail}`,
+      message: `Vehicle Number: ${vehicleNumber}
+      Next Service: ${nextService}
+      Customer Email: ${customeremail}
+      Send Email to Customer?`,
+    },
+    emailConfig.userID
+  )
+
+  
+}
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -127,7 +151,8 @@ const CreateServiceHistory = () => {
 
     setLoading(true);
     try {
-      await axios.post('http://localhost:8076/serviceHistory/', data);
+      const response1 = await axios.post('http://localhost:8076/serviceHistory/', data);
+      console.log('Response:', response1.data.message);
       setLoading(false);
 
       Swal.fire({
@@ -153,13 +178,27 @@ const CreateServiceHistory = () => {
     } catch (error) {
       setLoading(false);
       console.error('Error creating service history:', error);
-      if (error.response) {
+      if (error.response.data.message == 'Vehicle not found. Please register the vehicle first.') {
         console.error('Server responded with:', error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Vehicle not found. Please register the vehicle first.',
+        });
       }
+      if (error.response.data.message == 'This booking ID already has a service history associated with it.') {
+        console.error('Server responded with:', error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'This booking ID already has a service history associated with it.',
+        });
+      }
+      console.log('Response:', response1.data.message);
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Error creating service history. Check booking id or mileage.',
+        text: 'Error creating service history. Check mileage.',
       });
     }
   };
