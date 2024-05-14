@@ -13,11 +13,11 @@ const CreateEmployeeSalary = () => {
   const [toDate, settoDate] = useState('');
   const [totalOThours, settotalOThours] = useState('');
   const [totalOTpay, settotalOTpay] = useState('');
-  const [totalWorkedhours, settotalWorkedhours] = useState('');
-  const [totalWorkedpay, settotalWorkedpay] = useState('');
+  const [BasicSalary, setBasicSalary] = useState('');
   const [TotalSalary, setTotalSalary] = useState('');
+
   const [employees, setEmployees] = useState([]);
-  const [employeesAttendence, setEmployeesAttendence] = useState([]);
+  const [employeesAttendance, setEmployeesAttendance] = useState([]);
   const [loading, setLoading] = useState(false);
   const [includeEPF, setIncludeEPF] = useState(false); // State to track EPF selection
   const navigate = useNavigate();
@@ -41,6 +41,20 @@ const CreateEmployeeSalary = () => {
       });
   }, []);
 
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get('http://localhost:8076/EmployeeAttendence')
+      .then((response) => {
+        setEmployeesAttendance(response.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  }, []);
+
   const handleEmpIDChange = (e) => {
     const selectedEmpID = e.target.value;
     const selectedEmp = employees.find((emp) => emp.EmpID === selectedEmpID);
@@ -49,6 +63,7 @@ const CreateEmployeeSalary = () => {
       EmpID: selectedEmpID,
       employeeName: selectedEmp.employeeName,
     });
+    setBasicSalary(selectedEmp.BasicSalary); // Set BasicSalary when EmpID is changed
   };
 
   const handleEmployeeNameChange = (e) => {
@@ -61,11 +76,12 @@ const CreateEmployeeSalary = () => {
       EmpID: selectedEmp.EmpID,
       employeeName: selectedEmployeeName,
     });
+    setBasicSalary(selectedEmp.BasicSalary); // Set BasicSalary when EmployeeName is changed
   };
 
   // calculate total OT hours
   const calculateTotalOvertimeHours = () => {
-    const filteredAttendance = employeesAttendence.filter(
+    const filteredAttendance = employeesAttendance.filter(
       (attendance) =>
         attendance.EmpID === selectedEmployee.EmpID &&
         attendance.date >= fromDate &&
@@ -81,40 +97,17 @@ const CreateEmployeeSalary = () => {
     settotalOThours(totalOvertimeHours);
   };
 
-  // calculate total Worked hours
-  const calculateTotalWorkedhours = () => {
-    const filteredAttendance = employeesAttendence.filter(
-      (attendance) =>
-        attendance.EmpID === selectedEmployee.EmpID &&
-        attendance.date >= fromDate &&
-        attendance.date <= toDate
-    );
-
-    const totalWorkedhours = filteredAttendance.reduce(
-      (total, attendance) => total + attendance.WorkingHours,
-      0
-    );
-
-    // Set the total Worked hours state
-    settotalWorkedhours(totalWorkedhours);
-  };
-
   // Calculate totalOTpay and totalWorkedpay
   const calculatedTotalOTpay = () => {
     const calculatedTotalOTpay = totalOThours * 585;
     settotalOTpay(calculatedTotalOTpay);
   };
 
-  const calculatedTotalWorkedpay = () => {
-    const calculatedTotalWorkedpay = totalWorkedhours * 390;
-    settotalWorkedpay(calculatedTotalWorkedpay);
-  };
-
   // Calculate totalSalary including EPF if selected
   const calculatedTotalSalary = () => {
-    let totalSalary = totalOTpay + totalWorkedpay;
+    let totalSalary = totalOTpay + parseFloat(BasicSalary); // Convert BasicSalary to float
     if (includeEPF) {
-      // Include EPF,8%
+      // Include EPF, 8%
       const epfAmount = totalSalary * 0.08;
       totalSalary -= epfAmount;
     }
@@ -122,9 +115,7 @@ const CreateEmployeeSalary = () => {
   };
 
   const handleSaveEmployeeSalary = () => {
-
-    // Check if essential fields are empty
-    if (!selectedEmployee.EmpID || !selectedEmployee.employeeName || !fromDate || !toDate || !totalOThours || !totalWorkedhours ||!totalOTpay || !totalWorkedpay) {
+    if (!selectedEmployee.EmpID || !selectedEmployee.employeeName || !fromDate || !toDate || !totalOThours || !totalOTpay || !BasicSalary) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -132,8 +123,7 @@ const CreateEmployeeSalary = () => {
       });
       return;
     }
-    
-    // Check if toDate is before fromDate
+
     if (toDate < fromDate) {
       Swal.fire({
         icon: 'error',
@@ -143,42 +133,37 @@ const CreateEmployeeSalary = () => {
       return;
     }
 
-    // Check if totalOThours and totalWorkedhours are numeric
-    if (isNaN(totalOThours) || isNaN(totalWorkedhours)) {
+    if (isNaN(totalOThours)) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Please enter valid numeric values for total OT hours and total worked hours.',
-      });
-      return;
-    }  
-
-    const MAX_WHOURS = 195; // Example maximum hours
-    const MAX_OHOURS = 48;
-    // Check if totalOThours and totalWorkedhours are within a valid range
-    if (totalOThours < 0 || totalOThours > MAX_OHOURS || totalWorkedhours < 0 || totalWorkedhours > MAX_WHOURS) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Total OT hours and total worked hours must be between 0 and 24 hours.',
+        text: 'Please enter a valid numeric value for total OT hours.',
       });
       return;
     }
 
-      
+    const MAX_OHOURS = 48;
+    if (totalOThours < 0 || totalOThours > MAX_OHOURS) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Total OT hours must be between 0 and 48 hours.',
+      });
+      return;
+    }
+
     calculateTotalOvertimeHours();
-    calculateTotalWorkedhours();
-    calculatedTotalSalary(); // Calculate total salary including EPF
+    calculatedTotalOTpay();
+    calculatedTotalSalary();
 
     const data = {
       EmpID: selectedEmployee.EmpID,
       employeeName: selectedEmployee.employeeName,
       fromDate,
       toDate,
-      totalOThours, // Include totalOThours in the data sent to the server
+      totalOThours,
       totalOTpay,
-      totalWorkedhours,
-      totalWorkedpay,
+      BasicSalary,
       TotalSalary
     };
     setLoading(true);
@@ -193,20 +178,6 @@ const CreateEmployeeSalary = () => {
         console.log(error);
       });
   };
-
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get('http://localhost:8076/EmployeeAttendence')
-      .then((response) => {
-        setEmployeesAttendence(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, []);
 
   return (
     <div style={styles.container}>
@@ -273,28 +244,23 @@ const CreateEmployeeSalary = () => {
             <label style={styles.label}>totalOThours</label>
             <input
               type='text'
-              value={totalOThours} // Display totalOThours
+              value={totalOThours}
               readOnly
               style={styles.input}
             />
-            {/* Button to calculate totalOThours */}
             <button style={styles.button} onClick={calculateTotalOvertimeHours}>
               Calculate Total OT Hours
             </button>
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>totalWorkedhours</label>
+            <label style={styles.label}>Basic Salary</label>
             <input
               type='text'
-              value={totalWorkedhours}
-              readOnly
+              value={BasicSalary}
+              onChange={(e) => setBasicSalary(e.target.value)}
               style={styles.input}
             />
-            {/* Button to calculate totalWorkedhours */}
-            <button style={styles.button} onClick={calculateTotalWorkedhours}>
-              Calculate Total Worked hours
-            </button>
           </div>
 
           <div style={styles.formGroup}>
@@ -317,35 +283,19 @@ const CreateEmployeeSalary = () => {
               readOnly
               style={styles.input}
             />
-            {/* Button to calculate totalOTpay */}
             <button style={styles.button} onClick={calculatedTotalOTpay}>
               Calculate Total OT Pay
             </button>
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>totalWorkedpay</label>
-            <input
-              type='text'
-              value={totalWorkedpay }
-              readOnly
-              style={styles.input}
-            />
-            {/* Button to calculate totalWorkedpay */}
-            <button style={styles.button} onClick={calculatedTotalWorkedpay}>
-              Calculate Total Worked Pay
-            </button>
-          </div>
-
-          <div style={styles.formGroup}>
-            <label style={styles.label}>TotalSalary</label>
+            <label style={styles.label}>Total Salary</label>
             <input
               type='text'
               value={TotalSalary}
               readOnly
               style={styles.input}
             />
-            {/* Button to calculate TotalSalary */}
             <button style={styles.button} onClick={calculatedTotalSalary}>
               Calculate Total Salary
             </button>
@@ -366,29 +316,16 @@ const CreateEmployeeSalary = () => {
 };
 
 const styles = {
-  select: {
-      width: '100%',
-      padding: '10px',
-      margin: '10px 0',
-      border: '1px solid #ccc',
-      borderRadius: '5px',
-      backgroundColor: 'black',
-
-      outline: 'none'
-
-
-  },
   container: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      height: '120vh', // Set height to cover the viewport height
-},
-formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height: '120vh', // Set height to cover the viewport height
+  },
+  formContainer: {
     display: 'flex',
     flexDirection: 'row',
     backgroundColor: 'rgba(5, 4, 2, 0.8)',
@@ -403,74 +340,69 @@ formContainer: {
     alignItems: 'center',
     width: '80%',
     padding: '20px',
-},
-
-heading: {
-  fontSize: '3rem',
-  color: 'white',
-  textAlign: 'center',
-  fontWeight: 'bold',
-  marginBottom: '1.5rem',
-},
-form: {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '30%',
-  padding: '20px',
-  border: '1px solid rgba(255, 255, 255, 0.2)',
-  borderRadius: '10px',
-},
-formGroup: {
-  marginBottom: '1.5rem',
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '10px',
-  border: '1px solid rgba(255, 255, 255, 0.8)',
-  borderRadius: '5px',
-  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
-  color: 'rgba(255, 255, 255, 0.8)',
-  backgroundColor: 'rgba(5, 4, 2, 0.8)',
-},
-label: {
-  fontWeight: 'bold',
-  marginBottom: '0.5rem',
-  flexDirection: 'column',
-  fontSize: '1.2rem',
-  color: 'red',
-  textAlign: 'center',
-  width: '100%',
-  alignItems: 'center',
-  justifyContent: 'center', 
-  padding: '10px',
-  display: 'block',
-  textTransform: 'uppercase',
-  backgroundColor: 'black',
-},
-input: {
-  width: '100%',
-  padding: '10px',
-  borderRadius: '5px',
-  border: '1px solid #ccc',
-  backgroundColor: '#1B1B1B',
-},
-buttonContainer: {
-  display: 'flex',
-  justifyContent: 'center',
-},
-button: {
-  backgroundColor: 'red',
-  color: '#fff',
-  border: 'none',
-  borderRadius: '0.25rem',
-  padding: '0.5rem 1rem',
-  cursor: 'pointer',
-  transition: 'background-color 0.3s ease',
-},
+  },
+  heading: {
+    fontSize: '3rem',
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: '1.5rem',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '30%',
+    padding: '20px',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    borderRadius: '10px',
+  },
+  formGroup: {
+    marginBottom: '1.5rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '10px',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    borderRadius: '5px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.4)',
+    color: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'rgba(5, 4, 2, 0.8)',
+  },
+  label: {
+    fontWeight: 'bold',
+    marginBottom: '0.5rem',
+    flexDirection: 'column',
+    fontSize: '1.2rem',
+    color: 'red',
+    textAlign: 'center',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '10px',
+    display: 'block',
+    textTransform: 'uppercase',
+    backgroundColor: 'black',
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    backgroundColor: '#1B1B1B',
+  },
+  button: {
+    backgroundColor: 'red',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '0.25rem',
+    padding: '0.5rem 1rem',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
 };
 
 export default CreateEmployeeSalary;

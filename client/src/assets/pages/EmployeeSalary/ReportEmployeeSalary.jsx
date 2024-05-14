@@ -13,8 +13,8 @@ export default function ReportEmployee({ filteredEmployeesSalary }) {
       "To Date",
       "Total OT Hours",
       "Total OT Pay",
-      "Total Worked Hours",
-      "Total Worked Pay",
+      //"Total Worked Hours",
+      "Basic Salary",
       "Total Salary",
     ];
     const tableRows = [];
@@ -31,8 +31,8 @@ export default function ReportEmployee({ filteredEmployeesSalary }) {
           employee.toDate,
           employee.totalOThours,
           employee.totalOTpay,
-          employee.totalWorkedhours,
-          employee.totalWorkedpay,
+          //employee.totalWorkedhours,
+          employee.BasicSalary,
           employee.TotalSalary,
         ];
         tableRows.push(data);

@@ -13,8 +13,7 @@ const EditEmployeeSalary = () => {
   const [toDate, settoDate] = useState('');
   const [totalOThours, settotalOThours] = useState('');
   const [totalOTpay, settotalOTpay] = useState('');
-  const [totalWorkedhours, settotalWorkedhours] = useState('');
-  const [totalWorkedpay, settotalWorkedpay] = useState('');
+  const [BasicSalary, setBasicSalary] = useState('');
   const [TotalSalary, setTotalSalary] = useState('');
   
   const [employeesAttendence, setEmployeesAttendence] = useState([]);
@@ -35,8 +34,8 @@ const EditEmployeeSalary = () => {
         settoDate(response.data.toDate);
         settotalOThours(response.data.totalOThours)
         settotalOTpay(response.data.totalOTpay)
-        settotalWorkedhours(response.data.totalWorkedhours)
-        settotalWorkedpay(response.data.totalWorkedpay)
+        
+        setBasicSalary(response.data.BasicSalary)
         setTotalSalary(response.data.TotalSalary)
         
         setLoading(false);
@@ -46,6 +45,30 @@ const EditEmployeeSalary = () => {
         console.log(error);
       });
   }, [])
+
+  const handleEmpIDChange = (e) => {
+    const selectedEmpID = e.target.value;
+    const selectedEmp = employees.find((emp) => emp.EmpID === selectedEmpID);
+    setSelectedEmployee({
+      ...selectedEmployee,
+      EmpID: selectedEmpID,
+      employeeName: selectedEmp.employeeName,
+    });
+    setBasicSalary(selectedEmp.BasicSalary); // Set BasicSalary when EmpID is changed
+  };
+
+  const handleEmployeeNameChange = (e) => {
+    const selectedEmployeeName = e.target.value;
+    const selectedEmp = employees.find(
+      (emp) => emp.employeeName === selectedEmployeeName
+    );
+    setSelectedEmployee({
+      ...selectedEmployee,
+      EmpID: selectedEmp.EmpID,
+      employeeName: selectedEmployeeName,
+    });
+    setBasicSalary(selectedEmp.BasicSalary); // Set BasicSalary when EmployeeName is changed
+  };
 
   // calculate total OT hours
   const calculateTotalOvertimeHours = () => {
@@ -65,23 +88,6 @@ const EditEmployeeSalary = () => {
     settotalOThours(totalOvertimeHours);
   };
 
-  // calculate total Worked hours
-  const calculateTotalWorkedhours = () => {
-    const filteredAttendance = employeesAttendence.filter(
-      (attendance) =>
-        attendance.EmpID === selectedEmployee.EmpID &&
-        attendance.date >= fromDate &&
-        attendance.date <= toDate
-    );
-
-    const totalWorkedhours = filteredAttendance.reduce(
-      (total, attendance) => total + attendance.WorkingHours,
-      0
-    );
-
-    // Set the total Worked hours state
-    settotalWorkedhours(totalWorkedhours);
-  };
 
   // Calculate totalOTpay and totalWorkedpay
   const calculatedTotalOTpay = () => {
@@ -89,16 +95,12 @@ const EditEmployeeSalary = () => {
     settotalOTpay(calculatedTotalOTpay);
   };
 
-  const calculatedTotalWorkedpay = () => {
-    const calculatedTotalWorkedpay = totalWorkedhours * 390;
-    settotalWorkedpay(calculatedTotalWorkedpay);
-  };
 
   // Calculate totalSalary including EPF if selected
   const calculatedTotalSalary = () => {
-    let totalSalary = totalOTpay + totalWorkedpay;
+    let totalSalary = totalOTpay + parseFloat(BasicSalary); // Convert BasicSalary to float
     if (includeEPF) {
-      // Include EPF,8%
+      // Include EPF, 8%
       const epfAmount = totalSalary * 0.08;
       totalSalary -= epfAmount;
     }
@@ -150,6 +152,10 @@ const EditEmployeeSalary = () => {
     }
 
 
+    calculateTotalOvertimeHours();
+    calculatedTotalOTpay();
+    calculatedTotalSalary();
+
     const data = {
       EmpID,
       employeeName,
@@ -157,8 +163,7 @@ const EditEmployeeSalary = () => {
       toDate,
       totalOThours,
       totalOTpay,
-      totalWorkedhours,
-      totalWorkedpay,
+      BasicSalary,
       TotalSalary
     };
     setLoading(true);
@@ -250,18 +255,6 @@ const EditEmployeeSalary = () => {
             </button>
           </div>
 
-          <div style={styles.formGroup}>
-            <label style={styles.label}>totalWorkedhours</label>
-            <input
-              type='text'
-              value={totalWorkedhours}
-              onChange={(e) => settotalWorkedhours(e.target.value)}
-              style={styles.input}
-            />
-            <button style={styles.button} onClick={calculateTotalWorkedhours}>
-              Calculate Total Worked hours
-            </button>
-          </div>
 
           <div style={styles.formGroup}>
             <label style={styles.label}>EPF</label>
@@ -289,16 +282,13 @@ const EditEmployeeSalary = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>totalWorkedpay</label>
+            <label style={styles.label}>BasicSalary</label>
             <input
               type='text'
-              value={totalWorkedpay }
-              onChange={(e) => settotalWorkedpay(e.target.value)}
+              value={BasicSalary }
+              onChange={(e) => setBasicSalary(e.target.value)}
               style={styles.input}
             />
-            <button style={styles.button} onClick={calculatedTotalWorkedpay}>
-              Calculate Total Worked Pay
-            </button>
           </div>
 
           <div style={styles.formGroup}>
