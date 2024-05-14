@@ -4,7 +4,6 @@ import Spinner from '../../components/Spinner';
 import { Link } from 'react-router-dom';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { MdOutlineDelete } from 'react-icons/md';
-import ReportBookings from '../Booking/ReportBookings';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
 
@@ -167,10 +166,6 @@ function BookingLimitDashBoard() {
                                             style={styles.navButton}>
                                             All Bookings
                                         </button>
-                                        <div
-                                            style={styles.navButton}>
-                                            <ReportBookings filteredBooking={filteredBooking} />
-                                        </div>
                                     </div>
                                 </div>
                             </div>
