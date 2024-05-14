@@ -1,6 +1,7 @@
 import express, { response } from 'express';
 
 import mongoose from 'mongoose';
+import { Vehicle } from '../Models/Vehicle.js'; // Import the Vehicle model
 
 
 import { serviceHistory } from '../Models/ServiceHistory.js';
@@ -34,6 +35,14 @@ router.post('/', async (request, response) => {
                 message: 'Send all required fields'
             });
         }
+        // Check if the vehicle with the provided vehicle number exists in the Vehicle collection
+        const existingVehicle = await Vehicle.findOne({ Register_Number: request.body.Vehicle_Number });
+        if (!existingVehicle) {
+            return response.status(400).send({
+                message: 'Vehicle not found. Please register the vehicle first.'
+            });
+        }
+
 
         // Find the latest service history entry for the vehicle
         const latestServiceHistory = await serviceHistory.findOne({ Vehicle_Number: request.body.Vehicle_Number }).sort({ Service_Date: -1 });
