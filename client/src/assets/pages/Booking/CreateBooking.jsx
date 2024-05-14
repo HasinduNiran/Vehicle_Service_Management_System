@@ -71,7 +71,7 @@ const CreateBooking = () => {
             axios
                 .get(`http://localhost:8076/bookinglimits/${formattedDate}`)
                 .then((response) => {
-                    setMaxBookingLimit(response.data.Booking_Limit);
+                    setMaxBookingLimit(response.data.Booking_Limit );
                     setLoading(false);
                 })
                 .catch((error) => {
@@ -83,15 +83,35 @@ const CreateBooking = () => {
         }
     }, [Booking_Date]);
 
+    const validateCustomerName = (name) => {
+        // Regular expression for validating customer name (allowing alphabets, spaces, and possibly some special characters)
+        const regex = /^[a-zA-Z\s]+$/;
+        // Check if the name matches the pattern and its length is within the limit
+        return regex.test(name.trim()) && name.trim().length <= 50;
+    };
     // Validation function for Vehicle Number
     const validateVehicleNumber = (value) => {
         // Regular expression for alphanumeric with hyphen and space
         const regex = /^[a-zA-Z0-9\s-]{0,4}[0-9]{4}$/;
         // Check if the value matches the pattern
         if (!value.match(regex)) {
-            return false; // Return false if validation fails
+            return false;
         }
-        return true; // Return true if validation passes
+        return true;
+    };
+    //validate contact number
+    const validateContactNumber = (number) => {
+        // Regular expression for validating contact number (allowing only digits, and ensuring length is within limit)
+        const regex = /^0\d{9}$/;
+        // Check if the number matches the pattern
+        return regex.test(number);
+    };
+    //validate email
+    const validateEmail = (email) => {
+        // Regular expression for validating email
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Check if the email matches the pattern
+        return regex.test(email);
     };
 
     useEffect(() => {
@@ -153,15 +173,29 @@ const CreateBooking = () => {
         }
     };
 
+    
+
     const handleSaveBooking =  () => {
         
         if (!Booking_Date || !cusID || !Customer_Name || !Vehicle_Type || !Vehicle_Number || !Contact_Number || !Email || !selectedPackage && selectedServices.length === 0) {
             alert("All fields are required.");
             return;
         }
+        if (!validateCustomerName(Customer_Name)) {
+            alert('Please enter a valid customer name.');
+            return;
+        }
         if (!validateVehicleNumber(Vehicle_Number)) {
-            alert('Please enter a valid vehicle number.'); // Display an error message if validation fails
-            return; // Exit the function if validation fails
+            alert('Please enter a valid vehicle number.');
+            return;
+        }
+        if (!validateContactNumber(Contact_Number)) {
+            alert('Please enter a valid contact number.');
+            return;
+        }
+        if (!validateEmail(Email)) {
+            alert('Please enter a valid email address.');
+            return;
         }
         const data = {
             Booking_Date,
