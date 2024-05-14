@@ -4,7 +4,7 @@ const paymentSchema = mongoose.Schema({
 
     PaymentId:{
         type:String,
-        required:true
+    
     },
     cusID: {
         type: String, // connect to the customer

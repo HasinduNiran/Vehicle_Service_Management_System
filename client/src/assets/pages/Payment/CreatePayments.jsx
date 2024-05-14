@@ -20,6 +20,7 @@ const CreatePayments = () => {
   const [Samount, setSamount] = useState('');
   const [email, setEmail] = useState('');
   const [Servicehistory, setServiceHistory] = useState([]);
+  const [Packageprice, setPackageprice] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -36,7 +37,7 @@ const CreatePayments = () => {
     Samount: '',
     email: ''
   };
-
+  const[count, setCount] = useState();
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -60,9 +61,6 @@ const CreatePayments = () => {
 
   const validate = (values) => {
     const errors = {};
-    if (!values.PaymentId) {
-      errors.PaymentId = "PaymentId is required!";
-    }
     // if (!values.cusID) {
     //   errors.cusID = "Customer ID is required!";
     // }
@@ -141,6 +139,18 @@ const CreatePayments = () => {
         console.log(err);
       });
   }, []);
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get('http://localhost:8076/package')
+      .then((res) => {
+        setPackageprice(res.data.data);
+          setCount(res.data.count);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleServiceIdChange = (e) => {
     const selectedBooking_Id = e.target.value;
@@ -158,7 +168,9 @@ const CreatePayments = () => {
         Vehicle_Number: selectedServiceEntry.Vehicle_Number,
         Package: selectedServiceEntry.Package,
         selectedServices: selectedServiceEntry.selectedServices,
-        cusID: selectedServiceEntry.cusID
+        cusID: selectedServiceEntry.cusID,
+        // Fetch the package amount based on the selected package name
+        Pamount: fetchPackageAmount(selectedServiceEntry.Package)
       });
     } else {
       setBooking_Id(selectedBooking_Id);
@@ -173,9 +185,16 @@ const CreatePayments = () => {
         Vehicle_Number: '',
         Package: '',
         selectedServices: '',
-        cusID: ''
+        cusID: '',
+        Pamount: ''
       });
     }
+  };
+
+  const fetchPackageAmount = (packageName) => {
+    // Find the package with the given package name and return its price
+    const packageData = Packageprice.find((pkg) => pkg.pakgname === packageName);
+    return packageData ? packageData.Price : '';
   };
 
   return (
@@ -192,11 +211,10 @@ const CreatePayments = () => {
             <input
               type='text'
               name='PaymentId'
-              style={styles.input} 
+              placeholder='PaymentId'
               value={formValues.PaymentId}
-             // placeholder='Payment Id'
               onChange={handleChange}
-              // className='border-2 border-gray-500 px-4 py-2 w-full'
+              style={styles.input} 
             />
             {formErrors.PaymentId && <p className='text-red-500'>{formErrors.PaymentId}</p>}
           </div> 
@@ -285,14 +303,19 @@ const CreatePayments = () => {
           </div>
           <div style={styles.formGroup}>
             <label htmlFor='Pamount'style={styles.label}>Package Amount</label>
-            <input
-              type='number'
-              name='Pamount'
-              value={formValues.Pamount}
-              onChange={handleChange}
-              placeholder='Package Amount'
-              style={styles.input} 
-            />
+            <select
+                name='Pamount'
+                style={styles.select}
+                value={formValues.Pamount}
+                onChange={handleChange}
+              >
+                <option value=''>Select Price</option>
+                {Packageprice.map((price) => (
+                  <option key={price._id} value={price.Price}>
+                    {price.Price}
+                  </option>
+                ))}
+              </select>
             {/* {formErrors.totalAmount && <p className='text-red-500'>{formErrors.totalAmount}</p>} */}
           </div>
           <div style={styles.formGroup}>
