@@ -12,7 +12,7 @@ export default function ReportEmployee({ filteredEmployee }) {
       "Date of Birth",
       "NIC",
       "Address",
-      "Position",
+      "BasicSalary",
       "Contact No",
       "Email",
     ];
@@ -29,7 +29,7 @@ export default function ReportEmployee({ filteredEmployee }) {
         employee.DOB,
         employee.NIC,
         employee.Address,
-        employee.Position,
+        employee.BasicSalary,
         employee.ContactNo,
         employee.Email,
       ];

@@ -20,16 +20,100 @@ function CLogin() {
     };
 
     // Check if the credentials are 'staff'
-    if (cusID === 'staff' && password === 'staff') {
+    if (cusID === 'customer' && password === 'customer123') {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: `Welcome back Nadeeka Auto care Staff`,
+        title: "Welcome back! Kasuni",
         showConfirmButton: false,
         timer: 2000,
       });
 
-      navigate('/Mlogin');
+      navigate('/customer/customerDashboard');
+      return; 
+    }
+    else if (cusID === 'package' && password === 'package123') {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Welcome back! Ravindu",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      navigate('/package/dashboard');
+      return; 
+    }
+    else if (cusID === 'booking' && password === 'booking123') {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Welcome back! Isuru",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      navigate('/booking/dashboard');
+      return; 
+    }
+    else if (cusID === 'vehicle' && password === 'vehicle123') {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Welcome back! Hasindu",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      navigate('/vehicle/dashboard');
+      return; 
+    }
+    else if (cusID === 'inventory' && password === 'inventory123') {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Welcome back! Lasal",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      navigate('/inventory/InventoryDashboard');
+      return; 
+    }
+    else if (cusID === 'payment' && password === 'payment123') {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Welcome back! Sithagi",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      navigate('/payments/pdashboard');
+      return; 
+    }
+    else if (cusID === 'employee' && password === 'employee123') {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Welcome back! Kavindi",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      navigate('/employees/EmployeeDashboard');
+      return; 
+    }
+    else if (cusID === 'feedback' && password === 'feedback123') {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Welcome back! Yenura",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      navigate('/feedback/dashboard');
       return; 
     }
 

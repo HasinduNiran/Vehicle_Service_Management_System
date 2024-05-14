@@ -4,7 +4,7 @@ const employeeSchema = mongoose.Schema(
     {
     EmpID: {
         type: String,
-        required: true,
+        unique: true
     },
     employeeName: {
         type: String,
@@ -22,7 +22,7 @@ const employeeSchema = mongoose.Schema(
         type: String,
         required: true,
     },
-    Position: {
+    BasicSalary: {
         type: String,
         required: true,
     },
@@ -37,5 +37,24 @@ const employeeSchema = mongoose.Schema(
 
     }
 );
+
+const counterSchema = mongoose.Schema({
+    _id: { type: String, required: true},
+    seq: { type: Number, default: 1 }
+});
+
+const ECounterr = mongoose.model('ECounterr', counterSchema);
+
+employeeSchema.pre('save', async function (next) {
+    try{
+        if (this.isNew) {
+            const doc = await ECounterr.findOneAndUpdate({ _id: 'EmpID' }, { $inc: { seq: 1 } }, { new: true, upsert: true });
+            this.EmpID = 'EMP' + doc.seq; // Modified to 'EmpID'
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
 
 export const Employee = mongoose.model('Employee' ,employeeSchema);

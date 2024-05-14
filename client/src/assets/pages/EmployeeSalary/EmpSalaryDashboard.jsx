@@ -223,8 +223,8 @@ function ShowEmployeeSalary() {
                                         <th style={styles.tableHeader}>toDate</th>
                                         <th style={styles.tableHeader}>totalOThours</th>
                                         <th style={styles.tableHeader}>totalOTpay</th>
-                                        <th style={styles.tableHeader}>totalWorkedhours</th>
-                                        <th style={styles.tableHeader}>totalWorkedpay</th>
+                                        {/* <th style={styles.tableHeader}>totalWorkedhours</th> */}
+                                        <th style={styles.tableHeader}>BasicSalary</th>
                                         <th style={styles.tableHeader}>TotalSalary</th>
                                         <th style={styles.tableHeader}>Action</th>
                                     </tr>
@@ -256,12 +256,12 @@ function ShowEmployeeSalary() {
                                                 {EmployeeSalary.totalOTpay}
                                             </td>
 
-                                            <td style={styles.tableCell}>
+                                            {/* <td style={styles.tableCell}>
                                                 {EmployeeSalary.totalWorkedhours}
-                                            </td>
+                                            </td> */}
                                             
                                             <td style={styles.tableCell}>
-                                                {EmployeeSalary.totalWorkedpay}
+                                                {EmployeeSalary.BasicSalary}
                                             </td>
 
                                             <td style={styles.tableCell}>

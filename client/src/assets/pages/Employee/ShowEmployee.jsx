@@ -58,7 +58,7 @@ function ShowEmployee() {
             employee.DOB.toLowerCase().includes(searchQuery.toLowerCase()) ||
             employee.NIC.toLowerCase().includes(searchQuery.toLowerCase()) ||
             employee.Address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            employee.Position.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            employee.BasicSalary.toLowerCase().includes(searchQuery.toLowerCase()) ||
             employee.ContactNo.toLowerCase().includes(searchQuery.toLowerCase()) ||
             employee.Email.toLowerCase().includes(searchQuery.toLowerCase())
         );
@@ -121,7 +121,7 @@ function ShowEmployee() {
             <th className='border border-slate-600 rounded-md max-md:hidden'>DOB</th>
             <th className='border border-slate-600 rounded-md max-md:hidden'>NIC</th>
             <th className='border border-slate-600 rounded-md'>Address</th>
-            <th className='border border-slate-600 rounded-md'>Position</th>
+            <th className='border border-slate-600 rounded-md'>BasicSalary</th>
             <th className='border border-slate-600 rounded-md'>ContactNo</th>
             <th className='border border-slate-600 rounded-md'>Email</th>
             <th className='border border-slate-600 rounded-md'>Action</th>
@@ -151,7 +151,7 @@ function ShowEmployee() {
                     {employee.Address}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
-                    {employee.Position}
+                    {employee.BasicSalary}
                 </td>
                 <td className='border border-slate-700 rounded-md text-center max-md:hidden'>
                     {employee.ContactNo}

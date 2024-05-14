@@ -13,7 +13,7 @@ const EditEmployee = () => {
   const [DOB, setDOB] = useState('');
   const [NIC, setNIC] = useState('');
   const [Address, setAddress] = useState('');
-  const [Position, setPosition] = useState('');
+  const [BasicSalary, setBasicSalary] = useState('');
   const [ContactNo, setContactNo] = useState('');
   const [Email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -30,7 +30,7 @@ const EditEmployee = () => {
         setDOB(response.data.DOB)
         setNIC(response.data.NIC);
         setAddress(response.data.Address)
-        setPosition(response.data.Position)
+        setBasicSalary(response.data.BasicSalary)
         setContactNo(response.data.ContactNo)
         setEmail(response.data.Email)
         setLoading(false);
@@ -44,7 +44,7 @@ const EditEmployee = () => {
   const handleEditEmployee = () => {
 
     // Basic validations
-    if (!EmpID || !employeeName || !DOB || !NIC || !Address || !Position || !ContactNo || !Email) {
+    if (!EmpID || !employeeName || !DOB || !NIC || !Address || !BasicSalary || !ContactNo || !Email) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -85,6 +85,28 @@ const EditEmployee = () => {
       return;
     }
 
+    // Validating DOB
+    const dobDate = new Date(DOB);
+    const currentDate = new Date();
+    if (dobDate > currentDate) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'DOB cannot be a future date.',
+      });
+      return;
+    }
+
+    // Validating employeeName
+    const namePattern = /^[A-Za-z]+$/;
+    if (!namePattern.test(employeeName)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Employee Name should only contain letters.',
+      });
+      return;
+    }
     
     const data = {
       EmpID,
@@ -92,7 +114,7 @@ const EditEmployee = () => {
       DOB,
       NIC,
       Address,
-      Position,
+      BasicSalary,
       ContactNo,
       Email
     };
@@ -126,7 +148,8 @@ const EditEmployee = () => {
               type='text'
               value={EmpID}
               onChange={(e) => setEmpID(e.target.value)}
-              style={styles.input}
+              style={styles.input} 
+              readOnly
             />
           </div>
           <div style={styles.formGroup}>
@@ -134,7 +157,12 @@ const EditEmployee = () => {
             <input
               type='text'
               value={employeeName}
-              onChange={(e) => setemployeeName(e.target.value)}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                // Remove numeric characters from the input value
+                const filteredValue = inputValue.replace(/\d/g, '');
+                // Update the state with the filtered value
+                setemployeeName(filteredValue)}}
               style={styles.input}
             />
           </div>
@@ -168,18 +196,18 @@ const EditEmployee = () => {
             />
           </div>
           <div style={styles.formGroup}>
-            <label style={styles.label}>Position</label>
+            <label style={styles.label}>BasicSalary</label>
             <input
-              type='text'
-              value={Position}
-              onChange={(e) => setPosition(e.target.value)}
+              type='number'
+              value={BasicSalary}
+              onChange={(e) => setBasicSalary(e.target.value)}
               style={styles.input}
             />
           </div>
           <div style={styles.formGroup}>
             <label style={styles.label}>Contact No</label>
             <input
-              type='text'
+              type='number'
               value={ContactNo}
               onChange={(e) => setContactNo(e.target.value)}
               style={styles.input}
@@ -227,7 +255,7 @@ const styles = {
     
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundBasicSalary: 'center',
     height: '117vh', // Set height to cover the viewport height
 },
 formContainer: {

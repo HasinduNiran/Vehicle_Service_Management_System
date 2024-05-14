@@ -13,8 +13,8 @@ export default function ReportEmployee({ filteredEmployeesSalary }) {
       "To Date",
       "Total OT Hours",
       "Total OT Pay",
-      "Total Worked Hours",
-      "Total Worked Pay",
+      //"Total Worked Hours",
+      "Basic Salary",
       "Total Salary",
     ];
     const tableRows = [];
@@ -31,8 +31,8 @@ export default function ReportEmployee({ filteredEmployeesSalary }) {
           employee.toDate,
           employee.totalOThours,
           employee.totalOTpay,
-          employee.totalWorkedhours,
-          employee.totalWorkedpay,
+          //employee.totalWorkedhours,
+          employee.BasicSalary,
           employee.TotalSalary,
         ];
         tableRows.push(data);
@@ -79,6 +79,18 @@ export default function ReportEmployee({ filteredEmployeesSalary }) {
     });
 
     doc.save(`Employee-Salary-Report_${dateStr}.pdf`);
+
+    // Compose email details
+    const emailSubject = encodeURIComponent('Employee Salary Report');
+    const emailBody = encodeURIComponent('Please find attached the employee salary report.');
+    const emailRecipient = encodeURIComponent('kavindipathiraja02@gmail.com');
+    const emailAttachment = encodeURIComponent(`Employee-Salary-Report_${dateStr}.pdf`);
+
+    // Generate mailto link
+    const mailtoLink = `mailto:${emailRecipient}?subject=${emailSubject}&body=${emailBody}&attachment=${emailAttachment}`;
+
+    // Open Outlook with email details
+    window.location.href = mailtoLink;
   }
 
   return (
@@ -96,5 +108,3 @@ export default function ReportEmployee({ filteredEmployeesSalary }) {
     </div>
   );
 }
-
-

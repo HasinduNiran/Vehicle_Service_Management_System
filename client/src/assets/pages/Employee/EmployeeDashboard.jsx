@@ -55,7 +55,7 @@ function EmployeeDashboard() {
       employee.DOB.toLowerCase().includes(searchQuery.toLowerCase()) ||
       employee.NIC.toLowerCase().includes(searchQuery.toLowerCase()) ||
       employee.Address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      employee.Position.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      employee.BasicSalary.toLowerCase().includes(searchQuery.toLowerCase()) ||
       employee.ContactNo.toLowerCase().includes(searchQuery.toLowerCase()) ||
       employee.Email.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -68,7 +68,7 @@ function EmployeeDashboard() {
       color: 'black',
       backgroundImage: `url(${backgroundImage})`,
       backgroundSize: 'cover',
-      backgroundPosition: 'center'
+      backgroundBasicSalary: 'center'
     },
     navButton: {
       backgroundColor: 'red',
@@ -215,7 +215,7 @@ function EmployeeDashboard() {
                           <th style={styles.tableHeader}>DOB</th>
                           <th style={styles.tableHeader}>NIC</th>
                           <th style={styles.tableHeader}>Address</th>
-                          <th style={styles.tableHeader}>Position</th>
+                          <th style={styles.tableHeader}>BasicSalary</th>
                           <th style={styles.tableHeader}>ContactNo</th>
                           <th style={styles.tableHeader}>Email</th>
                           <th style={styles.tableHeader}>Action</th>
@@ -230,7 +230,7 @@ function EmployeeDashboard() {
                             <td style={styles.tableCell}>{employee.DOB}</td>
                             <td style={styles.tableCell}>{employee.NIC}</td>
                             <td style={styles.tableCell}>{employee.Address}</td>
-                            <td style={styles.tableCell}>{employee.Position}</td>
+                            <td style={styles.tableCell}>{employee.BasicSalary}</td>
                             <td style={styles.tableCell}>{employee.ContactNo}</td>
                             <td style={styles.tableCell}>{employee.Email}</td>
                             <td style={styles.tableCell}>
