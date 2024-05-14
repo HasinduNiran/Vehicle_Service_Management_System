@@ -13,6 +13,7 @@ const CreateInventory = () => {
   const [sellPrice, setSellPrice] = useState('');
   const [supplierName, setSupplierName] = useState('');
   const [supplierPhone, setSupplierPhone] = useState('');
+  const [supplierEmail, setSupplierEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -20,17 +21,17 @@ const CreateInventory = () => {
   const validateForm = () => {
     let errors = {};
     let isValid = true;
-  
+
     if (!name.trim()) {
       errors.name = 'Name is required';
       isValid = false;
     }
-  
+
     if (!location.trim()) {
       errors.location = 'Location is required';
       isValid = false;
     }
-  
+
     if (!quantity.trim()) {
       errors.quantity = 'Quantity is required';
       isValid = false;
@@ -38,7 +39,7 @@ const CreateInventory = () => {
       errors.quantity = 'Quantity must be a positive number';
       isValid = false;
     }
-  
+
     if (!purchasedPrice.trim()) {
       errors.purchasedPrice = 'Purchased Price is required';
       isValid = false;
@@ -46,7 +47,7 @@ const CreateInventory = () => {
       errors.purchasedPrice = 'Purchased Price must be a positive number';
       isValid = false;
     }
-  
+
     if (!sellPrice.trim()) {
       errors.sellPrice = 'Sell Price is required';
       isValid = false;
@@ -57,12 +58,12 @@ const CreateInventory = () => {
       errors.sellPrice = 'Sell Price must be equal to or greater than Purchased Price';
       isValid = false;
     }
-  
+
     if (!supplierName.trim()) {
       errors.supplierName = 'Supplier Name is required';
       isValid = false;
     }
-  
+
     if (!supplierPhone.trim()) {
       errors.supplierPhone = 'Supplier Phone is required';
       isValid = false;
@@ -70,7 +71,12 @@ const CreateInventory = () => {
       errors.supplierPhone = 'Supplier Phone must start with 0 and be a 10-digit number';
       isValid = false;
     }
-  
+
+    if (!supplierEmail.trim()) {
+      errors.supplierEmail = 'Supplier email is required';
+      isValid = false;
+    }
+
     if (!isValid) {
       // Display SweetAlert for errors
       Swal.fire({
@@ -79,11 +85,11 @@ const CreateInventory = () => {
         html: Object.values(errors).map(error => `<p>${error}</p>`).join(''),
       });
     }
-  
+
     setErrors(errors);
     return isValid;
   };
-  
+
   const checkInventoryItem = async (itemNameUpperCase) => {
     try {
       const response = await axios.get(`http://localhost:8076/inventory?Name=${itemNameUpperCase}`);
@@ -114,7 +120,7 @@ const CreateInventory = () => {
       setLoading(false); // Set loading to false
       return;
     }
-  
+
     const data = {
       Name: itemNameUpperCase, // Save item name in uppercase
       Location: location,
@@ -123,6 +129,7 @@ const CreateInventory = () => {
       SellPrice: sellPrice,
       SupplierName: supplierName,
       SupplierPhone: supplierPhone,
+      SupplierEmail: supplierEmail,
     };
 
     axios
@@ -164,11 +171,18 @@ const CreateInventory = () => {
     setSupplierPhone(value);
   };
 
+  const handleEmailChange = (e) => {
+    setSupplierEmail(e.target.value);
+  };
+
   return (
     <div style={styles.container}>
+      {/* Loading spinner */}
       {loading ? <Spinner /> : ''}
       <div style={styles.formContainer}>
+        {/* Form heading */}
         <h1 style={styles.heading}>Add Inventory</h1>
+        {/* Name input field */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Name</label>
           <input
@@ -179,6 +193,7 @@ const CreateInventory = () => {
           />
           {errors.name && <p style={styles.error}>{errors.name}</p>}
         </div>
+        {/* Location input field */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Location</label>
           <input
@@ -189,6 +204,7 @@ const CreateInventory = () => {
           />
           {errors.location && <p style={styles.error}>{errors.location}</p>}
         </div>
+        {/* Quantity input field */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Quantity</label>
           <input
@@ -199,6 +215,7 @@ const CreateInventory = () => {
           />
           {errors.quantity && <p style={styles.error}>{errors.quantity}</p>}
         </div>
+        {/* Purchased Price input field */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Purchased Price</label>
           <input
@@ -209,6 +226,7 @@ const CreateInventory = () => {
           />
           {errors.purchasedPrice && <p style={styles.error}>{errors.purchasedPrice}</p>}
         </div>
+        {/* Sell Price input field */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Sell Price</label>
           <input
@@ -219,6 +237,7 @@ const CreateInventory = () => {
           />
           {errors.sellPrice && <p style={styles.error}>{errors.sellPrice}</p>}
         </div>
+        {/* Supplier Name input field */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Supplier Name</label>
           <input
@@ -229,6 +248,7 @@ const CreateInventory = () => {
           />
           {errors.supplierName && <p style={styles.error}>{errors.supplierName}</p>}
         </div>
+        {/* Supplier Phone input field */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Supplier Phone</label>
           <input
@@ -239,6 +259,18 @@ const CreateInventory = () => {
           />
           {errors.supplierPhone && <p style={styles.error}>{errors.supplierPhone}</p>}
         </div>
+        {/* Supplier Email input field */}
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Supplier Email</label>
+          <input
+            type="email"
+            value={supplierEmail}
+            onChange={handleEmailChange}
+            style={styles.input}
+          />
+          {errors.supplierEmail && <p style={styles.error}>{errors.supplierEmail}</p>}
+        </div>
+        {/* Save button */}
         <div style={styles.buttonContainer}>
           <button style={styles.button} onClick={handleSaveInventory}>
             Save

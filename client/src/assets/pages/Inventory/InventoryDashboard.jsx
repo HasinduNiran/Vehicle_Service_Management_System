@@ -276,7 +276,9 @@ const InventoryDashboard = () => {
                                                         <th style={styles.tableHeader}>Sell Price</th>
                                                         <th style={styles.tableHeader}>Supplier Name</th>
                                                         <th style={styles.tableHeader}>Supplier Phone</th>
+                                                        <th style={styles.tableHeader}>Supplier Email</th> {/* Add table header for Supplier Email */}
                                                         <th style={styles.tableHeader}>Operations</th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -290,6 +292,7 @@ const InventoryDashboard = () => {
                                                             <td style={styles.tableCell}>{inventoryItem.SellPrice}</td>
                                                             <td style={styles.tableCell}>{inventoryItem.SupplierName}</td>
                                                             <td style={styles.tableCell}>{inventoryItem.SupplierPhone}</td>
+                                                            <td style={styles.tableCell}>{inventoryItem.SupplierEmail}</td> {/* Include Supplier Email in table cells */}
                                                             <td style={styles.tableCell}>
                                                                 <div className='flex justify-center gap-x-4'>
                                                                     <Link to={`/inventory/get/${inventoryItem._id}`}>
