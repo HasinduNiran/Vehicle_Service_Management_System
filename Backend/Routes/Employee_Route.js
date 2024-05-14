@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', async (request, response) => {
   try {
     if (
-      !request.body.EmpID ||
+      
       !request.body.employeeName ||
       !request.body.DOB ||
       !request.body.NIC ||
@@ -18,11 +18,11 @@ router.post('/', async (request, response) => {
 
     ) {
       return response.status(400).send({
-        message: 'Send all required fields: EmpID, employeeName, DOB, NIC, Address, BasicSalary, ContactNo,Email',
+        message: 'Send all required fields:  employeeName, DOB, NIC, Address, BasicSalary, ContactNo,Email',
       });
     }
     const newEmployee = {
-      EmpID: request.body.EmpID,
+      
       employeeName: request.body.employeeName,
       DOB: request.body.DOB,
       NIC: request.body.NIC,
@@ -74,7 +74,7 @@ router.get('/:id', async (request, response) => {
 router.put('/:id', async (request, response) => {
   try {
     if (
-      !request.body.EmpID ||
+      
       !request.body.employeeName ||
       !request.body.DOB ||
       !request.body.NIC ||

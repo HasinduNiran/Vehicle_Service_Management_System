@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 //import { useSnackbar } from 'notistack';
 
 const CreateEmployee = () => {
-  const [EmpID, setEmpID] = useState('');
+  
   const [employeeName, setemployeeName] = useState('');
   const [DOB, setDOB] = useState('');
   const [NIC, setNIC] = useState('');
@@ -21,10 +21,12 @@ const CreateEmployee = () => {
   const navigate = useNavigate();
   //const { enqueueSnackbar } = useSnackbar();
 
+ 
+
   const handleSaveEmployee = () => {
 
     // Basic validations
-    if (!EmpID || !employeeName || !DOB || !NIC || !Address || !BasicSalary || !ContactNo || !Email) {
+    if (!employeeName || !DOB || !NIC || !Address || !BasicSalary || !ContactNo || !Email) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -66,7 +68,7 @@ const CreateEmployee = () => {
     }
 
     const data = {
-      EmpID,
+      
       employeeName,
       DOB,
       NIC,
@@ -99,15 +101,6 @@ const CreateEmployee = () => {
       {loading ? <Spinner /> : ''}
       <div style={styles.formContainer}>
         <div style={styles.form}>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>EmpID</label>
-            <input
-              type='text'
-              value={EmpID}
-              onChange={(e) => setEmpID(e.target.value)}
-              style={styles.input}
-            />
-          </div>
           <div style={styles.formGroup}>
             <label style={styles.label}>Employee Name</label>
             <input
