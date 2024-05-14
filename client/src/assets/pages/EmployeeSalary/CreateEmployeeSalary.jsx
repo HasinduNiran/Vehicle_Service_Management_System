@@ -114,6 +114,7 @@ const CreateEmployeeSalary = () => {
     setTotalSalary(totalSalary);
   };
 
+  //validations
   const handleSaveEmployeeSalary = () => {
     if (!selectedEmployee.EmpID || !selectedEmployee.employeeName || !fromDate || !toDate || !totalOThours || !totalOTpay || !BasicSalary) {
       Swal.fire({
@@ -148,6 +149,30 @@ const CreateEmployeeSalary = () => {
         icon: 'error',
         title: 'Oops...',
         text: 'Total OT hours must be between 0 and 48 hours.',
+      });
+      return;
+    }
+
+    // Validating fromDate
+    const fDate = new Date(fromDate);
+    const fcurrentDate = new Date();
+    if (fDate > fcurrentDate) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'DOB cannot be a future date.',
+      });
+      return;
+    }
+
+    // Validating toDate
+    const tDate = new Date(toDate);
+    const tcurrentDate = new Date();
+    if (tDate > tcurrentDate) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'DOB cannot be a future date.',
       });
       return;
     }
@@ -260,6 +285,7 @@ const CreateEmployeeSalary = () => {
               value={BasicSalary}
               onChange={(e) => setBasicSalary(e.target.value)}
               style={styles.input}
+              readOnly
             />
           </div>
 

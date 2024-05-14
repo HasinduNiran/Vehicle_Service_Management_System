@@ -85,6 +85,28 @@ const EditEmployee = () => {
       return;
     }
 
+    // Validating DOB
+    const dobDate = new Date(DOB);
+    const currentDate = new Date();
+    if (dobDate > currentDate) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'DOB cannot be a future date.',
+      });
+      return;
+    }
+
+    // Validating employeeName
+    const namePattern = /^[A-Za-z]+$/;
+    if (!namePattern.test(employeeName)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Employee Name should only contain letters.',
+      });
+      return;
+    }
     
     const data = {
       EmpID,
@@ -126,7 +148,8 @@ const EditEmployee = () => {
               type='text'
               value={EmpID}
               onChange={(e) => setEmpID(e.target.value)}
-              style={styles.input}
+              style={styles.input} 
+              readOnly
             />
           </div>
           <div style={styles.formGroup}>
@@ -134,7 +157,12 @@ const EditEmployee = () => {
             <input
               type='text'
               value={employeeName}
-              onChange={(e) => setemployeeName(e.target.value)}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                // Remove numeric characters from the input value
+                const filteredValue = inputValue.replace(/\d/g, '');
+                // Update the state with the filtered value
+                setemployeeName(filteredValue)}}
               style={styles.input}
             />
           </div>
@@ -179,7 +207,7 @@ const EditEmployee = () => {
           <div style={styles.formGroup}>
             <label style={styles.label}>Contact No</label>
             <input
-              type='text'
+              type='number'
               value={ContactNo}
               onChange={(e) => setContactNo(e.target.value)}
               style={styles.input}

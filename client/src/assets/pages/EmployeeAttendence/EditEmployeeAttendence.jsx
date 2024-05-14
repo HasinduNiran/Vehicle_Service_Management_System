@@ -51,6 +51,18 @@ const EditEmployeeAttendence = () => {
       return;
     }
 
+    // Validating DOB
+    const Ddate = new Date(date);
+    const currentDate = new Date();
+    if (Ddate > currentDate) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'date cannot be a future date.',
+      });
+      return;
+    }
+
     const data = {
       EmpID,
       employeeName,
@@ -156,6 +168,7 @@ const EditEmployeeAttendence = () => {
               value={EmpID}
               onChange={(e) => setEmpID(e.target.value)}
               style={styles.input}
+              readOnly
             />
           </div>
   
@@ -166,6 +179,7 @@ const EditEmployeeAttendence = () => {
               value={employeeName}
               onChange={(e) => setemployeeName(e.target.value)}
               style={styles.input}
+              readOnly
             />
           </div>
   

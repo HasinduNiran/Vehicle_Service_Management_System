@@ -151,6 +151,29 @@ const EditEmployeeSalary = () => {
       return;
     }
 
+    // Validating fromDate
+    const fDate = new Date(fromDate);
+    const fcurrentDate = new Date();
+    if (fDate > fcurrentDate) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'DOB cannot be a future date.',
+      });
+      return;
+    }
+
+    // Validating toDate
+    const tDate = new Date(toDate);
+    const tcurrentDate = new Date();
+    if (tDate > tcurrentDate) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'DOB cannot be a future date.',
+      });
+      return;
+    }
 
     calculateTotalOvertimeHours();
     calculatedTotalOTpay();
@@ -210,6 +233,7 @@ const EditEmployeeSalary = () => {
               value={EmpID}
               onChange={(e) => setEmpID(e.target.value)}
               style={styles.input}
+              readOnly
             />
           </div>
           <div style={styles.formGroup}>
@@ -219,6 +243,7 @@ const EditEmployeeSalary = () => {
               value={employeeName}
               onChange={(e) => setemployeeName(e.target.value)}
               style={styles.input}
+              readOnly
             />
           </div>
           <div style={styles.formGroup}>
@@ -249,6 +274,7 @@ const EditEmployeeSalary = () => {
               value={totalOThours}
               onChange={(e) => settotalOThours(e.target.value)}
               style={styles.input}
+              readOnly
             />
             <button style={styles.button} onClick={calculateTotalOvertimeHours}>
               Calculate Total OT Hours
@@ -275,6 +301,7 @@ const EditEmployeeSalary = () => {
               value={totalOTpay}
               onChange={(e) => settotalOTpay(e.target.value)}
               style={styles.input}
+              readOnly
             />
             <button style={styles.button} onClick={calculatedTotalOTpay}>
               Calculate Total OT Pay
@@ -288,6 +315,7 @@ const EditEmployeeSalary = () => {
               value={BasicSalary }
               onChange={(e) => setBasicSalary(e.target.value)}
               style={styles.input}
+              readOnly
             />
           </div>
 
@@ -298,6 +326,7 @@ const EditEmployeeSalary = () => {
               value={TotalSalary}
               onChange={(e) => setTotalSalary(e.target.value)}
               style={styles.input}
+              readOnly
             />
             <button style={styles.button} onClick={calculatedTotalSalary}>
               Calculate Total Salary
