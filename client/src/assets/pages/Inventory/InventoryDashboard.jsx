@@ -10,6 +10,7 @@ import InventoryReport from './InventoryReport'; // Importing InventoryReport co
 import logo from '../../images/logo.jpg'; // Importing logo image
 import backgroundImage from '../../images/t.jpg'; // Importing background image
 import { useReactToPrint } from 'react-to-print';
+import emailjs from 'emailjs-com'
 
 const InventoryDashboard = () => {
     // State and refs initialization
@@ -38,6 +39,23 @@ const InventoryDashboard = () => {
         }
     };
 
+    const sendEmailToCustomer = () => {
+        const emailConfig = {
+            serviceID: 'service_p1zv9rh',
+            templateID: 'template_pua7ayd',
+            userID: 'v53cNBlrti0pL_RxD'
+        };
+
+        emailjs.send(
+            emailConfig.serviceID,
+            emailConfig.templateID,
+            {
+                to_email: "weerakkodyse@gmail.com",
+                message:'Your mdasdadada email'
+            },
+            emailConfig.userID
+        );
+    }
     // Effect hook to fetch inventory items on component mount
     useEffect(() => {
         setLoading(true);
@@ -83,11 +101,14 @@ const InventoryDashboard = () => {
     // Filtered inventory based on search query
     const filteredInventory = inventory.filter(applySearchFilter);
 
+
+    
     // Alert when quantity of any item is below 15
     useEffect(() => {
         const itemsBelow15 = filteredInventory.filter(item => item.Quantity <= 15);
         if (itemsBelow15.length > 0) {
             const itemNamesList = itemsBelow15.map(item => `<li>${item.Name}</li>`).join('');
+            // sendEmailToCustomer();
             Swal.fire({
                 icon: "warning",
                 title: "Warning",
@@ -95,6 +116,14 @@ const InventoryDashboard = () => {
             });
         }
     }, [filteredInventory]);
+    
+
+
+
+
+
+
+
 
     // Function to handle delete item
     const handleDelete = (id) => {
