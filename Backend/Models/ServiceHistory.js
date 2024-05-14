@@ -10,6 +10,10 @@ const serviceSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    Customer_Email: {
+        type: String,
+        required: true,
+    },
     Allocated_Employee: {
         type: String,
         required: true,

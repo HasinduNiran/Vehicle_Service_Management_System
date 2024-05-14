@@ -61,6 +61,7 @@ router.post('/', async (request, response) => {
         const newServiceHistory = new serviceHistory({
             cusID: request.body.cusID,
             Customer_Name: request.body.Customer_Name,
+            Customer_Email: request.body.Customer_Email,
             Allocated_Employee: request.body.Allocated_Employee,
             Vehicle_Number: request.body.Vehicle_Number,
             Milage: request.body.Milage,
@@ -194,6 +195,7 @@ router.get('/searchservices', async function (request, response) {
         const serviceHistories = await serviceHistory.find({
             $or: [
                 { Customer_Name: { $regex: search, $options: 'i' } },
+                { Customer_Email: { $regex: search, $options: 'i' } },
                 { Allocated_Employee: { $regex: search, $options: 'i' } },
                 { Vehicle_Number: { $regex: search, $options: 'i' } },
                 { Milage: { $regex: search, $options: 'i' } },

@@ -36,6 +36,7 @@ export default function PackageReport({ filteredServiceHistories }) {
                     service.cusID,
                     service.Booking_Id,
                     service.Customer_Name,
+                    service.Customer_Email,
                     service.Allocated_Employee,
                     service.Vehicle_Number,
                     service.Milage,

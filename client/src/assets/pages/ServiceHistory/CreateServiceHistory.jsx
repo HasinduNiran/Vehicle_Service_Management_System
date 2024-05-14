@@ -9,6 +9,7 @@ import backgroundImage from '../../images/t.jpg';
 const CreateServiceHistory = () => {
   const [cusID, setCusID] = useState('');
   const [customerName, setCustomerName] = useState('');
+  const [customeremail, setCustomerEmail] = useState('');
   const [allocatedEmployee, setAllocatedEmployee] = useState('');
   const [vehicleNumber, setVehicleNumber] = useState('');
   const [milage, setMilage] = useState('');
@@ -110,6 +111,7 @@ const CreateServiceHistory = () => {
     const data = {
       cusID,
       Customer_Name: customerName,
+      Customer_Email: customeremail,
       Allocated_Employee: allocatedEmployee,
       Vehicle_Number: vehicleNumber,
       Milage: milage,
@@ -131,8 +133,20 @@ const CreateServiceHistory = () => {
       Swal.fire({
         icon: 'success',
         title: 'Service Created Successfully!',
-        text: `Vehicle Number: ${vehicleNumber}\nNext Service: ${nextService}`,
+        html: `Vehicle Number: ${vehicleNumber}<br>
+              Next Service: ${nextService}<br>
+              Customer Email: ${customeremail}<br><br>
+              Send Email to Customer?`,
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Send Email',
+        cancelButtonText: 'No, Close',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Handle email sending logic here
+          sendEmailToCustomer();
+        }
       });
+
 
       // Perform navigation after successful submission
       navigate('/ServiceHistory/dashboard');
@@ -204,6 +218,14 @@ const CreateServiceHistory = () => {
               style={styles.input1}
               value={customerName}
               disabled
+            />
+          </div>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Customer Email</label>
+            <input
+              style={styles.input1}
+              value={customeremail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
             />
           </div>
           <div style={styles.inputGroup}>
