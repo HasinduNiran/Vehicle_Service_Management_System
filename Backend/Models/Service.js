@@ -5,6 +5,10 @@ const serviceSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    Price: {
+        type: Number,
+        required: true,
+    }
 });
 
 export const serviceModel = mongoose.model('service', serviceSchema);

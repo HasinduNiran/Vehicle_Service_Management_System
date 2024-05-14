@@ -7,22 +7,20 @@ const router = express.Router();
 // Add a package
 router.post('/', async (req, res) => {
     try {
-        const { pakgname, pkgdescription, includes, Price } = req.body;
+        const { pakgname, pkgdescription, includes, Price, exp } = req.body;
 
         // Validate required fields
-        if (!pakgname || !pkgdescription || !includes || !Price) {
-            return res.status(400).json({ message: 'All required fields must be provided: pakgname, pkgdescription, includes, Price' });
+        if (!pakgname || !pkgdescription || !includes || !Price ) {
+            return res.status(400).json({ message: 'All required fields must be provided: pakgname, pkgdescription, includes, Price, exp' });
         }
 
-        const newPackage = await PackageModel.create({ pakgname, pkgdescription, includes, Price });
+        const newPackage = await PackageModel.create({ pakgname, pkgdescription, includes, Price, exp });
         return res.status(201).json(newPackage);
     } catch (error) {
         console.error('Error adding package:', error);
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 });
-
-
 
 // Read all packages
 router.get('/', async (req, res) => {
@@ -85,32 +83,26 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-//search
-router.get("searchpackage", function (req, res) {
-    var search = req.query.search;
-    console.log(search);
-    Vehicle.find({
-        $or: [
-            { pakgname: { $regex: search, $options: "i" } },
-            { pkgdescription: { $regex: search, $options: "i" } },
-            { includes: { $regex: search, $options: "i" } },
-            { Price: { $regex: search, $options: "i" } }
-            
-        ]
-    }, function (err, result) {
-        if (err) {
-            console.log(err);
+// Search for a package
+router.get("/searchpackage", async (req, res) => {
+    try {
+        const search = req.query.search;
+        const result = await PackageModel.find({
+            $or: [
+                { pakgname: { $regex: new RegExp(search, "i") } },
+                { pkgdescription: { $regex: new RegExp(search, "i") } },
+                { includes: { $regex: new RegExp(search, "i") } },
+                { Price: { $regex: new RegExp(search, "i") } },
+                { exp: { $regex: new RegExp(search, "i") } }
+            ]
+        });
+
+        res.json(result);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message:
+            "Internal server error" });
         }
-        else {
-            res.json(result);
-        }
-    });
-});
-
-
-
-
-
-
-
-export default router;
+        });
+        
+        export default router;

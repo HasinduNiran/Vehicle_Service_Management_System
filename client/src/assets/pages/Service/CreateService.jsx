@@ -6,16 +6,18 @@ import backgroundImage from '../../images/t.jpg';
 
 const CreateService = () => {
   const [serviceName, setServiceName] = useState('');
+  const [price, setPrice] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
     const data = {
-      Servicename:serviceName // Changed variable name to camelCase
+      Servicename: serviceName,
+      Price: price // Added price to the data object
     };
     setLoading(true);
     try {
-      await axios.post('http://localhost:8076/Service/', data); // Added quotes around URL
+      await axios.post('http://localhost:8076/Service/', data);
       setLoading(false);
       navigate('/Service/dashboard');
     } catch (error) {
@@ -28,7 +30,7 @@ const CreateService = () => {
   return (
     <div style={styles.container}>
       <div className="p-4" style={styles.formContainer}>
-        {loading && <Spinner />} {/* Display Spinner when loading is true */}
+        {loading && <Spinner />}
         <h1 style={styles.heading}>Add New Service</h1>
         <form style={styles.form}>
           <div style={styles.formGroup}>
@@ -38,6 +40,15 @@ const CreateService = () => {
               style={styles.input}
               value={serviceName}
               onChange={(e) => setServiceName(e.target.value)}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Price</label>
+            <input
+              type="text" // Assuming price is entered as text, adjust as needed
+              style={styles.input}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
             />
           </div>
           <button type="button" style={styles.button} onClick={handleSubmit}>
@@ -55,7 +66,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    backgroundImage: `url(${backgroundImage})`, // Fixed backgroundImage syntax
+    backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
@@ -71,7 +82,7 @@ const styles = {
     borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
     padding: '20px',
-    border: '2px solid red', // Add a red border
+    border: '2px solid red',
     margin: '10px',
     textAlign: 'center',
   },
