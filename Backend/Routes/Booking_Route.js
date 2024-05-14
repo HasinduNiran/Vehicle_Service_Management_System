@@ -2,12 +2,40 @@
 
 import  express from 'express';
 import mongoose from 'mongoose';
+import nodemailer from 'nodemailer';
 
 import {createVehicle} from '../Models/Booking.js';
 import { addLimit } from '../Models/BookingLimit.js';
 
 const router = express.Router();
 
+// Set up nodemailer transporter
+const transporter = nodemailer.createTransport({
+  // Configure your email service provider here
+  service: 'gmail',
+  auth: {
+      user: 'isurusja@gmail.com',
+      pass: 'pfkq nuka wlbn zikh'
+  }
+});
+
+const sendBookingConfirmationEmail = (customerEmail, bookingDetails) => {
+  const mailOptions = {
+      from: 'isurusja@gmail.com',
+      to: customerEmail,
+      subject: 'Booking Confirmation',
+      html: `<p>Dear ${bookingDetails.Customer_Name},</p>
+             <p>Your booking for ${bookingDetails.Vehicle_Type} Number ${bookingDetails.Vehicle_Number} on ${bookingDetails.Booking_Date} has been confirmed.</p>`
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          console.log('Error sending email:', error);
+      } else {
+          console.log('Email sent:', info.response);
+      }
+  });
+};
 
 router.post('/',async (request, response) => {
    try{
@@ -27,7 +55,7 @@ router.post('/',async (request, response) => {
       // Query to find the booking limit for the selected date
       const bookingLimit = await addLimit.findOne({ Booking_Date: bookingDate });
       // Get the maximum bookings per day from the booking limit data
-      const maxBookingsPerDay = bookingLimit ? bookingLimit.Booking_Limit : 20;// Default limit is 20 if booking limit is not available
+      const maxBookingsPerDay = bookingLimit ? bookingLimit.Booking_Limit : 0;// Default limit is 0 if booking limit is not available
       // Query to count bookings made on the selected date
       const bookingsCount = await createVehicle.countDocuments({ Booking_Date: bookingDate });
       // Check if the booking limit for the selected date is exceeded
@@ -49,8 +77,12 @@ router.post('/',async (request, response) => {
     selectedPackage: request.body.selectedPackage,
     selectedServices: request.body.selectedServices
     };
-    
+  
     const vehicle = await createVehicle.create(newVehicle);
+
+     // Send booking confirmation email
+     sendBookingConfirmationEmail(request.body.Email, request.body);
+
     return response.status(201).send(vehicle);
     
       
