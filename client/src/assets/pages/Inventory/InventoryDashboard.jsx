@@ -103,7 +103,7 @@ const InventoryDashboard = () => {
 useEffect(() => {
     const itemsBelow15 = filteredInventory.filter(item => item.Quantity <= 15);
     if (itemsBelow15.length > 0) {
-        const itemListWithSupplier = itemsBelow15.map(item => `<li>${item.Name} - ${item.SupplierEmail}</li>`).join('');
+        const itemListWithSupplier = itemsBelow15.map(item => `<li>${item.Name} Provided By ${item.SupplierEmail}</li>`).join('');
         Swal.fire({
             icon: "warning",
             title: "Warning",
@@ -272,11 +272,7 @@ useEffect(() => {
                                             style={styles.navButton}>
                                             <InventoryReport filteredInventory={filteredInventory} />
                                         </div>
-                                        <button
-                                            onClick={() => { window.location.href = '/inventory/create' }}
-                                            style={styles.navButton}>
-                                           View Transaction History
-                                        </button>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -339,9 +335,6 @@ useEffect(() => {
                                 </div>
                             </main>
                         )}
-
-
-
                     </div>
                 </div>
             </div>
