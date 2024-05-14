@@ -4,7 +4,6 @@ import Spinner from '../../components/Spinner';
 import { Link } from 'react-router-dom';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { MdOutlineDelete } from 'react-icons/md';
-import ReportBookings from '../Booking/ReportBookings';
 import logo from '../../images/logo.jpg';
 import backgroundImage from '../../images/t.jpg';
 
@@ -158,19 +157,15 @@ function BookingLimitDashBoard() {
                                     <div className="sb-nav-link-icon">
                                         <img src={logo} alt="Nadeeka Auto Logo" style={styles.logo} />
                                         <button
-                                            onClick={() => { window.location.href = '/booking/adminbooking' }}
+                                            onClick={() => { window.location.href = '/booking/addbookinglimit' }}
                                             style={styles.navButton}>
-                                            Add Booking
+                                            Add Booking Limit
                                         </button>
                                         <button
                                             onClick={() => { window.location.href = '/booking/dashboard' }}
                                             style={styles.navButton}>
                                             All Bookings
                                         </button>
-                                        <div
-                                            style={styles.navButton}>
-                                            <ReportBookings filteredBooking={filteredBooking} />
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -203,10 +198,10 @@ function BookingLimitDashBoard() {
                                                             <td style={styles.tableCell}>{bookinglimit.Booking_Limit}</td>
                                                             <td style={styles.tableCell}>
                                                                 <div className='flex justify-center gap-x-4'>
-                                                                    <Link to={`/edit/${bookinglimits._id}`}>
+                                                                    <Link to={`/booking/updatelimit/${bookinglimit._id}`}>
                                                                         <AiOutlineEdit className='text-2x1 text-yellow-600' />
                                                                     </Link>
-                                                                    <Link to={`/booking/delete/${bookinglimits._id}`}>
+                                                                    <Link to={`/booking/deletelimit/${bookinglimit._id}`}>
                                                                         <MdOutlineDelete className='text-2x1 text-red-600' />
                                                                     </Link>
                                                                 </div>

@@ -91,15 +91,12 @@ router.post('/',async (request, response) => {
         res.status(500).send({ message: 'Internal Server Error' });
     }
 });
-    //Route for update booking
-    /*router.put('/:id',async (request, response) => {
+    //Route for update booking limit
+    router.put('/:id',async (request, response) => {
       try{
       if(
-     !request.body.Customer_Name ||
-     !request.body.Vehicle_Type || 
-     !request.body.Vehicle_Number||
-     !request.body.Contact_Number ||
-     !request.body.Email
+     !request.body.Booking_Date ||
+     !request.body.Booking_Limit
       ){
     return response.status(400).send({
       message: 'Send all required field'
@@ -108,33 +105,33 @@ router.post('/',async (request, response) => {
     
       const {id} = request.params;
 
-      const result = await createVehicle.findByIdAndUpdate(id, request.body); 
+      const result = await addLimit.findByIdAndUpdate(id, request.body); 
      if (!result){
-      return response.status(404).json({ message: 'book not found'});
+      return response.status(404).json({ message: 'book limit not found'});
      }
-     return response.status(200).send({ message: 'book updated successfully' });
+     return response.status(200).send({ message: 'booking limit updated successfully' });
       }catch(error){
         console.log(error.message);
         response.status(500).send({ message: error.message });
       }
     });
     
-    //Route for delete booking
+    //Route for delete booking limit
 
     router.delete('/:id',async (request, response) => {
       try{
       const {id} = request.params;
-      const result = await createVehicle.findByIdAndDelete(id);
+      const result = await addLimit.findByIdAndDelete(id);
       if (!result){
-      return response.status(404).json({ message: 'book not found'});
+      return response.status(404).json({ message: 'booking limit not found'});
       }
-     return response.status(200).send({ message: 'book deleted successfully' });
+     return response.status(200).send({ message: 'booking limit deleted successfully' });
     }catch(error){
       console.log(error.message);
       response.status(500).send({ message: error.message });
     }
   });
-
+/*
   router.get("/searchbooking", function (req, res) {
     var search = req.query.search;
     console.log(search);

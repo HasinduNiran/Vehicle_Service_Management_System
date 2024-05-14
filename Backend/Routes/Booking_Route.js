@@ -27,7 +27,7 @@ router.post('/',async (request, response) => {
       // Query to find the booking limit for the selected date
       const bookingLimit = await addLimit.findOne({ Booking_Date: bookingDate });
       // Get the maximum bookings per day from the booking limit data
-      const maxBookingsPerDay = bookingLimit ? bookingLimit.Booking_Limit : 20;// Default limit is 10 if booking limit is not available
+      const maxBookingsPerDay = bookingLimit ? bookingLimit.Booking_Limit : 20;// Default limit is 20 if booking limit is not available
       // Query to count bookings made on the selected date
       const bookingsCount = await createVehicle.countDocuments({ Booking_Date: bookingDate });
       // Check if the booking limit for the selected date is exceeded

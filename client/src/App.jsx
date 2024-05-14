@@ -19,6 +19,8 @@ import ReadOneBooking from './assets/pages/Booking/ReadOneBooking';
 import BookingDashBoard from './assets/pages/Booking/BookingDashBoard';
 import AddBookingLimit from './assets/pages/Booking/AddBookingLimit';
 import BookingLimitDashBoard from './assets/pages/Booking/BookingLimitDashBoard';
+import DeleteBookingLimit from './assets/pages/Booking/DeleteBookingLimit';
+import EditBookingLimit from './assets/pages/Booking/EditBookingLimit';
 
 
 import ShowPayment from './assets/pages/Payment/ShowPayment';
@@ -126,6 +128,7 @@ import PackageDashboard from './assets/pages/SPackage/PackageDashboard';
 import ManagerLogin from './assets/components/ManagerLogin';
 import Header from './assets/components/Header';
 
+
 const App = () => {
   return (
 
@@ -182,6 +185,11 @@ const App = () => {
         <Route path='/create' element={<CreateBooking />} />
         <Route path='/edit/:id' element={<EditBooking />} />
         <Route path='booking/delete/:id' element={<DeleteBooking />} />
+        <Route path='booking/deletelimit/:id' element={<DeleteBookingLimit />} />
+        <Route path='booking/updatelimit/:id' element={<EditBookingLimit />} />
+        
+        
+        
         <Route path='booking/read/:id' element={<ReadOneBooking />} />
         <Route path='booking/dashboard' element={<BookingDashBoard />} />
         <Route path='booking/adminbooking' element={<AdminCreateBooking />} />
