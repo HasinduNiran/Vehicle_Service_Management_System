@@ -116,7 +116,7 @@ const CreateEmployeeSalary = () => {
 
   //validations
   const handleSaveEmployeeSalary = () => {
-    if (!selectedEmployee.EmpID || !selectedEmployee.employeeName || !fromDate || !toDate || !totalOThours || !totalOTpay || !BasicSalary) {
+    if (!selectedEmployee.EmpID || !selectedEmployee.employeeName || !fromDate || !toDate || !BasicSalary) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
