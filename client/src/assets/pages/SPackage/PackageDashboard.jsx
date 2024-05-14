@@ -106,7 +106,11 @@ function PackageDashboard() {
     };
 
     const filteredpkg = packages.filter(applySearchFilter);
-
+    
+    const isExpired = (expDate) => {
+        if (!expDate) return false;
+        return new Date(expDate) < new Date();
+    };
     const styles = {
         container: {
             color: 'black',
@@ -276,7 +280,7 @@ function PackageDashboard() {
                                                                 </ul>
                                                             </td>
                                                             <td style={styles.tableCell}>Rs.{pkg.Price}</td>
-                                                            <td style={styles.tableCell}>{pkg.exp}</td>
+                                                            <td style={styles.tableCell} className={isExpired(pkg.exp) ? 'text-red-500' : ''}>{pkg.exp}</td>
                                                             <td style={styles.tableCell}>
                                                                 <div className='flex justify-center gap-x-4'>
                                                                   
