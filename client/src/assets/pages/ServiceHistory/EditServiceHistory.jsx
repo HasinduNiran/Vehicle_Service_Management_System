@@ -8,6 +8,7 @@ const EditServiceHistory = () => {
   const [BookingId, setBookingId] = useState('');
   const [cusID, setcusID] = useState('');
   const [Customer_Name, setCustomer_Name] = useState('');
+  const[Customer_Email, setCustomer_Email] = useState('');
   const [Allocated_Employee, setAllocated_Employee] = useState('');
   const [Vehicle_Number, setVehicle_Number] = useState('');
   const [Milage, setMilage] = useState('');
@@ -48,6 +49,7 @@ const EditServiceHistory = () => {
           Booking_Id,
           cusID,
           Customer_Name,
+          Customer_Email,
           Allocated_Employee,
           Vehicle_Number,
           Milage,
@@ -65,6 +67,7 @@ const EditServiceHistory = () => {
         setBookingId(Booking_Id);
         setcusID(cusID);
         setCustomer_Name(Customer_Name);
+        setCustomer_Email(Customer_Email);
         setAllocated_Employee(Allocated_Employee);
         setVehicle_Number(Vehicle_Number);
         setMilage(Milage);
@@ -101,6 +104,7 @@ const EditServiceHistory = () => {
       Booking_Id: BookingId,
       cusID: cusID,
       Customer_Name: Customer_Name,
+      Customer_Email: Customer_Email,
       Allocated_Employee: Allocated_Employee,
       Vehicle_Number: Vehicle_Number,
       Milage: Milage,
@@ -171,6 +175,16 @@ const EditServiceHistory = () => {
               style={styles.input1}
               value={Customer_Name}
               onChange={(e) => setCustomer_Name(e.target.value)}
+              disabled
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Customer Email</label>
+            <input
+              type="email"
+              style={styles.input1}
+              value={Customer_Email}
+              onChange={(e) => setCustomer_Email(e.target.value)}
               disabled
             />
           </div>

@@ -5,10 +5,12 @@ import Swal from 'sweetalert2';
 import Spinner from '../../components/Spinner';
 import BackButton from '../../components/BackButton';
 import backgroundImage from '../../images/t.jpg';
+import emailjs from 'emailjs-com';
 
 const CreateServiceHistory = () => {
   const [cusID, setCusID] = useState('');
   const [customerName, setCustomerName] = useState('');
+  const [customeremail, setCustomerEmail] = useState('');
   const [allocatedEmployee, setAllocatedEmployee] = useState('');
   const [vehicleNumber, setVehicleNumber] = useState('');
   const [milage, setMilage] = useState('');
@@ -95,6 +97,29 @@ const CreateServiceHistory = () => {
     setSelectedServices(updatedSelectedServices);
   };
 
+  const sendEmailToCustomer = () => {
+    const emailConfig = {
+      serviceID: 'service_3p901v6',
+      templateID: 'template_cwl7ahv',
+      userID: '-r5ctVwHjzozvGIfg'
+  };
+
+  emailjs.send(
+    emailConfig.serviceID,
+    emailConfig.templateID,
+    {
+      to_email:  `${customeremail}`,
+      message: `Vehicle Number: ${vehicleNumber}
+      Next Service: ${nextService}
+      Customer Email: ${customeremail}
+      Send Email to Customer?`,
+    },
+    emailConfig.userID
+  )
+
+  
+}
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -110,6 +135,7 @@ const CreateServiceHistory = () => {
     const data = {
       cusID,
       Customer_Name: customerName,
+      Customer_Email: customeremail,
       Allocated_Employee: allocatedEmployee,
       Vehicle_Number: vehicleNumber,
       Milage: milage,
@@ -125,27 +151,54 @@ const CreateServiceHistory = () => {
 
     setLoading(true);
     try {
-      await axios.post('http://localhost:8076/serviceHistory/', data);
+      const response1 = await axios.post('http://localhost:8076/serviceHistory/', data);
+      console.log('Response:', response1.data.message);
       setLoading(false);
 
       Swal.fire({
         icon: 'success',
         title: 'Service Created Successfully!',
-        text: `Vehicle Number: ${vehicleNumber}\nNext Service: ${nextService}`,
+        html: `Vehicle Number: ${vehicleNumber}<br>
+              Next Service: ${nextService}<br>
+              Customer Email: ${customeremail}<br><br>
+              Send Email to Customer?`,
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Send Email',
+        cancelButtonText: 'No, Close',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Handle email sending logic here
+          sendEmailToCustomer();
+        }
       });
+
 
       // Perform navigation after successful submission
       navigate('/ServiceHistory/dashboard');
     } catch (error) {
       setLoading(false);
       console.error('Error creating service history:', error);
-      if (error.response) {
+      if (error.response.data.message == 'Vehicle not found. Please register the vehicle first.') {
         console.error('Server responded with:', error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Vehicle not found. Please register the vehicle first.',
+        });
       }
+      if (error.response.data.message == 'This booking ID already has a service history associated with it.') {
+        console.error('Server responded with:', error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'This booking ID already has a service history associated with it.',
+        });
+      }
+      console.log('Response:', response1.data.message);
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Error creating service history. Check booking id or mileage.',
+        text: 'Error creating service history. Check mileage.',
       });
     }
   };
@@ -204,6 +257,14 @@ const CreateServiceHistory = () => {
               style={styles.input1}
               value={customerName}
               disabled
+            />
+          </div>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Customer Email</label>
+            <input
+              style={styles.input1}
+              value={customeremail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
             />
           </div>
           <div style={styles.inputGroup}>

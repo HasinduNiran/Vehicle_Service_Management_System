@@ -271,6 +271,7 @@ const ServiceHistoryDashboard = () => {
                                                 <tr>
                                                     <th style={styles.tableHeader}>Customer ID</th>
                                                     <th style={styles.tableHeader}>Customer Name</th>
+                                                    <th style={styles.tableHeader}>Customer Email</th>
                                                     <th style={styles.tableHeader}>Allocated Employee</th>
                                                     <th style={styles.tableHeader}>Vehicle Number</th>
                                                     <th style={styles.tableHeader}>Milage</th>
@@ -288,6 +289,7 @@ const ServiceHistoryDashboard = () => {
                                                     <tr key={history._id}>
                                                         <td style={styles.tableCell}>{history.cusID}</td>
                                                         <td style={styles.tableCell}>{history.Customer_Name}</td>
+                                                        <td style={styles.tableCell}>{history.Customer_Email}</td>
                                                         <td style={styles.tableCell}>{history.Allocated_Employee}</td>
                                                         <td style={styles.tableCell}>{history.Vehicle_Number}</td>
                                                         <td style={styles.tableCell}>{history.Milage}</td>

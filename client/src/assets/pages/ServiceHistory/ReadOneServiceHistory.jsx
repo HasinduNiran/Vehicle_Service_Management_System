@@ -35,6 +35,9 @@ const ReadOneServiceHistory = () => {
               <span style={styles.label}>Customer Name:</span><span style={styles.text} > {serviceHistory.Customer_Name}</span>
             </p>
             <p style={styles.item}>
+              <span style={styles.label}>Customer Email:</span><span style={styles.text} > {serviceHistory.Customer_Email}</span>
+            </p>
+            <p style={styles.item}>
               <span style={styles.label}>Allocated Employee:</span><span style={styles.text} > {serviceHistory.Allocated_Employee}</span>
             </p>
             <p style={styles.item}>
