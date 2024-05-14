@@ -16,6 +16,9 @@ const packageSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
+    exp:{
+        type:String
+    }
 });
 
 export const PackageModel = mongoose.model('Package', packageSchema);

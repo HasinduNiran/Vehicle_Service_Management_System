@@ -7,14 +7,13 @@ const router = express.Router();
 // Add a package
 router.post('/', async (req, res) => {
     try {
-        const { pakgname, pkgdescription, includes, Price } = req.body;
+        const { pakgname, pkgdescription, includes, Price,exp } = req.body;
 
         // Validate required fields
-        if (!pakgname || !pkgdescription || !includes || !Price) {
             return res.status(400).json({ message: 'All required fields must be provided: pakgname, pkgdescription, includes, Price' });
         }
 
-        const newPackage = await PackageModel.create({ pakgname, pkgdescription, includes, Price });
+        const newPackage = await PackageModel.create({ pakgname, pkgdescription, includes, Price, exp });
         return res.status(201).json(newPackage);
     } catch (error) {
         console.error('Error adding package:', error);
@@ -94,7 +93,8 @@ router.get("searchpackage", function (req, res) {
             { pakgname: { $regex: search, $options: "i" } },
             { pkgdescription: { $regex: search, $options: "i" } },
             { includes: { $regex: search, $options: "i" } },
-            { Price: { $regex: search, $options: "i" } }
+            { Price: { $regex: search, $options: "i" } },
+
             
         ]
     }, function (err, result) {
