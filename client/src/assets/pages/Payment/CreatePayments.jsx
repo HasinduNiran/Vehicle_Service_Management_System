@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../../images/Pback21.jpg'; // background image
 
 const CreatePayments = () => {
-  const [PaymentId, setPaymentId] = useState('');
+ // const [PaymentId, setPaymentId] = useState('');
   const [cusID, setCusID] = useState('');
   const [Vehicle_Number, setVehicle_Number] = useState('');
   const [PaymentDate, setPaymentDate] = useState('');
@@ -25,7 +25,7 @@ const CreatePayments = () => {
   const navigate = useNavigate();
 
   const initialValues = {
-    PaymentId: '',
+   // PaymentId: '',
     cusID: '',
     Vehicle_Number: '',
     PaymentDate: '',
@@ -100,7 +100,7 @@ const CreatePayments = () => {
   const handleSavePayment = () => {
     
     const data = {
-      PaymentId: formValues.PaymentId,
+      //PaymentId: formValues.PaymentId,
       cusID: formValues.cusID,
       Booking_Id: formValues.Booking_Id,
       Vehicle_Number: formValues.Vehicle_Number,
@@ -171,6 +171,8 @@ const CreatePayments = () => {
         cusID: selectedServiceEntry.cusID,
         // Fetch the package amount based on the selected package name
         Pamount: fetchPackageAmount(selectedServiceEntry.Package)
+        
+        
       });
     } else {
       setBooking_Id(selectedBooking_Id);
@@ -206,7 +208,7 @@ const CreatePayments = () => {
       {loading ? <Spinner /> : ''}
       <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
         <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.formGroup}>
+        {/* <div style={styles.formGroup}>
             <label htmlFor="PaymentId"style={styles.label}>PaymentId</label>
             <input
               type='text'
@@ -217,7 +219,7 @@ const CreatePayments = () => {
               style={styles.input} 
             />
             {formErrors.PaymentId && <p className='text-red-500'>{formErrors.PaymentId}</p>}
-          </div> 
+          </div>  */}
            <div style={styles.formGroup}>
             <label htmlFor='email'style={styles.label}>Email</label>
             <input
