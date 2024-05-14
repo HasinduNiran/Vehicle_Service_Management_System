@@ -247,6 +247,7 @@ function ServiceDashboard() {
                                                     <tr>
                                                         <th style={styles.tableHeader}>Service No</th>
                                                         <th style={styles.tableHeader}>Service Name</th>
+                                                        <th style={styles.tableHeader}>Price</th>
                                                         <th style={styles.tableHeader}>Actions</th>
 
                                                     </tr>
@@ -256,6 +257,7 @@ function ServiceDashboard() {
                                                         <tr key={service._id} className='h-8'>
                                                             <td style={styles.tableCell}>{index + 1}</td>
                                                             <td style={styles.tableCell}>{service.Servicename}</td>
+                                                            <td style={styles.tableCell}>{service.Price}</td>
                                                             <td style={styles.tableCell}>
                                                                 <div className='flex justify-center gap-x-4'>
                                                                  
