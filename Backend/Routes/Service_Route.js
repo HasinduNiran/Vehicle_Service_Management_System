@@ -6,14 +6,13 @@ const router = express.Router();
 // Add a Service
 router.post('/', async (request, response) => {
     try {
-        if (
-            !request.body.Servicename
-        ) {
-            return response.status(400).send({message: error.message});
+        if (!request.body.Servicename || !request.body.Price) {
+            return response.status(400).send({ message: "Servicename and Price are required" });
         }
 
         const newService = {
-            Servicename: request.body.Servicename
+            Servicename: request.body.Servicename,
+            Price: request.body.Price
         };
 
         const createdService = await serviceModel.create(newService);
@@ -92,26 +91,20 @@ router.delete('/:id', async (request, response) => {
         response.status(500).send({ message: error.message });
     }
 });
-router.get("searchService", function (req, res) {
-    var search = req.query.search;
-    console.log(search);
-    Vehicle.find({
-        $or: [
-            { Servicename: { $regex: search, $options: "i" } }
-            
-        ]
-    }, function (err, result) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            res.json(result);
-        }
-    });
+
+// Search for a Service
+router.get("/searchService", async (req, res) => {
+    try {
+        const search = req.query.search;
+        const result = await serviceModel.find({
+            Servicename: { $regex: new RegExp(search, "i") } // Case-insensitive search
+        });
+
+        res.json(result);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
 });
-
-
-
-
 
 export default router;
