@@ -18,6 +18,7 @@ export default function InventoryReport({ filteredInventory }) {
       "Sell Price",
       "Supplier Name",
       "Supplier Phone",
+      "Supplier Email",
       "Operations",
       
     ];
@@ -34,6 +35,8 @@ export default function InventoryReport({ filteredInventory }) {
         inventoryItem.SellPrice,
         inventoryItem.SupplierName,
         inventoryItem.SupplierPhone,
+        inventoryItem.SupplierPhone,
+        inventoryItem.SupplierEmail,
       ];
       tableRows.push(data);
     });

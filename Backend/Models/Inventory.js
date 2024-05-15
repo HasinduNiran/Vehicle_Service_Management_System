@@ -31,6 +31,10 @@ const inventorySchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    SupplierEmail: {
+        type: String,
+        required: true,
+    },
 });
 
 // Adding the timestamps option
