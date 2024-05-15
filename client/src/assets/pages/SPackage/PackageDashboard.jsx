@@ -181,6 +181,16 @@ function PackageDashboard() {
             textAlign: 'center',
             textTransform: 'uppercase',
         },
+       textRed: {
+            color: 'red',
+            padding: '10px',
+            textAlign: 'left',
+            borderLeft: '1px solid red', // Adding left border
+            borderRight: '1px solid red',
+            background: '#1f1f1f',
+            
+        },
+        
     };
 
     return (
@@ -280,7 +290,7 @@ function PackageDashboard() {
                                                                 </ul>
                                                             </td>
                                                             <td style={styles.tableCell}>Rs.{pkg.Price}</td>
-                                                            <td style={styles.tableCell} className={isExpired(pkg.exp) ? 'text-red-500' : ''}>{pkg.exp}</td>
+                                                            <td style={isExpired(pkg.exp) ? styles.tableCell : styles.textRed} className={isExpired(pkg.exp) ? 'textRed' : ''}>{pkg.exp}</td>
                                                             <td style={styles.tableCell}>
                                                                 <div className='flex justify-center gap-x-4'>
                                                                   
