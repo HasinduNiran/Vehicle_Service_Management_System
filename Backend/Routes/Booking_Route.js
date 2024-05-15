@@ -14,18 +14,19 @@ const transporter = nodemailer.createTransport({
   // Configure your email service provider here
   service: 'gmail',
   auth: {
-      user: 'isurusja@gmail.com',
-      pass: 'pfkq nuka wlbn zikh'
+      user: 'autocarenadeeka@gmail.com',
+      pass: 'tdex llkr damp euit'
   }
 });
 
 const sendBookingConfirmationEmail = (customerEmail, bookingDetails) => {
   const mailOptions = {
-      from: 'isurusja@gmail.com',
+      from: 'autocarenadeeka@gmail.com',
       to: customerEmail,
       subject: 'Booking Confirmation',
       html: `<p>Dear ${bookingDetails.Customer_Name},</p>
-             <p>Your booking for ${bookingDetails.Vehicle_Type} Number ${bookingDetails.Vehicle_Number} on ${bookingDetails.Booking_Date} has been confirmed.</p>`
+             <p>Your booking for ${bookingDetails.Vehicle_Type} Number ${bookingDetails.Vehicle_Number} </p>
+             <p>on ${bookingDetails.Booking_Date} has been confirmed.</p>`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
