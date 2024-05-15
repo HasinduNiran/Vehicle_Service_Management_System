@@ -171,9 +171,19 @@ const CreateInventory = () => {
     setSupplierPhone(value);
   };
 
-  const handleEmailChange = (e) => {
-    setSupplierEmail(e.target.value);
+  const handleEmailChange = (event) => {
+    const email = event.target.value;
+    setSupplierEmail(email);
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrors({ ...errors, supplierEmail: 'Please enter a valid email address' });
+    } else {
+      setErrors({ ...errors, supplierEmail: '' });
+    }
   };
+
 
   return (
     <div style={styles.container}>
@@ -196,12 +206,25 @@ const CreateInventory = () => {
         {/* Location input field */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Location</label>
-          <input
-            type="text"
+          <select
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             style={styles.input}
-          />
+          >
+            <option value="Vault">Vault</option>
+            <option value="Carton\Shelf">Carton\Shelf</option>
+            <option value="Drawer">Drawer</option>
+            <option value="Box">Box</option>
+            <option value="Cabinet">Cabinet</option>
+            <option value="Locker">Locker</option>
+            <option value="Tray">Tray</option>
+            <option value="Rack">Rack</option>
+            <option value="Bin">Bin</option>
+            <option value="Compartment">Compartment</option>
+            <option value="Container">Container</option>
+            <option value="barrel">Barrel set</option>
+            {/* Add more options as needed */}
+          </select>
           {errors.location && <p style={styles.error}>{errors.location}</p>}
         </div>
         {/* Quantity input field */}
@@ -270,6 +293,7 @@ const CreateInventory = () => {
           />
           {errors.supplierEmail && <p style={styles.error}>{errors.supplierEmail}</p>}
         </div>
+
         {/* Save button */}
         <div style={styles.buttonContainer}>
           <button style={styles.button} onClick={handleSaveInventory}>
