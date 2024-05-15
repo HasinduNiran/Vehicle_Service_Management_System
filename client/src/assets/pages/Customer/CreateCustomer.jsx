@@ -54,14 +54,52 @@ const CreateCustomer = () => {
       return;
     }
   
-    if (password !== reEnteredPassword) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Passwords do not match',
-      });
-      return;
-    }
+// First name validation
+if (!/^[A-Z][a-z]{0,19}$/.test(firstName)) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'First name should start with a capital letter, contain only letters, and have a maximum length of 20 characters.',
+  });
+  return false;
+}
+if (!/^[A-Z][a-z]{0,19}$/.test(lastName)) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'Last name should start with a capital letter, contain only letters, and have a maximum length of 20 characters.',
+  });
+  return false;
+}
+
+
+if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'Password must contain both lowercase and uppercase letters',
+  });
+  return false;
+}
+
+if (!/[^a-zA-Z0-9]/.test(password)) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'Password must contain at least one special character',
+  });
+  return false;
+}
+
+if (phone.length !== 10) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'Phone number must have 10 digits',
+  });
+  return false;
+}
+
   
     setLoading(true);
 
@@ -136,7 +174,7 @@ const CreateCustomer = () => {
                 Swal.fire({
                   icon: 'error',
                   title: 'Oops...',
-                  text: 'email should be unique!',
+                  text: 'username or email is already in use. It should be unique!',
                 });
               } else {
                 Swal.fire({
@@ -305,8 +343,8 @@ const CreateCustomer = () => {
             />
           </div>
 
-          {/* Email Input */}
-          <div style={styles.formGroup}>
+         {/* Email Input */}
+         <div style={styles.formGroup}>
             <label style={styles.label}>Email</label>
             <input
               type="text"
@@ -316,8 +354,8 @@ const CreateCustomer = () => {
             />
           </div>
 
-          {/* Password Input */}
-          <div style={styles.formGroup}>
+           {/* Password Input */}
+           <div style={styles.formGroup}>
             <label style={styles.label}>Password</label>
             <input
               type="password"
@@ -326,6 +364,7 @@ const CreateCustomer = () => {
               style={styles.input}
             />
           </div>
+
 
           {/* Re-enter Password Input */}
           <div style={styles.formGroup}>
