@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
 import Swal from 'sweetalert2';
+import emailjs from 'emailjs-com'; // Import emailjs-com package
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { app } from '../../../firebase';
 import backgroundImage from '../../images/t.jpg';
@@ -19,16 +20,40 @@ const CreateCustomer = () => {
   const [reEnteredPassword, setReEnteredPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [index, setIndex] = useState(0); // State for auto-generating index
   const navigate = useNavigate();
 
   const storage = getStorage(app);
+
+  // Send email function modified to accept email and password as parameters
+  const sendEmailToCustomer = (customerEmail, customerPassword) => { 
+    const emailConfig = {
+        serviceID: 'service_p1zv9rh',
+        templateID: 'template_pua7ayd',
+        userID: 'v53cNBlrti0pL_RxD'
+    };
+  
+    emailjs.send(
+        emailConfig.serviceID,
+        emailConfig.templateID,
+        {
+            to_email: customerEmail,
+            message: `Dear customer,\n\nYour account has been successfully created with us.\n\nYour Username is: ${customerEmail}\nYour Password is: ${customerPassword}\n\n\nBest regards,\nNadeeka Auto Service`
+        },
+        emailConfig.userID
+    )
+    .then((response) => {
+      console.log('Email sent successfully!', response);
+    })
+    .catch((error) => {
+      console.error('Error sending email:', error);
+    });
+  };
 
   const handleSaveCustomer = () => {
     if (!validateInputs()) {
       return;
     }
-
+  
     if (password !== reEnteredPassword) {
       Swal.fire({
         icon: 'error',
@@ -37,7 +62,7 @@ const CreateCustomer = () => {
       });
       return;
     }
-
+  
     setLoading(true);
 
     // Check if cusID is unique
@@ -51,7 +76,7 @@ const CreateCustomer = () => {
       setLoading(false);
       return;
     }
-
+  
     // Check if email is unique
     const isEmailUnique = checkEmailUnique();
     if (!isEmailUnique) {
@@ -63,11 +88,10 @@ const CreateCustomer = () => {
       setLoading(false);
       return;
     }
-
- 
+  
     const storageRef = ref(storage, `customer_images/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
-
+  
     uploadTask.on('state_changed', 
       (snapshot) => {},
       (error) => {
@@ -85,11 +109,26 @@ const CreateCustomer = () => {
             email,
             password,
           };
-
+  
           axios.post('http://localhost:8076/customer', data)
             .then(() => {
               setLoading(false);
-              navigate('/');
+              // Show success SweetAlert
+              Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: `Customer account created successfully for ${email}. Your Username is: ${cusID} and Password: ${password}`,
+                showCancelButton: true,
+                confirmButtonText: 'Send Account details to me',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  sendEmailToCustomer(email, password); // Call sendEmailToCustomer function with the email address and password
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                  // If user clicks cancel
+                }
+                // After user acknowledges the success, navigate away
+                navigate('/');
+              });
             })
             .catch((error) => {
               setLoading(false);
@@ -127,26 +166,25 @@ const CreateCustomer = () => {
       });
       return false;
     }
-
-    
-  if (NIC.length < 10 || NIC.length > 12) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'NIC must be between 10 and 12 characters long',
-    });
-    return false;
-  }
-
-  if (password.length < 10) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'password must contains at least 10 characters',
-    });
-    return false;
-  }
-
+  
+    if (NIC.length < 10 || NIC.length > 12) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'NIC must be between 10 and 12 characters long',
+      });
+      return false;
+    }
+  
+    if (password.length < 10) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'password must contains at least 10 characters',
+      });
+      return false;
+    }
+  
     if (phone.length !== 10) {
       Swal.fire({
         icon: 'error',
@@ -155,7 +193,7 @@ const CreateCustomer = () => {
       });
       return false;
     }
-
+  
     setError('');
     return true;
   };
@@ -245,27 +283,27 @@ const CreateCustomer = () => {
 
           {/* Phone Input */}
           <div style={styles.formGroup}>
-  <label style={styles.label}>Phone</label>
-  <input
-    type="text"
-    value={phone}
-    onChange={(e) => {
-      const inputValue = e.target.value;
-      if (inputValue.length === 0 || (inputValue.length > 0 && inputValue[0] === '0')) {
-        setPhone(inputValue);
-      } else {
-        // Show SweetAlert error message
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Phone number must start with 0',
-        });
-      }
-    }}
-    style={styles.input}
-    maxLength={10}
-  />
-</div>
+            <label style={styles.label}>Phone</label>
+            <input
+              type="text"
+              value={phone}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                if (inputValue.length === 0 || (inputValue.length > 0 && inputValue[0] === '0')) {
+                  setPhone(inputValue);
+                } else {
+                  // Show SweetAlert error message
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Phone number must start with 0',
+                  });
+                }
+              }}
+              style={styles.input}
+              maxLength={10}
+            />
+          </div>
 
           {/* Email Input */}
           <div style={styles.formGroup}>
