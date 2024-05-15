@@ -10,24 +10,7 @@ const DeleteFeedback = () => {
   const navigate = useNavigate();
   const [cusID, setCusID] = useState("");
 
-  useEffect(() => {
-    setLoading(true);
-    axios.get(`http://localhost:8076/customer/${cusID}`)
-        .then((response) => {
-            const data = response.data;
-            setUserData(response.data);
-            setcussID(data.cusID);
-            setContact_Number(data.phone);
-            setEmail(data.email);
-            setCustomer_Name(`${data.firstName} ${data.lastName}`);
-            setLoading(false);
-        })
-        .catch((error) => {
-            setLoading(false);
-            alert(`An error happened. Please check console`);
-            console.log(error);
-        });
-}, [cusID]);
+
 
 
   const confirmDeleteFeedback = () => {
@@ -44,7 +27,7 @@ const DeleteFeedback = () => {
       .delete(`http://localhost:8076/feedback/${id}`)
       .then(() => {
         setLoading(false);
-        navigate("navigate(`/ReadOneHome/${cusID}`);");
+        navigate("/");
       })
       .catch((error) => {
         setLoading(false);
