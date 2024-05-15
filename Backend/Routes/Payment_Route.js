@@ -45,14 +45,15 @@ router.post('/', async (request, response) => {
 router.get("/payments", async (req, res) => {
   try {
     // Destructuring the request query with default values
-    const { page = 1, limit = 4, search = "", sort = "PaymentId" } = req.query;
+    const { page = 1, limit = 5, search = "", sort = "PaymentId" } = req.query;
     const skip = (parseInt(page) - 1) * parseInt(limit);
     // Regular expression for case-insensitive search
     const query = {
       $or: [
         { PaymentId: { $regex: new RegExp(search, 'i') } }, // Using RegExp instead of directly passing $regex
         { PaymentDate: { $regex: new RegExp(search, 'i') } },
-        { totalAmount: { $regex: new RegExp(search, 'i') } },
+        { Vehicle_Number: { $regex: new RegExp(search, 'i') } },
+        { PaymentMethod: { $regex: new RegExp(search, 'i') } },
         { PaymentMethod: { $regex: new RegExp(search, 'i') } },
       ],
     };

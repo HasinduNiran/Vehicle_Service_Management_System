@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import { InvoiceDocument } from './InvoiceDocument';
 import logo from '../../images/logo.jpg';
 import ReactToPrint from 'react-to-print';
 
@@ -34,8 +32,8 @@ const ReadOneInvoice = () => {
 
   return (
     <div>
-      <div ref={componentRef}>
-        <div style={styles.container}>
+      <div style={styles.container} ref={componentRef}>
+        <div className="container">
           <div className="container">
             <div className="pattern d-md-flex justify-content-between align-items-center border-top border-bottom py-5 py-md-3">
               <div>
@@ -87,13 +85,15 @@ const ReadOneInvoice = () => {
                 <thead>
                 <tr className="bg" style={{ backgroundColor: '#6F8FAF' }}>
                     <th scope="col"style={{ color: 'black' ,fontWeight:'bold'}} >Package</th>
+                    <th></th>
                     <th scope="col"style={{ color: 'black' ,fontWeight:'bold'}}>Total</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td style={{ color: 'white' ,fontWeight:'bold'}}><span>{paymentInvoice.Package}</span></td>
-                    <td style={{ color: 'white' ,fontWeight:'bold'}}><span>{paymentInvoice.Pamount}</span></td>
+                    <td style={{ color: 'black' ,fontWeight:'bold'}}><span>{paymentInvoice.Package}</span></td>
+                     <td></td>
+                    <td style={{ color: 'black' ,fontWeight:'bold'}}><span>{paymentInvoice.Pamount}</span></td>
                   </tr>
                 </tbody>
               </table>
@@ -101,33 +101,33 @@ const ReadOneInvoice = () => {
                 <thead>
                 <tr className="bg" style={{ backgroundColor: '#6F8FAF' }}>
                     <th scope="col"style={{ color: 'black' ,fontWeight:'bold'}}>Service</th>
-                    <th></th> <th></th> <th></th>   <th></th> <th></th> <th></th><th></th>
+                    <th></th> <th></th> <th></th>   <th></th> <th></th> <th></th><th></th><th></th><th></th><th></th><th></th>
                     <th scope="col"style={{ color: 'black' ,fontWeight:'bold'}}>Total</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td style={{ color: 'white' ,fontWeight:'bold'}}><span>{paymentInvoice.selectedServices}</span></td>
-                    <td></td><td></td><td></td><td>   </td><td></td><td></td><td></td>
-                    <td style={{ color: 'white' ,fontWeight:'bold'}}><span>{paymentInvoice.Samount}</span></td>
+                    <td style={{ color: 'black' ,fontWeight:'bold'}}><span>{paymentInvoice.selectedServices}</span></td>
+                    <td></td><td></td><td></td><td>   </td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td style={{ color: 'black' ,fontWeight:'bold'}}><span>{paymentInvoice.Samount}</span></td>
                   </tr>
                 </tbody>
               </table>
               <table className="table border my-5">
                 <tbody>
                   <tr>
-                    <td style={{ color: 'white' ,fontWeight:'bold'}}>Package Amount:</td>
-                    <td></td><td></td><td></td><td></td>
-                    <td style={{ color: 'white' ,fontWeight:'bold'}}><span>{paymentInvoice.Pamount}</span></td>
+                    <td style={{ color: 'black' ,fontWeight:'bold'}}>Package Amount:</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td style={{ color: 'black' ,fontWeight:'bold'}}><span>{paymentInvoice.Pamount}</span></td>
                   </tr>
                   <tr>
-                    <td style={{ color: 'white' ,fontWeight:'bold'}}>Service Amount:</td>
-                    <td></td><td></td><td></td><td></td>
-                    <td style={{ color: 'white' ,fontWeight:'bold'}}><span>{paymentInvoice.Samount}</span></td>
+                    <td style={{ color: 'black' ,fontWeight:'bold'}}>Service Amount:</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td style={{ color: 'black' ,fontWeight:'bold'}}><span>{paymentInvoice.Samount}</span></td>
                   </tr>
                   <tr>
-                    <td style={{ color: 'white' ,fontWeight:'bold'}}>Grand-Total</td>
-                    <td></td><td></td><td></td><td></td>
+                    <td style={{ color: 'black' ,fontWeight:'bold'}}>Grand-Total</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                     <td style={{ color: 'Black' ,fontWeight:'bold'}}><span>{paymentInvoice.totalAmount}</span></td>
                   </tr>
                 </tbody>
@@ -146,19 +146,7 @@ const ReadOneInvoice = () => {
                   </li>
                 </ul>
               </div>
-              <button
-                onClick={openEmailClient}
-                style={{
-                  backgroundColor: 'black',
-                  color: 'white',
-                  border: '2px solid black',
-                  padding: '1px 10px',
-                  borderRadius: '3px',
-                  cursor: 'pointer',
-                }}
-              >
-                Send Email
-              </button>
+             
             </div>
           </div>
           <div id="footer-bottom">
@@ -183,19 +171,29 @@ const ReadOneInvoice = () => {
           </div>
          </div>
       </div>
+      
+      <div style={{ position: 'absolute', top: 100, right: 10 }}>
+        <button
+          onClick={openEmailClient}
+          style={{
+            backgroundColor: 'black',
+            color: 'white',
+            border: '2px solid black',
+            padding: '5px 10px',
+            borderRadius: '3px',
+            cursor: 'pointer',
+            position:"relative",
+            top:'835px',
+            fontSize: '14px', // Adjust the font size here
+          }}
+        >
+          Send Email
+        </button>
+      </div>
       <ReactToPrint
-        trigger={() => <button>Generate Report</button>}
+        trigger={() => <button style={{ position: 'absolute', top: '935px', left: 10 ,color:'white'}}>Download PDF</button>}
         content={() => componentRef.current}
       />
-      <button onClick={openEmailClient}>Send Email</button>
-      <PDFDownloadLink
-        document={<InvoiceDocument paymentInvoice={paymentInvoice} />}
-        fileName="invoice.pdf"
-      >
-        {({ blob, url, loading, error }) =>
-          loading ? 'Loading document...' : 'Download PDF'
-        }
-      </PDFDownloadLink>
     </div>
   );
 };
@@ -203,7 +201,7 @@ const ReadOneInvoice = () => {
 const styles = {
   container: {
     color: 'black',
-    backgroundColor: '#212F3C',
+    backgroundColor: '#154360  ',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     paddingBottom: '60px',

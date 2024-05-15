@@ -92,6 +92,11 @@ const ReadOneInventory = () => {
             <span style={styles.label}>Supplier Phone</span>
             <span style={styles.value}>{inventory.SupplierPhone}</span>
           </div>
+
+          <div className="my-4">
+            <span style={styles.label}>Supplier Email</span>
+            <span style={styles.value}>{inventory.SupplierEmail}</span>
+          </div>
           <div className="my-4">
             <span style={styles.label}>Create Time</span>
             <span style={styles.value}>{new Date(inventory.createdAt).toString()}</span>

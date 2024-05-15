@@ -12,10 +12,10 @@ const router = express.Router();
 router.post('/', async (request, response) => {
     try {
         // Validate request body fields
-        const { Name, Location, Quantity, PurchasedPrice, SellPrice, SupplierName, SupplierPhone } = request.body;
+        const { Name, Location, Quantity, PurchasedPrice, SellPrice, SupplierName, SupplierPhone, SupplierEmail } = request.body;
 
         // Check if all required fields are present and non-empty
-        if (!Name || !Location || !Quantity || !PurchasedPrice || !SellPrice || !SupplierName || !SupplierPhone) {
+        if (!Name || !Location || !Quantity || !PurchasedPrice || !SellPrice || !SupplierName || !SupplierPhone || !SupplierEmail) {
             return response.status(400).json({ message: 'Please provide all required fields.' });
         }
 
@@ -44,7 +44,8 @@ router.post('/', async (request, response) => {
             PurchasedPrice,
             SellPrice,
             SupplierName,
-            SupplierPhone
+            SupplierPhone,
+            SupplierEmail
         };
 
         // Adding the new inventory item to the database
@@ -116,6 +117,7 @@ router.put('/:id', async (request, response) => {
         inventory.SellPrice = request.body.SellPrice || inventory.SellPrice;
         inventory.SupplierName = request.body.SupplierName || inventory.SupplierName;
         inventory.SupplierPhone = request.body.SupplierPhone || inventory.SupplierPhone;
+        inventory.SupplierEmail = request.body.SupplierEmail || inventory.SupplierEmail;
 
         // Save the updated inventory item
         await inventory.save();
