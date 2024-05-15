@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'; // Import SweetAlert2
 import backgroundImage from '../../images/t.jpg';
-import Swal from 'sweetalert2';
 
 const CreatePackage = () => {
   const [pakgname, setPakgname] = useState('');
@@ -37,40 +37,16 @@ const CreatePackage = () => {
   };
 
   const handleSavePackage = () => {
+    if (!pakgname || !pkgdescription) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Missing Information',
+        text: 'Package name and description must be provided.',
+      });
+      return;
+    }
+
     const today = new Date().toISOString().split('T')[0];
-    if(!pakgname){
-      Swal.fire({
-        icon: 'error',
-        title: 'Invalid Package Name',
-        text: 'Please enter a package name.',
-      });
-      return;
-    }
-    if(!pkgdescription){
-      Swal.fire({
-        icon: 'error',
-        title: 'Invalid Package Description',
-        text: 'Please enter a package description.',
-      });
-      return;
-    }
-    if (selectedServices.length === 0) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Invalid Services',
-        text: 'Please select at least one service.',
-      });
-      return;
-    }
-    
-    if(Price <= 0||!Price){
-      Swal.fire({
-        icon: 'error',
-        title: 'Invalid Price',
-        text: 'Please enter a valid price.',
-      });
-      return;
-    }
     if (exp < today) {
       Swal.fire({
         icon: 'error',
@@ -79,6 +55,7 @@ const CreatePackage = () => {
       });
       return;
     }
+
     const data = {
       pakgname,
       pkgdescription,
@@ -99,16 +76,15 @@ const CreatePackage = () => {
         console.error(error);
       });
   };
-  const today = new Date().toISOString().split('T')[0];
 
+  const today = new Date().toISOString().split('T')[0];
 
   return (
     <div style={styles.container}>
-      {/* <h1 style={styles.heading}>Add Package</h1> */}
       {loading && <Spinner />}
 
       <div style={styles.formContainer}>
-      <h1 style={styles.heading}>Create Package</h1>
+        <h1 style={styles.heading}>Create Package</h1>
         <div style={styles.formGroup}>
           <label style={styles.label}>Package Name</label>
           <input
@@ -155,16 +131,15 @@ const CreatePackage = () => {
           />
         </div>
         <div style={styles.formGroup}>
-          <label style={styles.label}>Expioration Date</label>
+          <label style={styles.label}>Expiration Date</label>
           <input
             type="date"
             value={exp}
             onChange={(e) => setExp(e.target.value)}
             style={styles.input}
-            min={today}
+            min={today} // Ensure the min attribute is set correctly
           />
         </div>
-        
         <button style={styles.button} onClick={handleSavePackage}>
           Save
         </button>
@@ -179,10 +154,10 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    backgroundImage: `url(${backgroundImage})`, // Fixed backgroundImage syntax
+    backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-},
+  },
   heading: {
     fontSize: '3rem',
     color: 'white',
@@ -195,7 +170,7 @@ const styles = {
     borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.8)',
     padding: '20px',
-    border: '2px solid red', // Add a red border
+    border: '2px solid red',
     margin: '10px',
     textAlign: 'center',
   },
@@ -223,11 +198,11 @@ const styles = {
     color: 'black',
     border: 'none',
     borderRadius: '5px',
-    padding: '5px 10px', // Adjusted padding
+    padding: '5px 10px',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
-    margin: '2px 2px', // Adjusted margin
-    fontSize: '0.8rem', // Reduced font size
+    margin: '2px 2px',
+    fontSize: '0.8rem',
   },
   buttonContainer: {
     display: 'flex',
