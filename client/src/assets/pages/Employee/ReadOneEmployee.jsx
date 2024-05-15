@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
-import backgroundImage from '../../images/t.jpg';
+import backgroundImage from '../../images/empbg.jpg';
 
 const ReadOneEmployee = () => {
   const [employee, setEmployee] = useState({});
@@ -54,7 +54,7 @@ const ReadOneEmployee = () => {
               <span style={styles.value}>{employee.Address}</span>
             </div>
             <div style={styles.employeeField}>
-              <span style={styles.label}>BasicSalary:</span>
+              <span style={styles.label}>Basic Salary:</span>
               <span style={styles.value}>{employee.BasicSalary}</span>
             </div>
             <div style={styles.employeeField}>

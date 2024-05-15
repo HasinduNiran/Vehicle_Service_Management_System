@@ -4,7 +4,7 @@ import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import backgroundImage from '../../images/t.jpg';
+import backgroundImage from '../../images/empbg.jpg';
 
 const CreateEmployeeSalary = () => {
   const [EmpID, setEmpID] = useState('');
@@ -244,7 +244,7 @@ const CreateEmployeeSalary = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>fromDate</label>
+            <label style={styles.label}>From Date</label>
             <input
               type='Date'
               value={fromDate}
@@ -254,7 +254,7 @@ const CreateEmployeeSalary = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>toDate</label>
+            <label style={styles.label}>To Date</label>
             <input
               type='Date'
               value={toDate}
@@ -266,7 +266,7 @@ const CreateEmployeeSalary = () => {
 
         <div style={styles.form}>
           <div style={styles.formGroup}>
-            <label style={styles.label}>totalOThours</label>
+            <label style={styles.label}>Total OT hours</label>
             <input
               type='text'
               value={totalOThours}
@@ -302,7 +302,7 @@ const CreateEmployeeSalary = () => {
 
         <div style={styles.form}>
           <div style={styles.formGroup}>
-            <label style={styles.label}>totalOTpay</label>
+            <label style={styles.label}>Total OT pay</label>
             <input
               type='text'
               value={totalOTpay}
@@ -330,12 +330,20 @@ const CreateEmployeeSalary = () => {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-        <button
-          style={styles.button}
-          onClick={handleSaveEmployeeSalary}
-        >
-          Save
-        </button>
+      <button 
+        style={{ 
+          backgroundColor: 'red', 
+          color: '#fff',
+          border: 'none',
+          borderRadius: '0.25rem',
+          padding: '0.5rem 1rem',
+          cursor: 'pointer',
+          transition: 'background-color 0.3s ease', 
+        }}
+        onClick={handleSaveEmployeeSalary}
+      >
+        Save
+      </button>
       </div>
     </div>
   );
@@ -421,7 +429,7 @@ const styles = {
     backgroundColor: '#1B1B1B',
   },
   button: {
-    backgroundColor: 'red',
+    //backgroundColor: 'red',
     color: '#fff',
     border: 'none',
     borderRadius: '0.25rem',

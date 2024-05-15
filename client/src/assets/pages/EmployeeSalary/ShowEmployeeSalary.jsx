@@ -103,14 +103,14 @@ function ShowEmployeeSalary() {
         <tr>
             <th className='border border-slate-600 rounded-md'>No</th>
             <th className='border border-slate-600 rounded-md'>EmpID</th>
-            <th className='border border-slate-600 rounded-md'>employeeName</th>
-            <th className='border border-slate-600 rounded-md max-md:hidden'>fromDate</th>
-            <th className='border border-slate-600 rounded-md max-md:hidden'>toDate</th>
-            <th className='border border-slate-600 rounded-md max-md:hidden'>totalOThours</th>
-            <th className='border border-slate-600 rounded-md'>totalOTpay</th>
+            <th className='border border-slate-600 rounded-md'>Employee Name</th>
+            <th className='border border-slate-600 rounded-md max-md:hidden'>From Date</th>
+            <th className='border border-slate-600 rounded-md max-md:hidden'>To Date</th>
+            <th className='border border-slate-600 rounded-md max-md:hidden'>Total OT hours</th>
+            <th className='border border-slate-600 rounded-md'>Total OT pay</th>
             {/* <th className='border border-slate-600 rounded-md'>totalWorkedhours</th> */}
-            <th className='border border-slate-600 rounded-md'>BasicSalary</th>
-            <th className='border border-slate-600 rounded-md'>TotalSalary</th>
+            <th className='border border-slate-600 rounded-md'>Basic Salary</th>
+            <th className='border border-slate-600 rounded-md'>Total Salary</th>
             <th className='border border-slate-600 rounded-md'>Action</th>
         </tr>
     </thead>

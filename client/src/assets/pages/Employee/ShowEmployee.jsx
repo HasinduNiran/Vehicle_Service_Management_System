@@ -117,12 +117,12 @@ function ShowEmployee() {
         <tr>
             <th className='border border-slate-600 rounded-md'>No</th>
             <th className='border border-slate-600 rounded-md'>EmpID</th>
-            <th className='border border-slate-600 rounded-md'>employeeName</th>
+            <th className='border border-slate-600 rounded-md'>Employee Name</th>
             <th className='border border-slate-600 rounded-md max-md:hidden'>DOB</th>
             <th className='border border-slate-600 rounded-md max-md:hidden'>NIC</th>
             <th className='border border-slate-600 rounded-md'>Address</th>
-            <th className='border border-slate-600 rounded-md'>BasicSalary</th>
-            <th className='border border-slate-600 rounded-md'>ContactNo</th>
+            <th className='border border-slate-600 rounded-md'>Basic Salary</th>
+            <th className='border border-slate-600 rounded-md'>Contact No</th>
             <th className='border border-slate-600 rounded-md'>Email</th>
             <th className='border border-slate-600 rounded-md'>Action</th>
         </tr>
