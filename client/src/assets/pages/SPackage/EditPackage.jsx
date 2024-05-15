@@ -3,6 +3,7 @@ import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import backgroundImage from '../../images/t.jpg';
+import Swal from 'sweetalert2';
 
 const EditPackage = () => {
   const [pakgname, setPakgname] = useState('');
@@ -52,6 +53,48 @@ const EditPackage = () => {
   };
 
   const handleEditPackage = () => {
+    const today = new Date().toISOString().split('T')[0];
+    if(!pakgname){
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Package Name',
+        text: 'Please enter a package name.',
+      });
+      return;
+    }
+    if(!pkgdescription){
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Package Description',
+        text: 'Please enter a package description.',
+      });
+      return;
+    }
+    if (selectedServices.length === 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Services',
+        text: 'Please select at least one service.',
+      });
+      return;
+    }
+    
+    if(Price <= 0||!Price){
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Price',
+        text: 'Please enter a valid price.',
+      });
+      return;
+    }
+    if (exp < today) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Date',
+        text: 'The expiration date cannot be in the past.',
+      });
+      return;
+    }
     const data = {
       pakgname,
       pkgdescription,
@@ -124,10 +167,11 @@ const EditPackage = () => {
         <div style={styles.formGroup}>
           <label style={styles.label}>Expiry Date</label>
           <input
-            type="Date"
+            type="date"
             value={exp}
             onChange={(e) => setExp(e.target.value)}
             style={styles.input}
+            min={today}
           />
         </div>
 
