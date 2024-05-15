@@ -1,8 +1,9 @@
-
 // Importing necessary modules
-import express from "express";
-import mongoose from "mongoose";
+import express from 'express';
+import mongoose from 'mongoose';
 import cors from 'cors';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 // Importing custom configurations
 import { PORT, mongoDBURL } from './config.js';
@@ -20,8 +21,8 @@ import Package_Route from './Routes/Package_Route.js';
 import Service_Route from './Routes/Service_Route.js';
 import ServiceHistory_Route from './Routes/ServiceHistory_Route.js';
 import Manager_Route from './Routes/Manager_Route.js';
-import EmployeeAttendence_Route from "./Routes/EmployeeAttendence_Route.js";
-import { ReadOneHome_Route } from "./Routes/ReadOneHome_Route.js";
+import EmployeeAttendence_Route from './Routes/EmployeeAttendence_Route.js';
+import { ReadOneHome_Route } from './Routes/ReadOneHome_Route.js';
 import EmployeeSalary_Route from './Routes/EmployeeSalary_Route.js';
 import BookingLimit_Route from './Routes/BookingLimit_Route.js';
 
@@ -33,6 +34,14 @@ app.use(express.json());
 
 // Middleware for handling CORS POLICY
 app.use(cors());
+
+// Set up session management
+app.use(session({
+  secret: 'nadeekaAuto',
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({ mongoUrl: mongoDBURL })
+}));
 
 // Using routes for endpoints
 app.use('/customer', UserAccount_Route);
@@ -51,6 +60,17 @@ app.use('/PaymentInvoice', PaymentInvoice_Route);
 app.use('/Home', ReadOneHome_Route);
 app.use('/EmployeeSalary', EmployeeSalary_Route);
 app.use('/bookinglimits', BookingLimit_Route);
+
+// Add the logout route
+app.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).send('Failed to log out');
+    }
+    res.clearCookie('connect.sid'); // clears the session cookie
+    res.send('Logged out successfully');
+  });
+});
 
 // Connecting to the MongoDB database
 mongoose.connect(mongoDBURL)

@@ -136,6 +136,16 @@ function EmployeeDashboard() {
     },
   };
 
+  const handleLogout = async () => {
+    try {
+      await axios.post('/logout');
+      // Redirect to login page or update state
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Error logging out', error);
+    }
+  };
+
   return (
     <div style={styles.container}>
         <div className="sb-nav-fixed">
@@ -154,7 +164,7 @@ function EmployeeDashboard() {
               <li><a className="dropdown-item" href="#">Settings</a></li>
               <li><a className="dropdown-item" href="#">Activity Log</a></li>
               <li><hr className="dropdown-divider" /></li>
-              <li><a className="dropdown-item" href="#">Logout</a></li>
+              <li><a className="dropdown-item" href="" onClick={handleLogout}>Logout</a></li>
             </ul>
           </li>
         </ul>
