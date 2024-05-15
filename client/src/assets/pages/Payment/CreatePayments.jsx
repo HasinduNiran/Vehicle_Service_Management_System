@@ -80,7 +80,7 @@ const CreatePayments = () => {
       const selectedDate = new Date(values.PaymentDate);
       const currentDate = new Date();
   
-      if (selectedDate < currentDate) {
+      if ( currentDate==selectedDate) {
         errors.PaymentDate = "Payment Date is invalid!";
       }
     }

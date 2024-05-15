@@ -62,14 +62,14 @@ const PaymentDashboard = () => {
 
   // Filter function to apply search query filter
   const applySearchFilter = (payment) => {
-    const { PaymentId, PaymentDate, totalAmount, PaymentMethod } = payment;
-    if (!PaymentId || !PaymentDate || !totalAmount || !PaymentMethod) {
+    const { PaymentId, PaymentDate, Vehicle_Number, PaymentMethod } = payment;
+    if (!PaymentId || !PaymentDate || !Vehicle_Number || !PaymentMethod) {
       return false; // If any required property is undefined or null, return false
     }
     return (
       PaymentId.toLowerCase().includes(searchQuery.toLowerCase()) ||
       PaymentDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      totalAmount
+      Vehicle_Number
         .toString()
         .toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
@@ -84,7 +84,7 @@ const PaymentDashboard = () => {
 
   const openEmailClient = (payment) => {
     const emailSubject = 'Payment Details';
-    const emailBody = `Payment Id: ${payment.PaymentId}\nPayment Date: ${payment.PaymentDate}\nTotal Amount: ${payment.totalAmount}\nPayment Method: ${payment.PaymentMethod}\nMessage: "Payment is successfull"`;
+    const emailBody = `Payment Id: ${payment.PaymentId}\nPayment Date: ${payment.PaymentDate}\nPackage:${payment.Package}\nService:${payment.selectedServices}\nPackage Amount:${payment.Pamount}\nService Amount:${payment.Samount}\nTotal Amount: ${payment.totalAmount}\nPayment Method: ${payment.PaymentMethod}\nMessage: "Payment is successfull"`;
     window.location.href = `mailto:${payment.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
   };
   
@@ -98,6 +98,7 @@ const PaymentDashboard = () => {
       backgroundSize: "cover",
       backgroundPosition: "center",
     },
+    
     navButton: {
       backgroundColor: "red",
       color: "white",
