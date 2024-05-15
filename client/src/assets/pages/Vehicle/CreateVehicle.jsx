@@ -168,7 +168,14 @@ const CreateVehicle = () => {
           </div>
           <div style={styles.formGroup}>
             <label htmlFor="make" style={styles.label}>Make</label>
-            <input type="text" id="make" style={styles.input} value={Make} onChange={(e) => setMake(e.target.value)} required />
+          
+            <select id="make" style={styles.select} value={Make} onChange={(e) => setMake(e.target.value)}>
+              <option value=''>Select Make</option>
+              <option value='Car'>Car</option>
+              <option value='Van'>Van</option>
+              <option value='Bus'>Bus</option>
+              <option value='Lorry'>Lorry</option>
+            </select>
           </div>
           <div style={styles.formGroup}>
             <label htmlFor="model" style={styles.label}>Model</label>
