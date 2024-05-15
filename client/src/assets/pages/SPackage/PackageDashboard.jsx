@@ -95,17 +95,22 @@ function PackageDashboard() {
         const pkgdescription = pkg.pkgdescription ? pkg.pkgdescription.toLowerCase() : '';
         const includes = pkg.includes ? pkg.includes.join(',').toLowerCase() : ''; // Join array elements into a string
         const Price = typeof pkg.Price === 'string' ? pkg.Price.toLowerCase() : String(pkg.Price); // Convert Price to string if it's not already
-
+        const exp = pkg.exp ? pkg.exp.toLowerCase() :String(pkg.Exp); // Convert
         return (
             pakgname.includes(searchQuery.toLowerCase()) ||
             pkgdescription.includes(searchQuery.toLowerCase()) ||
             includes.includes(searchQuery.toLowerCase()) || // Check if includes contains the searchQuery
-            Price.includes(searchQuery.toLowerCase())
+            Price.includes(searchQuery.toLowerCase())||
+            exp.includes(searchQuery.toLowerCase()) 
         );
     };
 
     const filteredpkg = packages.filter(applySearchFilter);
-
+    
+    const isExpired = (expDate) => {
+        if (!expDate) return false;
+        return new Date(expDate) < new Date();
+    };
     const styles = {
         container: {
             color: 'black',
@@ -256,6 +261,7 @@ function PackageDashboard() {
                                                         <th style={styles.tableHeader}>Description</th>
                                                         <th style={styles.tableHeader}>Includes</th>
                                                         <th style={styles.tableHeader}>Price</th>
+                                                        <th style={styles.tableHeader}>Exp. Date</th>
                                                         <th style={styles.tableHeader}>Actions</th>
 
                                                     </tr>
@@ -274,6 +280,7 @@ function PackageDashboard() {
                                                                 </ul>
                                                             </td>
                                                             <td style={styles.tableCell}>Rs.{pkg.Price}</td>
+                                                            <td style={styles.tableCell} className={isExpired(pkg.exp) ? 'text-red-500' : ''}>{pkg.exp}</td>
                                                             <td style={styles.tableCell}>
                                                                 <div className='flex justify-center gap-x-4'>
                                                                   

@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
         const { pakgname, pkgdescription, includes, Price, exp } = req.body;
 
         // Validate required fields
-        if (!pakgname || !pkgdescription || !includes || !Price ) {
+        if (!pakgname || !pkgdescription || !includes || !Price || !exp) {
             return res.status(400).json({ message: 'All required fields must be provided: pakgname, pkgdescription, includes, Price, exp' });
         }
 
@@ -101,8 +101,8 @@ router.get("/searchpackage", async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({ message:
-            "Internal server error" });
-        }
-        });
-        
-        export default router;
+"Internal server error" });
+}
+});
+
+export default router;

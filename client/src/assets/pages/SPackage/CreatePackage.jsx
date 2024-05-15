@@ -10,6 +10,7 @@ const CreatePackage = () => {
   const [services, setServices] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
   const [Price, setPrice] = useState(0);
+  const [exp, setExp] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -39,7 +40,8 @@ const CreatePackage = () => {
       pakgname,
       pkgdescription,
       includes: selectedServices,
-      Price
+      Price,
+      exp
     };
     setLoading(true);
 
@@ -107,6 +109,16 @@ const CreatePackage = () => {
             style={styles.input}
           />
         </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Expioration Date</label>
+          <input
+            type="Date"
+            value={exp}
+            onChange={(e) => setExp(e.target.value)}
+            style={styles.input}
+          />
+        </div>
+        
         <button style={styles.button} onClick={handleSavePackage}>
           Save
         </button>

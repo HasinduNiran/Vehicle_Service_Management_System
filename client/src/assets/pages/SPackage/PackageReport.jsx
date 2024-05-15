@@ -16,7 +16,8 @@ export default function PackageReport({filteredpkg}) {
       "Package Name",
       "Discrption",
       "Services",
-      "Price"
+      "Price",
+      "exp. Date"
 
     ];
     const tableRows = [];
@@ -30,7 +31,9 @@ export default function PackageReport({filteredpkg}) {
           vehicle.pakgname,
           vehicle.pkgdescription,
           vehicle.includes,
-          vehicle.Price
+          vehicle.Price,
+          vehicle.exp,
+          
         ];
         tableRows.push(data);
       });
