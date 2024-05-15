@@ -197,7 +197,7 @@ transform: rotate(-12deg) skew(-12deg);
     margin: 0 10px;
 }
 
-.HN .animationRightLeft {
+/* .HN .animationRightLeft {
   animation: animationRightLeft 2s ease-in-out infinite;
 }
 .HN .animationLeftRight {
@@ -231,5 +231,6 @@ transform: rotate(-12deg) skew(-12deg);
   }
   100% {
     transform: translateX(0px);
-  }
-}
+  } */
+
+
