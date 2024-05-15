@@ -76,14 +76,18 @@ const CreatePayments = () => {
     }
     if (!values.PaymentDate) {
       errors.PaymentDate = "Payment Date is required!";
-    } else {
+  } else {
       const selectedDate = new Date(values.PaymentDate);
       const currentDate = new Date();
-  
-      if ( currentDate==selectedDate) {
-        errors.PaymentDate = "Payment Date is invalid!";
+      
+      // Set time components to zero to compare only dates
+      selectedDate.setHours(0, 0, 0, 0);
+      currentDate.setHours(0, 0, 0, 0);
+    
+      if (selectedDate.getTime() !== currentDate.getTime()) {
+          errors.PaymentDate = "Payment Date must be today!";
       }
-    }
+  }
     // if (!values.totalAmount) {
     //   errors.totalAmount = "Total Amount is required!";
     // }
