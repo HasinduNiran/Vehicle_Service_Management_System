@@ -128,6 +128,7 @@ import PackageDashboard from './assets/pages/SPackage/PackageDashboard';
 import ManagerLogin from './assets/components/ManagerLogin';
 import Header from './assets/components/Header';
 
+import { InvoiceDocument } from './assets/pages/PaymentInvoice/InvoiceDocument';
 
 const App = () => {
   return (
@@ -292,6 +293,7 @@ const App = () => {
       <Route path='/PaymentInvoice/delete/:id' element={<DeleteInvoice/>}></Route>
       {/* <Route path='/PaymentInvoice/delete/:id' element={<ReportInvoice/>}></Route> */}
       <Route path='/PaymentInvoice/read/:id' element={<ReadOneInvoice/>}></Route> 
+      <Route path='/PaymentInvoice/InvoiceDocument' element={<InvoiceDocument/>}></Route>
 
 
       <Route path ='/show-all'  element={<ShowAllBooking/>}/>

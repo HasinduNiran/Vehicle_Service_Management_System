@@ -76,15 +76,19 @@ const CreatePayments = () => {
     }
     if (!values.PaymentDate) {
       errors.PaymentDate = "Payment Date is required!";
-     }
+    } else {
+      const selectedDate = new Date(values.PaymentDate);
+      const currentDate = new Date();
+  
+      if (selectedDate < currentDate) {
+        errors.PaymentDate = "Payment Date is invalid!";
+      }
+    }
     // if (!values.totalAmount) {
     //   errors.totalAmount = "Total Amount is required!";
     // }
     if (!values.PaymentMethod) {
       errors.PaymentMethod = "Payment Method is required!";
-    }
-    if (!values.Package) {
-      errors.Package = "Package is required!";
     }
     if (!values.email) {
       errors.email = "Email is required!";
@@ -102,14 +106,12 @@ const CreatePayments = () => {
   const totalAmount = calculateTotalAmount();
 
   const handleSavePayment = () => {
-    
     const data = {
-      //PaymentId: formValues.PaymentId,
       cusID: formValues.cusID,
       Booking_Id: formValues.Booking_Id,
       Vehicle_Number: formValues.Vehicle_Number,
       PaymentDate: formValues.PaymentDate,
-      totalAmount: totalAmount, // Use the calculated total amount here
+      totalAmount: totalAmount,
       PaymentMethod: formValues.PaymentMethod,
       Package: formValues.Package,
       selectedServices: formValues.selectedServices,
@@ -117,20 +119,30 @@ const CreatePayments = () => {
       Samount: formValues.Samount,
       email: formValues.email,
     };
-
+  
     setLoading(true);
     axios
       .post(`http://localhost:8076/payments`, data)
       .then(() => {
         setLoading(false);
-        navigate('/payments/pdashboard');
+        Swal.fire({
+          icon: 'success',
+          title: 'Payment saved successfully!',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => navigate('/payments/pdashboard'));
       })
       .catch((error) => {
         setLoading(false);
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to save payment!',
+          footer: `<p>${error}</p>`
+        });
       });
   };
-
+  
   useEffect(() => {
     setLoading(true);
     axios
@@ -313,7 +325,7 @@ const CreatePayments = () => {
               placeholder='Package'
               disabled
             />
-           {formErrors.Package && <p className='text-red-500'>{formErrors.Package}</p>}
+           
           </div>
           <div style={styles.formGroup}>
           <label htmlFor='selectedServices'style={styles.label}>Service</label>
@@ -323,7 +335,7 @@ const CreatePayments = () => {
               placeholder='Service'
               disabled
             />
-           {formErrors.Package && <p className='text-red-500'>{formErrors.Package}</p>}
+         
           </div>
           <div style={styles.formGroup}>
             <label htmlFor='PaymentDate'style={styles.label}>Payment Date</label>

@@ -9,7 +9,6 @@ import backgroundImage from '../../images/Pback21.jpg';
 
 const EditInvoice= () => {
 
-  const[InvoiceId,setInvoiceId] = useState('');
   const[customerName,setcustomerName] = useState('');
   const [cusID,setcusID] = useState('');
   const[PaymentId,setPaymentId] = useState('');
@@ -35,7 +34,6 @@ const EditInvoice= () => {
     axios
       .get(`http://localhost:8076/PaymentInvoice/${id}`)
       .then((response) => {
-        setInvoiceId(response.data.InvoiceId);
         setcustomerName(response.data.customerName);
         setcusID(response.data.cusID);
         setPaymentId(response.data.PaymentId);
@@ -61,7 +59,7 @@ const EditInvoice= () => {
   }, []);
   const handleEditPaymentInvoice = () => {
     const data = {
-      InvoiceId,
+     
       customerName,
       PaymentId,
       cusID,
@@ -101,11 +99,11 @@ const EditInvoice= () => {
           Edit Payment Invoice
         </h1>
         <div style={styles.formGroup}>
-          <label htmlFor="InvoiceId" style={styles.label}>Invoice ID</label>
+          <label htmlFor="PaymentId" style={styles.label}>Invoice ID</label>
           <input
             type="text"
-            value={InvoiceId}
-            onChange={(e) => setInvoiceId(e.target.value)}
+            value={PaymentId}
+            onChange={(e) => setPaymentId(e.target.value)}
             style={styles.input} />
         </div>
         <div style={styles.formGroup}>
@@ -120,10 +118,7 @@ const EditInvoice= () => {
           <label htmlFor="cusID" style={styles.label}>Customer ID</label>
           <div>{cusID}</div>
         </div>
-    <div style={styles.formGroup}>
-        <label htmlFor="PaymentId" style={styles.label}>PaymentId</label>
-        {PaymentId}
-      </div><div style={styles.formGroup}>
+      <div style={styles.formGroup}>
         <label htmlFor="Booking_Id" style={styles.label}>Service Id</label>
         {Booking_Id}
       </div><div style={styles.formGroup}>

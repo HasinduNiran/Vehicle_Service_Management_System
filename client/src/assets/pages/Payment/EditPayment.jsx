@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import BackButton from "../../components/BackButton";
-//import Spinner from "../../components/Spinner";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-
+import Swal from 'sweetalert2';
 import backgroundImage from '../../images/Pback21.jpg'; // background image
 
 const EditPayment = () => {
@@ -19,7 +18,8 @@ const EditPayment = () => {
   const [totalAmount, settotalAmount] = useState("");
   const [PaymentMethod, setPaymentMethod] = useState("");
   const [Booking_Id, setBooking_Id] = useState("");
-  const [email, setEmail]=useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -56,120 +56,146 @@ const EditPayment = () => {
     settotalAmount(total);
   }, [Pamount, Samount]);
 
-  const handleEditPayment = async (e) => {
-    e.preventDefault();
-    const data = {
-      PaymentId,
-      cusID,
-      Vehicle_Number,
-      Booking_Id,
-      Package,
-      selectedServices,
-      PaymentDate,
-      Pamount,
-      Samount,
-      totalAmount,
-      PaymentMethod,
-      email,
-    };
-    setLoading(true);
-    axios
-      .put(`http://localhost:8076/payments/${id}`, data)
-      .then(() => {
-        setLoading(false);
-        navigate("/payments/pdashboard");
-      })
-      .catch((err) => {
-        setLoading(false);
-        alert("An error happened");
-        console.log(err);
-      });
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
+
+  
+
+const handleEditPayment = async (e) => {
+  e.preventDefault();
+  if (!email || !totalAmount || !PaymentMethod) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Please fill in all required fields.',
+    });
+    return;
+  }
+  if (!validateEmail(email)) {
+    setEmailError("Please enter a valid email address.");
+    return;
+  }
+
+  setEmailError("");
+
+  const data = {
+    PaymentId,
+    cusID,
+    Vehicle_Number,
+    Booking_Id,
+    Package,
+    selectedServices,
+    PaymentDate,
+    Pamount,
+    Samount,
+    totalAmount,
+    PaymentMethod,
+    email,
+  };
+
+  setLoading(true);
+  axios
+    .put(`http://localhost:8076/payments/${id}`, data)
+    .then(() => {
+      setLoading(false);
+      navigate("/payments/pdashboard");
+    })
+    .catch((err) => {
+      setLoading(false);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error happened',
+      });
+      console.log(err);
+    });
+};
+
 
   return (
     <div style={styles.container}>
       <div style={styles.formContainer}>
-      <form onSubmit={handleEditPayment} style={styles.form}>
-        <h1 style={styles.heading}>
-          <BackButton destination='/payments/pdashboard' />
-          Edit Payment
-        </h1>
-        {/* {loading ? <Spinner /> : ''} */}
-        {/* <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'> */}
-        
-        <div style={styles.formGroup}>
-            <label htmlFor="PaymentId"style={styles.label}>PaymentId</label>
-           {PaymentId}
+        <form onSubmit={handleEditPayment} style={styles.form}>
+          <h1 style={styles.heading}>
+            <BackButton destination='/payments/pdashboard' />
+            Edit Payment
+          </h1>
+          <div style={styles.formGroup}>
+            <label htmlFor="PaymentId" style={styles.label}>PaymentId</label>
+            <div>{PaymentId}</div>
           </div>
           <div style={styles.formGroup}>
-              <label htmlFor="email" style={styles.label}>Email</label>
-              <input
-                type="String"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                style={styles.input}
-              />
-            </div>
+            <label htmlFor="email" style={styles.label}>Email</label>
+            <input
+              type="String"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={styles.input}
+            />
+             {emailError && <div style={{ color: 'red' }}>{emailError}</div>}
+          </div>
           <div style={styles.formGroup}>
-          <label  htmlFor='Booking_Id'style={styles.label}>Service ID</label>
+            <label htmlFor='Booking_Id' style={styles.label}>Service ID</label>
             <div>{Booking_Id}</div>
-        </div>
-        <div style={styles.formGroup}>
-            <label  htmlFor="cusID"style={styles.label}>Customer ID</label>
-             <div>{cusID}</div>
-        </div>
-        <div style={styles.formGroup}>
-          <label htmlFor='Package'style={styles.label}>Package</label>
+          </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="cusID" style={styles.label}>Customer ID</label>
+            <div>{cusID}</div>
+          </div>
+          <div style={styles.formGroup}>
+            <label htmlFor='Package' style={styles.label}>Package</label>
             <div>{Package}</div>
           </div>
           <div style={styles.formGroup}>
-          <label htmlFor='selectedServices'style={styles.label}>Service</label>
-           <div>{selectedServices} </div>
+            <label htmlFor='selectedServices' style={styles.label}>Service</label>
+            <div>{selectedServices}</div>
           </div>
           <div style={styles.formGroup}>
-            <label  htmlFor="Vehicle_Number"style={styles.label}>Vehicle Number</label>
-           <div> {Vehicle_Number}</div>
+            <label htmlFor="Vehicle_Number" style={styles.label}>Vehicle Number</label>
+            <div>{Vehicle_Number}</div>
           </div>
           <div style={styles.formGroup}>
-              <label htmlFor="Pamount" style={styles.label}>Package Amount</label>
-              <input
-                type="number"
-                value={Pamount}
-                onChange={(e) => setPamount(e.target.value)}
-                style={styles.input}
-              />
-            </div>
-            <div style={styles.formGroup}>
-              <label htmlFor="Samount" style={styles.label}>Service Amount</label>
-              <input
-                type="number"
-                value={Samount}
-                onChange={(e) => setSamount(e.target.value)}
-                style={styles.input}
-              />
-            </div>
-            <div style={styles.formGroup}>
-              <label htmlFor="totalAmount" style={styles.label}>Total Amount</label>
-              <input
-                type="number"
-                value={totalAmount}
-                readOnly
-                style={styles.input}
-              />
-            </div>
-            <div style={styles.formGroup}>
-              <label htmlFor="PaymentMethod" style={styles.label}>Payment Method</label>
-              <select
-                value={PaymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-                style={styles.input}
-              >
-                <option value="">Select Payment Method</option>
-                <option value="cash">Cash</option>
-                <option value="card">Card</option>
-              </select>
-            </div>
-            <div style={styles.formGroup}>
+            <label htmlFor="Pamount" style={styles.label}>Package Amount</label>
+            <input
+              type="number"
+              value={Pamount}
+              onChange={(e) => setPamount(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="Samount" style={styles.label}>Service Amount</label>
+            <input
+              type="number"
+              value={Samount}
+              onChange={(e) => setSamount(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="totalAmount" style={styles.label}>Total Amount</label>
+            <input
+              type="number"
+              value={totalAmount}
+              readOnly
+              style={styles.input}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="PaymentMethod" style={styles.label}>Payment Method</label>
+            <select
+              value={PaymentMethod}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+              style={styles.input}
+            >
+              <option value="">Select Payment Method</option>
+              <option value="cash">Cash</option>
+              <option value="card">Card</option>
+            </select>
+          </div>
+          <div style={styles.formGroup}>
             <button
               type="submit"
               style={styles.submitButton}
@@ -177,10 +203,9 @@ const EditPayment = () => {
               {loading ? 'Updating...' : 'Update Payment record'}
             </button>
           </div>
-          </form>
-        </div>
+        </form>
       </div>
-    
+    </div>
   );
 };
 const styles = {
