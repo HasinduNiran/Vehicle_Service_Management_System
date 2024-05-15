@@ -211,7 +211,7 @@ const CreatePayments = () => {
         selectedServices: selectedServiceEntry.selectedServices,
         cusID: selectedServiceEntry.cusID,
         // Fetch the package amount based on the selected package name
-        Pamount: fetchPackageAmount(selectedServiceEntry.Package),
+        Pamount: fetchPackageAmount(selectedServiceEntry.package),
         Samount: fetchServiceAmount(selectedServiceEntry.Service),
         email: fetchCustomerEmail(selectedServiceEntry.cusID),
         
@@ -231,7 +231,9 @@ const CreatePayments = () => {
         Package: '',
         selectedServices: '',
         cusID: '',
-        Pamount: ''
+        Pamount: '',
+        Samount: '',
+        email: ''
       });
     }
   };
@@ -243,13 +245,13 @@ const CreatePayments = () => {
   };
   
   const fetchServiceAmount = (serviceName) => {
-    // Find the package with the given package name and return its price
+    // Find the service with the given service name and return its price
     const serviceData = Serviceprice.find((skg) => skg.servgname === serviceName);
     return serviceData ? serviceData.Price : '';
   };
 
   const fetchCustomerEmail = (cusID) => {
-    // Find the package with the given package name and return its price
+    // Find the cudtomer with the given customer name and return his email
     const customerData = Customeremail.find((ckg) => ckg.cusID === cusID);
     return customerData ? customerData.email : '';
   };

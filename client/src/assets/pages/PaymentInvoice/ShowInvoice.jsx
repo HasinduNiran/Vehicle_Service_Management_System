@@ -235,9 +235,6 @@ const ShowInvoice=()=> {
                     >
                       Add Invoice
                     </button>
-                    <div style={styles.navButton}>
-                      {/* <PaymentReport filteredPayments={filteredPaymentsf} /> */}
-                    </div>
                   </div>
                 </div>
               </div>
