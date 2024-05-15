@@ -14,6 +14,7 @@ const EditInventory = () => {
   const [sellPrice, setSellPrice] = useState('');
   const [supplierName, setSupplierName] = useState('');
   const [supplierPhone, setSupplierPhone] = useState('');
+  const [supplierEmail, setSupplierEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -30,6 +31,7 @@ const EditInventory = () => {
         setSellPrice(data.SellPrice);
         setSupplierName(data.SupplierName);
         setSupplierPhone(data.SupplierPhone);
+        setSupplierEmail(data.SupplierEmail);
         setLoading(false);
       })
       .catch((error) => {
@@ -47,7 +49,7 @@ const EditInventory = () => {
     // Frontend validation
     const negativeFields = [];
     
-    if (!name || !quantity || !purchasedPrice || !sellPrice || !supplierName || !supplierPhone) {
+    if (!name || !quantity || !purchasedPrice || !sellPrice || !supplierName || !supplierPhone || !supplierEmail) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -95,15 +97,24 @@ const EditInventory = () => {
       return;
     }
 
+    // Email validation
+    const emailPattern = /^\S+@\S+\.\S+$/;
+    if (!emailPattern.test(supplierEmail)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter a valid email address for the supplier.',
+      });
+      return;
+    }
 
-
-     // Phone number validation
-  if (!supplierPhone.startsWith('0') || supplierPhone.length !== 10 || !/^\d+$/.test(supplierPhone)) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Phone number must start with 0 and have exactly 10 digits.',
-    });
+    // Phone number validation
+    if (!supplierPhone.startsWith('0') || supplierPhone.length !== 10 || !/^\d+$/.test(supplierPhone)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Phone number must start with 0 and have exactly 10 digits.',
+      });
       return;
     }
 
@@ -119,6 +130,7 @@ const EditInventory = () => {
       SellPrice: sellPrice,
       SupplierName: supplierName,
       SupplierPhone: supplierPhone,
+      SupplierEmail: supplierEmail,
     };
   
     setLoading(true);
@@ -145,7 +157,6 @@ const EditInventory = () => {
         console.log(error);
       });
   };
-  
 
   return (
     <div style={styles.container}>
@@ -218,6 +229,15 @@ const EditInventory = () => {
                 setSupplierPhone(inputPhone);
               }
             }}
+            style={styles.input}
+          />
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Supplier Email</label>
+          <input
+            type="email"
+            value={supplierEmail}
+            onChange={(e) => setSupplierEmail(e.target.value)}
             style={styles.input}
           />
         </div>
