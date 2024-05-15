@@ -4,7 +4,7 @@ import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate,useParams } from 'react-router-dom';
-import backgroundImage from '../../images/t.jpg';
+import backgroundImage from '../../images/empbg.jpg';
 
 const EditEmployeeSalary = () => {
   const [EmpID, setEmpID] = useState('');
@@ -46,35 +46,13 @@ const EditEmployeeSalary = () => {
       });
   }, [])
 
-  const handleEmpIDChange = (e) => {
-    const selectedEmpID = e.target.value;
-    const selectedEmp = employees.find((emp) => emp.EmpID === selectedEmpID);
-    setSelectedEmployee({
-      ...selectedEmployee,
-      EmpID: selectedEmpID,
-      employeeName: selectedEmp.employeeName,
-    });
-    setBasicSalary(selectedEmp.BasicSalary); // Set BasicSalary when EmpID is changed
-  };
 
-  const handleEmployeeNameChange = (e) => {
-    const selectedEmployeeName = e.target.value;
-    const selectedEmp = employees.find(
-      (emp) => emp.employeeName === selectedEmployeeName
-    );
-    setSelectedEmployee({
-      ...selectedEmployee,
-      EmpID: selectedEmp.EmpID,
-      employeeName: selectedEmployeeName,
-    });
-    setBasicSalary(selectedEmp.BasicSalary); // Set BasicSalary when EmployeeName is changed
-  };
 
   // calculate total OT hours
   const calculateTotalOvertimeHours = () => {
     const filteredAttendance = employeesAttendence.filter(
       (attendance) =>
-        attendance.EmpID === selectedEmployee.EmpID &&
+        attendance.EmpID === EmpID &&
         attendance.date >= fromDate &&
         attendance.date <= toDate
     );
@@ -110,7 +88,7 @@ const EditEmployeeSalary = () => {
   const handleEditEmployeeSalary = () => {
 
     // Check if essential fields are empty
-    if (!EmpID || !employeeName || !fromDate || !toDate || !totalOThours || !totalWorkedhours ||!totalOTpay || !totalWorkedpay) {
+    if (!EmpID || !employeeName || !fromDate || !toDate  || !BasicSalary || !TotalSalary) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -130,23 +108,23 @@ const EditEmployeeSalary = () => {
     }
 
     // Check if totalOThours and totalWorkedhours are numeric
-    if (isNaN(totalOThours) || isNaN(totalWorkedhours)) {
+    if (isNaN(totalOThours)) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Please enter valid numeric values for total OT hours and total worked hours.',
+        text: 'Please enter valid numeric values for total OT hours ',
       });
       return;
     }  
 
-    const MAX_WHOURS = 195; // Example maximum hours
+    
     const MAX_OHOURS = 48;
     // Check if totalOThours and totalWorkedhours are within a valid range
-    if (totalOThours < 0 || totalOThours > MAX_OHOURS || totalWorkedhours < 0 || totalWorkedhours > MAX_WHOURS) {
+    if (totalOThours < 0 || totalOThours > MAX_OHOURS ) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Total OT hours and total worked hours must be between 0 and 24 hours.',
+        text: 'Total OT hours  must be between 0 and 24 hours.',
       });
       return;
     }
@@ -237,7 +215,7 @@ const EditEmployeeSalary = () => {
             />
           </div>
           <div style={styles.formGroup}>
-            <label style={styles.label}>employeeName</label>
+            <label style={styles.label}>Employee Name</label>
             <input
               type='text'
               value={employeeName}
@@ -247,7 +225,7 @@ const EditEmployeeSalary = () => {
             />
           </div>
           <div style={styles.formGroup}>
-            <label style={styles.label}>fromDate</label>
+            <label style={styles.label}>From Date</label>
             <input
               type='Date'
               value={fromDate}
@@ -256,7 +234,7 @@ const EditEmployeeSalary = () => {
             />
           </div>
           <div style={styles.formGroup}>
-            <label style={styles.label}>toDate</label>
+            <label style={styles.label}>To Date</label>
             <input
               type='Date'
               value={toDate}
@@ -268,7 +246,7 @@ const EditEmployeeSalary = () => {
 
         <div style={styles.form}>
           <div style={styles.formGroup}>
-            <label style={styles.label}>totalOThours</label>
+            <label style={styles.label}>Total OT hours</label>
             <input
               type='text'
               value={totalOThours}
@@ -295,7 +273,7 @@ const EditEmployeeSalary = () => {
 
         <div style={styles.form}>
           <div style={styles.formGroup}>
-            <label style={styles.label}>totalOTpay</label>
+            <label style={styles.label}>Total OT pay</label>
             <input
               type='text'
               value={totalOTpay}
@@ -309,7 +287,7 @@ const EditEmployeeSalary = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>BasicSalary</label>
+            <label style={styles.label}>Basic Salary</label>
             <input
               type='text'
               value={BasicSalary }
@@ -320,7 +298,7 @@ const EditEmployeeSalary = () => {
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>TotalSalary</label>
+            <label style={styles.label}>Total Salary</label>
             <input
               type='text'
               value={TotalSalary}
@@ -337,7 +315,15 @@ const EditEmployeeSalary = () => {
 
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
         <button
-          style={styles.button}
+          style={{ 
+            backgroundColor: 'red', 
+            color: '#fff',
+            border: 'none',
+            borderRadius: '0.25rem',
+            padding: '0.5rem 1rem',
+            cursor: 'pointer',
+            transition: 'background-color 0.3s ease', 
+          }}
           onClick={handleEditEmployeeSalary}
         >
           Save
@@ -445,7 +431,7 @@ buttonContainer: {
   justifyContent: 'center',
 },
 button: {
-  backgroundColor: 'red',
+  //backgroundColor: 'red',
   color: '#fff',
   border: 'none',
   borderRadius: '0.25rem',

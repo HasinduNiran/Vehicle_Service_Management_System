@@ -3,7 +3,7 @@ import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import backgroundImage from '../../images/t.jpg';
+import backgroundImage from '../../images/empbg.jpg';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const EditEmployeeAttendence = () => {

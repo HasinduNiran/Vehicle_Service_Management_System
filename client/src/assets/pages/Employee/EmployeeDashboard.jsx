@@ -7,7 +7,7 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import ReportEmployee from './ReportEmployee';
 import logo from '../../images/logo.jpg';
-import backgroundImage from '../../images/t.jpg';
+import backgroundImage from '../../images/empbg.jpg';
 
 function EmployeeDashboard() {
   const [employees, setEmployees] = useState([]);
@@ -99,6 +99,7 @@ function EmployeeDashboard() {
         width: '95%',
         borderCollapse: 'collapse',
         borderBottom: '1px solid red',
+        
     },
     tableHead: {
       background: '#333',

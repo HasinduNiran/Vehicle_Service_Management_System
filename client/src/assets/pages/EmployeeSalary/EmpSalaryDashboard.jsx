@@ -8,7 +8,7 @@ import {AiOutlineEdit} from 'react-icons/ai';
 import {MdOutlineAddBox , MdOutlineDelete} from 'react-icons/md';
 import ReportEmployeeSalary from './ReportEmployeeSalary';
 import logo from '../../images/logo.jpg';
-import backgroundImage from '../../images/t.jpg';
+import backgroundImage from '../../images/empbg.jpg';
 import { BsBorderBottom } from 'react-icons/bs';
 
 function ShowEmployeeSalary() {

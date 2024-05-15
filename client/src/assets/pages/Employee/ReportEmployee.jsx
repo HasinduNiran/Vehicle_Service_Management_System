@@ -12,7 +12,7 @@ export default function ReportEmployee({ filteredEmployee }) {
       "Date of Birth",
       "NIC",
       "Address",
-      "BasicSalary",
+      "Basic Salary",
       "Contact No",
       "Email",
     ];
