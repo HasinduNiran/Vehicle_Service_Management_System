@@ -1,0 +1,351 @@
+Test Case ID,Module,Test Scenario,Test Case Description,Preconditions,Test Steps,Test Data,Expected Result,Actual Result,Status,Priority,Tested By,Date,Comments
+TC_AUTH_001,Authentication,Customer Registration - Valid Data,Verify customer can register with all valid details,"Application is running, Registration page is accessible","1. Navigate to registration page
+2. Enter firstName: John
+3. Enter lastName: Doe
+4. Enter NIC: 123456789V
+5. Enter phone: 0771234567
+6. Enter email: john@test.com
+7. Enter password: Test@123
+8. Click Register button","firstName: John, lastName: Doe, NIC: 123456789V, phone: 0771234567, email: john@test.com, password: Test@123","Registration successful, User redirected to login page, Success message displayed",,Not Executed,P0,,,"Customer model requires: firstName, lastName, NIC, phone, email, password"
+TC_AUTH_002,Authentication,Customer Registration - Missing Required Fields,Verify system validates required fields,"Application is running, Registration page is accessible","1. Navigate to registration page
+2. Leave firstName empty
+3. Enter other required fields
+4. Click Register button",firstName: (empty) other fields: valid data,Error message displayed indicating firstName is required,,Not Executed,P0,,,Test all required fields individually
+TC_AUTH_003,Authentication,Customer Registration - Invalid Email Format,Verify email validation,"Application is running, Registration page is accessible","1. Navigate to registration page
+2. Fill all fields
+3. Enter invalid email: invalidemailformat
+4. Click Register button","email: invalidemailformat, other fields: valid",Error message: Invalid email format,,Not Executed,P0,,,
+TC_AUTH_004,Authentication,Customer Registration - Duplicate Email,Verify duplicate email prevention,"Existing customer with email test@example.com, Registration page accessible","1. Navigate to registration page
+2. Enter email that already exists: test@example.com
+3. Fill other fields with valid data
+4. Click Register button","email: test@example.com (existing), other fields: valid",Error message: Email already registered,,Not Executed,P0,,,
+TC_AUTH_005,Authentication,Customer Registration - Weak Password,Verify password strength validation,"Application is running, Registration page is accessible","1. Navigate to registration page
+2. Fill all fields
+3. Enter weak password: 123
+4. Click Register button","password: 123, other fields: valid",Error message about password requirements,,Not Executed,P1,,,
+TC_AUTH_006,Authentication,Customer Login - Valid Credentials,Verify customer can login with valid credentials,"Customer account exists with email: john@test.com, password: Test@123","1. Navigate to login page
+2. Enter email: john@test.com
+3. Enter password: Test@123
+4. Click Login button","email: john@test.com, password: Test@123","Login successful, Redirect to customer dashboard, Session created",,Not Executed,P0,,,Critical flow
+TC_AUTH_007,Authentication,Customer Login - Invalid Email,Verify login fails with invalid email,"Login page is accessible, No user with test@invalid.com exists","1. Navigate to login page
+2. Enter email: test@invalid.com
+3. Enter password: anyPassword
+4. Click Login button","email: test@invalid.com, password: anyPassword",Error message: Invalid credentials,,Not Executed,P0,,,
+TC_AUTH_008,Authentication,Customer Login - Wrong Password,Verify login fails with incorrect password,"Customer exists: john@test.com, Login page accessible","1. Navigate to login page
+2. Enter email: john@test.com
+3. Enter wrong password: WrongPass123
+4. Click Login button","email: john@test.com, password: WrongPass123",Error message: Invalid credentials,,Not Executed,P0,,,
+TC_AUTH_009,Authentication,Manager Login - Valid Credentials,Verify manager can login,"Manager account exists, Manager login page accessible","1. Navigate to manager login page
+2. Enter Musername: admin
+3. Enter Mpassword: admin123
+4. Click Login","Musername: admin, Mpassword: admin123","Login successful, Redirect to manager dashboard",,Not Executed,P0,,,Manager uses different schema
+TC_AUTH_010,Authentication,Manager Login - Invalid Credentials,Verify manager login fails with wrong credentials,"Manager login page accessible","1. Navigate to manager login page
+2. Enter Musername: wronguser
+3. Enter Mpassword: wrongpass
+4. Click Login","Musername: wronguser, Mpassword: wrongpass",Error message: Invalid credentials,,Not Executed,P0,,,
+TC_RBAC_001,Role-Based Access,Customer Access to Manager Dashboard,Verify customer cannot access manager routes,"Customer logged in as john@test.com","1. Login as customer
+2. Try to access /manager/dashboard URL directly",Customer session active,Access denied or redirect to customer dashboard,,Not Executed,P0,,,Security critical
+TC_RBAC_002,Role-Based Access,Unauthorized Access to Protected Routes,Verify unauthenticated users cannot access protected pages,"No user logged in, Application running","1. Clear all sessions/cookies
+2. Navigate to /dashboard URL
+3. Try /bookings URL
+4. Try /vehicles URL",No active session,Redirect to login page for all protected routes,,Not Executed,P0,,,
+TC_RBAC_003,Role-Based Access,Manager Access to All Modules,Verify manager can access all modules,"Manager logged in","1. Login as manager
+2. Navigate to Bookings module
+3. Navigate to Vehicles module
+4. Navigate to Employees module
+5. Navigate to Inventory module",Manager session active,All modules accessible to manager,,Not Executed,P1,,,
+TC_BOOK_001,Booking,Create Booking - Valid Data,Verify customer can create booking with valid details,"Customer logged in, Booking page accessible, Booking limit not exceeded for selected date","1. Navigate to create booking page
+2. Select Booking_Date: 2026-01-20
+3. Enter Customer_Name: John Doe
+4. Select Vehicle_Type: Sedan
+5. Enter Vehicle_Number: ABC-1234
+6. Enter Contact_Number: 0771234567
+7. Enter Email: john@test.com
+8. Select Package or Services
+9. Click Submit","Booking_Date: 2026-01-20, Customer_Name: John Doe, Vehicle_Type: Sedan, Vehicle_Number: ABC-1234, Contact: 0771234567, Email: john@test.com","Booking created successfully, Confirmation email sent, Booking appears in list, Success message displayed",,Not Executed,P0,,,Critical business flow
+TC_BOOK_002,Booking,Create Booking - Missing Required Fields,Verify validation for required fields,"Customer logged in, Booking page accessible","1. Navigate to create booking page
+2. Leave Customer_Name empty
+3. Fill other required fields
+4. Click Submit",Customer_Name: empty others: valid,Error message: Send all required fields,,Not Executed,P0,,,
+TC_BOOK_003,Booking,Create Booking - Exceeding Daily Limit,Verify booking limit enforcement,"Customer logged in, Booking limit for date 2026-01-25 is 5, Already 5 bookings exist for that date","1. Navigate to create booking page
+2. Select date: 2026-01-25 (already at limit)
+3. Fill all required fields
+4. Click Submit","Date: 2026-01-25, all fields valid",Error message: Booking limit exceeded for the selected date,,Not Executed,P0,,,Business rule critical
+TC_BOOK_004,Booking,Email Confirmation on Booking,Verify email is sent after successful booking,"Customer logged in, Valid email configured","1. Create booking with all valid details
+2. Use email: testemail@gmail.com
+3. Submit booking
+4. Check email inbox","Email: testemail@gmail.com, booking details valid","Booking confirmation email received with booking details (Customer name, Vehicle type, Vehicle number, Booking date)",,Not Executed,P1,,,
+TC_BOOK_005,Booking,View All Bookings,Verify customer can view their bookings list,"Customer logged in, At least 2 bookings exist for customer","1. Login as customer
+2. Navigate to bookings list page
+3. Verify bookings display",cusID matches logged-in customer,All bookings for customer displayed with correct details,,Not Executed,P1,,,
+TC_BOOK_006,Booking,View Specific Booking Details,Verify customer can view single booking details,"Customer logged in, Booking with ID exists","1. Navigate to bookings list
+2. Click on specific booking
+3. Verify all details shown",Valid booking ID,Full booking details displayed (dates services packages contact),,Not Executed,P1,,,
+TC_BOOK_007,Booking,Edit Booking - Update Date,Verify customer can update booking date,"Customer logged in, Booking exists, New date has availability","1. Navigate to booking details
+2. Click Edit
+3. Change Booking_Date to 2026-01-30
+4. Keep other fields same
+5. Click Save","New date: 2026-01-30, date has availability",Booking updated successfully with new date,,Not Executed,P1,,,
+TC_BOOK_008,Booking,Delete Booking,Verify customer can delete their booking,"Customer logged in, Booking exists","1. Navigate to bookings list
+2. Click Delete on a booking
+3. Confirm deletion",Valid booking ID,Booking deleted successfully removed from list,,Not Executed,P1,,,
+TC_BOOK_009,Booking,Create Booking - Invalid Email Format,Verify email format validation,"Customer logged in, Booking page accessible","1. Fill booking form
+2. Enter Email: invalidemail
+3. Submit",Email: invalidemail other fields: valid,Error message: Invalid email format,,Not Executed,P0,,,
+TC_BOOK_010,Booking,Create Booking - Invalid Contact Number,Verify phone number validation,"Customer logged in, Booking page accessible","1. Fill booking form
+2. Enter Contact_Number: 12345 (invalid)
+3. Submit",Contact: 12345 other fields: valid,Error message about valid contact number format,,Not Executed,P1,,,
+TC_LIMIT_001,Booking Limit,Add Booking Limit - Valid Date,Verify manager can set booking limit for a date,"Manager logged in, Booking limit page accessible","1. Login as manager
+2. Navigate to booking limit page
+3. Select date: 2026-02-01
+4. Enter limit: 10
+5. Click Save","Date: 2026-02-01, Limit: 10","Booking limit created, Limit applies to selected date",,Not Executed,P1,,,Manager functionality
+TC_LIMIT_002,Booking Limit,View Booking Limits,Verify manager can view all booking limits,"Manager logged in, Multiple booking limits exist","1. Login as manager
+2. Navigate to booking limits list
+3. View all limits",At least 3 booking limits exist,All booking limits displayed with dates and limits,,Not Executed,P1,,,
+TC_LIMIT_003,Booking Limit,Edit Booking Limit,Verify manager can update booking limit,"Manager logged in, Booking limit exists for date","1. Navigate to booking limits
+2. Select limit to edit
+3. Change limit from 10 to 15
+4. Save",Existing limit: 10 new: 15,Booking limit updated successfully to 15,,Not Executed,P1,,,
+TC_LIMIT_004,Booking Limit,Delete Booking Limit,Verify manager can delete booking limit,"Manager logged in, Booking limit exists","1. Navigate to booking limits
+2. Click delete on a limit
+3. Confirm deletion",Valid booking limit ID,Booking limit deleted successfully,,Not Executed,P1,,,
+TC_VEH_001,Vehicle,Add Vehicle - Valid Data,Verify customer can add vehicle with complete details,"Customer logged in, Vehicle page accessible, Register number doesn't exist","1. Navigate to add vehicle page
+2. Enter Register_Number: CAR-5678
+3. Enter Make: Toyota
+4. Enter Model: Camry
+5. Enter Year: 2020
+6. Enter Engine_Details: 2.5L
+7. Enter Transmission_Details: Automatic
+8. Enter Vehicle_Color: White
+9. Enter Vehicle_Features: Sunroof ABS
+10. Enter Condition_Assessment: Excellent
+11. Enter Owner: John Doe
+12. Upload image
+13. Click Save","Register_Number: CAR-5678, Make: Toyota, Model: Camry, Year: 2020, all fields valid","Vehicle created successfully, Vehicle appears in list, Associated with customer cusID",,Not Executed,P0,,,
+TC_VEH_002,Vehicle,Add Vehicle - Missing Required Fields,Verify required field validation for vehicles,"Customer logged in, Add vehicle page accessible","1. Navigate to add vehicle
+2. Leave Make field empty
+3. Fill other fields
+4. Click Save",Make: empty others: valid,Error message: Please provide all required fields,,Not Executed,P0,,,
+TC_VEH_003,Vehicle,Add Vehicle - Duplicate Registration Number,Verify duplicate registration prevention,"Customer logged in, Vehicle with Register_Number CAR-1111 exists","1. Navigate to add vehicle
+2. Enter Register_Number: CAR-1111 (existing)
+3. Fill other fields
+4. Click Save",Register_Number: CAR-1111 (duplicate),Error message: Vehicle number already exists,,Not Executed,P0,,,Important business rule
+TC_VEH_004,Vehicle,View All Vehicles,Verify customer can view their vehicle list,"Customer logged in, Customer has 3 vehicles","1. Login as customer
+2. Navigate to vehicles page
+3. View vehicle list",Customer has multiple vehicles,All customer vehicles displayed with basic details,,Not Executed,P1,,,
+TC_VEH_005,Vehicle,View Vehicle by Registration Number,Verify search vehicle by registration,"Customer logged in, Vehicle CAR-5678 exists","1. Navigate to vehicles page
+2. Search or access by Register_Number: CAR-5678
+3. View details",Register_Number: CAR-5678,Vehicle details displayed correctly,,Not Executed,P1,,,Route supports ID or Register_Number
+TC_VEH_006,Vehicle,View Vehicle by ID,Verify get vehicle by MongoDB ID,"Vehicle exists with valid ObjectId, Vehicle page accessible","1. Navigate to vehicles page
+2. Access vehicle by ID: [valid ObjectId]
+3. View details",Valid MongoDB ObjectId,Vehicle details retrieved and displayed,,Not Executed,P1,,,
+TC_VEH_007,Vehicle,Edit Vehicle Details,Verify customer can update vehicle information,"Customer logged in, Vehicle exists","1. Navigate to vehicle details
+2. Click Edit
+3. Update Model: Camry 2021
+4. Update Vehicle_Color: Black
+5. Keep other fields same
+6. Click Save","Updated fields: Model Year Color, vehicle ID exists",Vehicle updated successfully with new details,,Not Executed,P1,,,
+TC_VEH_008,Vehicle,Delete Vehicle,Verify customer can delete their vehicle,"Customer logged in, Vehicle exists","1. Navigate to vehicles list
+2. Click Delete on vehicle
+3. Confirm deletion",Valid vehicle ID,Vehicle deleted successfully removed from list,,Not Executed,P1,,,
+TC_VEH_009,Vehicle,Add Vehicle - Invalid Year Format,Verify year validation,"Customer logged in, Add vehicle page accessible","1. Fill vehicle form
+2. Enter Year: ABCD (non-numeric)
+3. Submit",Year: ABCD other fields: valid,Error message: Invalid year format,,Not Executed,P1,,,
+TC_VEH_010,Vehicle,View Vehicle - Non-existent Registration,Verify handling of non-existent vehicle lookup,"Customer logged in","1. Try to access vehicle with Register_Number: NOEXIST
+2. View response",Register_Number: NOEXIST (doesn't exist),Error message: Vehicle not found (404),,Not Executed,P1,,,
+TC_PAY_001,Payment,Create Payment - Valid Data,Verify customer can make payment,"Customer logged in, Booking exists, Payment page accessible","1. Navigate to payment page
+2. Enter cusID: CUS001
+3. Enter Vehicle_Number: CAR-1234
+4. Select PaymentDate: 2026-01-20
+5. Enter totalAmount: 5000
+6. Select PaymentMethod: Cash
+7. Enter Booking_Id: BK001
+8. Enter email: customer@test.com
+9. Enter Package details
+10. Enter Services
+11. Click Submit","cusID: CUS001, Vehicle: CAR-1234, Date: 2026-01-20, Amount: 5000, Method: Cash, Booking_Id: BK001","Payment recorded successfully, Payment appears in history, Confirmation displayed",,Not Executed,P0,,,Critical business transaction
+TC_PAY_002,Payment,Create Payment - Missing Required Fields,Verify payment validation,"Customer logged in, Payment page accessible","1. Navigate to payment page
+2. Leave totalAmount empty
+3. Fill other fields
+4. Submit",totalAmount: empty others: valid,Error message: Send all required fields,,Not Executed,P0,,,
+TC_PAY_003,Payment,Create Payment - Card Method,Verify payment with card method,"Customer logged in, Payment page accessible","1. Fill payment form
+2. Select PaymentMethod: Card
+3. Enter all required fields
+4. Submit",PaymentMethod: Card all fields valid,Payment created successfully with Card method,,Not Executed,P1,,,
+TC_PAY_004,Payment,Create Payment - Online Method,Verify payment with online method,"Customer logged in, Payment page accessible","1. Fill payment form
+2. Select PaymentMethod: Online
+3. Enter all required fields
+4. Submit",PaymentMethod: Online all fields valid,Payment created successfully with Online method,,Not Executed,P1,,,
+TC_PAY_005,Payment,View Payment History,Verify customer can view payment history,"Customer logged in, Customer has made 2+ payments","1. Login as customer
+2. Navigate to payment history
+3. View all payments",Customer has payment records,All customer payments displayed with details,,Not Executed,P1,,,
+TC_PAY_006,Payment,Search Payments by Vehicle Number,Verify payment search functionality,"Multiple payments exist, Payment search page accessible","1. Navigate to payments
+2. Enter search: CAR-1234
+3. View results",Search term: CAR-1234,Payments for vehicle CAR-1234 displayed,,Not Executed,P1,,,
+TC_PAY_007,Payment,Search Payments by Payment Method,Verify payment search by method,"Multiple payments exist with different methods","1. Navigate to payments
+2. Enter search: Cash
+3. View filtered results",Search: Cash,All Cash payments displayed,,Not Executed,P1,,,
+TC_PAY_008,Payment,Payment Pagination,Verify payments list pagination,"More than 5 payments exist, Payment list page accessible","1. Navigate to payments list
+2. Verify default 5 items per page
+3. Click next page
+4. Verify navigation works","Limit: 5 per page, multiple pages exist","Pagination works correctly, 5 items per page, navigation functional",,Not Executed,P1,,,Default limit is 5
+TC_PAY_009,Payment,Sort Payments,Verify payment sorting functionality,"Multiple payments exist","1. Navigate to payments list
+2. Sort by PaymentId
+3. Verify order
+4. Sort by PaymentDate
+5. Verify order",Default sort: PaymentId,Payments sorted correctly by selected field,,Not Executed,P1,,,
+TC_PAY_010,Payment,Create Payment - Invalid Amount,Verify amount validation,"Customer logged in, Payment page accessible","1. Fill payment form
+2. Enter totalAmount: -500 (negative)
+3. Submit",totalAmount: -500 other fields: valid,Error message: Invalid amount,,Not Executed,P1,,,
+TC_INV_001,Inventory,Add Inventory Item - Valid Data,Verify manager can add inventory item,"Manager logged in, Inventory page accessible, Item name doesn't exist","1. Login as manager
+2. Navigate to add inventory
+3. Enter Name: Brake Pads
+4. Enter Location: Warehouse A
+5. Enter Quantity: 50
+6. Enter PurchasedPrice: 2000
+7. Enter SellPrice: 3500
+8. Enter SupplierName: ABC Supplies
+9. Enter SupplierPhone: 0771234567
+10. Enter SupplierEmail: supplier@abc.com
+11. Click Save","Name: Brake Pads, Location: Warehouse A, Qty: 50, Purchase: 2000, Sell: 3500, Supplier details valid","Inventory item created successfully, Item appears in inventory list",,Not Executed,P1,,,
+TC_INV_002,Inventory,Add Inventory - Missing Required Fields,Verify inventory validation,"Manager logged in, Add inventory page accessible","1. Navigate to add inventory
+2. Leave Name empty
+3. Fill other fields
+4. Submit",Name: empty others: valid,Error message: Please provide all required fields,,Not Executed,P1,,,
+TC_INV_003,Inventory,Add Inventory - Duplicate Name,Verify duplicate inventory item prevention,"Manager logged in, Inventory item Brake Pads exists","1. Navigate to add inventory
+2. Enter Name: Brake Pads (existing)
+3. Fill other fields
+4. Submit",Name: Brake Pads (duplicate),Error message: An inventory item with the same name already exists,,Not Executed,P1,,,
+TC_INV_004,Inventory,Add Inventory - Invalid Quantity,Verify quantity validation,"Manager logged in, Add inventory page accessible","1. Fill inventory form
+2. Enter Quantity: -10 (negative)
+3. Submit",Quantity: -10 other fields: valid,"Error message: Quantity must be number greater than zero",,Not Executed,P1,,,
+TC_INV_005,Inventory,Add Inventory - Invalid Price,Verify price validation,"Manager logged in, Add inventory page accessible","1. Fill inventory form
+2. Enter PurchasedPrice: -500
+3. Submit",PurchasedPrice: -500 other fields: valid,Error message: Price must be greater than zero,,Not Executed,P1,,,
+TC_INV_006,Inventory,Add Inventory - Invalid Phone Format,Verify supplier phone validation,"Manager logged in, Add inventory page accessible","1. Fill inventory form
+2. Enter SupplierPhone: 12345 (not 10 digits)
+3. Submit",SupplierPhone: 12345 other fields: valid,Error message: SupplierPhone must be valid 10-digit phone number,,Not Executed,P1,,,Phone regex: 10 digits
+TC_INV_007,Inventory,View All Inventory Items,Verify manager can view inventory list,"Manager logged in, Multiple inventory items exist","1. Login as manager
+2. Navigate to inventory page
+3. View all items",At least 5 inventory items exist,All inventory items displayed with details,,Not Executed,P1,,,
+TC_INV_008,Inventory,Edit Inventory Item,Verify manager can update inventory,"Manager logged in, Inventory item exists","1. Navigate to inventory list
+2. Select item to edit
+3. Update Quantity: 75
+4. Update SellPrice: 4000
+5. Save changes","Updated Qty: 75, Price: 4000",Inventory item updated successfully,,Not Executed,P1,,,
+TC_INV_009,Inventory,Delete Inventory Item,Verify manager can delete inventory,"Manager logged in, Inventory item exists","1. Navigate to inventory list
+2. Click Delete on item
+3. Confirm deletion",Valid inventory item ID,Inventory item deleted successfully,,Not Executed,P1,,,
+TC_INV_010,Inventory,Low Stock Alert,Verify low stock indication,"Manager logged in, Inventory items with quantity < 10 exist","1. Navigate to inventory
+2. Check items with low quantity
+3. Verify visual indicator",Items with Quantity < 10,Low stock items highlighted or flagged,,Not Executed,P2,,,If implemented
+TC_EMP_001,Employee,Add Employee - Valid Data,Verify manager can add employee with auto-generated ID,"Manager logged in, Employee page accessible","1. Login as manager
+2. Navigate to add employee
+3. Enter employeeName: Mike Johnson
+4. Enter DOB: 1990-05-15
+5. Enter NIC: 901234567V
+6. Enter Address: 123 Main St
+7. Enter BasicSalary: 50000
+8. Enter ContactNo: 0771234567
+9. Enter Email: mike@company.com
+10. Click Save","employeeName: Mike Johnson, DOB: 1990-05-15, NIC: 901234567V, Address: 123 Main St, Salary: 50000, Contact: 0771234567, Email: mike@company.com","Employee created successfully, Auto-generated EmpID assigned (e.g. EMP001), Employee appears in list",,Not Executed,P1,,,EmpID auto-generated via counter
+TC_EMP_002,Employee,Add Employee - Missing Required Fields,Verify employee validation,"Manager logged in, Add employee page accessible","1. Navigate to add employee
+2. Leave employeeName empty
+3. Fill other fields
+4. Submit",employeeName: empty others: valid,Error message about required fields,,Not Executed,P1,,,
+TC_EMP_003,Employee,View All Employees,Verify manager can view employee list,"Manager logged in, Multiple employees exist","1. Login as manager
+2. Navigate to employees page
+3. View employee list",At least 3 employees exist,All employees displayed with details,,Not Executed,P1,,,
+TC_EMP_004,Employee,Edit Employee Details,Verify manager can update employee info,"Manager logged in, Employee exists","1. Navigate to employee details
+2. Click Edit
+3. Update BasicSalary: 55000
+4. Update ContactNo: 0779876543
+5. Save changes","Updated salary: 55000, contact: 0779876543",Employee updated successfully,,Not Executed,P1,,,
+TC_EMP_005,Employee,Delete Employee,Verify manager can delete employee,"Manager logged in, Employee exists","1. Navigate to employees list
+2. Click Delete on employee
+3. Confirm deletion",Valid employee ID,Employee deleted successfully,,Not Executed,P1,,,
+TC_SERV_001,Service,View Service Catalog,Verify customer can view available services,"Customer logged in, Services exist in system","1. Login as customer
+2. Navigate to services page
+3. View service list",Multiple services configured,All services displayed with descriptions and prices,,Not Executed,P1,,,
+TC_SERV_002,Service,Add Service (Manager),Verify manager can add new service,"Manager logged in, Service page accessible","1. Login as manager
+2. Navigate to add service
+3. Enter service name: Oil Change
+4. Enter description: Full synthetic oil change
+5. Enter price: 3500
+6. Save",Service details valid,Service created successfully,,Not Executed,P1,,,
+TC_SERV_003,Service,Edit Service (Manager),Verify manager can update service,"Manager logged in, Service exists","1. Navigate to services
+2. Select service to edit
+3. Update price: 4000
+4. Save",Updated price: 4000,Service updated successfully,,Not Executed,P1,,,
+TC_SERV_004,Service,Delete Service (Manager),Verify manager can delete service,"Manager logged in, Service exists","1. Navigate to services
+2. Click Delete on service
+3. Confirm",Valid service ID,Service deleted successfully,,Not Executed,P1,,,
+TC_PKG_001,Package,View Package Catalog,Verify customer can view available packages,"Customer logged in, Packages exist","1. Login as customer
+2. Navigate to packages page
+3. View package list",Multiple packages configured,All packages displayed with details and pricing,,Not Executed,P1,,,
+TC_PKG_002,Package,Add Package (Manager),Verify manager can create service package,"Manager logged in, Package page accessible","1. Login as manager
+2. Navigate to add package
+3. Enter package name: Premium Service
+4. Select included services
+5. Enter package price: 15000
+6. Save",Package details valid,Package created successfully,,Not Executed,P1,,,
+TC_PKG_003,Package,Edit Package (Manager),Verify manager can update package,"Manager logged in, Package exists","1. Navigate to packages
+2. Select package
+3. Update price or services
+4. Save",Updated package details,Package updated successfully,,Not Executed,P1,,,
+TC_FEED_001,Feedback,Submit Feedback - Valid Data,Verify customer can submit feedback,"Customer logged in, Feedback page accessible","1. Login as customer
+2. Navigate to feedback page
+3. Enter rating: 5
+4. Enter comments: Excellent service
+5. Submit","Rating: 5, Comments: Excellent service","Feedback submitted successfully, Confirmation message displayed",,Not Executed,P2,,,
+TC_FEED_002,Feedback,View Feedback (Manager),Verify manager can view all feedback,"Manager logged in, Multiple feedback entries exist","1. Login as manager
+2. Navigate to feedback page
+3. View all feedback",At least 3 feedback entries,All feedback displayed with customer details and ratings,,Not Executed,P2,,,
+TC_FEED_003,Feedback,Submit Feedback - Missing Rating,Verify feedback validation,"Customer logged in, Feedback page accessible","1. Navigate to feedback page
+2. Enter comments only
+3. Leave rating empty
+4. Submit",Rating: empty Comments: filled,Error message about required rating,,Not Executed,P2,,,
+TC_UNAUTH_001,Security,Access Booking Without Login,Verify unauthorized access prevention,"No user logged in, Application running","1. Clear all cookies/sessions
+2. Navigate to /bookings URL directly
+3. Attempt to access",No active session,Redirect to login page or access denied message,,Not Executed,P0,,,Critical security test
+TC_UNAUTH_002,Security,Access Payment Without Login,Verify payment route protection,"No user logged in","1. Clear sessions
+2. Navigate to /payments URL
+3. Attempt to access",No active session,Redirect to login page or access denied,,Not Executed,P0,,,
+TC_UNAUTH_003,Security,Access Inventory Without Manager Role,Verify role-based inventory access,"Customer logged in (not manager)","1. Login as customer
+2. Try to access /inventory URL
+3. Attempt to view",Customer role active,Access denied or redirect (inventory is manager-only),,Not Executed,P0,,,
+TC_UNAUTH_004,Security,Access Employee Without Manager Role,Verify employee management protection,"Customer logged in","1. Login as customer
+2. Try to access /employees URL
+3. Attempt to view",Customer role,Access denied (employees is manager-only),,Not Executed,P0,,,
+TC_UNAUTH_005,Security,Modify Other Customer Data,Verify data isolation,"Customer A logged in, Customer B data exists","1. Login as Customer A
+2. Try to access Customer B vehicle via API/URL manipulation
+3. Attempt to edit",Customer A session active,Access denied or no data returned for other customers,,Not Executed,P0,,,Critical security
+TC_INTG_001,Integration,Booking to Payment Flow,Verify end-to-end booking and payment,"Customer logged in, System functional","1. Create booking with all details
+2. Note Booking_Id
+3. Navigate to payment
+4. Create payment with Booking_Id
+5. Verify linkage","Booking: BK001, Payment references BK001","Booking and payment linked correctly, Both visible in respective lists",,Not Executed,P1,,,Critical integration
+TC_INTG_002,Integration,Vehicle to Booking Association,Verify vehicle-booking relationship,"Customer logged in, Vehicle exists","1. Add vehicle: CAR-9999
+2. Create booking using Vehicle_Number: CAR-9999
+3. Verify association",Vehicle: CAR-9999 registered,Booking created with correct vehicle association,,Not Executed,P1,,,
+TC_INTG_003,Integration,Customer to All Modules,Verify customer data consistency,"Customer registered with cusID","1. Register customer (cusID: CUS001)
+2. Add vehicle (cusID: CUS001)
+3. Create booking (cusID: CUS001)
+4. Make payment (cusID: CUS001)
+5. Verify cusID consistency",cusID: CUS001 across modules,All modules show correct cusID association,,Not Executed,P1,,,Data consistency check
+TC_UI_001,UI/UX,Responsive Design - Mobile View,Verify UI adapts to mobile screen,"Application accessible, Mobile viewport","1. Open app in mobile view (375x667)
+2. Navigate through pages
+3. Check element visibility",Screen: 375x667,"UI adapts properly, All elements visible and usable, No horizontal scroll",,Not Executed,P2,,,
+TC_UI_002,UI/UX,Responsive Design - Tablet View,Verify UI adapts to tablet screen,"Application accessible","1. Open app in tablet view (768x1024)
+2. Navigate through modules
+3. Verify layout",Screen: 768x1024,UI displays correctly for tablet,,Not Executed,P2,,,
+TC_UI_003,UI/UX,Navigation - Header Links,Verify header navigation functionality,"User logged in","1. Click each header link
+2. Verify correct page loads
+3. Check active state indication",All header links present,All navigation links work correctly with visual feedback,,Not Executed,P2,,,
+TC_UI_004,UI/UX,Footer Display,Verify footer information,"Application accessible","1. Scroll to footer
+2. Verify company info
+3. Check links",Footer present on pages,Footer displays correctly with all information,,Not Executed,P2,,,
+TC_UI_005,UI/UX,Loading Spinner,Verify loading indicators during data fetch,"Application accessible","1. Perform action requiring API call
+2. Observe loading state
+3. Verify spinner/indicator appears",Any async operation,Loading spinner displays during data operations,,Not Executed,P2,,,Spinner component exists
